@@ -9,7 +9,7 @@ import StoreClient from "./store_client";
 import { FaStore } from "react-icons/fa";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const GetData = async (token: string) => {
+ const GetData = async (token: string) => {
   try {
     const { data } = await axios.post(list_store_api,{store_status:"ACTIVE"}, {
       headers: {

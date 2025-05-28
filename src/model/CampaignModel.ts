@@ -8,7 +8,11 @@ export interface ICampaign {
   offer_price: number;
   calculated_cashback: number;
   user_id: mongoose.Types.ObjectId;
-  store: mongoose.Types.ObjectId;
+   store: {
+    _id: string;
+    slug: string;
+    name: string;
+  }
   category: mongoose.Types.ObjectId;
   description: string;
   product_img: string;

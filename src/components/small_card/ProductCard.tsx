@@ -17,7 +17,7 @@ const ProductCard: React.FC<CardProp> = ({ card_data }) => {
       href={
         card_data.slug_type === "INTERNAL"
           ? `/campaign/${card_data?.product_slug}`
-          : card_data?.store?.store_link
+          : card_data?.store?.slug
       }
       className="shadow-box_shadow_color hover:shadow-box_shadow_hover hover:translate-y-[-6px] bg-white overflow-hidden rounded-lg relative duration-200 border-[1px] border-transparent hover:border-gray-100 hover:border-[1px]  group"
     >

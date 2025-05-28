@@ -20,6 +20,7 @@ const EditOrder: React.FC = () => {
     payment_details: "",
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [orderDetails, setOrderDetails] = useState<any>(null);
 
   const urlslug = pathname.split("/").pop() || "";
@@ -53,6 +54,7 @@ const EditOrder: React.FC = () => {
 
   useEffect(() => {
     getOrderdetail();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleInputChange = (
@@ -64,7 +66,7 @@ const EditOrder: React.FC = () => {
 
   const handleSubmit = async () => {
     try {
-      const { data } = await axios.post(
+      await axios.post(
         order_edit_admin_api,
         {
           record_id: urlslug,

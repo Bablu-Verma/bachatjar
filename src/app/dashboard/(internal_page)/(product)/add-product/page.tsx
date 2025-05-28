@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import TextEditor from "@/app/dashboard/_components/TextEditor";
@@ -5,12 +6,10 @@ import UploadImageGetLink from "@/app/dashboard/_components/Upload_image_get_lin
 import { RootState } from "@/redux-store/redux_store";
 import {
   add_product,
-  category_list_api,
   category_list_dashboard_api,
-  list_store_api,
   list_store_dashboard_api,
 } from "@/utils/api_url";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import DateTimePicker from "react-datetime-picker";
 import toast from "react-hot-toast";
@@ -52,14 +51,13 @@ const AddProduct = () => {
   const [loding, setLoading] = useState(false);
   const [editorContent, setEditorContent] = useState("");
   const [editorT_and_c, setEditor_t_and_c] = useState("");
-  const [images, setImages] = useState("");
   const [form_data, setForm_data] = useState<IClintCampaign>({
     title: "",
-    product_id:0,
+    product_id: 0,
     actual_price: 0,
     store: "",
     category: "",
-    product_img:'',
+    product_img: "",
     product_tags: [],
     long_poster: [
       {
@@ -182,21 +180,21 @@ const AddProduct = () => {
       }
 
       // Clone form data
-      const formPayload = { ...form_data, description: editorContent, t_and_c:editorT_and_c };
+      const formPayload = {
+        ...form_data,
+        description: editorContent,
+        t_and_c: editorT_and_c,
+      };
 
       // console.log("Submitting:", formPayload);
 
       // Send JSON payload (file uploads should be handled separately)
-      const { data } = await axios.post(
-        add_product,
-        JSON.stringify(formPayload),
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      await axios.post(add_product, JSON.stringify(formPayload), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
 
       toast.success("Product added successfully!");
     } catch (error) {
@@ -210,11 +208,6 @@ const AddProduct = () => {
     }
   };
 
- 
- 
-
-
-
   return (
     <>
       <h1 className="text-2xl py-2 font-medium text-secondary_color">
@@ -222,7 +215,7 @@ const AddProduct = () => {
       </h1>
 
       <div className="max-w-4xl my-10 mx-auto p-5 bg-white border border-gray-50 rounded-lg shadow-sm">
-      <UploadImageGetLink />
+        <UploadImageGetLink />
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -230,8 +223,6 @@ const AddProduct = () => {
           }}
           className="space-y-6"
         >
-          
-
           <div>
             <label
               htmlFor="title"
@@ -249,7 +240,7 @@ const AddProduct = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
             />
           </div>
-         
+
           <div className="grid grid-cols-2 gap-5">
             <div>
               <label
@@ -269,7 +260,7 @@ const AddProduct = () => {
                   Slected Store
                 </option>
                 {storeList.map((item, i) => {
-                  return <option value={item._id}>{item.name}</option>;
+                  return <option value={item._id} key={i}>{item.name}</option>;
                 })}
               </select>
             </div>
@@ -320,12 +311,12 @@ const AddProduct = () => {
             </div>
 
             <div className="">
-            <label
-              htmlFor="images"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Product Images
-            </label>
+              <label
+                htmlFor="images"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Product Images
+              </label>
               <input
                 type="text"
                 id="images"
@@ -335,18 +326,16 @@ const AddProduct = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
                 onChange={handleChange}
               />
-             
             </div>
-           
           </div>
-         
+
           <div className="grid grid-cols-2 gap-5">
             <div>
               <label
                 htmlFor="product_tags"
                 className="block text-sm font-medium text-gray-700"
               >
-                Product tags - "new" | "hot" | "best"
+                Product tags - &quot;new&quot; | &quot;hot&quot; | &quot;best&quot;
               </label>
               <input
                 type="text"
@@ -877,7 +866,11 @@ const AddProduct = () => {
           </div>
 
           <div className="text-right">
-            <button type="submit" className="px-6 py-2 text-white bg-blue-500 rounded-lg shadow-lg" disabled={loding}>
+            <button
+              type="submit"
+              className="px-6 py-2 text-white bg-blue-500 rounded-lg shadow-lg"
+              disabled={loding}
+            >
               {loding ? "In Progress" : "Add product"}
             </button>
           </div>

@@ -21,6 +21,7 @@ const OrderList = () => {
   const [storeList, setStoreList] = useState<{ name: string; _id: string }[]>(
     []
   );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [sheet, setSheet] = useState({ show: false, details: {} as any });
   const [showPaymentHistory, setShowPaymentHistory] = useState(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -55,6 +56,7 @@ const OrderList = () => {
 
   useEffect(() => {
     getOrders();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 
   const handleFilterChange = (
@@ -296,10 +298,10 @@ const OrderList = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {sheet.details.payment_history.map((payment, idx) => (
+                          {sheet.details.payment_history.map((payment: { details?: string; date: string; status: string }, idx: number) => (
                             <tr key={idx} className="hover:bg-green-50">
                               <td className="p-3 border-b">{payment.details || "-"}</td>
-                              <td className="p-3 border-b">{formatDate(payment.date)}</td>
+                              <td className="p-3 border-b">{formatDate(new Date(payment.date))}</td>
                               <td className="p-3 border-b">{payment.status}</td>
                             </tr>
                           ))}
@@ -324,7 +326,12 @@ const OrderList = () => {
 
 export default OrderList;
 
-const DetailRow = ({ label, value }) => (
+interface DetailRowProps {
+  label: string;
+  value: React.ReactNode;
+}
+
+const DetailRow: React.FC<DetailRowProps> = ({ label, value }) => (
   <div className="flex justify-between items-center border-b pb-3">
     <span className="text-gray-500 font-medium capitalize">{label}</span>
     <span className="text-gray-800 font-normal capitalize">{value}</span>

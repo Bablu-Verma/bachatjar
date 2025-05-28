@@ -21,7 +21,7 @@ import { IStore } from "@/model/StoreModel";
 import { home_api } from "@/utils/api_url";
 import axios, { AxiosError } from "axios";
 
-export const GetData = async (token: string) => {
+const GetData = async (token: string) => {
   try {
     const data = await axios.post(home_api, {
       headers: {
@@ -43,7 +43,6 @@ export const GetData = async (token: string) => {
 export default async function Home() {
   const token = await getServerToken();
   const page_data = await GetData(token);
-
   // console.log("Home data log", page_data);
 
   return (

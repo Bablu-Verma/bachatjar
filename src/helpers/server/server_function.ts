@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import jwt, {Secret} from 'jsonwebtoken';
 
 export async function getServerToken() {
 
@@ -67,6 +67,6 @@ interface Payload {
   email: string;
 }
 
-export const generateJwtToken = (payload: Payload, expiresIn: string = '1h'): string => {
-  return jwt.sign(payload, SECRET_KEY, { expiresIn });
+export const generateJwtToken = (payload: Payload, expiresIn: number = 3600): string => {
+  return jwt.sign(payload, SECRET_KEY as Secret, { expiresIn });
 };

@@ -1,4 +1,7 @@
-import { generateJwtToken, verifyHashPassword } from "@/helpers/server/server_function";
+import {
+  generateJwtToken,
+  verifyHashPassword,
+} from "@/helpers/server/server_function";
 import dbConnect from "@/lib/dbConnect";
 import ConformAmountModel from "@/model/ConformAmountModel";
 import UserModel from "@/model/UserModel";
@@ -16,7 +19,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     const body: IRequestBody = await req.json();
     const { email, password } = body;
-
 
     if (!email || !password) {
       return new NextResponse(
@@ -67,7 +69,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const check_match = await verifyHashPassword(password, findUser.password)
+    const check_match = await verifyHashPassword(password, findUser.password);
 
     if (!check_match) {
       return new NextResponse(
@@ -84,7 +86,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       );
     }
 
-    if (findUser.user_status == 'REMOVED') {
+    if (findUser.user_status == "REMOVED") {
       return new NextResponse(
         JSON.stringify({
           success: false,
@@ -99,20 +101,15 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       );
     }
 
-
     const Payload = {
       email,
       role: findUser.role,
       _id: findUser._id,
     };
-
-    const JwtToken = await generateJwtToken(Payload, "15d");
-
-
+    const days_15 = 60 * 60 * 24 * 15; // 15 days in seconds
+    const JwtToken = generateJwtToken(Payload, days_15);
 
     const userData = findUser.toObject();
-
-
     delete userData.password;
     delete userData.accept_terms_conditions_privacy_policy;
     delete userData.email_verified;
@@ -121,19 +118,20 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     delete userData.verify_code_expiry;
     delete userData.user_status;
     delete userData.subscribe_email;
-    delete userData.__v
+    delete userData.__v;
 
+    const conformAmount = await ConformAmountModel.findOne({
+      user_id: findUser._id,
+    }).select("-createdAt -updatedAt");
+    const withdrawalRequests = await WithdrawalRequestModel.find({
+      user_id: findUser._id,
+    }).select("-upi_id -requested_at -processed_at -createdAt -updatedAt");
 
-    const conformAmount = await ConformAmountModel.findOne({ user_id: findUser._id }).select('-createdAt -updatedAt');
-    const withdrawalRequests = await WithdrawalRequestModel.find({ user_id: findUser._id }).select('-upi_id -requested_at -processed_at -createdAt -updatedAt');
-
-   
     const conform_cb = conformAmount?.amount || 0;
     const total_hold = conformAmount?.hold_amount || 0;
 
     let withdrawal_pending = 0;
     let total_withdrawal = 0;
-
 
     withdrawalRequests.forEach((request) => {
       if (request.status === "PENDING") {
@@ -146,7 +144,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     const total_cb = conform_cb + withdrawal_pending + total_withdrawal;
 
-
     return new NextResponse(
       JSON.stringify({
         success: true,
@@ -156,10 +153,10 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
           total_cb: total_cb,
           total_hold: total_hold,
           withdrawal_pending: withdrawal_pending,
-          total_withdrawal: total_withdrawal
+          total_withdrawal: total_withdrawal,
         },
         user: userData,
-        token: JwtToken
+        token: JwtToken,
       }),
       {
         status: 200,

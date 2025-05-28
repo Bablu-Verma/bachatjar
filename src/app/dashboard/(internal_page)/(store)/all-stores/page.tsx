@@ -1,41 +1,44 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-
 import Link from "next/link";
 import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux-store/redux_store";
 import { list_store_dashboard_api } from "@/utils/api_url";
-import { ICategory } from "@/common_type";
 import { IStore } from "@/model/StoreModel";
 import PaginationControls from "@/app/dashboard/_components/PaginationControls";
+import Image from "next/image";
 
 const CategoryList = () => {
   const token = useSelector((state: RootState) => state.user.token);
   const [storeList, setStoreList] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalpage, setTotalPage] = useState(1)
+  const [totalpage, setTotalPage] = useState(1);
   const [filters, setFilters] = useState({
-    search:"",
-      cashback_status:"", 
-      cashback_type:"",
-      store_id:"",
-      store_status:"ACTIVE", 
-      startDate:"",
-      endDate:""
+    search: "",
+    cashback_status: "",
+    cashback_type: "",
+    store_id: "",
+    store_status: "ACTIVE",
+    startDate: "",
+    endDate: "",
   });
 
   const getStores = async () => {
     try {
-      const { data } = await axios.post(list_store_dashboard_api, {...filters, page:currentPage}, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setTotalPage(data.pagination.totalPages)
+      const { data } = await axios.post(
+        list_store_dashboard_api,
+        { ...filters, page: currentPage },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setTotalPage(data.pagination.totalPages);
       setStoreList(data.data);
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -49,6 +52,7 @@ const CategoryList = () => {
 
   useEffect(() => {
     getStores();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 
   const handleFilterChange = (
@@ -86,7 +90,7 @@ const CategoryList = () => {
             onChange={handleFilterChange}
             className="border p-2 rounded-md h-9 text-sm outline-none "
           />
-           <input
+          <input
             type="text"
             name="store_id"
             placeholder="store_id "
@@ -117,7 +121,6 @@ const CategoryList = () => {
             <option disabled>cashback_status</option>
             <option value="ACTIVE_CASHBACK">ACTIVE_CASHBACK</option>
             <option value="INACTIVE_CASHBACK">INACTIVE_CASHBACK</option>
-           
           </select>
 
           <select
@@ -129,7 +132,6 @@ const CategoryList = () => {
             <option disabled>cashback_type</option>
             <option value="PERCENTAGE">PERCENTAGE</option>
             <option value="FLAT_AMOUNT">FLAT_AMOUNT</option>
-           
           </select>
 
           <input
@@ -185,9 +187,12 @@ const CategoryList = () => {
               {storeList.map((item: IStore, i) => (
                 <tr key={i} className="bg-white hover:bg-gray-100">
                   <td className="px-6 py-4">
-                    <img
+                    <Image
+                      unoptimized
                       src={item.store_img}
                       alt={item.name}
+                      width={40}
+                      height={40}
                       className="w-10 h-10 rounded-md"
                     />
                   </td>

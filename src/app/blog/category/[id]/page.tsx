@@ -8,12 +8,7 @@ import { category_details_api } from "@/utils/api_url";
 import { getServerToken } from "@/helpers/server/server_function";
 import toast from "react-hot-toast";
 
-
-interface CategoryDetailsProps {
-  params : {id: string};
-}
-
-export const GetData = async (token:string, slug:string) => {
+ const GetData = async (token:string, slug:string) => {
   try {
     const { data } = await axios.post(
       category_details_api,
@@ -40,7 +35,8 @@ export const GetData = async (token:string, slug:string) => {
 };
 
 
-const CategoryDetail = async ({params}: CategoryDetailsProps) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const CategoryDetail = async ({params}: any) => {
   const token = await getServerToken();
   const awaitslug = await params;
   const slug = awaitslug.id

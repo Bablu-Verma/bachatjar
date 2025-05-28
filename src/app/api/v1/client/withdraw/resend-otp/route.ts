@@ -8,7 +8,9 @@ import { generateOTP } from "@/helpers/server/server_function";
 export async function POST(request: Request) {
   await dbConnect();
 
-  const { authenticated, user, message } = await authenticateAndValidateUser(request);
+  const { authenticated, user, message } = await authenticateAndValidateUser(
+    request
+  );
 
   if (!authenticated) {
     return new NextResponse(
@@ -46,7 +48,7 @@ export async function POST(request: Request) {
     const withdrawalRequest = await WithdrawalRequestModel.findOne({
       _id: withdrawal_request_id,
       user_id: user?._id,
-    }).select('+otp');
+    }).select("+otp");
 
     if (!withdrawalRequest) {
       return new NextResponse(
@@ -78,14 +80,14 @@ export async function POST(request: Request) {
       );
     }
 
-   
-const create_otp = generateOTP();
+    const create_otp = generateOTP();
 
-withdrawalRequest.otp = create_otp;
-withdrawalRequest.requested_at =  new Date();
-await withdrawalRequest.save();
+    withdrawalRequest.otp = create_otp;
+    withdrawalRequest.requested_at = new Date();
+    await withdrawalRequest.save();
 
- withdrawal_request_verify(create_otp, user?.email);
+    const email = user?.email || "";
+    withdrawal_request_verify(create_otp, email);
 
     return new NextResponse(
       JSON.stringify({

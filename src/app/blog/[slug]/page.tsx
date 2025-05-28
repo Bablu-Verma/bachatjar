@@ -10,11 +10,7 @@ import styles from "./blog_page.module.css";
 import React from "react";
 import TableOfContents from "./TableOfContents";
 
-interface CategoryDetailsProps {
-  params: { slug: string };
-}
-
-export const GetData = async (token: string, slug: string) => {
+const GetData = async (token: string, slug: string) => {
   try {
     const { data } = await axios.post(
       blog_details,
@@ -40,25 +36,22 @@ export const GetData = async (token: string, slug: string) => {
   }
 };
 
-const BlogDetail = async ({ params }: CategoryDetailsProps) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const BlogDetail = async ({ params }: any) => {
   const token = await getServerToken();
   const awaitslug = await params;
   const slug = awaitslug.slug;
 
   const page_data = await GetData(token, slug);
-  const { blog, relatedblogs } = page_data
-
+  const { blog, relatedblogs } = page_data;
 
   const formate_date = (item: string) => {
     const create_d = new Date(item);
     return create_d.toDateString();
   };
 
-
-
   return (
     <>
-
       <MainHeader />
       <main className="">
         <section className="max-w-6xl mx-auto  mt-6 sm:mt-14 mb-16 p-2 xl:p-0">
@@ -91,11 +84,11 @@ const BlogDetail = async ({ params }: CategoryDetailsProps) => {
 
               <div
                 className="text-base border-[1px] text-gray-700 border-gray-200 rounded-md mt-10 bg-pink-200 p-4"
-                dangerouslySetInnerHTML={{ __html: blog.short_desc || '' }}
+                dangerouslySetInnerHTML={{ __html: blog.short_desc || "" }}
               ></div>
               <div
                 className={`${styles.blog_style} mt-16`}
-                dangerouslySetInnerHTML={{ __html: blog.desc || '' }}
+                dangerouslySetInnerHTML={{ __html: blog.desc || "" }}
               ></div>
             </div>
             <div className="col-span-2">
@@ -108,25 +101,29 @@ const BlogDetail = async ({ params }: CategoryDetailsProps) => {
                 </div>
               </div>
 
-
               <div className="mt-10 sm:mt-0 border-[1px] border-gray-600 px-2 py-3">
                 <h3 className="text-2xl text-center mb-4 font-medium text-gray-800 capitalize">
                   Latest Articles
                 </h3>
                 <div>
-                  {relatedblogs && relatedblogs.length > 0 && relatedblogs.map((item, i) => (
-                    <div key={i + 1} className="mb-4 flex justify-start gap-1">
-                      <span>{i + 1}.</span>{" "}
-                      <Link
-                        href={`/blog/${item.slug}`}
-                        className="text-base font-normal text-gray-700  hover:text-gray-900 hover:underline line-clamp-2"
+                  {relatedblogs &&
+                    relatedblogs.length > 0 &&
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    relatedblogs.map((item: any, i: number) => (
+                      <div
+                        key={i + 1}
+                        className="mb-4 flex justify-start gap-1"
                       >
-                        {item.title}
-                      </Link>
-                    </div>
-                  ))}
+                        <span>{i + 1}.</span>{" "}
+                        <Link
+                          href={`/blog/${item.slug}`}
+                          className="text-base font-normal text-gray-700  hover:text-gray-900 hover:underline line-clamp-2"
+                        >
+                          {item.title}
+                        </Link>
+                      </div>
+                    ))}
                 </div>
-
               </div>
             </div>
           </div>
@@ -140,5 +137,3 @@ const BlogDetail = async ({ params }: CategoryDetailsProps) => {
 };
 
 export default BlogDetail;
-
-

@@ -6,15 +6,27 @@ import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux-store/redux_store";
 import { claim_form_list_api } from "@/utils/api_url";
-
-import { IContactUs } from "@/model/ContactUsModel";
 import { formatDate } from "@/helpers/client/client_function";
-
 import PaginationControls from "@/app/dashboard/_components/PaginationControls";
+
+interface ClaimFormItem {
+  _id: string;
+  createdAt: Date;
+  user_id: {
+    name: string;
+    _id: string;
+  };
+  status: string;
+  store_id: {
+    name: string;
+    _id: string;
+  };
+  reason: string;
+}
 
 const ContactUsList = () => {
   const token = useSelector((state: RootState) => state.user.token);
-  const [userList, setUserList] = useState([]);
+  const [userList, setUserList] = useState<ClaimFormItem[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalpage, setTotalPage] = useState(1)
   const [showFilter, setShowFilter] = useState(false);
@@ -177,7 +189,7 @@ const ContactUsList = () => {
               </tr>
             </thead>
             <tbody>
-              {userList.map((item: IContactUs, i) => (
+              {userList.map((item, i) => (
                 <tr key={i} className="bg-white hover:bg-gray-100">
                   <td className="px-2 py-4  ">
                     <span className="text-gray-800">{i + 1}.</span>

@@ -8,18 +8,12 @@ import { category_details_api } from "@/utils/api_url";
 import { getServerToken } from "@/helpers/server/server_function";
 import toast from "react-hot-toast";
 import CategoryClientTab from "./category_client_tab";
-
-
-interface CategoryDetailsProps {
-  params : {id: string};
-}
-
-export const GetData = async (token:string, slug:string) => {
+ const GetData = async (token: string, slug: string) => {
   try {
     const { data } = await axios.post(
       category_details_api,
       {
-        slug:slug
+        slug: slug,
       },
       {
         headers: {
@@ -27,10 +21,10 @@ export const GetData = async (token:string, slug:string) => {
         },
       }
     );
- 
+
     return data.data;
   } catch (error) {
-    if (error instanceof AxiosError) { 
+    if (error instanceof AxiosError) {
       console.error("Error registering user", error.response?.data.message);
       toast.error(error.response?.data.message);
     } else {
@@ -39,19 +33,15 @@ export const GetData = async (token:string, slug:string) => {
   }
 };
 
-
-const CategoryDetail = async ({params}: CategoryDetailsProps) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const CategoryDetail = async ({ params }: any) => {
   const token = await getServerToken();
   const awaitslug = await params;
-  const slug = awaitslug.id
-
-
-
+  const slug = awaitslug.id;
   const page_data = await GetData(token, slug);
-  // console.log("page_data",page_data);
 
-  const {category_details, relatedProducts , relatedCoupons, relatedStore} =  page_data 
-
+  const { category_details, relatedProducts, relatedCoupons, relatedStore } =
+    page_data;
 
   return (
     <>
@@ -59,7 +49,8 @@ const CategoryDetail = async ({params}: CategoryDetailsProps) => {
       <main className="">
         <section className="max-w-6xl  px-2 mx-auto mt-4 lg:mt-14 mb-16">
           <div className="text-sm lg:text-base">
-            <span>Home</span> / <span>Category</span> / <span>{category_details.name}</span>
+            <span>Home</span> / <span>Category</span> /{" "}
+            <span>{category_details.name}</span>
           </div>
           <div className="mt-8 text-center items-center">
             <div className="h-32 w-32 rounded-full overflow-hidden justify-center items-center flex shadow-lg m-auto mb-10]">
@@ -74,13 +65,21 @@ const CategoryDetail = async ({params}: CategoryDetailsProps) => {
             <h1 className="text-xl text-secondary capitalize font-medium  my-3">
               {category_details.name}
             </h1>
-            <div className="pt-4 text-sm"  dangerouslySetInnerHTML={{ __html: category_details.description || ''}}>
-            </div>
+            <div
+              className="pt-4 text-sm"
+              dangerouslySetInnerHTML={{
+                __html: category_details.description || "",
+              }}
+            ></div>
           </div>
-          <CategoryClientTab slug={slug} relatedProducts={relatedProducts} relatedStore={relatedStore} relatedCoupons={relatedCoupons}/>
-        
+          <CategoryClientTab
+            slug={slug}
+            relatedProducts={relatedProducts}
+            relatedStore={relatedStore}
+            relatedCoupons={relatedCoupons}
+          />
         </section>
-        
+
         <BottomToTop />
       </main>
       <Footer />

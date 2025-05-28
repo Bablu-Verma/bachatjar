@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-
-import Link from "next/link";
 import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
@@ -69,6 +67,7 @@ const ContactUsList = () => {
 
   useEffect(() => {
     getList();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 
   return (
@@ -77,7 +76,7 @@ const ContactUsList = () => {
         Contact Us Data
       </h1>
       {openSheet.show && (
-        <Editcontausus setOpenSheet={setOpenSheet} openSheet={openSheet} />
+        <Editcontausus openSheet={openSheet} />
       )}
       <button
         className="border p-2 rounded-md h-9 text-sm outline-none text-blue-300"
@@ -196,7 +195,7 @@ const ContactUsList = () => {
                   </td>
                   <td className="px-2 py-4  ">
                     <span className="text-gray-800 text-sm">
-                      {formatDate(item.createdAt)} {}
+                      {formatDate(new Date(item.createdAt))} {}
                     </span>
                   </td>
                   <td className="px-2 py-4  ">

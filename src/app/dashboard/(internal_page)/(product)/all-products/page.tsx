@@ -6,14 +6,18 @@ import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux-store/redux_store";
-import { category_list_dashboard_api, list_store_dashboard_api, product_dashboard_list_ } from "@/utils/api_url";
+import {
+  list_store_dashboard_api,
+  product_dashboard_list_,
+} from "@/utils/api_url";
 import PaginationControls from "@/app/dashboard/_components/PaginationControls";
 import { ICampaign } from "@/model/CampaignModel";
+import Image from "next/image";
 
 const ProductList = () => {
   const [produt_list, setProdutList] = useState<ICampaign[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalpage, setTotalPage] = useState(1)
+  const [totalpage, setTotalPage] = useState(1);
 
   const [storeList, setStoreList] = useState<{ name: string; _id: string }[]>(
     []
@@ -33,7 +37,7 @@ const ProductList = () => {
     startDate: "",
     endDate: "",
   });
- 
+
   const handleFilterChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -51,18 +55,20 @@ const ProductList = () => {
     }));
   };
 
-
   // ✅ Fetch Products
   const get_product = async () => {
-
     try {
-      const { data } = await axios.post(product_dashboard_list_, {...filters, page:currentPage}, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setTotalPage(data.pagination.totalPages)
-       console.log("data",data)
+      const { data } = await axios.post(
+        product_dashboard_list_,
+        { ...filters, page: currentPage },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setTotalPage(data.pagination.totalPages);
+      console.log("data", data);
       setProdutList(data.data);
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -77,6 +83,7 @@ const ProductList = () => {
 
   useEffect(() => {
     get_product();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 
   useEffect(() => {
@@ -88,11 +95,9 @@ const ProductList = () => {
             { store_status: "ACTIVE" },
             { headers: { Authorization: `Bearer ${token}` } }
           ),
-
         ]);
 
         setStoreList(storeRes.data.data || []);
-
       } catch (error) {
         console.log(error);
       }
@@ -102,8 +107,7 @@ const ProductList = () => {
     }
   }, [token, showFilter]);
 
-
-  console.log(produt_list)
+  console.log(produt_list);
 
   return (
     <>
@@ -132,7 +136,6 @@ const ProductList = () => {
               className="border p-2 rounded-md h-9 text-sm outline-none "
             />
           </div>
-
 
           <div>
             <span>Store</span>
@@ -170,7 +173,6 @@ const ProductList = () => {
             </select>
           </div>
 
-
           <div>
             <span>Start Date</span>
             <input
@@ -182,7 +184,6 @@ const ProductList = () => {
             />
           </div>
 
-
           <div>
             <span>End Date</span>
             <input
@@ -192,32 +193,34 @@ const ProductList = () => {
               onChange={handleFilterChange}
               className="border p-2 rounded-md h-9 text-sm outline-none "
             />
-
           </div>
 
           {/* ✅ Boolean Filters */}
           {["long_poster", "main_banner", "premium_product", "flash_sale"].map(
-  (filter) => (
-    <div key={filter}>
-      <span>{filter}</span>
-      <select
-        value={
-          filters[filter as keyof typeof filters] === null
-            ? ""
-            : String(filters[filter as keyof typeof filters])
-        }
-        onChange={(e) =>
-          handleBooleanFilter(filter as keyof typeof filters, e.target.value)
-        }
-        className="border p-2 rounded-md h-9 text-sm outline-none "
-      >
-        <option value="">Select</option>
-        <option value="true">Yes</option>
-        <option value="false">No</option>
-      </select>
-    </div>
-  )
-)}
+            (filter) => (
+              <div key={filter}>
+                <span>{filter}</span>
+                <select
+                  value={
+                    filters[filter as keyof typeof filters] === null
+                      ? ""
+                      : String(filters[filter as keyof typeof filters])
+                  }
+                  onChange={(e) =>
+                    handleBooleanFilter(
+                      filter as keyof typeof filters,
+                      e.target.value
+                    )
+                  }
+                  className="border p-2 rounded-md h-9 text-sm outline-none "
+                >
+                  <option value="">Select</option>
+                  <option value="true">Yes</option>
+                  <option value="false">No</option>
+                </select>
+              </div>
+            )
+          )}
           <button
             onClick={get_product}
             className="border p-2 rounded-md h-9 text-sm outline-none text-white bg-primary"
@@ -260,41 +263,47 @@ const ProductList = () => {
               {produt_list.map((product: ICampaign, i) => (
                 <tr className="bg-white hover:bg-gray-100" key={i}>
                   <td className="px-6 py-4 flex items-center gap-4">
-                    <img
+                    <Image
                       src={product.product_img}
                       alt={product.title}
+                      width={40}
+                      height={40}
                       className="w-10 h-10 rounded-md"
                     />
-                    <a
-                      className="text-gray-800 text-sm hover:text-blue-400 line-clamp-2"
-                    >
+                    <a className="text-gray-800 text-sm hover:text-blue-400 line-clamp-2">
                       {product.title}
                     </a>
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-600">
-                    {product.category.name}
+                    {typeof product.category === "object" && "name" in product.category
+                      ? (product.category as { name: string }).name
+                      : String(product.category)}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-600">
-                    {product.store.name}
+                    {typeof product.store === "object" && "name" in product.store
+                      ? (product.store as { name: string }).name
+                      : String(product.store)}
                   </td>
                   <td className="px-6 py-4 text-gray-600">
                     <span
-                      className={`px-2 py-1 text-sm text-white rounded-md ${product.product_status === "ACTIVE"
+                      className={`px-2 py-1 text-sm text-white rounded-md ${
+                        product.product_status === "ACTIVE"
                           ? "bg-green-500"
                           : product.product_status === "PAUSE"
-                            ? "bg-yellow-400"
-                            : "bg-red-400"
-                        }`}
+                          ? "bg-yellow-400"
+                          : "bg-red-400"
+                      }`}
                     >
                       {product.product_status}
                     </span>
                   </td>
                   <td className="px-6 py-4 text-gray-600">
                     <span
-                      className={`px-2 py-1 text-sm rounded-md ${product.main_banner?.[0]?.is_active
+                      className={`px-2 py-1 text-sm rounded-md ${
+                        product.main_banner?.[0]?.is_active
                           ? "bg-yellow-300"
                           : "bg-gray-300"
-                        }`}
+                      }`}
                     >
                       {product.main_banner?.[0]?.is_active ? "Yes" : "No"}
                     </span>

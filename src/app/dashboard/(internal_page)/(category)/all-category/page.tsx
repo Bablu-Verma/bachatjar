@@ -7,32 +7,29 @@ import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux-store/redux_store";
-import { category_list_api, category_list_dashboard_api } from "@/utils/api_url";
+import { category_list_dashboard_api } from "@/utils/api_url";
 import { ICategory } from "@/common_type";
+import Image from "next/image";
 
 const CategoryList = () => {
   const token = useSelector((state: RootState) => state.user.token);
   const [categoryList, setCategoryList] = useState([]);
- const [showFilter, setShowFilter] = useState(false);
-
+  const [showFilter, setShowFilter] = useState(false);
 
   const [filters, setFilters] = useState({
-     name: "",
-     status: "ACTIVE",
-     startDate: "",
-     endDate: "",
-   });
+    name: "",
+    status: "ACTIVE",
+    startDate: "",
+    endDate: "",
+  });
 
   const getCategory = async () => {
     try {
-      const { data } = await axios.post(
-        category_list_dashboard_api, filters,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const { data } = await axios.post(category_list_dashboard_api, filters, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setCategoryList(data.data);
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -46,21 +43,19 @@ const CategoryList = () => {
 
   useEffect(() => {
     getCategory();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
- 
-
   const handleFilterChange = (
-      e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-    ) => {
-      const { name, value } = e.target;
-      setFilters((prev) => {
-        const updatedFilters = { ...prev, [name]: value };
-        // console.log("Updated Filters:", updatedFilters); // Debugging
-        return updatedFilters;
-      });
-    };
-
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFilters((prev) => {
+      const updatedFilters = { ...prev, [name]: value };
+      // console.log("Updated Filters:", updatedFilters); // Debugging
+      return updatedFilters;
+    });
+  };
 
   return (
     <>
@@ -86,7 +81,7 @@ const CategoryList = () => {
             onChange={handleFilterChange}
             className="border p-2 rounded-md h-9 text-sm outline-none "
           />
-         
+
           <select
             name="status"
             value={filters.status}
@@ -100,7 +95,6 @@ const CategoryList = () => {
             <option value="REMOVED">REMOVED</option>
           </select>
 
-         
           <input
             type="date"
             name="startDate"
@@ -117,10 +111,6 @@ const CategoryList = () => {
             className="border p-2 rounded-md h-9 text-sm outline-none "
           />
 
-         
-
-          
-
           <button
             onClick={getCategory}
             className="border p-2 rounded-md h-9 text-sm outline-none text-white bg-primary"
@@ -130,9 +120,6 @@ const CategoryList = () => {
         </div>
       )}
 
-
-
-     
       <div className="pt-5 py-5 px-0 relative w-full">
         <div className="overflow-x-auto pb-4">
           <table className="min-w-full table-auto border-collapserounded-lg">
@@ -152,19 +139,21 @@ const CategoryList = () => {
                   Slug
                 </th>
 
-               
                 <th className="px-6 py-3 text-left font-medium text-gray-700">
                   Action
                 </th>
               </tr>
             </thead>
             <tbody>
-              {categoryList.map((item:ICategory, i) => (
+              {categoryList.map((item: ICategory, i) => (
                 <tr key={i} className="bg-white hover:bg-gray-100">
                   <td className="px-6 py-4">
-                    <img
+                    <Image
+                      unoptimized
                       src={item.imges[0]}
                       alt={item.name}
+                      width={40}
+                      height={40}
                       className="w-10 h-10 rounded-md"
                     />
                   </td>

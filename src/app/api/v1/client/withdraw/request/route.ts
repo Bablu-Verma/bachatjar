@@ -1,19 +1,19 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import { authenticateAndValidateUser } from "@/lib/authenticate";
-import WithdrawalRequestModel from "@/model/WithdrawalRequestModel"; 
+import WithdrawalRequestModel from "@/model/WithdrawalRequestModel";
 import UserUPIModel from "@/model/UserUPIModel";
 import { generateOTP } from "@/helpers/server/server_function";
 import { withdrawal_request_verify } from "@/email/withdrawal_request_verify";
 import ConformAmountModel from "@/model/ConformAmountModel";
 
-
-
 export async function POST(req: Request) {
   await dbConnect();
 
   try {
-    const { authenticated, user, message } = await authenticateAndValidateUser(req);
+    const { authenticated, user, message } = await authenticateAndValidateUser(
+      req
+    );
 
     if (!authenticated) {
       return new NextResponse(
@@ -32,10 +32,10 @@ export async function POST(req: Request) {
 
     const userId = user?._id;
     const body = await req.json();
-    const { bank_id:upi_id, amount } = body;
+    const { bank_id: upi_id, amount } = body;
 
-    console.log('code yaha pr aayaya h ', body)
-  
+    console.log("code yaha pr aayaya h ", body);
+
     if (!upi_id || !amount) {
       return new NextResponse(
         JSON.stringify({
@@ -51,7 +51,7 @@ export async function POST(req: Request) {
       );
     }
 
-    if (typeof amount !== 'number' || isNaN(amount)) {
+    if (typeof amount !== "number" || isNaN(amount)) {
       return new NextResponse(
         JSON.stringify({
           success: false,
@@ -66,8 +66,8 @@ export async function POST(req: Request) {
       );
     }
 
-    const MIN_WITHDRAWAL = 100; 
-    const MAX_WITHDRAWAL = 10000; 
+    const MIN_WITHDRAWAL = 100;
+    const MAX_WITHDRAWAL = 10000;
 
     if (amount < MIN_WITHDRAWAL) {
       return new NextResponse(
@@ -99,7 +99,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const amountDetails = await ConformAmountModel .findOne({ user_id: userId });
+    const amountDetails = await ConformAmountModel.findOne({ user_id: userId });
 
     if (!amountDetails) {
       return new NextResponse(
@@ -115,7 +115,7 @@ export async function POST(req: Request) {
         }
       );
     }
-    
+
     if (amountDetails.amount < amount) {
       return new NextResponse(
         JSON.stringify({
@@ -170,19 +170,18 @@ export async function POST(req: Request) {
       ],
     });
 
-
-    const requestData = newRequest.toObject(); 
+    const requestData = newRequest.toObject();
     delete requestData.otp;
 
-
-    withdrawal_request_verify(create_otp, user?.email);
+    const email = user?.email || "";
+    withdrawal_request_verify(create_otp, email);
 
     return new NextResponse(
       JSON.stringify({
         success: true,
         message: "Withdrawal request submitted successfully.",
         data: requestData,
-        otp:create_otp
+        otp: create_otp,
       }),
       {
         status: 201,
@@ -191,7 +190,6 @@ export async function POST(req: Request) {
         },
       }
     );
-
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error("Failed to create withdrawal request:", error.message);

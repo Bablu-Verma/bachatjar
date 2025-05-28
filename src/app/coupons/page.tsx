@@ -8,8 +8,7 @@ import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import CouponClient from "./Coupon_Client";
 
-
-export const GetData = async (token: string) => {
+ const GetData = async (token: string) => {
   try {
     const { data } = await axios.post(
       coupons_list_api,

@@ -16,11 +16,7 @@ import styles from "./product_page.module.css";
 import ShopNowButton from "./_shop_now";
 import Link from "next/link";
 
-interface DetailsProps {
-  params: { id: string };
-}
-
-export const GetData = async (token: string, slug: string) => {
+ const GetData = async (token: string, slug: string) => {
   try {
     const { data } = await axios.post(
       product_details_,
@@ -47,7 +43,8 @@ export const GetData = async (token: string, slug: string) => {
   }
 };
 
-const CampaignDetail = async ({ params }: DetailsProps) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const CampaignDetail = async ({ params }: any) => {
   const token = await getServerToken();
 
   const { id } = await params;

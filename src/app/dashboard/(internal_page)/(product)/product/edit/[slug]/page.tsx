@@ -120,38 +120,45 @@ const EditProduct = () => {
 
   useEffect(() => {
     if (productDetails) {
-      setForm_data((prev) => ({
-        title: productDetails?.title || "",
-        product_id: productDetails?.product_id || "",
-        actual_price: productDetails?.actual_price || 0,
-        store: productDetails?.store || "",
-        category: productDetails?.category || "",
-        product_img: productDetails?.product_img || '',
-        product_tags: productDetails?.product_tags || [],
-        long_poster: productDetails?.long_poster || [
+      setForm_data({
+        title: productDetails.title || "",
+        product_id: Number(productDetails._id) || 0,
+        actual_price: productDetails.actual_price || 0,
+        store: typeof productDetails.store === "string" ? productDetails.store : "",
+        category: typeof productDetails.category === "string" ? productDetails.category : "",
+        product_img: productDetails.product_img || '',
+        product_tags: productDetails.product_tags || [],
+        long_poster: productDetails.long_poster || [
           { is_active: false, image: "" },
         ],
-        main_banner: productDetails?.main_banner || [
+        main_banner: productDetails.main_banner || [
           { is_active: false, image: "" },
         ],
-        premium_product: productDetails?.premium_product || [
+        premium_product: productDetails.premium_product || [
           { is_active: false, image: "" },
         ],
-        flash_sale: productDetails?.flash_sale || [
-          { is_active: false, image: "", end_time: null },
-        ],
-        slug_type: productDetails?.slug_type || "INTERNAL",
-        meta_title: productDetails?.meta_title || "",
-        meta_description: productDetails?.meta_description || "",
-        meta_keywords: productDetails?.meta_keywords || [],
-        meta_robots: productDetails?.meta_robots || "index, follow",
-        canonical_url: productDetails?.canonical_url || "",
-        structured_data: productDetails?.structured_data || "{}",
-        og_image: productDetails?.og_image || "",
-        og_title: productDetails?.og_title || "",
-        og_description: productDetails?.og_description || "",
-        product_status: productDetails?.product_status || "ACTIVE",
-      }));
+        flash_sale: productDetails.flash_sale
+          ? productDetails.flash_sale.map((item) => ({
+              ...item,
+              end_time: item.end_time ? new Date(item.end_time) : null,
+            }))
+          : [
+              { is_active: false, image: "", end_time: null },
+            ],
+        slug_type: productDetails.slug_type || "INTERNAL",
+        meta_title: productDetails.meta_title || "",
+        meta_description: productDetails.meta_description || "",
+        meta_keywords: productDetails.meta_keywords || [],
+        meta_robots: productDetails.meta_robots || "index, follow",
+        canonical_url: productDetails.canonical_url || "",
+        structured_data: productDetails.structured_data || "{}",
+        og_image: productDetails.og_image || "",
+        og_title: productDetails.og_title || "",
+        og_description: productDetails.og_description || "",
+        product_status: (productDetails.product_status === "ACTIVE" || productDetails.product_status === "PAUSE")
+          ? productDetails.product_status
+          : "ACTIVE",
+      });
     }
 
     setEditorContent(productDetails?.description || "some error");

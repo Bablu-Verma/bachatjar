@@ -8,11 +8,8 @@ import { getServerToken } from "@/helpers/server/server_function";
 import toast from "react-hot-toast";
 import CouponDetailsClient from "./CouponDetailsClient";
 
-interface CouponDetailsProps {
-  params: { id: string };
-}
 
-export const GetData = async (token: string, slug: string) => {
+const GetData = async (token: string, slug: string) => {
   console.log("slug", slug);
   try {
     const { data } = await axios.post(
@@ -40,7 +37,8 @@ export const GetData = async (token: string, slug: string) => {
   }
 };
 
-const CouponDetail = async ({ params }: CouponDetailsProps) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const CouponDetail = async ({ params }: any) => {
   const token = await getServerToken();
   const awaitslug = await params;
 

@@ -1,13 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useEffect, useState } from "react";
-
 import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux-store/redux_store";
-import { order_list_admin_api, withdrwal_list_admin_api } from "@/utils/api_url";
-import { IOrder } from "@/model/OrderModel";
+import {  withdrwal_list_admin_api } from "@/utils/api_url";
 import PaginationControls from "../../_components/PaginationControls";
 import { formatDate } from "@/helpers/client/client_function";
 import { IoClose } from "react-icons/io5";
@@ -53,6 +52,7 @@ const OrderList = () => {
 
   useEffect(() => {
     getOrders();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 
   console.log(OrderList)
@@ -167,8 +167,9 @@ const OrderList = () => {
                 <tr key={i} className="bg-white hover:bg-gray-100">
                   <td className="px-6 py-4  ">{i + 1}</td>
                   <td className="px-6 py-4  ">
-                  {item.user_id._id}  <br />
-                  {item.user_id.email}
+                  {typeof item.user_id === "object" && "_id" in item.user_id ? String(item.user_id._id) : String(item.user_id)}
+                  <br />
+                  {typeof item.user_id === "object" && "email" in item.user_id ? String(item.user_id.email) : "-"}
                   </td>
                  
                   <td className="px-6 py-4  ">{item.upi_id}</td>
@@ -253,7 +254,7 @@ const OrderList = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {sheet.details.history.map((payment, idx) => (
+                          {sheet.details.history.map((payment: { details: any; date: Date; status: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; }, idx: React.Key | null | undefined) => (
                             <tr key={idx} className="hover:bg-green-50">
                               <td className="p-3 border-b">{payment.details || "-"}</td>
                               <td className="p-3 border-b">{formatDate(payment.date)}</td>
@@ -278,7 +279,12 @@ const OrderList = () => {
 
 export default OrderList;
 
-const DetailRow = ({ label, value }) => (
+interface DetailRowProps {
+  label: string;
+  value: React.ReactNode;
+}
+
+const DetailRow: React.FC<DetailRowProps> = ({ label, value }) => (
   <div className="flex justify-between items-center border-b pb-3">
     <span className="text-gray-500 font-medium capitalize">{label}</span>
     <span className="text-gray-800 font-normal capitalize">{value}</span>

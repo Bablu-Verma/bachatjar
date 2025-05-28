@@ -43,8 +43,6 @@ const Wishlist_client: React.FC<IWCProps> = ({ item_ }) => {
 
 
       dispatch(removeItem(id));
-      // toast.success("Product removed successfully!");
-      // console.log('data', data)
     } catch (error) {
       if (error instanceof AxiosError) {
         console.error("Error Product remove ", error.response?.data.message);

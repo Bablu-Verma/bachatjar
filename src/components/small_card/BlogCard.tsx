@@ -1,7 +1,7 @@
-'use client'
-
+"use client";
 
 import { IBlog } from "@/model/BlogModal";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -10,7 +10,6 @@ interface BlogCardProps {
 }
 
 const BlogCard: React.FC<BlogCardProps> = ({ item }) => {
-  
   const date = new Date(item.createdAt ?? Date.now());
   const option = { day: "2-digit", month: "short", year: "numeric" };
   const formattedDate = date.toLocaleDateString(
@@ -18,7 +17,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ item }) => {
     option as Intl.DateTimeFormatOptions
   );
 
-  // for new badge 
+  // for new badge
   const now = new Date();
   const diffTime = Math.abs(now.getTime() - date.getTime()) / (1000 * 60 * 60);
   // console.log("date", diffTime);
@@ -32,10 +31,16 @@ const BlogCard: React.FC<BlogCardProps> = ({ item }) => {
       )}
       <div className="max-h-[200px] overflow-hidden relative">
         <span className="w-full h-auto bg-[rgba(0,0,0,.2)] absolute top-0 left-0 bottom-0 right-0 z-10"></span>
-        <img
+        <Image
+          unoptimized
           src={item?.image[0]}
           className="w-full"
           alt="shose"
+          fill={false}
+          width={400}
+          height={200}
+          style={{ objectFit: "cover" }}
+          priority={diffTime < 12}
         />
       </div>
       <div className="pb-2 pt-1 px-2">

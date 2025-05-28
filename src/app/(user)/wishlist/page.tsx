@@ -1,8 +1,6 @@
 import BottomToTop from "@/components/BottomToTop";
 import Footer from "@/components/Footer";
 import MainHeader from "@/components/header/MainHeader";
-
-
 import { getServerToken } from "@/helpers/server/server_function";
 import { wishlist_list_get_ } from "@/utils/api_url";
 import axios, { AxiosError } from "axios";
@@ -11,7 +9,7 @@ import toast from "react-hot-toast";
 import Wishlist_client from "./_wishlist_client";
 import Wishlist_remove from "./_wishlist_remove";
 
-export const GetData = async (token: string) => {
+const GetData = async (token: string) => {
   try {
     const { data } = await axios.post(
       wishlist_list_get_,
@@ -37,9 +35,7 @@ export const GetData = async (token: string) => {
 
 const Wishlist = async () => {
   const token = await getServerToken();
-
   const page_data = await GetData(token);
-
   const wishlist_products = page_data.products;
 
   return (

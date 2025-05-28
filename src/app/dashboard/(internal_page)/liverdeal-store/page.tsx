@@ -2,9 +2,9 @@
 
 
 import { RootState } from "@/redux-store/redux_store";
-import { scraper_store_add_admin_api, scraper_store_delate_admin_api, scraper_store_list_admin_api } from "@/utils/api_url";
+import { scraper_store_add_admin_api, scraper_store_delete_admin_api, scraper_store_list_admin_api } from "@/utils/api_url";
 import axios, { AxiosError } from "axios";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 
@@ -22,7 +22,19 @@ const LiveDealStore = () => {
   });
 
   const [showList, setShowList] = useState(false)
-  const [storeList, setStoreList] = useState([])
+  type StoreItem = {
+    _id: string;
+    url: string;
+    title: string;
+    price: string;
+    source: string;
+    image: string;
+    redirect_url: string;
+    real_price: string;
+    main_container: string;
+  };
+  
+  const [storeList, setStoreList] = useState<StoreItem[]>([])
 
   const token = useSelector((state: RootState) => state.user.token);
 
@@ -94,7 +106,7 @@ const getStore = async ()=>{
 const delete_store  =  async(id:string)=>{
   try {
     const { data } = await axios.post(
-      scraper_store_delate_admin_api,
+      scraper_store_delete_admin_api,
       {
         id:id
       },

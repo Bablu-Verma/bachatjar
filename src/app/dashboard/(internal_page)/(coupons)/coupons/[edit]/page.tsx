@@ -1,46 +1,45 @@
 "use client";
 
-import { category_details_api, category_edit_api, category_list_api, category_list_dashboard_api, coupons_detail_api, coupons_detail_dashoard_api, edit_coupons_api, list_store_api, list_store_dashboard_api } from "@/utils/api_url";
+import {
+  category_list_dashboard_api,
+  coupons_detail_dashoard_api,
+  edit_coupons_api,
+  list_store_dashboard_api,
+} from "@/utils/api_url";
 import axios, { AxiosError } from "axios";
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
-
 import { RootState } from "@/redux-store/redux_store";
 import TextEditor from "@/app/dashboard/_components/TextEditor";
 import UploadImageGetLink from "@/app/dashboard/_components/Upload_image_get_link";
 import DateTimePicker from "react-datetime-picker";
-
-
 
 const EditCoupons: React.FC = () => {
   const token = useSelector((state: RootState) => state.user.token);
   const pathname = usePathname();
   const router = useRouter();
 
-  const [loading, setLoading] = useState<boolean>(false);
- const [formData, setFormData] = useState({
-     title:"",
-     code: "",
-     discount: "",
-     expiry_date:  new Date(),
-     store: { name: "", _id: "" }, 
-     category: { name: "", _id: "" },
-     status: "",
-   });
+  const [loading] = useState<boolean>(false);
+  const [formData, setFormData] = useState({
+    title: "",
+    code: "",
+    discount: "",
+    expiry_date: new Date(),
+    store: { name: "", _id: "" },
+    category: { name: "", _id: "" },
+    status: "",
+  });
   const [editorContent, setEditorContent] = useState("");
- const [categoryList, setCategoryList] = useState<
+  const [categoryList, setCategoryList] = useState<
     { name: string; _id: string }[]
   >([]);
   const [storeList, setStoreList] = useState<{ name: string; _id: string }[]>(
     []
   );
 
-
   const urlslug = pathname.split("/").pop() || "";
-
 
   const getCoupondetail = async () => {
     try {
@@ -55,20 +54,18 @@ const EditCoupons: React.FC = () => {
         }
       );
 
-
-      console.log(data)
+      console.log(data);
 
       setFormData({
-        title: data.data.title || '',
-        code: data.data.code || '',
-        discount: data.data.discount || '',
+        title: data.data.title || "",
+        code: data.data.code || "",
+        discount: data.data.discount || "",
         expiry_date: data.data.expiry_date,
         store: data.data.store || {},
         category: data.data.category || {},
-        status: data.data.status || '',
-      })
-      setEditorContent(data.data.description)
-
+        status: data.data.status || "",
+      });
+      setEditorContent(data.data.description);
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data?.message || "Error fetching category");
@@ -78,13 +75,10 @@ const EditCoupons: React.FC = () => {
     }
   };
 
-
-  useEffect(()=>{
-    getCoupondetail()
-  },[])
-
-
- 
+  useEffect(() => {
+    getCoupondetail();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -95,7 +89,6 @@ const EditCoupons: React.FC = () => {
 
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -120,30 +113,24 @@ const EditCoupons: React.FC = () => {
       }
     };
 
-    fetchData()
-  
+    fetchData();
   }, [token]);
 
-
-
-
-
-   // Handle Submit
+  // Handle Submit
   const handleSubmit = async () => {
-   
     try {
-      const { data } = await axios.post(
+      await axios.post(
         edit_coupons_api,
         {
           coupon_id: urlslug,
-          title:formData.title,
+          title: formData.title,
           code: formData.code,
           discount: formData.discount,
-          expiry_date:  formData.expiry_date,
+          expiry_date: formData.expiry_date,
           store: formData.store._id,
           category: formData.category._id,
           status: formData.status,
-          description:editorContent
+          description: editorContent,
         },
         {
           headers: {
@@ -155,10 +142,7 @@ const EditCoupons: React.FC = () => {
 
       toast.success("couon updated successfully! Redirecting...");
       setTimeout(() => router.push("/dashboard/all-coupons"), 3000);
-
     } catch (error) {
-
-     
       if (error instanceof AxiosError) {
         toast.error(error.response?.data?.message || "Error fetching category");
       } else {
@@ -173,28 +157,27 @@ const EditCoupons: React.FC = () => {
         Edit Coupons
       </h1>
       <div className="max-w-4xl my-10 mx-auto p-5 bg-white border border-gray-50 rounded-lg shadow-sm">
-      <UploadImageGetLink />
+        <UploadImageGetLink />
         <form
           onSubmit={(e) => {
             e.preventDefault();
-             handleSubmit();
+            handleSubmit();
           }}
           className="space-y-6"
         >
-         
-         <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Title
-              </label>
-              <input
-                type="text"
-                name="title"
-                value={formData.title}
-                onChange={handleInputChange}
-                placeholder="Enter coupon title"
-                className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Title
+            </label>
+            <input
+              type="text"
+              name="title"
+              value={formData.title}
+              onChange={handleInputChange}
+              placeholder="Enter coupon title"
+              className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
           <div className="grid grid-cols-2 gap-5">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">

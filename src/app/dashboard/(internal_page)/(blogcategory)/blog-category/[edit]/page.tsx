@@ -1,18 +1,18 @@
 "use client";
 
-import { blog_category_dashboard_details_api, blog_category_details_api, blog_category_edit_api, category_details_api, category_edit_api } from "@/utils/api_url";
+import {
+  blog_category_dashboard_details_api,
+  blog_category_edit_api,
+} from "@/utils/api_url";
 import axios, { AxiosError } from "axios";
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
-
 import { RootState } from "@/redux-store/redux_store";
 import TextEditor from "@/app/dashboard/_components/TextEditor";
 import UploadImageGetLink from "@/app/dashboard/_components/Upload_image_get_link";
-
-
+import Image from "next/image";
 
 const EditCategory: React.FC = () => {
   const token = useSelector((state: RootState) => state.user.token);
@@ -43,11 +43,10 @@ const EditCategory: React.FC = () => {
 
       setFormData({
         categoryName: data.data.name || "",
-        images: data.data.imges || ['', ''], 
+        images: data.data.imges || ["", ""],
         status: data.data.status || "ACTIVE",
-      })
-      setEditorContent(data.data.description)
-
+      });
+      setEditorContent(data.data.description);
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data?.message || "Error fetching category");
@@ -59,8 +58,8 @@ const EditCategory: React.FC = () => {
 
   useEffect(() => {
     getCategory();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [urlslug]);
-
 
   // Handle Submit
   const handleSubmit = async () => {
@@ -68,7 +67,7 @@ const EditCategory: React.FC = () => {
 
     try {
       setLoading(true);
-      const { data } = await axios.post(
+      await axios.post(
         blog_category_edit_api,
         {
           slug: urlslug,
@@ -115,10 +114,14 @@ const EditCategory: React.FC = () => {
 
   const renderImagePreview = (index: number) => {
     return formData.images[index] ? (
-      <img
+      <Image
+        unoptimized
         src={formData.images[index]}
         alt={`Category image ${index + 1}`}
+        width={96}
+        height={96}
         className="w-24 h-24 object-cover rounded-md"
+        style={{ objectFit: "cover", borderRadius: "0.375rem" }}
       />
     ) : null;
   };

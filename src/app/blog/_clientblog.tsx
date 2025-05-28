@@ -93,7 +93,7 @@ const ClientBlog: React.FC<CBProps> = ({ blog, category }) => {
               <SwiperSlide key={i}>
                 <div key={i} className="flex flex-col items-center justify-center">
                   <button
-                    onClick={() => handleCategoryClick(item._id)}
+                    onClick={() => handleCategoryClick(item._id.toString())}
                     className="rounded-full border-4 border-primary duration-200 ease-in-out hover:border-gray-400 cursor-pointer"
                   >
                     <Image
@@ -170,7 +170,7 @@ const ClientBlog: React.FC<CBProps> = ({ blog, category }) => {
                   <button
                     onClick={() => {
                       setMenu(false);
-                      handleCategoryClick(item._id);
+                      handleCategoryClick(item._id.toString());
                     }}
                     className="rounded-full border-4 border-primary duration-200 ease-in-out hover:border-gray-400 cursor-pointer"
                   >

@@ -11,7 +11,7 @@ import { Key } from "react";
 import toast from "react-hot-toast";
 
 
-export const GetData = async (token:string) => {
+ const GetData = async (token:string) => {
   try {
     const { data } = await axios.post(
       category_list_api,

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import TextEditor from "@/app/dashboard/_components/TextEditor";
@@ -6,21 +7,30 @@ import { blog_type } from "@/constant";
 
 import { ICategory } from "@/model/CategoryModel";
 import { RootState } from "@/redux-store/redux_store";
-import { blog_category_dashboard_list_api, blog_dashboard_details, blog_details, blog_edit } from "@/utils/api_url";
+import {
+  blog_category_dashboard_list_api,
+  blog_dashboard_details,
+  blog_edit,
+} from "@/utils/api_url";
 import axios, { AxiosError } from "axios";
 import { usePathname, useRouter } from "next/navigation";
-
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
-
+import { useSelector } from "react-redux";
+import Image from "next/image";
 import DateTimePicker from "react-datetime-picker";
 
 interface IClientBlog {
-  blog_id:'',
+  blog_id: "";
   title: string;
   blog_category: string;
-  blog_type: "Article" | "Tutorial" | "Case Study" | "Review" | "Interview" | "";
+  blog_type:
+    | "Article"
+    | "Tutorial"
+    | "Case Study"
+    | "Review"
+    | "Interview"
+    | "";
   image: string[]; // Array of image URLs
   tags: string[]; // Tags for the blog
   reading_time: number; // Estimated reading time in minutes
@@ -44,16 +54,16 @@ const EditBlog = ({}) => {
   const [categoryList, setCategoryList] = useState([]);
   const [loding, setLoading] = useState<boolean>(false);
   const [form_data, setForm_data] = useState<IClientBlog>({
-    blog_id:'',
+    blog_id: "",
     title: "",
     blog_category: "",
-    blog_type: "" ,
-    image: ["",""],
+    blog_type: "",
+    image: ["", ""],
     tags: [],
     reading_time: 0,
     keywords: [],
     publish_schedule: null,
-    status: "ACTIVE" ,
+    status: "ACTIVE",
     meta_title: "",
     meta_description: " ",
     meta_keywords: [],
@@ -61,19 +71,14 @@ const EditBlog = ({}) => {
     og_image: "",
     og_title: "",
     og_description: "",
-    twitter_card: "" as 'summary' | 'summary_large_image',
-   
+    twitter_card: "" as "summary" | "summary_large_image",
   });
-
 
   const [short_desc, setShortDescription] = useState("");
   const [description_, setDescription] = useState("");
-   const [images, setImages] = useState("");
+  const [images, setImages] = useState("");
 
-
-  
   const urlslug = pathname.split("/").pop() || "";
-
 
   const getCategory = async () => {
     try {
@@ -101,21 +106,18 @@ const EditBlog = ({}) => {
     getCategory();
   }, [token]);
 
-
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value, type } = e.target;
-  
+
     setForm_data((prev) => ({
       ...prev,
-      [name]: type === "number" ? Number(value) : value, 
+      [name]: type === "number" ? Number(value) : value,
     }));
   };
-
-  
-  
-
 
   const getBlogData = async () => {
     try {
@@ -132,14 +134,20 @@ const EditBlog = ({}) => {
         }
       );
 
-      console.log(data.data.blog)
-  
+      console.log(data.data.blog);
+
       const blogData = data.data.blog;
       setForm_data({
-        blog_id:blogData._id,
+        blog_id: blogData._id,
         title: blogData.title || "",
         blog_category: blogData.blog_category || "",
-        blog_type: (blogData.blog_type as "Article" | "Tutorial" | "Case Study" | "Review" | "Interview") || "Article",
+        blog_type:
+          (blogData.blog_type as
+            | "Article"
+            | "Tutorial"
+            | "Case Study"
+            | "Review"
+            | "Interview") || "Article",
         image: blogData.image || [],
         tags: blogData.tags || [],
         reading_time: blogData.reading_time || 0,
@@ -153,10 +161,11 @@ const EditBlog = ({}) => {
         og_image: blogData.og_image || "",
         og_title: blogData.og_title || "",
         og_description: blogData.og_description || "",
-        twitter_card: (blogData.twitter_card as "summary" | "summary_large_image") || "summary",
-       
+        twitter_card:
+          (blogData.twitter_card as "summary" | "summary_large_image") ||
+          "summary",
       });
-  
+
       setDescription(blogData.desc || "");
       setShortDescription(blogData.short_desc || "");
       toast.success("Blog details fetched successfully");
@@ -177,30 +186,30 @@ const EditBlog = ({}) => {
   const handleSubmit = async () => {
     try {
       setLoading(true);
-  
-      const { data } = await axios.post(
+
+      await axios.post(
         blog_edit,
         {
-          blog_id:form_data.blog_id,
+          blog_id: form_data.blog_id,
           title: form_data.title,
           category: form_data.blog_category, // Fixed key name
-          short_desc: short_desc , // Ensure it's defined
+          short_desc: short_desc, // Ensure it's defined
           blog_type: form_data.blog_type, // Fixed key name
-          meta_title: form_data.meta_title, 
+          meta_title: form_data.meta_title,
           meta_description: form_data.meta_description,
-          desc: description_, 
+          desc: description_,
           slug: urlslug,
           meta_keywords: form_data.meta_keywords,
-          og_image: form_data.og_image, 
+          og_image: form_data.og_image,
           image: form_data.image,
           status: form_data.status,
           tags: form_data.tags,
           reading_time: form_data.reading_time,
           canonical_url: form_data.canonical_url,
-          og_title: form_data.og_title, 
+          og_title: form_data.og_title,
           og_description: form_data.og_description,
-          twitter_card: form_data.twitter_card, 
-          publish_schedule:form_data.publish_schedule
+          twitter_card: form_data.twitter_card,
+          publish_schedule: form_data.publish_schedule,
         },
         {
           headers: {
@@ -209,9 +218,9 @@ const EditBlog = ({}) => {
           },
         }
       );
-  
+
       toast.success("Blog updated successfully! Redirecting to blog list...");
-  
+
       setTimeout(() => {
         router.push("/dashboard/blog-list");
       }, 3000);
@@ -225,48 +234,48 @@ const EditBlog = ({}) => {
       setLoading(false);
     }
   };
-  
 
-   const addImage = () => {
-      if (images.trim() && form_data.image) {
-        setForm_data((prev) => ({
-          ...prev,
-          image: [...prev.image!, images.trim()],
-        }));
-        setImages("");
-      }
-    };
-  
-    // Remove Image Link
-    const removeImage = (index: number) => {
+  const addImage = () => {
+    if (images.trim() && form_data.image) {
       setForm_data((prev) => ({
         ...prev,
-        image: prev.image!.filter((_, i) => i !== index),
+        image: [...prev.image!, images.trim()],
       }));
-    };
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setImages(e.target.value);
-    };
+      setImages("");
+    }
+  };
 
+  // Remove Image Link
+  const removeImage = (index: number) => {
+    setForm_data((prev) => ({
+      ...prev,
+      image: prev.image!.filter((_, i) => i !== index),
+    }));
+  };
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setImages(e.target.value);
+  };
 
-    const renderImagePreview = () => {
-      return form_data.image!.map((image: string, index: number) => (
-        <div key={index} className="flex items-center space-x-2">
-          <img
-            src={image}
-            alt={`Preview ${index + 1}`}
-            className="w-16 h-16 object-cover rounded"
-          />
-          <button
-            type="button"
-            onClick={() => removeImage(index)}
-            className="text-red-500 flex justify-center items-center bg-gray-200 rounded-full w-5 h-5"
-          >
-            <i className="fa-solid fa-x text-[12px]"></i>
-          </button>
-        </div>
-      ));
-    };
+  const renderImagePreview = () => {
+    return form_data.image!.map((image: string, index: number) => (
+      <div key={index} className="flex items-center space-x-2">
+        <Image
+          src={image}
+          alt={`Preview ${index + 1}`}
+          width={64}
+          height={64}
+          className="w-16 h-16 object-cover rounded"
+        />
+        <button
+          type="button"
+          onClick={() => removeImage(index)}
+          className="text-red-500 flex justify-center items-center bg-gray-200 rounded-full w-5 h-5"
+        >
+          <i className="fa-solid fa-x text-[12px]"></i>
+        </button>
+      </div>
+    ));
+  };
 
   return (
     <>
@@ -274,7 +283,7 @@ const EditBlog = ({}) => {
         Edit Blog
       </h1>
       <div className="max-w-4xl my-10 mx-auto p-5 bg-white border border-gray-50 rounded-lg shadow-sm">
-      <UploadImageGetLink />
+        <UploadImageGetLink />
 
         <form
           onSubmit={(e) => {
@@ -283,7 +292,6 @@ const EditBlog = ({}) => {
           }}
           className="space-y-6"
         >
-          
           <div>
             <label
               htmlFor="title"
@@ -378,7 +386,7 @@ const EditBlog = ({}) => {
                 </option>
                 {categoryList.map((item: ICategory, i) => {
                   return (
-                    <option key={i} value={item._id}>
+                    <option key={i} value={item._id.toString()}>
                       {item.name}
                     </option>
                   );
@@ -602,28 +610,29 @@ const EditBlog = ({}) => {
               />
             </div>
             <div>
-             
-               <div>
-              <label
-                htmlFor="twitter_card"
-                className="block text-sm font-medium text-gray-700"
-              >
-                twitter_card
-              </label>
-              <select
-                id="twitter_card"
-                name="twitter_card"
-                value={form_data.twitter_card}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-              >
-                <option value="" disabled selected>
-                twitter_card
-                </option>
-                <option value="summary">summary</option>
-                <option value="summary_large_image">summary_large_image</option>
-              </select>
-            </div>
+              <div>
+                <label
+                  htmlFor="twitter_card"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  twitter_card
+                </label>
+                <select
+                  id="twitter_card"
+                  name="twitter_card"
+                  value={form_data.twitter_card}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
+                >
+                  <option value="" disabled selected>
+                    twitter_card
+                  </option>
+                  <option value="summary">summary</option>
+                  <option value="summary_large_image">
+                    summary_large_image
+                  </option>
+                </select>
+              </div>
             </div>
           </div>
 

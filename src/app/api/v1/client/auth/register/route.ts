@@ -1,6 +1,10 @@
-
 import { user_verify_email } from "@/email/user_verify";
-import { createExpiryTime, createHashPassword, generateJwtToken, generateOTP } from "@/helpers/server/server_function";
+import {
+  createExpiryTime,
+  createHashPassword,
+  generateJwtToken,
+  generateOTP,
+} from "@/helpers/server/server_function";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/UserModel";
 
@@ -10,7 +14,7 @@ interface IRequestBody {
   email: string;
   password: string;
   name: string;
-  accept_terms_conditions_privacy_policy:boolean;
+  accept_terms_conditions_privacy_policy: boolean;
 }
 
 export async function POST(req: NextRequest) {
@@ -19,7 +23,8 @@ export async function POST(req: NextRequest) {
   try {
     const body: IRequestBody = await req.json();
 
-    const { email, password, name, accept_terms_conditions_privacy_policy } = body;
+    const { email, password, name, accept_terms_conditions_privacy_policy } =
+      body;
 
     // Validate the form fields
     if (!name || name.trim().length < 3) {
@@ -69,22 +74,20 @@ export async function POST(req: NextRequest) {
     }
 
     const fiedUser = await UserModel.findOne({
-     email: email
+      email: email,
     }).select("+email_verified");
 
-
     if (fiedUser) {
-      if(fiedUser.email_verified == false){
-        // if user is exixit but verify false 
+      if (fiedUser.email_verified == false) {
+        // if user is exixit but verify false
 
-        const result = await UserModel.deleteOne({ email:fiedUser.email });
+        const result = await UserModel.deleteOne({ email: fiedUser.email });
         if (result.deletedCount > 0) {
           console.log("User removed successfully.");
         } else {
           console.log("No user found.");
         }
-
-      }else{
+      } else {
         return new NextResponse(
           JSON.stringify({
             success: false,
@@ -101,7 +104,7 @@ export async function POST(req: NextRequest) {
     }
 
     const hashPassword = await createHashPassword(password);
-    const expiry_time = createExpiryTime(0, 30); 
+    const expiry_time = createExpiryTime(0, 30);
     const create_otp = generateOTP();
 
     const create_user = new UserModel({
@@ -110,20 +113,21 @@ export async function POST(req: NextRequest) {
       password: hashPassword,
       verify_code: create_otp,
       verify_code_expiry: expiry_time,
-      accept_terms_conditions_privacy_policy:accept_terms_conditions_privacy_policy
+      accept_terms_conditions_privacy_policy:
+        accept_terms_conditions_privacy_policy,
     });
 
-    user_verify_email(create_otp, email)
+    user_verify_email(create_otp, email);
 
     const Payload = {
       email,
     };
 
-    const JwtToken = await generateJwtToken(Payload, "30m");
+    const minutes_30 = 60 * 30; // 30 minutes in seconds
+    const JwtToken = generateJwtToken(Payload, minutes_30);
+
     const new_user = await create_user.save();
-
     const userData = new_user.toObject();
-
     delete userData.password;
     delete userData.accept_terms_conditions_privacy_policy;
     delete userData.email_verified;
@@ -132,15 +136,14 @@ export async function POST(req: NextRequest) {
     delete userData.verify_code_expiry;
     delete userData.user_status;
     delete userData.subscribe_email;
-    delete userData.__v
-
+    delete userData.__v;
 
     return new NextResponse(
       JSON.stringify({
         success: true,
         message: "Register successfully, Verify your Email",
         user: userData,
-        token: JwtToken
+        token: JwtToken,
       }),
       {
         status: 201,
