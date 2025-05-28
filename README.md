@@ -1,11 +1,6 @@
- 1. babluadmin@gamil.com - Password@123
- 2. bablu_blog@gamil.com - Password@123
+bachatjar 
 
-
-
-
-lotti color : #011824
-
+we provide Cashback, Coupons Code, freebees and best offer in Your favourate Product. more info visit https://bachatjar.com/ 
 
 
 
