@@ -39,7 +39,7 @@ const CategoryList = () => {
         }
       );
 
-      console.log(data);
+      // console.log(data);
       setCategoryList(data.data);
       setTotalPage(data.pagination.totalPages);
     } catch (error) {

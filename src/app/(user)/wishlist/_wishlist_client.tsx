@@ -58,7 +58,7 @@ const Wishlist_client: React.FC<IWCProps> = ({ item_ }) => {
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
         {wishlist.map((item, i) => (
-          console.log(item),
+          // console.log(item),
           <div key={i} className="bg-white border-[1px] rounded overflow-hidden border-gray-300 ">
             <div className='relative '>
               <button

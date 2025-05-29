@@ -54,7 +54,7 @@ const EditCoupons: React.FC = () => {
         }
       );
 
-      console.log(data);
+      // console.log(data);
 
       setFormData({
         title: data.data.title || "",

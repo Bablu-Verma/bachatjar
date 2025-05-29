@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
 // import './src/crawler/crawlerCron'
 
-console.log('Server is starting... Running my code');
 
 const nextConfig: NextConfig = {
   /* config options here */

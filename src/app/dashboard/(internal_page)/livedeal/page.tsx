@@ -28,7 +28,7 @@ const LiveDeal = () => {
     const scrapDeal = async () => {
         setScrapeLoading(true)
         try {
-          const { data } = await axios.post(
+          await axios.post(
             scraper_live_deal_admin_api,
             {},
             {
@@ -37,7 +37,7 @@ const LiveDeal = () => {
               },
             }
           );
-          console.log(data)
+          // console.log(data)
         } catch (error) {
           if (error instanceof AxiosError) {
             console.error("Error ", error.response?.data.message);

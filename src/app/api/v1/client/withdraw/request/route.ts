@@ -34,7 +34,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { bank_id: upi_id, amount } = body;
 
-    console.log("code yaha pr aayaya h ", body);
+    // console.log("code yaha pr aayaya h ", body);
 
     if (!upi_id || !amount) {
       return new NextResponse(

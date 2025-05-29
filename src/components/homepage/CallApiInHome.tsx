@@ -23,7 +23,7 @@ const CallApiInHome = () => {
         }
       );
       dispatch(addItem(data.data.products));
-      console.log(data.data.products);
+      // console.log(data.data.products);
     } catch (error) {
       if (error instanceof AxiosError) {
         console.error("Error ", error.response?.data.message);

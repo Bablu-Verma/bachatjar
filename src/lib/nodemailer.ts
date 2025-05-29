@@ -1,10 +1,18 @@
-import { MailtrapClient } from "mailtrap"
+import nodemailer from 'nodemailer';
 
 
-const TOKEN = process.env.email_server_token || '';
-const SENDER_EMAIL = "<SENDER@YOURDOMAIN.COM>";
 
 
-export const email_transporter = new MailtrapClient({ token: TOKEN });
-export const sender_email = { name: "Mailtrap Test", email: SENDER_EMAIL };
+export const email_transporter = nodemailer.createTransport({
+  host: 'smtp-relay.brevo.com',
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.BREVO_USER,
+    pass: process.env.BREVO_SMTP_KEY,
+  },
+});
+
+
+export const sender_email = `"Bachatjar" help@bachatjar.com`
 

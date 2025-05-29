@@ -79,19 +79,19 @@ export async function POST(req: Request) {
 
     let image_url;
     if (image_ instanceof File) {
-      const { success, message, url } = await upload_image(
+      const { success, url } = await upload_image(
         image_,
         file_name || "site_image_upload"
       );
 
       if (success) {
-        console.log("Image uploaded successfully:", url);
+        // console.log("Image uploaded successfully:", url);
         image_url = url;
       } else {
-        console.error("Image upload failed:", message);
+        // console.error("Image upload failed:", message);
       }
     } else {
-      console.error("Invalid image value. Expected a File.");
+      // console.error("Invalid image value. Expected a File.");
     }
 
     return new NextResponse(

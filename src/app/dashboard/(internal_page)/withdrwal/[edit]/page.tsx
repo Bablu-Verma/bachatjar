@@ -39,7 +39,7 @@ const EditOrder: React.FC = () => {
         }
       );
 
-      console.log(data)
+      // console.log(data)
       setOrderDetails(data.data);
       setFormData({
         status: data.data.status || "",

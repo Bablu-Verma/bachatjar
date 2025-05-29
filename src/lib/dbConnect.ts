@@ -9,7 +9,7 @@ const connection: Connection = {};
 
 async function dbConnect() {
     if (connection.isConnected) {
-        console.log('Database connection already established.');
+        // console.log('Database connection already established.');
         return;
     }
 

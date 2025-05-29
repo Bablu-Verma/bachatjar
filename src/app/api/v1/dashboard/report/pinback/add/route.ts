@@ -65,18 +65,18 @@ export async function POST(req: Request) {
     }).select("-redirect_url");
 
     if (!findOrder) {
-      console.log("No matching order found for click_id:", click_id);
+      // console.log("No matching order found for click_id:", click_id);
       return;
     }
     
-    console.log("findOrder.upto_amount:", findOrder.upto_amount);
-    console.log("Order amount:", amount);
+    // console.log("findOrder.upto_amount:", findOrder.upto_amount);
+    // console.log("Order amount:", amount);
     
     const applicableAmount = findOrder.upto_amount
       ? Math.min(amount, findOrder.upto_amount)
       : amount;
     
-    console.log("Applicable Amount for Cashback:", applicableAmount);
+    // console.log("Applicable Amount for Cashback:", applicableAmount);
     
     // Step 2: Calculate final cashback
     let finalCashback = 0;

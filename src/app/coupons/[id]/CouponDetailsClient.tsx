@@ -20,7 +20,7 @@ const CouponDetailsClient = ({ page_data }: any) => {
   const send_code = async() => {
      try {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const {data} = await axios.post(track_coupon_copy_api,
+       await axios.post(track_coupon_copy_api,
         {
           coupon_id:page_data._id
         },

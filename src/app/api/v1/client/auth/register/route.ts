@@ -83,9 +83,9 @@ export async function POST(req: NextRequest) {
 
         const result = await UserModel.deleteOne({ email: fiedUser.email });
         if (result.deletedCount > 0) {
-          console.log("User removed successfully.");
+          // console.log("User removed successfully.");
         } else {
-          console.log("No user found.");
+          // console.log("No user found.");
         }
       } else {
         return new NextResponse(

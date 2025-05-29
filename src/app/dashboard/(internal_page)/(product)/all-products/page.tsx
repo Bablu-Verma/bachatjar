@@ -68,14 +68,14 @@ const ProductList = () => {
         }
       );
       setTotalPage(data.pagination.totalPages);
-      console.log("data", data);
+      // console.log("data", data);
       setProdutList(data.data);
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.error("Error ", error.response?.data.message);
+        // console.error("Error ", error.response?.data.message);
         toast.error(error.response?.data.message || "An error occurred");
       } else {
-        console.error("Unknown error", error);
+        // console.error("Unknown error", error);
         toast.error("An unexpected error occurred");
       }
     }
@@ -107,7 +107,7 @@ const ProductList = () => {
     }
   }, [token, showFilter]);
 
-  console.log(produt_list);
+  // console.log(produt_list);
 
   return (
     <>

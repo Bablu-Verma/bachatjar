@@ -49,7 +49,7 @@ const ShopNowButton: React.FC<IShopNowProps> = ({ page_data }) => {
       );
 
       if (data.success == true) {
-        console.log(data);
+        // console.log(data);
         setTimeout(() => {
           setModelOpen(false);
           if (data?.url && typeof data.url === "string") {

@@ -37,7 +37,7 @@ export async function POST(req: Request) {
       startDate,
       endDate,
     } = requestdata
-    console.log(requestdata)
+    // console.log(requestdata)
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const query: any = {};

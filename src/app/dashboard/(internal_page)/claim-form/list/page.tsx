@@ -81,7 +81,7 @@ const ContactUsList = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 
-  console.log(userList)
+  // console.log(userList)
 
 
   return (

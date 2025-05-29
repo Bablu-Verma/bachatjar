@@ -78,7 +78,7 @@ const Login = () => {
 
       toast.success("Login success!");
 
-      console.log(data);
+      // console.log(data);
 
       dispatch(login({ user: data.user, token: data.token }));
       dispatch(setSummary({ summary: data.summary }));

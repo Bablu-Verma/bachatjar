@@ -117,7 +117,7 @@ const ProfileEdit : React.FC= () => {
   };
 
   const call_db = async (fdata: FormData) => {
-    console.log("fdata_ client call", fdata);
+    // console.log("fdata_ client call", fdata);
     setLoading(true);
     try {
       const { data } = await axios.post(edit_profile_api, fdata, {

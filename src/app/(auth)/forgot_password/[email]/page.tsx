@@ -56,7 +56,7 @@ const ChangePassword = () => {
 
   const call_db = async () => {
     try {
-      const { data } = await axios.post(
+      await axios.post(
         "",
         {
           password: userData.password,
@@ -73,7 +73,7 @@ const ChangePassword = () => {
         password: "",
       });
 
-      console.log("user login successfully:", data);
+      // console.log("user login successfully:", data);
       toast.success("Login success!");
     } catch (error) {
       if (error instanceof AxiosError) {

@@ -134,7 +134,7 @@ const EditBlog = ({}) => {
         }
       );
 
-      console.log(data.data.blog);
+      // console.log(data.data.blog);
 
       const blogData = data.data.blog;
       setForm_data({

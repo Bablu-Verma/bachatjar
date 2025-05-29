@@ -19,33 +19,7 @@ function getRandomUserAgent() {
   return new UserAgent().toString();
 }
 
-export const uploadToImgurFromUrl = async (imageUrl: string) => {
-  try {
-    const clientId = process.env.imgure_client_id;
 
-    const response = await axios.post('https://api.imgur.com/3/image', {
-      image: imageUrl,
-      type: 'URL'
-    }, {
-      headers: {
-        Authorization: `Client-ID ${clientId}`
-      }
-    });
-
-    return {
-      url: response.data.data.link,
-      success: true,
-      message: "Uploaded to Imgur successfully"
-    };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    return {
-      url: null,
-      success: false,
-      message: error.message || "Imgur upload failed"
-    };
-  }
-};
 
 export async function scrapeAllSites(): Promise<Product[]> {
 

@@ -55,7 +55,7 @@ const OrderList = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 
-  console.log(OrderList)
+  // console.log(OrderList)
 
   const handleFilterChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>

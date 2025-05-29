@@ -80,7 +80,7 @@ const WithdrawRequest: React.FC = () => {
         { headers: { "Authorization": `Bearer ${token}` } }
       );
       toast.success("OTP sent successfully!");
-      console.log(data)
+      // console.log(data)
       setDocumentId(data.data._id);
       setOtpSent(true);
       setOtpTimer(60);
@@ -144,7 +144,7 @@ const WithdrawRequest: React.FC = () => {
       setOtpTimer(60);
 
     } catch (error) {
-      toast.error("Failed to send OTP");
+      toast.error("Failed to send OTP",);
       console.log(error)
     } finally {
       setWLoading(false);

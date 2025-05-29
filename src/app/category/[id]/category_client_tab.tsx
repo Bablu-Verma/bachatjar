@@ -44,7 +44,7 @@ const CategoryClientTab: React.FC<CAProps> = ({ slug, relatedProducts, relatedCo
         }
       );
 
-      console.log(data.data)
+      // console.log(data.data)
 
       if (openTab === "Product") {
         setProduct([...Product, ...data.data.relatedProducts]);

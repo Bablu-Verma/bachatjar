@@ -36,10 +36,10 @@ function PinbackInner() {
       const generatedSignature = generateSignature(originalData);
 
       if (generatedSignature === extractedSignature) {
-        console.log("✅ Valid signature:");
+        // console.log("✅ Valid signature:");
         savepinbackdata(paramsObject);
       } else {
-        console.log("❌ Invalid signature:", extractedSignature);
+        // console.log("❌ Invalid signature:", extractedSignature);
       }
     }
   }, [searchParams]);

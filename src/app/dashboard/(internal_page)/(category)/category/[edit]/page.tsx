@@ -43,7 +43,7 @@ const EditCategory: React.FC = () => {
 
       const category_details = data.data.category_details;
 
-      console.log(category_details);
+      // console.log(category_details);
 
       setFormData({
         categoryName: category_details.name || "",

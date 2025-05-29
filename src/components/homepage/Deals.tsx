@@ -23,7 +23,7 @@ const Deals: React.FC<DealsProps> = ({ best_product }) => {
 
   const token = useSelector((state: RootState) => state.user.token);
 
-  console.log("best_product",best_product)
+  // console.log("best_product",best_product)
 
   const getDeals = async (page: number) => {
     try {
@@ -37,7 +37,7 @@ const Deals: React.FC<DealsProps> = ({ best_product }) => {
           },
         }
       );
-      console.log(data)
+      // console.log(data)
       if (openTab == 'hot_deals') {
         const newDeals = data.data?.offer_deal || [];
         setDeals((prev) => [...prev, ...newDeals]);
@@ -59,7 +59,7 @@ const Deals: React.FC<DealsProps> = ({ best_product }) => {
   //   if (page > 1) getDeals();
   // }, [page]);
 
-  console.log(liveDeal)
+  // console.log(liveDeal)
 
   return (
     <div className="max-w-6xl mx-auto pt-2 mb-4 relative">

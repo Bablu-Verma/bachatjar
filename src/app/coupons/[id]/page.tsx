@@ -10,7 +10,7 @@ import CouponDetailsClient from "./CouponDetailsClient";
 
 
 const GetData = async (token: string, slug: string) => {
-  console.log("slug", slug);
+  // console.log("slug", slug);
   try {
     const { data } = await axios.post(
       coupons_detail_api,
@@ -42,7 +42,7 @@ const CouponDetail = async ({ params }: any) => {
   const token = await getServerToken();
   const awaitslug = await params;
 
-  console.log("awaitslug ", awaitslug);
+  // console.log("awaitslug ", awaitslug);
 
   const slug = awaitslug.id;
 

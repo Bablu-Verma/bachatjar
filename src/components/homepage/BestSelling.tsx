@@ -31,7 +31,7 @@ const swiperRef = useRef<any>(null);
         },
       }}
       onSwiper={(swiper) => (swiperRef.current = swiper)}
-      onSlideChange={() => console.log("slide change")}
+      // onSlideChange={() => console.log("slide change")}
       className="home_flash_"
     >
       {best_product.length > 0 &&

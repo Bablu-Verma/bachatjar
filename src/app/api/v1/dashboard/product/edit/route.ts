@@ -111,7 +111,7 @@ export async function POST(req: Request) {
 
 
     const getStroe = await StoreModel.findById(store).select('_id cashback_rate cashback_type')
-    console.log("getStroe",getStroe)
+    // console.log("getStroe",getStroe)
 
      // Validate Number Fields
      const actualPriceNum = Number(actual_price);

@@ -30,7 +30,7 @@ export async function POST(req: Request) {
     
     const amountDetails = await ConformAmountModel.findOne({ user_id: userId });
 
-    console.log(amountDetails)
+    // console.log(amountDetails)
 
     const upiDetails = await UserUPIModel.find({
       user_id: userId,

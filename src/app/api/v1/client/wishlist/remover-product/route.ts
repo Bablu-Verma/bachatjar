@@ -72,7 +72,7 @@ export async function POST(req: Request) {
     );
 
     await wishlist.save();
-    console.log('Campaign removed from wishlist successfully.')
+    // console.log('Campaign removed from wishlist successfully.')
     return new NextResponse(
       JSON.stringify({
         success: true,
