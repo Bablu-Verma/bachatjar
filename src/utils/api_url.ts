@@ -1,7 +1,9 @@
-const main_url = process.env.NEXT_PUBLIC_API_URL
 
 
-export const upload_image_api = process.env.NEXT_PUBLIC_UPLOAD_IMAGE
+const main_url = process.env.NEXT_PUBLIC_API_URL || 'https://www/bachatjar.com/api/v1'
+
+
+export const upload_image_api = process.env.NEXT_PUBLIC_UPLOAD_IMAGE || 'https://bachatjar.com/api/v1/upload_image'
 
 // client api
 
