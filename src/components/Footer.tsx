@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux-store/redux_store";
 import Link from "next/link";
 import Image from "next/image";
-import logo from "../../public/rectangle-logo_white.png";
+import logo from "../../public/dark_logo.png";
 
 const Footer = () => {
   const user_data = useSelector(

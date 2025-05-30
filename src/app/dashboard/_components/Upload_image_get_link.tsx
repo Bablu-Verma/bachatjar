@@ -14,7 +14,7 @@ const UploadImageGetLink = () => {
   const token = useSelector((state: RootState) => state.user.token);
   const [imgLink, setImgLink] = useState("");
   const [loadings, setLoading] = useState(false);
-  const [folderName, setFolderName] = useState("");
+
 
 
 
@@ -24,9 +24,6 @@ const UploadImageGetLink = () => {
       setImage(file);
     }
   };
-  const handleFolderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFolderName(e.target.value);
-  };
 
   const handleSubmit = async () => {
     try {
@@ -34,10 +31,7 @@ const UploadImageGetLink = () => {
         toast.error("Please select an image to upload");
         return;
       }
-      if (!folderName) {
-        toast.error("Please select a folder name.");
-        return;
-      }
+ 
       if (!token) {
         toast.error("Authorization token is missing. Please log in again.");
         return;
@@ -46,13 +40,12 @@ const UploadImageGetLink = () => {
       const formPayload = new FormData();
 
       formPayload.append("image", image);
-      formPayload.append("file_name", folderName);
+     
 
       setLoading(true);
       const { data } = await axios.post(upload_image_api, formPayload, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -103,29 +96,7 @@ const UploadImageGetLink = () => {
               </div>
             )}
           </div>
-          <div>
-            <label
-              htmlFor="fn"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Select folder name
-            </label>
-            <select
-              id="fn"
-              value={folderName}
-              onChange={handleFolderChange}
-              className="px-4 py-2 border  border-gray-300 rounded-lg text-sm shadow-sm focus:outline-none"
-            >
-              <option value="" disabled>Select folder name</option>
-              <option value="category_file">Category Folder</option>
-              <option value="blog_site">Blog Folder</option>
-              <option value="product_site">Product Folder</option>
-              <option value="user_site">User Folder</option>
-              <option value="store_site">Store Folder</option>
-              <option value="coupon_site">Coupon Folder</option>
-            </select>
-          </div>
-
+          
 
           {loadings ? (
             <button
