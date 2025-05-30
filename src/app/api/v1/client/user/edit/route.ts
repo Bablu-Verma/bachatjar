@@ -74,20 +74,20 @@ export async function POST(req: Request) {
       }
     }
 
-    // if (profile instanceof File) {
-    //   const { success, url } = await upload_image(
-    //     profile
-    //   );
+    if (profile instanceof File) {
+      // const { success, url } = await upload_image(
+      //   profile
+      // );
 
-    //   if (success) {
-    //     // console.log("Image uploaded successfully:", url);
-    //     updateFields.profile = url;
-    //   } else {
-    //     // console.error("Image upload failed:", message);
-    //   }
-    // } else {
-    //   console.error("Invalid profile value. Expected a File.");
-    // }
+      // if (success) {
+      //   // console.log("Image uploaded successfully:", url);
+      //   updateFields.profile = url;
+      // } else {
+      //   // console.error("Image upload failed:", message);
+      // }
+    } else {
+      console.error("Invalid profile value. Expected a File.");
+    }
 
     if (dob) updateFields.dob = dob;
     if (gender) updateFields.gender = gender;
