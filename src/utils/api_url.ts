@@ -1,5 +1,7 @@
-const main_url = 'http://localhost:3000/api/v1'
+const main_url = process.env.NEXT_PUBLIC_API_URL
 
+
+export const upload_image_api = process.env.NEXT_PUBLIC_UPLOAD_IMAGE
 
 // client api
 
@@ -45,7 +47,7 @@ export const create_share_link_api = main_url + '/client/order/create_share_link
 
 
 // dashboard api 
-export const upload_image_api = main_url + '/dashboard/upload_image'
+
 export const add_store_api = main_url + '/dashboard/store/add'
 export const list_store_dashboard_api = main_url + '/dashboard/store/list'
 export const edit_store_api = main_url + '/dashboard/store/edit'

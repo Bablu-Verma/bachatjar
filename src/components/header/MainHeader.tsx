@@ -7,17 +7,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux-store/redux_store";
 import Image from "next/image";
 import { IUser } from "@/common_type";
-import logo from "../../../public/rectangle-logo_main.png";
+import logo from "../../../public/dark_logo.png";
 import { GiTwoCoins } from "react-icons/gi";
 import SearchAnimation from "../SearchAnimation";
-
-
-
-
-
-
-
-
 
 
 
@@ -68,10 +60,10 @@ const MainHeader = () => {
         }`}
     >
       <div className="max-w-6xl m-auto py-1 flex justify-between items-center max-lg:px-4">
-        <Link href="/">
+        <Link href="/" className="py-1 inline-block">
           <Image
             src={logo}
-            className="w-[125px] lg:w-[140px] h-auto"
+            className="w-[110px] lg:w-[120px] h-auto"
             alt="logo"
           />
           {/* <h1 className="text-secondary py-2 text-3xl font-semibold tracking-wider">Bachat<span className="text-primary">Jar</span></h1> */}

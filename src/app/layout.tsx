@@ -12,8 +12,8 @@ import 'react-clock/dist/Clock.css';
 
 
 export const metadata: Metadata = {
-  title: "Discount For You",
-  description: "Best Descount, Offers, Cashback and Free products available",
+  title: "Bachat Jar | We help save your Money",
+  description: "Discover the best discounts, cashback deals, exclusive offers, coupons, and free products on Bachat Jar — your smart partner in saving money every day.",
 };
 
 export default function RootLayout({

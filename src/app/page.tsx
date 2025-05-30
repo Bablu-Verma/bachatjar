@@ -23,6 +23,8 @@ import axios, { AxiosError } from "axios";
 
 const GetData = async (token: string) => {
   try {
+
+    
     const data = await axios.post(home_api, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -30,6 +32,7 @@ const GetData = async (token: string) => {
       },
     });
 
+ 
     return data.data;
   } catch (error) {
     if (error instanceof AxiosError) {
@@ -43,7 +46,7 @@ const GetData = async (token: string) => {
 export default async function Home() {
   const token = await getServerToken();
   const page_data = await GetData(token);
-  // console.log("Home data log", page_data);
+  
 
   return (
     <>

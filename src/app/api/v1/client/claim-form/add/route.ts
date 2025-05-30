@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import { authenticateAndValidateUser } from "@/lib/authenticate";
 import ClaimFormModel from "@/model/ClaimForm";
-import { upload_image } from "@/helpers/server/upload_image";
+
 
 export async function POST(req: Request) {
   await dbConnect();
@@ -69,22 +69,21 @@ export async function POST(req: Request) {
 
     const uploaded_urls: string[] = [];
 
-    for (const image_ of supporting_documents) {
-      if (image_ instanceof File) {
-        const { success, message, url } = await upload_image(
-          image_,
-          "claim_image_upload"
-        );
+    // for (const image_ of supporting_documents) {
+    //   if (image_ instanceof File) {
+    //     const { success, message, url } = await upload_image(
+    //       image_,
+    //     );
   
-        if (success && url) {
-          uploaded_urls.push(url);
-        } else {
-          console.error("Image upload failed:", message);
-        }
-      } else {
-        console.error("Invalid image value. Expected a File.");
-      }
-    }
+    //     if (success && url) {
+    //       uploaded_urls.push(url);
+    //     } else {
+    //       console.error("Image upload failed:", message);
+    //     }
+    //   } else {
+    //     console.error("Invalid image value. Expected a File.");
+    //   }
+    // }
 
 
     // Create Claim
