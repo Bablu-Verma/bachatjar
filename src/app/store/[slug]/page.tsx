@@ -143,20 +143,23 @@ const StoreDetail = async ({ params }: { params: { slug: string } }) => {
                 <h3 className="text-center text-xl font-medium mb-3">
                   Top Store
                 </h3>
-                {top_stores.map((item: topstoreProps, i: number) => {
-                  return (
-                    <p
-                      className="text-lg capitalize text-secondary mb-2"
-                      key={i}
-                    >
-                      {" "}
-                      {i + 1}.{" "}
-                      <Link className=" hover:underline" href="">
-                        {item.name}
-                      </Link>
-                    </p>
-                  );
-                })}
+                {
+
+                  top_stores.map((item: topstoreProps, i: number) => {
+                    return (
+                      <p
+                        className="text-lg capitalize text-secondary mb-2"
+                        key={i}
+                      >
+                        {" "}
+                        {i + 1}.{" "}
+                        <Link className=" hover:underline" href="">
+                          {item.name}
+                        </Link>
+                      </p>
+                    );
+                  })
+                }
               </div>
             )}
 
@@ -165,23 +168,26 @@ const StoreDetail = async ({ params }: { params: { slug: string } }) => {
                 <h3 className="text-center text-xl font-medium mb-3">
                   Related Store
                 </h3>
-                {related_stores.map((item: topstoreProps, i: number) => {
-                  return (
-                    <p
-                      className="text-lg capitalize text-secondary mb-2"
-                      key={i}
-                    >
-                      {" "}
-                      {i + 1}.{" "}
-                      <Link
-                        className=" hover:underline hover:text-primary"
-                        href=""
+                {
+
+                  related_stores.map((item: topstoreProps, i: number) => {
+                    return (
+                      <p
+                        className="text-lg capitalize text-secondary mb-2"
+                        key={i}
                       >
-                        {item.name}
-                      </Link>
-                    </p>
-                  );
-                })}
+                        {" "}
+                        {i + 1}.{" "}
+                        <Link
+                          className=" hover:underline hover:text-primary"
+                          href=""
+                        >
+                          {item.name}
+                        </Link>
+                      </p>
+                    );
+                  })
+                }
               </div>
             )}
           </div>
