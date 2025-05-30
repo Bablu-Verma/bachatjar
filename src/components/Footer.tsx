@@ -154,7 +154,7 @@ const Footer = () => {
       </div>
       <div className="py-3 border-t-[0.5px] border-gray-400">
         <div className="py-10 flex justify-center items-center flex-col">
-          <h1 className="text-4xl pb-1 text-white ">#SaveMoreWithBachatJar</h1>
+          <h1 className="text-2xl md:text-3xl lg:text-4xl pb-1 text-white ">#SaveMoreWithBachatJar</h1>
           <h5>We help save your money</h5>
         </div>
         <p className="text-sm font-medium text-gray-600 text-center">
