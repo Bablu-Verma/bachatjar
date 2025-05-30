@@ -61,15 +61,19 @@ export default async function Home() {
       <main>
         <Loginhomepopup />
 
-        <div className="py-7">
-          <MainHeading title="Limited Time Offer" link={null} />
-          <HomeFlash flashSale={page_data.data.flash_sale} />
-        </div>
+        {page_data.data.flash_sale && page_data.data.flash_sale.length > 0 && (
+          <div className="py-7">
+            <MainHeading title="Limited Time Offer" link={null} />
+            <HomeFlash flashSale={page_data.data.flash_sale} />
+          </div>
+        )}
 
-        <div className="py-7">
-          <MainHeading title="Best For You" link={null} />
-          <BestSalling best_product={page_data.data.best_product} />
-        </div>
+        {page_data.data.best_product.length > 0 && (
+          <div className="py-7">
+            <MainHeading title="Best For You" link={null} />
+            <BestSalling best_product={page_data.data.best_product} />
+          </div>
+        )}
 
         <div className="">
           <Deals best_product={page_data.data} />
@@ -116,10 +120,13 @@ export default async function Home() {
           <HomeCategories category={page_data.data.category} />
         </div>
 
-        <div className="py-7">
-          <MainHeading title="Read Our Blog" link="/blog" />
-          <HomeBlog blogs={page_data.data.blog} />
-        </div>
+        {page_data.data.blog.length > 0 && (
+          <div className="py-7">
+            <MainHeading title="Read Our Blog" link="/blog" />
+            <HomeBlog blogs={page_data.data.blog} />
+          </div>
+        )}
+
         <BottomToTop />
       </main>
 

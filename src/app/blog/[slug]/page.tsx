@@ -57,8 +57,8 @@ const BlogDetail = async ({ params }: any) => {
         <section className="max-w-6xl mx-auto  mt-6 sm:mt-14 mb-16 p-2 xl:p-0">
           <div className="lg:grid grid-cols-7 gap-8">
             <div className="col-span-5">
-              <div className="text-gray-600 text-[14px] sm:text-base uppercase flex gap-1 sm:gap-2">
-                <span>By: {blog.writer_id.email}</span> /{" "}
+              <div className="text-gray-600 text-xs sm:text-sm lg:text-base uppercase flex gap-1 sm:gap-2">
+                <span>By:&nbsp;{blog.writer_id.email}</span> /{" "}
                 <span>{blog.blog_type}</span> /{" "}
                 <span>{formate_date(blog.updatedAt)}</span>
               </div>
@@ -100,31 +100,32 @@ const BlogDetail = async ({ params }: any) => {
                   <TableOfContents contents={blog.desc} />
                 </div>
               </div>
-
-              <div className="mt-10 sm:mt-0 border-[1px] border-gray-600 px-2 py-3">
-                <h3 className="text-2xl text-center mb-4 font-medium text-gray-800 capitalize">
-                  Latest Articles
-                </h3>
-                <div>
-                  {relatedblogs &&
-                    relatedblogs.length > 0 &&
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    relatedblogs.map((item: any, i: number) => (
-                      <div
-                        key={i + 1}
-                        className="mb-4 flex justify-start gap-1"
-                      >
-                        <span>{i + 1}.</span>{" "}
-                        <Link
-                          href={`/blog/${item.slug}`}
-                          className="text-base font-normal text-gray-700  hover:text-gray-900 hover:underline line-clamp-2"
+              {relatedblogs && relatedblogs.length > 0 && (
+                <div className="mt-10 sm:mt-0 border-[1px] border-gray-600 px-2 py-3">
+                  <h3 className="text-2xl text-center mb-4 font-medium text-gray-800 capitalize">
+                    Latest Articles
+                  </h3>
+                  <div>
+                    {
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      relatedblogs.map((item: any, i: number) => (
+                        <div
+                          key={i + 1}
+                          className="mb-4 flex justify-start gap-1"
                         >
-                          {item.title}
-                        </Link>
-                      </div>
-                    ))}
+                          <span>{i + 1}.</span>{" "}
+                          <Link
+                            href={`/blog/${item.slug}`}
+                            className="text-base font-normal text-gray-700  hover:text-gray-900 hover:underline line-clamp-2"
+                          >
+                            {item.title}
+                          </Link>
+                        </div>
+                      ))
+                    }
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </section>
