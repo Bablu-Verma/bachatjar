@@ -13,6 +13,11 @@ import StoreClientTab from "./store_client_tab";
 import tracking_image from "../../../../public/track.webp";
 import UserStoreAction from "./user_store_action";
 
+interface topstoreProps {
+  _id: string;
+  name: string;
+}
+
 const GetData = async (token: string, slug: string) => {
   try {
     const { data } = await axios.post(
@@ -133,16 +138,15 @@ const StoreDetail = async ({ params }: any) => {
                 <span>Claim Form</span>
               </Link>
             )}
-            <div className="p-3 border-[1px] rounded shadow-sm border-gray-300 mb-10 ">
-              <h3 className="text-center text-xl font-medium mb-3">
-                Top Store
-              </h3>
-              {
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                top_stores &&
-                  top_stores.length > 0 &&
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  top_stores.map((item: any, i: number) => {
+
+            {top_stores && top_stores.length > 0 && (
+              <div className="p-3 border-[1px] rounded shadow-sm border-gray-300 mb-10 ">
+                <h3 className="text-center text-xl font-medium mb-3">
+                  Top Store
+                </h3>
+                {
+
+                  top_stores.map((item: topstoreProps, i: number) => {
                     return (
                       <p
                         className="text-lg capitalize text-secondary mb-2"
@@ -156,18 +160,18 @@ const StoreDetail = async ({ params }: any) => {
                       </p>
                     );
                   })
-              }
-            </div>
-            <div className="p-3 border-[1px] rounded shadow-sm border-gray-300 mb-10 ">
-              <h3 className="text-center text-xl font-medium mb-3">
-                Related Store
-              </h3>
-              {
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                related_stores &&
-                  related_stores.length > 0 &&
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  related_stores.map((item: any, i: number) => {
+                }
+              </div>
+            )}
+
+            {related_stores && related_stores.length > 0 && (
+              <div className="p-3 border-[1px] rounded shadow-sm border-gray-300 mb-10 ">
+                <h3 className="text-center text-xl font-medium mb-3">
+                  Related Store
+                </h3>
+                {
+
+                  related_stores.map((item: topstoreProps, i: number) => {
                     return (
                       <p
                         className="text-lg capitalize text-secondary mb-2"
@@ -184,8 +188,9 @@ const StoreDetail = async ({ params }: any) => {
                       </p>
                     );
                   })
-              }
-            </div>
+                }
+              </div>
+            )}
           </div>
           <div className="col-span-3 ">
             <StoreClientTab
