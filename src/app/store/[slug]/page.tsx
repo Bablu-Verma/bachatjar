@@ -18,6 +18,12 @@ interface topstoreProps {
   name: string;
 }
 
+type PageProps = {
+  params: {
+    slug: string;
+  };
+};
+
 const GetData = async (token: string, slug: string) => {
   try {
     const { data } = await axios.post(
@@ -43,9 +49,9 @@ const GetData = async (token: string, slug: string) => {
   }
 };
 
-const StoreDetail = async ({ params }: { params: { slug: string } }) => {
+const StoreDetail = async ({ params }: PageProps) => {
   const token = await getServerToken();
-  const slug = params?.slug;
+  const slug = params.slug;
   const page_data = await GetData(token, slug);
 
   const {

@@ -4,7 +4,7 @@
 
 :root {
   --light-color: #ffffff;
-  --main-color: #ff5722;
+  --main-color: #CC2B52;
   --secondary-color: #0f1336;
   --dark-color: #212121;
   --gray-light-color: #f2f2f2;
@@ -15,7 +15,7 @@ html {
 }
 
 .home_banner_ .swiper-pagination-bullet-active {
-  background-color: #ff5722 !important; 
+  background-color: #CC2B52 !important; 
 }
 
 .verify_input{
