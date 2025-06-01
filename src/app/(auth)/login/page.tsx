@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import Image from "next/image";
 import login_image from "../../../../public/login_image.svg";
 import { setSummary } from "@/redux-store/slice/cashbackSummary";
+import WithGoogle from "@/components/ContinueWithGoogle";
 
 interface IUserData {
   email: string;
@@ -178,7 +179,8 @@ const Login = () => {
                   Forgot password?
                 </Link>
               </div>
-              <p className="text-sm font-thin text-center">
+           
+              <p className="text-sm mt-8 font-thin text-center">
                 I don&apos;t have an account?
                 <Link
                   href="/signup"
@@ -188,6 +190,12 @@ const Login = () => {
                   SignUp{" "}
                 </Link>
               </p>
+                 <div className="flex justify-center items-center py-8">
+                <span>OR</span>
+              </div>
+             <div className="mb-8">
+              <WithGoogle />
+             </div>
             </div>
           </div>
         </div>

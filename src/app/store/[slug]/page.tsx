@@ -15,31 +15,29 @@ import UserStoreAction from "./user_store_action";
 
 interface topstoreProps {
   _id: string;
-  name: string;
+  name: string; 
 }
 
 const GetData = async (token: string, slug: string) => {
   try {
     const { data } = await axios.post(
       store_details_api,
-      {
-        slug: slug,
-      },
+      { slug },
       {
         headers: {
           "Content-Type": "application/json",
         },
       }
     );
-
     return data.data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      console.error("Error registering user", error.response?.data.message);
+      console.error("Error fetching store details", error.response?.data.message);
       toast.error(error.response?.data.message);
     } else {
       console.error("Unknown error", error);
     }
+    return null; 
   }
 };
 
@@ -48,12 +46,29 @@ const StoreDetail = async ({ params }: { params: { slug: string } }) => {
   const slug = params?.slug;
   const page_data = await GetData(token, slug);
 
+  if (!page_data) {
+    return (
+      <>
+        <MainHeader />
+        <main className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <h2 className="text-2xl font-semibold mb-4">Store not found</h2>
+            <p className="text-gray-600">
+              We couldn&apos;t load this store&apos;s details. Please try again later.
+            </p>
+          </div>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
   const {
     store,
-    related_product,
-    related_coupons,
-    related_stores,
-    top_stores,
+    related_product = [],
+    related_coupons = [],
+    related_stores = [],
+    top_stores = [],
   } = page_data;
 
   return (
@@ -143,20 +158,18 @@ const StoreDetail = async ({ params }: { params: { slug: string } }) => {
                 <h3 className="text-center text-xl font-medium mb-3">
                   Top Store
                 </h3>
-                {top_stores.map((item: topstoreProps, i: number) => {
-                  return (
-                    <p
-                      className="text-lg capitalize text-secondary mb-2"
-                      key={i}
-                    >
-                      {" "}
-                      {i + 1}.{" "}
-                      <Link className=" hover:underline" href="">
-                        {item.name}
-                      </Link>
-                    </p>
-                  );
-                })}
+                {top_stores.map((item: topstoreProps, i: number) => (
+                  <p
+                    className="text-lg capitalize text-secondary mb-2"
+                    key={i}
+                  >
+                    {" "}
+                    {i + 1}.{" "}
+                    <Link className=" hover:underline" href="">
+                      {item.name}
+                    </Link>
+                  </p>
+                ))}
               </div>
             )}
 
@@ -165,23 +178,21 @@ const StoreDetail = async ({ params }: { params: { slug: string } }) => {
                 <h3 className="text-center text-xl font-medium mb-3">
                   Related Store
                 </h3>
-                {related_stores.map((item: topstoreProps, i: number) => {
-                  return (
-                    <p
-                      className="text-lg capitalize text-secondary mb-2"
-                      key={i}
+                {related_stores.map((item: topstoreProps, i: number) => (
+                  <p
+                    className="text-lg capitalize text-secondary mb-2"
+                    key={i}
+                  >
+                    {" "}
+                    {i + 1}.{" "}
+                    <Link
+                      className=" hover:underline hover:text-primary"
+                      href=""
                     >
-                      {" "}
-                      {i + 1}.{" "}
-                      <Link
-                        className=" hover:underline hover:text-primary"
-                        href=""
-                      >
-                        {item.name}
-                      </Link>
-                    </p>
-                  );
-                })}
+                      {item.name}
+                    </Link>
+                  </p>
+                ))}
               </div>
             )}
           </div>
