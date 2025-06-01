@@ -40,6 +40,8 @@
     "csv-parse": "^5.6.0",
     "dompurify": "^3.2.3",
     "express": "^5.1.0",
+    "firebase": "^11.8.1",
+    "firebase-admin": "^13.4.0",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "lottie-react": "^2.4.1",

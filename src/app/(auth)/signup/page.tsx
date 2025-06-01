@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import sign_up_image from "../../../../public/sign_up_image.svg";
+import WithGoogle from "@/components/ContinueWithGoogle";
 
 interface IUserData {
   email: string;
@@ -253,9 +254,7 @@ const Signup = () => {
                 >
                   Create Account
                 </button>
-                <button className="bg-white text-gray-800 text-sm lg:text-base font-medium duration-200 p-2 rounded border-[1px] border-gray-600 mt-4 shadow-sm hover:shadow-2xl ">
-                  <i className="fa-brands fa-google"></i> Sign up with Google
-                </button>
+             
               </div>
               <p className="text-sm font-thin text-center">
                 Already have account?{" "}
@@ -266,6 +265,12 @@ const Signup = () => {
                   Login
                 </Link>
               </p>
+               <div className="flex justify-center items-center py-8">
+                <span>OR</span>
+              </div>
+             <div className="mb-8">
+              <WithGoogle />
+             </div>
             </div>
           </div>
         </div>

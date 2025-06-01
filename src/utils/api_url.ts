@@ -8,6 +8,7 @@ export const upload_image_api = process.env.NEXT_PUBLIC_UPLOAD_IMAGE || 'https:/
 // client api
 
 export const register_api = main_url + '/client/auth/register'
+export const google_login_api = main_url + '/client/auth/google-login'
 export const user_verify_api = main_url + '/client/auth/user-verify'
 export const resend_otp_api = main_url + '/client/auth/resend-otp'
 export const login_api = main_url + '/client/auth/login'

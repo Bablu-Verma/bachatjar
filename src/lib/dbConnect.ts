@@ -7,6 +7,8 @@ interface Connection {
 
 const connection: Connection = {}; 
 
+// console.log("Connection string:", process.env.MONGODB_URI);
+
 async function dbConnect() {
     if (connection.isConnected) {
         // console.log('Database connection already established.');
