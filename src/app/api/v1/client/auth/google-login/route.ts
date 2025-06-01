@@ -43,7 +43,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
 
      const decoded = await admin.auth().verifyIdToken(google_token);
-    const { uid, email, name, picture } = decoded;
+    const {  email, name, picture } = decoded;
 
      if (!email) {
       return new NextResponse(
