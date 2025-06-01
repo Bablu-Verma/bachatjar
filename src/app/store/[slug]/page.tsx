@@ -41,7 +41,8 @@ const GetData = async (token: string, slug: string) => {
   }
 };
 
-const StoreDetail = async ({ params }: { params: { slug: string } }) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const StoreDetail = async ({ params }: any) => {
   const token = await getServerToken();
   const slug = params?.slug;
   const page_data = await GetData(token, slug);
