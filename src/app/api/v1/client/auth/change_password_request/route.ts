@@ -1,7 +1,7 @@
 
 import { changepassword_request_email } from "@/email/changepassword_request";
 import { generateJwtToken } from "@/helpers/server/server_function";
-import { authenticateAndValidateUser } from "@/lib/authenticate";
+
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/UserModel";
 

@@ -38,7 +38,7 @@ export async function POST(req: Request) {
           status: 400,
           headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "http://localhost:3000", // 🔥 Added
+            "Access-Control-Allow-Origin": "http://localhost:3000", 
           },
         }
       );
@@ -107,7 +107,7 @@ export async function POST(req: Request) {
         status: 500,
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "http://localhost:3000", // 🔥 Added
+          "Access-Control-Allow-Origin": "http://localhost:3000", 
         },
       }
     );
