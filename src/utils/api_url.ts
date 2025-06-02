@@ -46,6 +46,8 @@ export const withdraw_resend_otp_api = main_url + '/client/withdraw/resend-otp'
 export const withdraw_list_api = main_url + '/client/withdraw/list'
 export const claim_form_add_api = main_url + '/client/claim-form/add'
 export const create_share_link_api = main_url + '/client/order/create_share_link'
+export const change_password_request_api = main_url + '/client/auth/change_password_request'
+export const change_password_save_api = main_url + '/client/auth/change_password_save'
 
 
 

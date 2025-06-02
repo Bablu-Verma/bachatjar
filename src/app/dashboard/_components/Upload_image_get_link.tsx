@@ -51,6 +51,8 @@ const UploadImageGetLink = () => {
 
       toast.success("Image uploaded successfully");
 
+      console.log('data.responce',data.responce)
+
       setImgLink(data.responce.url);
     } catch (error) {
       if (axios.isAxiosError(error)) {

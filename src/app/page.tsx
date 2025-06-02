@@ -133,14 +133,6 @@ export default async function Home() {
             <HomeBlog blogs={page_data?.data.blog} />
           </div>
         )}
-
-        {page_data?.data.blog.length > 0 && (
-          <div className="py-7">
-            <MainHeading title="Read Our Blog" link="/blog" />
-            <HomeBlog blogs={page_data?.data.blog} />
-          </div>
-        )}
-
         <BottomToTop />
       </main>
 

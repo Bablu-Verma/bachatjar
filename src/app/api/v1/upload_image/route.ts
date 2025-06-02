@@ -9,6 +9,18 @@ export const config = {
   runtime: "nodejs",
 };
 
+// CORS ke liye OPTIONS method
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": "http://localhost:3000",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    },
+  });
+}
+
 export async function POST(req: Request) {
   await dbConnect();
 
@@ -26,12 +38,12 @@ export async function POST(req: Request) {
           status: 400,
           headers: {
             "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "http://localhost:3000", // 🔥 Added
           },
         }
       );
     }
-    
-    // Validate MIME type (you can add more types if needed)
+
     const validMimeTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
     if (!validMimeTypes.includes(image_.type)) {
       return new NextResponse(
@@ -41,19 +53,17 @@ export async function POST(req: Request) {
         }),
         {
           status: 400,
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "http://localhost:3000", // 🔥 Added
+          },
         }
       );
     }
 
-
     const buffer = Buffer.from(await image_.arrayBuffer());
 
-    // Compress and optimize image with sharp
     const optimizedBuffer = await sharp(buffer)
-      // Optional: resize image if too large
-      //.resize({ width: 1024 })
-      // Convert to jpeg and reduce quality to 70%
       .jpeg({ quality: 70 })
       .toBuffer();
 
@@ -65,7 +75,6 @@ export async function POST(req: Request) {
     const filename = `${timestamp}_${originalName}`;
     const filepath = path.join(targetDir, filename);
 
-    // Save optimized image
     await writeFile(filepath, optimizedBuffer);
 
     const imageUrl = `/img/${filename}`;
@@ -82,6 +91,7 @@ export async function POST(req: Request) {
         status: 200,
         headers: {
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "http://localhost:3000", // 🔥 Added
         },
       }
     );
@@ -97,6 +107,7 @@ export async function POST(req: Request) {
         status: 500,
         headers: {
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "http://localhost:3000", // 🔥 Added
         },
       }
     );

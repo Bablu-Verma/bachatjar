@@ -2,14 +2,39 @@
 
 import axios, { AxiosError } from "axios";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { jwtDecode } from "jwt-decode";
+
+import { change_password_save_api } from "@/utils/api_url";
+
+
 
 interface IUserData {
   re_enter_password: string;
   password: string;
 }
+
+interface Idecode {
+  email: string,
+  name: string,
+ 
+}
 const ChangePassword = () => {
+
+ const searchParams = useSearchParams();
+ const token = searchParams.get("token");
+
+ let decoded: Idecode | null = null;
+if (token) {
+  try {
+    decoded = jwtDecode<Idecode>(token);
+  } catch (err) {
+    console.error("Invalid token");
+  }
+}
+
   const [userData, setUserData] = useState<IUserData>({
     re_enter_password: "",
     password: "",
@@ -53,17 +78,25 @@ const ChangePassword = () => {
 
     call_db();
   };
+ 
+  
+  
+  
 
   const call_db = async () => {
+
+    console.log("user data ---",userData.password,)
+
     try {
       await axios.post(
-        "",
+        change_password_save_api,
         {
           password: userData.password,
         },
         {
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -74,7 +107,9 @@ const ChangePassword = () => {
       });
 
       // console.log("user login successfully:", data);
-      toast.success("Login success!");
+      toast.success("Password change success!, Login Now");
+
+
     } catch (error) {
       if (error instanceof AxiosError) {
         console.error("Error login user", error.response?.data.message);
@@ -99,14 +134,14 @@ const ChangePassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const name_ = 'Rohan'
+
 
   return (
     <div className="max-w-[1400px] m-auto min-h-screen pt-20">
       <div className="w-full max-w-[370px] m-auto border-[1px] border-gray-300 rounded-md p-6">
         <h2 className="text-2xl lg:text-3xl font-semibold mb-2 mt-4">Reset your password</h2>
         <p className="text-sm font-normal mb-10">
-        👋 Hi {name_}, Your account is safe
+        👋 Hi {decoded?.name}, Your account is safe
         </p>
 
         <div className="flex flex-col gap-4">

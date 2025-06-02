@@ -10,6 +10,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import forgatepassword_image from "../../../../public/forgatepassword.svg";
+import { change_password_request_api } from "@/utils/api_url";
 
 interface IUserData {
   email: string;
@@ -40,7 +41,7 @@ const ForgotPassword = () => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { data } = await axios.post(
-        "",
+       change_password_request_api,
         {
           email: userData.email,
         },
@@ -51,11 +52,7 @@ const ForgotPassword = () => {
         }
       );
 
-      setUserData({
-        email: "",
-      });
-
-      toast.success("Chack Your Register success!");
+      toast.success("Chack Your Register Email!");
     } catch (error) {
       if (error instanceof AxiosError) {
         console.error("Error login user", error.response?.data.message);
