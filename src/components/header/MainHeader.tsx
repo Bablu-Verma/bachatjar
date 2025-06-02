@@ -60,10 +60,10 @@ const MainHeader = () => {
         }`}
     >
       <div className="max-w-6xl m-auto py-1 flex justify-between items-center max-lg:px-4">
-        <Link href="/" className="py-1 inline-block">
+        <Link href="/" className="py-.5 inline-block">
           <Image
             src={logo}
-            className="w-[110px] lg:w-[120px] h-auto"
+            className="w-[110px] lg:w-[130px] h-auto"
             alt="logo"
           />
           {/* <h1 className="text-secondary py-2 text-3xl font-semibold tracking-wider">Bachat<span className="text-primary">Jar</span></h1> */}
