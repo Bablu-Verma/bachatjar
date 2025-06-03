@@ -33,6 +33,11 @@ html {
 
 }
 
+.scrollbar-hide{
+  scrollbar-width: none; 
+  -ms-overflow-style: none;
+}
+
 .loader_component {
   width: fit-content;
   font-weight: bold;

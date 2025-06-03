@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import CategorieCard from "../small_card/CategorieCard";
 import { ICategory } from "@/model/CategoryModel";
@@ -13,6 +13,19 @@ interface CategoryProps {
 
 const HomeCategories: React.FC<CategoryProps> = ({ category }) => {
   const [opendrawer, setOpendrawer] = useState(false);
+
+
+  useEffect(() => {
+    if (opendrawer) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [opendrawer]);
 
   return (
     <>
@@ -45,7 +58,7 @@ const HomeCategories: React.FC<CategoryProps> = ({ category }) => {
             </button>
 
             <MainHeading title="Browse category" link={null} />
-            <div className="pt-4 flex justify-start items-center flex-wrap gap-4">
+            <div className="pt-4 grid grid-cols-[repeat(auto-fit,_minmax(150px,1fr))] gap-4">
               {category &&
                 category.length > 0 &&
                 category.map((item, i) => (

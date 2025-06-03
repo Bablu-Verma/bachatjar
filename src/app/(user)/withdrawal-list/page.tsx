@@ -78,7 +78,7 @@ export default function OrderListPage() {
         <div className="max-w-6xl mx-auto px-4 mt-7 md:mt-10 mb-10">
           <h1 className="text-2xl font-bold mb-6">Withdrawal</h1>
 
-          <div className=" flex justify-start items-center gap-4 mb-6">
+          <div className=" flex justify-start items-center gap-4 mb-6 overflow-scroll scroll-smooth scrollbar-hide">
             <span className="text-sm text-nowrap text-secondary"> Status:</span>    {
               tab.map((item, i) => {
                 return (

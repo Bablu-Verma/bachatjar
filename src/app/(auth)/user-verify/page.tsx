@@ -134,9 +134,9 @@ const UserVerify = () => {
         <div className="max-w-6xl mx-auto min-h-screen flex justify-center items-center pb-10 md:pb-3">
          
         
-          <div className=" flex justify-center gap-10 items-center">
+          <div className=" lg:flex justify-center gap-10 items-center">
           <Image src={verifyotp_image} alt="login"  width={350} height={350} className=""/>
-            <div className="">
+            <div className="max-lg:text-center">  
               <h2 className="text-2xl lg:text-3xl font-semibold mb-2 mt-4">Verify Account</h2>
               <p className="text-sm font-normal mb-10 mt-2 text-gray-600">
                 <i className="fa-regular fa-envelope text-lg text-gray-600"></i>{" "}
@@ -146,7 +146,7 @@ const UserVerify = () => {
                 </span>
               </p>
 
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4 max-lg:items-center">
                 <OtpInput
                   value={otp}
                   onChange={handleOtpChange}
@@ -177,7 +177,7 @@ const UserVerify = () => {
               <div className="my-10">
                 <button
                   onClick={SubmitData}
-                  className="bg-primary text-white text-sm lg:text-base font-medium duration-800 p-1.5 min-w-36 lg:min-w-48 border-[1px] border-primary rounded shadow-sm hover:shadow-2xl"
+                  className="bg-primary text-white text-sm lg:text-base font-medium duration-800 p-1.5 min-w-36 w-full lg:min-w-48 border-[1px] border-primary rounded shadow-sm hover:shadow-2xl"
                 >
                   Submit
                 </button>

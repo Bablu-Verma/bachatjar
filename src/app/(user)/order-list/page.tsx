@@ -22,7 +22,7 @@ export default function OrderListPage() {
   const [sheet, setSheet] = useState({ show: false, details: {} as any });
   const token = useSelector((state: RootState) => state.user.token);
   // const user_data = useSelector((state: RootState) => state.user.user);
-  
+
   const [showPaymentHistory, setShowPaymentHistory] = useState(true);
   const [page, setPage] = useState(1)
   const [activeTab, setActiveTab] = useState('')
@@ -51,7 +51,7 @@ export default function OrderListPage() {
 
   useEffect(() => {
     get_order();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, activeTab]);
 
   const tab = [
@@ -84,7 +84,7 @@ export default function OrderListPage() {
         <div className="max-w-6xl mx-auto px-4 mt-7 md:mt-10 mb-10">
           <h1 className="text-2xl font-bold mb-6">My Orders</h1>
 
-          <div className=" flex justify-start items-center gap-4 mb-6">
+          <div className=" flex justify-start items-center gap-4 mb-6 overflow-scroll scroll-smooth scrollbar-hide">
             <span className="text-sm text-nowrap text-secondary">Payment Status:</span>    {
               tab.map((item, i) => {
                 return (
@@ -123,14 +123,18 @@ export default function OrderListPage() {
             </div>
           )}
         </div>
-        <div className="flex justify-center items-center py-10">
-          <button
-            onClick={() => setPage((prev) => prev + 1)}
-            className="text-sm py-2 px-8 transition-all duration-300 ease-in-out rounded-full border-2 border-primary hover:border-white text-white bg-primary"
-          >
-            More Order
-          </button>
-        </div>
+
+        {
+          orderList.length > 10 && <div className="flex justify-center items-center py-10">
+            <button
+              onClick={() => setPage((prev) => prev + 1)}
+              className="text-sm py-2 px-8 transition-all duration-300 ease-in-out rounded-full border-2 border-primary hover:border-white text-white bg-primary"
+            >
+              More Order
+            </button>
+          </div>
+        }
+
         <BottomToTop />
       </main>
       <Footer />
@@ -155,7 +159,7 @@ export default function OrderListPage() {
               <div className="flex mt-3 justify-between items-start">
                 <div>
                   <h1 className="flex gap-2 mb-1 text-lg capitalize text-primary items-center"><FaStoreAlt className="text-secondary" /> {sheet.details.store_id?.name} </h1>
-                
+
                   <h2><span className="text-sm mr-3 mb-1 inline-block">Payment Status</span><span className="text-secondary">{sheet.details.payment_status ? sheet.details.payment_status : '-'}</span></h2>
                   <h2><span className="text-sm mr-3 inline-block">Cashback Rate</span><span className="text-lg text-secondary">{`${sheet.details.cashback_type === 'PERCENTAGE' ? `${sheet.details.cashback_rate}%` : `₹${sheet.details.cashback_rate}`}`}</span></h2>
                 </div>
@@ -177,7 +181,7 @@ export default function OrderListPage() {
                     type="button"
                     className="text-sm cursor-pointer  text-blue-800  font-normal"
                     onClick={() => {
-                    
+
                       setShowPaymentHistory(true)
                     }}
                   >
@@ -187,7 +191,7 @@ export default function OrderListPage() {
                 )}
               </div>
 
-          
+
               {showPaymentHistory && (
                 <div className="overflow-x-auto mt-4">
                   <table className="min-w-full text-sm border">
@@ -199,7 +203,7 @@ export default function OrderListPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {sheet.details.payment_history.map((payment:any, idx:number) => (
+                      {sheet.details.payment_history.map((payment: any, idx: number) => (
                         <tr key={idx} className="hover:bg-green-50">
                           <td className="p-3 border-b">{payment.details || "-"}</td>
                           <td className="p-3 border-b">{formatDate(payment.date)}</td>
