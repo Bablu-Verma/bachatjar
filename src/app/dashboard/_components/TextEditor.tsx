@@ -168,7 +168,7 @@ const TiptapEditor: React.FC<{
 
       const formData = new FormData();
       formData.append("image", file);
-      formData.append("file_name", "editor_folder");
+     
 
       try {
         const { data } = await axios.post(upload_image_api, formData, {
@@ -177,8 +177,8 @@ const TiptapEditor: React.FC<{
             Authorization: `Bearer ${token}`,
           },
         });
-        if (data.responce.url) {
-          editor.chain().focus().setImage({ src: data.responce.url }).run();
+        if (data.url) {
+          editor.chain().focus().setImage({ src: data.url }).run();
         } else {
           alert("Failed to upload image");
         }

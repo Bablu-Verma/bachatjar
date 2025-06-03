@@ -3,11 +3,9 @@
 import BottomToTop from "@/components/BottomToTop";
 import Footer from "@/components/Footer";
 import MainHeader from "@/components/header/MainHeader";
-
-
 import { RootState } from "@/redux-store/redux_store";
-import { claim_form_add_api } from "@/utils/api_url";
-import { FaImage } from "react-icons/fa";
+import { claim_form_add_api, upload_image_api } from "@/utils/api_url";
+import { FaImage, FaSpinner } from "react-icons/fa";
 import axios, { AxiosError } from "axios";
 import { usePathname } from "next/navigation";
 import toast from "react-hot-toast";
@@ -31,8 +29,12 @@ export default function ClaimForm() {
     product_order_date: "",
     product_delever_date: "",
     order_value: "",
-    supporting_documents: [] as File[],
+    supporting_documents: [] as string[], 
   });
+
+  const [tempFiles, setTempFiles] = useState<File[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -43,107 +45,135 @@ export default function ClaimForm() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // For selecting file
   const handleAddImage = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const selectedFile = e.target.files[0];
-      setFormData((prev) => ({
-        ...prev,
-        supporting_documents: [...prev.supporting_documents, selectedFile],
-      }));
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) return;
+
+    const files = Array.from(e.target.files);
+    
+    // Validate number of files
+    if (tempFiles.length + files.length > 3) {
+      toast.error("You can upload a maximum of 3 images.");
+      return;
     }
+
+    // Validate file types
+    const validTypes = ["image/jpeg", "image/png", "image/webp"];
+    const invalidFiles = files.filter(file => !validTypes.includes(file.type));
+    if (invalidFiles.length > 0) {
+      toast.error("Only JPG, PNG, and WEBP images are allowed.");
+      return;
+    }
+
+    setTempFiles(prev => [...prev, ...files]);
   };
 
   const handleRemoveImage = (index: number) => {
-    setFormData((prev) => ({
-      ...prev,
-      supporting_documents: prev.supporting_documents.filter(
-        (_, i) => i !== index
-      ),
-    }));
+    setTempFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const uploadImages = async (files: File[]): Promise<string[]> => {
+    const uploadedUrls: string[] = [];
+    
+    for (const file of files) {
+      const formData = new FormData();
+      formData.append("image", file);
+
+      try {
+        const { data } = await axios.post(upload_image_api, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        uploadedUrls.push(data.url);
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        throw new Error("Failed to upload one or more images");
+      }
+    }
+    
+    return uploadedUrls;
   };
 
   const sendClaimForm = async () => {
+   
     const {
-        store_id,
-        transaction_id,
-        reason,
-        partner_site_orderid,
-        partner_site_order_status,
-        product_order_date,
-        order_value,
-        supporting_documents,
-      } = form_data;
+      store_id,
+      transaction_id,
+      reason,
+      partner_site_orderid,
+      partner_site_order_status,
+      product_order_date,
+      order_value,
+    } = form_data;
     
-      if (
-        !store_id ||
-        !transaction_id ||
-        !reason ||
-        !partner_site_orderid ||
-        !partner_site_order_status ||
-        !product_order_date ||
-        !order_value
-      ) {
-        toast.error("Please fill all fields before submitting.");
-        return;
-      }
+    if (
+      !store_id ||
+      !transaction_id ||
+      !reason ||
+      !partner_site_orderid ||
+      !partner_site_order_status ||
+      !product_order_date ||
+      !order_value
+    ) {
+      toast.error("Please fill all fields before submitting.");
+      return;
+    }
 
-      if (supporting_documents.length === 0) {
-        toast.error("Please upload at least one supporting document.");
-        return;
-      }
-    
-      if (supporting_documents.length > 3) {
-        toast.error("You can upload a maximum of 3 images.");
-        return;
-      }
+    if (tempFiles.length === 0) {
+      toast.error("Please upload at least one supporting document.");
+      return;
+    }
 
-    const body = new FormData();
-    body.append("store_id", form_data.store_id);
-    body.append("transaction_id", form_data.transaction_id);
-    body.append("reason", form_data.reason);
-    body.append("partner_site_orderid", form_data.partner_site_orderid);
-    body.append(
-      "partner_site_order_status",
-      form_data.partner_site_order_status
-    );
-    body.append("product_order_date", form_data.product_order_date);
-    body.append("product_delever_date", form_data.product_delever_date);
-    body.append("order_value", form_data.order_value);
-
-    form_data.supporting_documents.forEach((file) => {
-      body.append("supporting_documents", file);
-    });
+    setIsUploading(true);
 
     try {
-      const { data } = await axios.post(claim_form_add_api, body, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      
+      const imageUrls = await uploadImages(tempFiles);
+      
+     
+      setIsUploading(false);
+      setIsSubmitting(true);
+      
+      const response = await axios.post(
+        claim_form_add_api,
+        {
+          ...form_data,
+          supporting_documents: imageUrls,
         },
-      });
-      toast.success(data.message || "Claim submitted successfully!");
-      setTimeout(()=>{
-        window.location.reload()
-      },3000)
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast.success(response.data.message || "Claim submitted successfully!");
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
     } catch (error) {
+      setIsUploading(false);
+      setIsSubmitting(false);
+      
       if (error instanceof AxiosError) {
         console.error("Error ", error.response?.data.message);
-        toast.error(error.response?.data.message);
+        toast.error(error.response?.data.message || "Submission failed");
       } else {
         console.error("Unknown error", error);
+        toast.error("An error occurred while submitting the claim");
       }
     }
   };
 
   return (
     <>
-    
       <MainHeader />
       <main>
         <div className="max-w-2xl mx-auto p-8 bg-white my-10 rounded-lg">
@@ -225,30 +255,33 @@ export default function ClaimForm() {
            </div>
             </div>
             
-           
             <div>
               <input
                 type="file"
-                accept="image/*"
+                accept="image/jpeg, image/png, image/webp"
                 ref={fileInputRef}
                 onChange={handleFileChange}
                 className="hidden"
+                multiple
               />
 
               <button
                 type="button"
                 onClick={handleAddImage}
-                className=" border rounded-md p-2 w-full  py-2 px-4 flex justify-center items-center gap-3  hover:bg-gray-100 transition"
-              > <FaImage className="text-lg" />
+                disabled={isUploading || isSubmitting}
+                className="border rounded-md p-2 w-full py-2 px-4 flex justify-center items-center gap-3 hover:bg-gray-100 transition disabled:opacity-50"
+              >
+                <FaImage className="text-lg" />
                 <span>Add Image</span>
               </button>
+              <p className="text-xs text-gray-500 mt-1">Max 3 images (JPG, PNG, WEBP)</p>
             </div>
 
-            {/* File Upload */}
+            {/* Preview uploaded images */}
             <div>
-              {form_data.supporting_documents.length > 0 && (
+              {tempFiles.length > 0 && (
                 <div className="mt-4 grid grid-cols-2 lg:grid-cols-4 gap-4">
-                  {form_data.supporting_documents.map((file, index) => (
+                  {tempFiles.map((file, index) => (
                     <div key={index} className="relative">
                       <Image
                         src={URL.createObjectURL(file)}
@@ -262,24 +295,29 @@ export default function ClaimForm() {
                       <button
                         type="button"
                         onClick={() => handleRemoveImage(index)}
-                        className="absolute top-2 right-2 bg-red-500 flex justify-center items-center text-sm text-white rounded-full h-5 w-5 hover:text-secondary"
+                        disabled={isUploading || isSubmitting}
+                        className="absolute top-2 right-2 bg-red-500 flex justify-center items-center text-sm text-white rounded-full h-5 w-5 hover:text-secondary disabled:opacity-50"
                       >
-                       <IoMdClose className="text-base" />
+                        <IoMdClose className="text-base" />
                       </button>
                     </div>
                   ))}
                 </div>
               )}
             </div>
-<div className="flex justify-center items-center pt-5">
-<button
-              onClick={sendClaimForm}
-              className="bg-primary max-w-[250px] text-white py-2 px-12 rounded-md hover:text-secondary transition"
-            >
-              Submit Claim
-            </button>
-</div>
-           
+
+            <div className="flex justify-center items-center pt-5">
+              <button
+                onClick={sendClaimForm}
+                disabled={isUploading || isSubmitting || tempFiles.length === 0}
+                className="bg-primary max-w-[250px] text-white py-2 px-12 rounded-md hover:text-secondary transition flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                {(isUploading || isSubmitting) && (
+                  <FaSpinner className="animate-spin" />
+                )}
+                {isUploading ? "Uploading..." : isSubmitting ? "Submitting..." : "Submit Claim"}
+              </button>
+            </div>
           </div>
         </div>
         <BottomToTop />

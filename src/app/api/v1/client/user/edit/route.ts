@@ -26,15 +26,12 @@ export async function POST(req: Request) {
        }
 
    
-    const requestData = await req.formData();
+    const requestData = await req.json();
 
-    const name = requestData.get("name");
-    const profile = requestData.get("profile");
-    const phone = requestData.get("phone");
-    const dob = requestData.get("dob");
-    const gender = requestData.get("gender");
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const {name,profile,phone,dob,gender } = requestData
+    
+   // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updateFields: any = {};
 
     if (name) {
@@ -74,21 +71,7 @@ export async function POST(req: Request) {
       }
     }
 
-    if (profile instanceof File) {
-      // const { success, url } = await upload_image(
-      //   profile
-      // );
-
-      // if (success) {
-      //   // console.log("Image uploaded successfully:", url);
-      //   updateFields.profile = url;
-      // } else {
-      //   // console.error("Image upload failed:", message);
-      // }
-    } else {
-      console.error("Invalid profile value. Expected a File.");
-    }
-
+    if (profile) updateFields.profile = profile
     if (dob) updateFields.dob = dob;
     if (gender) updateFields.gender = gender;
 

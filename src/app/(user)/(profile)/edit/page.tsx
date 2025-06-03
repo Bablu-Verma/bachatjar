@@ -4,7 +4,7 @@ import { IUserAddress } from "@/common_type";
 import { IUser } from "@/model/UserModel";
 import { RootState } from "@/redux-store/redux_store";
 import { login } from "@/redux-store/slice/userSlice";
-import { edit_profile_api, edit_user_address_api, user_profile_api } from "@/utils/api_url";
+import { edit_profile_api, edit_user_address_api, upload_image_api, user_profile_api } from "@/utils/api_url";
 import axios, { AxiosError } from "axios";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
@@ -102,43 +102,65 @@ const ProfileEdit : React.FC= () => {
 
 
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
 
-    const fdata = new FormData();
-    fdata.append("name", formData.name);
-    fdata.append("phone", formData.phone);
-    fdata.append("dob", formData.dob.toISOString());
-    fdata.append("gender", formData.gender);
+  setLoading(true);
+
+  try {
+    let imageUrl = user?.profile || "";
+
+    // 1. Upload profile image (if selected)
     if (formData.profileImage) {
-      fdata.append("profile", formData.profileImage);
-    }
-    call_db(fdata);
-  };
+      const imageFormData = new FormData();
+      imageFormData.append("image", formData.profileImage);
 
-  const call_db = async (fdata: FormData) => {
-    // console.log("fdata_ client call", fdata);
-    setLoading(true);
-    try {
-      const { data } = await axios.post(edit_profile_api, fdata, {
+      const { data } = await axios.post(upload_image_api, imageFormData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       });
-      toast.success(data.message);
-      dispatch(login({ user: data.data, token: token || "" }));
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        console.error("Error login user", error.response?.data.message);
-        toast.error(error.response?.data.message);
-      } else {
-        console.error("Unknown error", error);
-      }
-    } finally {
-      setLoading(false);
+
+      imageUrl = data.url
     }
-  };
+
+    // 2. Save user profile details
+    const detailsPayload = {
+      name: formData.name,
+      phone: formData.phone,
+      dob: formData.dob.toISOString(),
+      gender: formData.gender,
+      profile: imageUrl, // new or old
+    };
+
+    const { data } = await axios.post(edit_profile_api, detailsPayload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    toast.success(data.message);
+    dispatch(login({ user: data.data, token: token || "" }));
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      console.error("Error:", error.response?.data?.message);
+      toast.error(error.response?.data?.message);
+    } else {
+      console.error("Unknown error", error);
+      toast.error("Something went wrong");
+    }
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+
+
+
+
+
 
   const handleCancel = () => {
     window.location.reload();

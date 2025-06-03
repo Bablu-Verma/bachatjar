@@ -15,7 +15,7 @@ const UploadImageGetLink = () => {
   const [imgLink, setImgLink] = useState("");
   const [loadings, setLoading] = useState(false);
 
-
+ 
 
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,14 +46,13 @@ const UploadImageGetLink = () => {
       const { data } = await axios.post(upload_image_api, formPayload, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       });
 
       toast.success("Image uploaded successfully");
 
-      console.log('data.responce',data.responce)
-
-      setImgLink(data.responce.url);
+      setImgLink(data.url);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data?.message || "An error occurred");

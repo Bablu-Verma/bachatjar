@@ -1,115 +1,103 @@
 import { NextResponse } from "next/server";
-import dbConnect from "@/lib/dbConnect";
-import { writeFile, mkdir } from "fs/promises";
 import path from "path";
+import { writeFile, mkdir } from "fs/promises";
 import sharp from "sharp";
+import type { NextRequest } from "next/server";
+import { authenticateAndValidateUser } from "@/lib/authenticate";
 
-// Use Node.js runtime explicitly
 export const config = {
-  runtime: "nodejs",
+  api: {
+    bodyParser: false,
+  },
 };
 
-// CORS ke liye OPTIONS method
+// CORS preflight
 export async function OPTIONS() {
   return new NextResponse(null, {
     status: 204,
     headers: {
-      "Access-Control-Allow-Origin": "http://localhost:3000",
+      "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
     },
   });
 }
 
-export async function POST(req: Request) {
-  await dbConnect();
+export async function POST(req: NextRequest) {
 
-  try {
-    const requestData = await req.formData();
-    const image_ = requestData.get("image");
+  const { authenticated, message } =
+    await authenticateAndValidateUser(req);
 
-    if (!image_ || !(image_ instanceof File)) {
-      return new NextResponse(
-        JSON.stringify({
-          success: false,
-          message: "A valid image file is required.",
-        }),
-        {
-          status: 400,
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "http://localhost:3000", 
-          },
-        }
-      );
-    }
-
-    const validMimeTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
-    if (!validMimeTypes.includes(image_.type)) {
-      return new NextResponse(
-        JSON.stringify({
-          success: false,
-          message: "Unsupported image format. Allowed: jpeg, png, webp, gif.",
-        }),
-        {
-          status: 400,
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "http://localhost:3000", // 🔥 Added
-          },
-        }
-      );
-    }
-
-    const buffer = Buffer.from(await image_.arrayBuffer());
-
-    const optimizedBuffer = await sharp(buffer)
-      .jpeg({ quality: 70 })
-      .toBuffer();
-
-    const targetDir = "/var/www/bachatjar/img";
-    await mkdir(targetDir, { recursive: true });
-
-    const timestamp = Date.now();
-    const originalName = image_.name.replace(/\s+/g, "_");
-    const filename = `${timestamp}_${originalName}`;
-    const filepath = path.join(targetDir, filename);
-
-    await writeFile(filepath, optimizedBuffer);
-
-    const imageUrl = `/img/${filename}`;
-
-    return new NextResponse(
-      JSON.stringify({
-        success: true,
-        message: "Your image was uploaded and optimized successfully.",
-        response: {
-          url: imageUrl,
-        },
-      }),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "http://localhost:3000", // 🔥 Added
-        },
-      }
-    );
-  } catch (error: unknown) {
-    console.error("Upload error:", error);
+  if (!authenticated) {
     return new NextResponse(
       JSON.stringify({
         success: false,
-        message: "Failed to upload image.",
-        error: error instanceof Error ? error.message : "Unknown error",
+        message: message || "User is not authenticated",
       }),
       {
-        status: 500,
+        status: 401,
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "http://localhost:3000", 
         },
       }
+    );
+  }
+
+  try {
+    const formData = await req.formData();
+    const file = formData.get("image") as File | null;
+
+    if (!file || file.size === 0) {
+      return NextResponse.json(
+        { success: false, message: "No image uploaded." },
+        { status: 400 }
+      );
+    }
+
+    const validMimeTypes = ["image/jpeg", "image/png", "image/webp", "image/avif", "image/gif"];
+    if (!validMimeTypes.includes(file.type)) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Unsupported image format. Allowed: jpeg, png, webp, gif.",
+        },
+        { status: 400 }
+      );
+    }
+
+    const buffer = Buffer.from(await file.arrayBuffer());
+
+    const optimizedBuffer = await sharp(buffer)
+      .resize({ width: 1920, height: 1080, fit: "inside", withoutEnlargement: true })
+      .jpeg({ quality: 70, progressive: true })
+      .toBuffer();
+
+    const timestamp = Date.now();
+    const originalName = path.parse(file.name).name.replace(/[^\w.-]/g, "_");
+    const filename = `${timestamp}_${originalName}.jpg`;
+
+    // const targetDir = path.join(process.cwd(), "public", "img");
+    const targetDir = '/var/www/bachatjar/img'
+    await mkdir(targetDir, { recursive: true });
+
+    const filepath = path.join(targetDir, filename);
+    await writeFile(filepath, optimizedBuffer);
+
+    return NextResponse.json({
+      success: true,
+      message: "Image uploaded successfully.",
+      url: `${process.env.IMAGE_URL}/img/${filename}`,
+    });
+
+  } catch (error: unknown) {
+    console.error("Upload error:", error);
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Failed to upload image.",
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 }
     );
   }
 }

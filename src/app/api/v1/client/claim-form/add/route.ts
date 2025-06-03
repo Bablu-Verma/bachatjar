@@ -3,39 +3,34 @@ import dbConnect from "@/lib/dbConnect";
 import { authenticateAndValidateUser } from "@/lib/authenticate";
 import ClaimFormModel from "@/model/ClaimForm";
 
-
 export async function POST(req: Request) {
   await dbConnect();
 
   try {
-   
     const { authenticated, user, message } = await authenticateAndValidateUser(req);
 
-    if (!authenticated) {
-      return new NextResponse(
-        JSON.stringify({
-          success: false,
-          message: message || "User is not authenticated",
-        }),
-        { status: 401, headers: { "Content-Type": "application/json" } }
+    if (!authenticated || !user) {
+      return NextResponse.json(
+        { success: false, message: message || "Authentication required" },
+        { status: 401 }
       );
     }
 
-    const formData = await req.formData();
+    const formData = await req.json();
 
-    const store_id = formData.get("store_id")?.toString();
-    const transaction_id = formData.get("transaction_id")?.toString();
-    const reason = formData.get("reason")?.toString();
-    const partner_site_orderid = formData.get("partner_site_orderid")?.toString();
-    const partner_site_order_status = formData.get("partner_site_order_status")?.toString();
-    const product_order_date = formData.get("product_order_date") ? new Date(formData.get("product_order_date")!.toString()) : undefined;
-    const product_delever_date_raw = formData.get("product_delever_date")?.toString();
-    const product_delever_date = product_delever_date_raw ? new Date(product_delever_date_raw) : null;
-    const order_value = formData.get("order_value") ? Number(formData.get("order_value")) : undefined;
+    const {
+      store_id,
+      transaction_id,
+      reason,
+      partner_site_orderid,
+      partner_site_order_status,
+      product_order_date,
+      product_delever_date,
+      order_value,
+      supporting_documents
+    } = formData;
 
-   
-    const supporting_documents = formData.getAll("supporting_documents");
-
+    // Validate required fields
     if (
       !store_id ||
       !transaction_id ||
@@ -43,61 +38,47 @@ export async function POST(req: Request) {
       !partner_site_orderid ||
       !partner_site_order_status ||
       !product_order_date ||
-      
       !order_value
     ) {
       return NextResponse.json(
-        { success: false, message: "All fields are required." },
+        { success: false, message: "All required fields must be provided" },
         { status: 400 }
       );
     }
 
-    if (!supporting_documents.length) {
-      return new NextResponse(
-        JSON.stringify({
-          success: false,
-          message: "At least one image is required.",
-        }),
-        {
-          status: 400,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+    // Validate at least one image is provided
+    if (!supporting_documents || supporting_documents.length === 0) {
+      return NextResponse.json(
+        { success: false, message: "At least one supporting document is required" },
+        { status: 400 }
       );
     }
 
-    const uploaded_urls: string[] = [];
+    // Validate all documents are URLs
+    const invalidDocuments = supporting_documents.filter(
+      (doc: string) => !doc.startsWith('http') && !doc.startsWith('/uploads/')
+    );
+    
+    if (invalidDocuments.length > 0) {
+      return NextResponse.json(
+        { success: false, message: "Invalid document format" },
+        { status: 400 }
+      );
+    }
 
-    // for (const image_ of supporting_documents) {
-    //   if (image_ instanceof File) {
-    //     const { success, message, url } = await upload_image(
-    //       image_,
-    //     );
-  
-    //     if (success && url) {
-    //       uploaded_urls.push(url);
-    //     } else {
-    //       console.error("Image upload failed:", message);
-    //     }
-    //   } else {
-    //     console.error("Invalid image value. Expected a File.");
-    //   }
-    // }
-
-
-    // Create Claim
+    // Create new claim
     const newClaim = new ClaimFormModel({
-      user_id: user?._id,
+      user_id: user._id,
       store_id,
       transaction_id,
       reason,
-      supporting_documents:uploaded_urls,
+      supporting_documents,
       partner_site_orderid,
       partner_site_order_status,
-      product_order_date,
-      product_delever_date:product_delever_date ?? null,
-      order_value,
+      product_order_date: new Date(product_order_date),
+      product_delever_date: product_delever_date ? new Date(product_delever_date) : null,
+      order_value: Number(order_value),
+      status: "PENDING"
     });
 
     await newClaim.save();
@@ -105,15 +86,20 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         success: true,
-        message: "Claim submitted successfully.",
-       
+        message: "Claim submitted successfully",
+        claimId: newClaim._id
       },
       { status: 201 }
     );
+
   } catch (error) {
     console.error("Error submitting claim:", error);
     return NextResponse.json(
-      { success: false, message: "Internal Server Error" },
+      { 
+        success: false, 
+        message: "Internal server error",
+        error: error instanceof Error ? error.message : "Unknown error"
+      },
       { status: 500 }
     );
   }
