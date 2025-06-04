@@ -1,7 +1,7 @@
 import BottomToTop from "@/components/BottomToTop";
 import Footer from "@/components/Footer";
 import MainHeader from "@/components/header/MainHeader";
-import Image from "next/image";
+
 import Link from "next/link";
 
 export default function AboutUs() {
@@ -16,11 +16,11 @@ export default function AboutUs() {
               </h1>
               <div className="text-gray-700 text-base space-y-3">
                 <p>
-                  <strong className="text-xl text-secondary ">Bachat <span className="text-primary">Jar</span></strong> is India’s rising cashback and savings platform, designed to help users earn up to <strong>100% cashback</strong> on their favorite online purchases. With a fast-growing user base, Bachat Jar is simplifying online savings for shoppers across the country.
+                  <strong className="text-xl text-secondary ">Bachat <span className="text-primary">Jar</span></strong> is India&apos;s rising cashback and savings platform, designed to help users earn up to <strong>100% cashback</strong> on their favorite online purchases. With a fast-growing user base, Bachat Jar is simplifying online savings for shoppers across the country.
                 </p>
 
                 <p>
-                  Founded in <strong>2025</strong>, Bachat Jar was built on one simple mission — make every online transaction more rewarding. Whether you're shopping for clothes, gadgets, groceries, or booking your next trip, you deserve more in return.
+                  Founded in <strong>2025</strong>, Bachat Jar was built on one simple mission — make every online transaction more rewarding. Whether you&apos;re shopping for clothes, gadgets, groceries, or booking your next trip, you deserve more in return.
                 </p>
 
                 <p>
@@ -36,7 +36,7 @@ export default function AboutUs() {
                 </p>
 
                 <p>
-                  Thank you for making Bachat Jar a part of your shopping journey. Let’s grow this savings revolution together.
+                  Thank you for making Bachat Jar a part of your shopping journey. Let&apos;s grow this savings revolution together.
                 </p>
               </div>
 
@@ -57,13 +57,3 @@ export default function AboutUs() {
     </>
   );
 }
-{/* <div className="flex justify-center md:justify-end">
-              <Image
-                src="https://i.imgur.com/1I4TPe5.jpeg"
-                alt="About Bachat Jar"
-                width={500}
-                height={500}
-                className="rounded-xl shadow-lg"
-                unoptimized
-              />
-            </div> */}
