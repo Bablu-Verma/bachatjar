@@ -22,7 +22,7 @@ const HowToWork = () => {
     },
   ];
   return (
-    <div className="max-w-6xl mx-auto px-2 sm:px-4 py-2 lg:py-6 gap-5 sm:gap-12 lg:gap-16  mt-8 flex justify-center flex-col sm:flex-row">
+    <div className="max-w-6xl mx-auto px-2 sm:px-4 py-2 lg:py-6 gap-5 sm:gap-12 lg:gap-16 flex justify-center flex-col sm:flex-row">
       <div className="flex justify-center items-center sm:text-start flex-col ">
         <p className="text-lg text-nowrap text-primary font-medium">Get Cashback in</p>
         <div className="flex items-center">

@@ -76,6 +76,11 @@ export default async function Home() {
           </div>
         )}
 
+
+        {
+          !token && <HowToWork />
+        }
+
         <div className="">
           <Deals best_product={page_data?.data} />
         </div>
@@ -97,10 +102,7 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className="py-7">
-          {/* <MainHeading title="How We are Work" link={null} /> */}
-          <HowToWork />
-        </div>
+
 
         {page_data?.data.premium_product.length > 0 && (
           <div className="py-7">

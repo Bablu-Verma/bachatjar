@@ -153,8 +153,8 @@ const Footer = () => {
           </h1>
           <h5>We help save your money</h5>
         </div>
-        <p className="text-sm font-medium text-gray-600 text-center">
-          <i className="fa-regular fa-copyright"></i> Copyright BachatJar 2025.
+        <p className="text-sm tracking-wide font-medium text-gray-600 text-center">
+          <i className="fa-regular  fa-copyright"></i> Copyright BachatJar 2025.
           All rights reserved.
         </p>
       </div>

@@ -10,8 +10,8 @@ export default function ContactUs() {
       <main>
         <div className="max-w-6xl mx-auto px-4 my-24  relative">
           <h1 className="text-3xl font-semibold text-center text-gray-800">Contact Us</h1>
-          <div className="grid grid-cols-4 gap-14 w-full mt-16">
-            <div className="col-span-1 pr-6">
+          <div className="md:grid grid-cols-4 gap-14 w-full mt-16">
+            <div className="col-span-1 pb-5 md:pb-0 md:pr-6">
               <div className="mb-6 border-b-2 pb-2">
                 <h2 className="text-xl font-semibold text-secondary capitalize mb-3">
                   <i className="fa-solid fa-phone text-primary mr-3"></i> Call to Us

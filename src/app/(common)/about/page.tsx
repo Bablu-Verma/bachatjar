@@ -2,7 +2,6 @@ import BottomToTop from "@/components/BottomToTop";
 import Footer from "@/components/Footer";
 import MainHeader from "@/components/header/MainHeader";
 import Image from "next/image";
-
 import Link from "next/link";
 
 export default function AboutUs() {
@@ -10,61 +9,61 @@ export default function AboutUs() {
     <>
       <MainHeader />
       <main>
-        <div className="max-w-6xl mx-auto px-4 my-24 relative">
-          <div className="grid grid-cols-2 gap-20 w-full mb-10 items-center">
-            <div>
-              <h1 className="text-3xl font-semibold mb-6 text-gray-800">
-                Our Story
+        <section className="max-w-6xl mx-auto px-4 py-24 relative">
+          <div>
+              <h1 className="text-4xl font-bold mb-6 text-gray-800">
+                About Us
               </h1>
-              <div>
-                <p className="text-sm font-normal mb-2">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                  non risus. Suspendisse lectus tortor, dignissim sit amet,
-                  adipiscing nec, ultricies sed, dolor. Cras elementum ultrices
-                  diam. Sed sit amet lectus quis est congue tempus.
+              <div className="text-gray-700 text-base space-y-3">
+                <p>
+                  <strong className="text-xl text-secondary ">Bachat <span className="text-primary">Jar</span></strong> is India’s rising cashback and savings platform, designed to help users earn up to <strong>100% cashback</strong> on their favorite online purchases. With a fast-growing user base, Bachat Jar is simplifying online savings for shoppers across the country.
                 </p>
-                <p className="text-sm font-normal mb-2">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                  non risus. Suspendisse lectus tortor, dignissim sit amet,
-                  adipiscing nec, ultricies sed, dolor. Cras elementum ultrices
-                  diam. Sed sit amet lectus quis est congue tempus.
+
+                <p>
+                  Founded in <strong>2025</strong>, Bachat Jar was built on one simple mission — make every online transaction more rewarding. Whether you're shopping for clothes, gadgets, groceries, or booking your next trip, you deserve more in return.
                 </p>
-                <p className="text-sm font-normal mb-2">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                  non risus. Suspendisse lectus tortor, dignissim sit amet,
-                  adipiscing nec, ultricies sed, dolor. Cras elementum ultrices
-                  diam. Sed sit amet lectus quis est congue tempus.
-                </p>{" "}
-                <p className="text-sm font-normal mb-2">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                  non risus. Suspendisse lectus tortor, dignissim sit amet,
-                  adipiscing nec, ultricies sed, dolor. Cras elementum ultrices
-                  diam. Sed sit amet lectus quis est congue tempus.
+
+                <p>
+                  Our partnerships with top Indian e-commerce platforms like Flipkart, Amazon, Myntra, and Ajio allow us to bring you verified cashback offers, exclusive promo codes, and the best deals — all in one place.
+                </p>
+
+                <p>
+                  With a secure tracking system and a transparent dashboard, we make it easy for you to track your orders and cashback earnings. Withdraw your cashback anytime via bank transfer, UPI, or digital wallets.
+                </p>
+
+                <p>
+                 Founder behind Bachat Jar, started the platform with the goal of transforming the way Indians save. With a background in e-commerce and a passion for innovation, he created Bachat Jar to ensure shoppers are always rewarded.
+                </p>
+
+                <p>
+                  Thank you for making Bachat Jar a part of your shopping journey. Let’s grow this savings revolution together.
                 </p>
               </div>
+
               <Link
                 href="/contact-us"
-                className="bg-primary text-white text-base font-medium duration-200 p-1.5 min-w-[150px] text-center border-[1px] mt-16 hover:ml-1 border-primary rounded shadow-sm hover:shadow-2xl inline-block"
+                className="inline-block mt-10 bg-primary text-white px-6 py-2 rounded shadow-md border border-primary transition hover:shadow-xl hover:ml-1 text-base font-medium"
               >
                 Contact Us
               </Link>
+
+            
+            
             </div>
-            <div>
-              <Image
-                src="https://i.imgur.com/1I4TPe5.jpeg"
-                alt="About Us"
-                height={500}
-                width={500}
-                className="w-full max-w-[500px]"
-                unoptimized
-              />
-            </div>
-          </div>
-       
-        </div>
+        </section>
         <BottomToTop />
       </main>
       <Footer />
     </>
   );
 }
+{/* <div className="flex justify-center md:justify-end">
+              <Image
+                src="https://i.imgur.com/1I4TPe5.jpeg"
+                alt="About Bachat Jar"
+                width={500}
+                height={500}
+                className="rounded-xl shadow-lg"
+                unoptimized
+              />
+            </div> */}
