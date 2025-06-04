@@ -53,7 +53,7 @@ const ProfileEdit = () => {
   
     useEffect(() => {
       getCBsummary();
-    }, [getCBsummary]);
+    }, []);
 
   return (
     <div className="p-4">

@@ -6,14 +6,19 @@ export const withdrawal_request_verify = async (otp: string, user_email: string)
   await email_transporter.sendMail({
     from: sender_email,
     to: user_email,
-    subject: "withdrawal Verifaction!",
+    subject: "Withdrawal Verification Code",
     text: `
-    Your withdrawal verification OTP is! ${otp}
+    Dear User,
 
-    Please enter this OTP to proceed with your withdrawal request.
+    Your One-Time Password (OTP) for withdrawal verification is: ${otp}
+
+    Please enter this OTP to proceed with your withdrawal request. For your security, do not share this code with anyone.
+
+    Best regards,  
+    Bachatjar.com Team
     `,
   })
-  // console.log(`Message sent`, info);
+
   } catch (error) {
     console.log(`error sent`, error);
   }
