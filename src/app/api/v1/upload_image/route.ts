@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       message: "Image uploaded successfully.",
-      url: `${process.env.IMAGE_URL}/img/${filename}`,
+      url: `${process.env.IMAGE_URL}/${filename}`,
     });
 
   } catch (error: unknown) {

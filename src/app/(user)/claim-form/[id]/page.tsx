@@ -126,6 +126,13 @@ export default function ClaimForm() {
       return;
     }
 
+
+    if (reason?.length < 10) {
+      toast.error("Reason must be at least 10 characters long");
+      return;
+    }
+
+
     if (tempFiles.length === 0) {
       toast.error("Please upload at least one supporting document.");
       return;

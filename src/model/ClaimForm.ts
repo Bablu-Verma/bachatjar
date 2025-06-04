@@ -41,7 +41,7 @@ const ClaimFormSchema = new Schema<IClaimForm>(
     reason: {
       type: String,
       required: true,
-      minlength: [10, "Reason must be at least 10 characters long"],
+     
     },
     supporting_documents: {
       type: [String],
