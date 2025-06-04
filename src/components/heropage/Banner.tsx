@@ -9,6 +9,7 @@ import "swiper/css/pagination";
 
 import Link from "next/link";
 import { ICampaign } from "@/model/CampaignModel";
+import Image from "next/image";
 
 interface BannerProps {
   banner:ICampaign[]
@@ -35,8 +36,9 @@ const Banner:React.FC<BannerProps> = ({banner}) => {
           <SwiperSlide key={i}>
             <Link href={item.slug_type === 'INTERNAL' ? `/campaign/${item?.product_slug}` : item.redirect_url}
               className="relative h-48 lg:h-60 rounded bg-cover bg-center block mx-2"
-              style={{ backgroundImage: `url(${item.main_banner[0].image})` }}
-            ></Link>
+            >
+              <Image sizes="(max-width: 1100px) 100vw, (max-width: 1200px) 50vw, 33vw" className="w-full h-auto" src={item.main_banner[0].image} alt="" width={900} height={400} />
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>

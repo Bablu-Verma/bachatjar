@@ -12,16 +12,19 @@ export const changepassword_request_email = async (
       from: sender_email,
       to: user_email,
       subject: "Reset Password Link",
-      text: `
-          Hi ${name},
+     text: `
+        Hi ${name},
 
-          You requested to reset your password.
+        We received a request to reset your password.
 
-          Click the link below to proceed:
-          ${resetLink}
+        To proceed, please click the link below:
+        ${resetLink}
 
-          If you did not request this, please ignore this email.
-      `,
+        If you did not request a password reset, please ignore this email or contact our support team.
+
+        Best regards,  
+        Bachatjar.com Support Team
+        `
     });
     // console.log(`Message sent`, info);
   } catch (error) {

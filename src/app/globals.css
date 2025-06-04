@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --light-color: #ffffff;
-  --main-color: #ff5722;
+  --light-color: hsl(0, 0%, 100%);
+  --main-color: #CC2B52;
   --secondary-color: #0f1336;
   --dark-color: #212121;
   --gray-light-color: #f2f2f2;
@@ -15,7 +15,7 @@ html {
 }
 
 .home_banner_ .swiper-pagination-bullet-active {
-  background-color: #ff5722 !important; 
+  background-color: #CC2B52 !important; 
 }
 
 .verify_input{
@@ -43,13 +43,13 @@ html {
   font-weight: bold;
   font-family: monospace;
   font-size: 30px;
-  background: radial-gradient(circle closest-side,var(--dark-color) 94%,#0000) right/calc(200% - 1em) 100%;
+  background: radial-gradient(circle closest-side,var(--main-color) 94%,#0000) right/calc(200% - 1em) 100%;
   animation: loder_ 1s infinite alternate linear;
 }
 .loader_component::before {
   content: "Loading...";
   line-height: 1em;
-  color: #0000;
+  color: var(--dark-color);
   background: inherit;
   background-image: radial-gradient(circle closest-side,#fff 94%,var(--dark-color));
   -webkit-background-clip:text;
