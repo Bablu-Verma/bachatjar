@@ -12,11 +12,15 @@ import Link from "next/link";
 
 const fetchData = async () => {
   try {
-    const { data } = await axios.post(get_All_blogs, {}, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const { data } = await axios.post(
+      get_All_blogs,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     if (!data.success) {
       throw new Error("Failed to fetch data");
     }
@@ -36,7 +40,7 @@ const AllBlog = async () => {
     title: "No Featured Blog",
     short_desc: "",
     slug: "#",
-    image: ["/placeholder.jpg"], // Use a placeholder image if needed
+    image: ["/placeholder.jpg"],
   };
   const category = fetchBlogData?.category || [];
 

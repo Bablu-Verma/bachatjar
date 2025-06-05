@@ -11,7 +11,6 @@ interface CardProp {
 const ProductCard: React.FC<CardProp> = ({ card_data }) => {
   const timeAgo = getTimeAgo(card_data.createdAt ?? new Date());
 
-
   return (
     <Link
       href={
@@ -22,7 +21,7 @@ const ProductCard: React.FC<CardProp> = ({ card_data }) => {
       className="shadow-box_shadow_color hover:shadow-box_shadow_hover hover:translate-y-[-6px] bg-white overflow-hidden rounded-lg relative duration-200 border-[1px] border-transparent hover:border-gray-100 hover:border-[1px]  group"
     >
       {card_data?.product_tags && card_data.product_tags.includes("new") ? (
-        <span className="absolute top-2 left-2 bg-green-600 py-[1px] px-5 text-[12px] rounded-md shadow-md text-white font-medium z-10 select-none"> 
+        <span className="absolute top-2 left-2 bg-green-600 py-[1px] px-5 text-[12px] rounded-md shadow-md text-white font-medium z-10 select-none">
           New
         </span>
       ) : card_data?.product_tags && card_data.product_tags.includes("hot") ? (
@@ -36,18 +35,18 @@ const ProductCard: React.FC<CardProp> = ({ card_data }) => {
           className="w-full  h-[150px] rounded-t-md"
           height={200}
           width={200}
-          alt="shose"
+          alt={card_data?.title}
         />
       </div>
 
-      <div className="p-3 pt-0">
-        <div className="flex justify-between item-center">
-          <span className="capitalize font-normal text-xs text-gray-500">
-            {/* <i className="fa-solid fa-store mr-1"></i> */}
-            <i className="fa-solid fa-shop mr-1"></i>
+      <div className="p-2 pt-0">
+        <div className="flex justify-between item-center gap-2">
+          <span className="capitalize font-normal text-xs text-gray-500 whitespace-nowrap text-ellipsis overflow-hidden">
+            <i className="fa-solid fa-store mr-1"></i>
+            {/* <i className="fa-solid fa-shop mr-1"></i> */}
             {card_data?.store.name}
           </span>
-          <span className="capitalize font-normal text-xs text-gray-500">
+          <span className="capitalize font-normal text-xs text-gray-500  whitespace-nowrap text-ellipsis overflow-hidden">
             <i className="fa-regular fa-clock mr-1"></i>
             {timeAgo}
           </span>

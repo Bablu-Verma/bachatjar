@@ -62,7 +62,7 @@ async function scrapeAmazon(): Promise<Product[]> {
     const realPrice = details.real_price ? el.find(details.real_price).text().trim() : null;
 
 
-   let productId = extractAmazonProductId(link);
+   const productId = extractAmazonProductId(link);
 
     if (title && price && image) {
       return [
@@ -77,26 +77,29 @@ async function scrapeAmazon(): Promise<Product[]> {
         },
       ];
     }
-  } catch (error: any) {
-    console.error(`❌ Error scraping ${details.source} (${details.url}):`, error.message || error);
+  } catch (error: unknown) {
+  if (error instanceof Error) {
+    console.error(`❌ Error scraping ${details.source} (${details.url}):`, error.message);
+  } else {
+    console.error(`❌ Unknown error scraping ${details.source} (${details.url}):`, error);
   }
-
+}
   // 🔁 Always return an array, even if empty
   return [];
 }
 
 
-// Flipkart scraper
-async function scrapeFlipkart(): Promise<Product[]> {
-  // Flipkart specific scraping logic here
-  return [];  // products from flipkart
-}
+// // Flipkart scraper
+// async function scrapeFlipkart(): Promise<Product[]> {
+//   // Flipkart specific scraping logic here
+//   return [];  // products from flipkart
+// }
 
-// Snapdeal scraper
-async function scrapeSnapdeal(): Promise<Product[]> {
-  // Snapdeal specific scraping logic here
-  return [];  // products from snapdeal
-}
+// // Snapdeal scraper
+// async function scrapeSnapdeal(): Promise<Product[]> {
+//   // Snapdeal specific scraping logic here
+//   return [];  // products from snapdeal
+// }
 
 // Main function
 async function scrapeAllStores(): Promise<Product[]> {

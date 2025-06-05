@@ -76,12 +76,9 @@ export default async function Home() {
           </div>
         )}
 
+        {!token && <HowToWork />}
 
-        {
-          !token && <HowToWork />
-        }
-
-        <div className="">
+        <div>
           <Deals best_product={page_data?.data} />
         </div>
 
@@ -102,8 +99,6 @@ export default async function Home() {
           </div>
         </div>
 
-
-
         {page_data?.data.premium_product.length > 0 && (
           <div className="py-7">
             <MainHeading title="New Arrival" link={null} />
@@ -114,7 +109,7 @@ export default async function Home() {
         <div className="py-7">
           <MainHeading title="New Coupon" link="/coupons" />
           <div className="max-w-6xl relative px-2 m-auto mt-2 lg:mt-8 mb-16">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 lg:gap-5 mt-2 lg:mt-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 lg:gap-5 mt-2 lg:mt-6">
               {page_data?.data.coupon.map((item: ICoupon, i: number) => (
                 <CouponcodeCard item={item} key={i} />
               ))}
