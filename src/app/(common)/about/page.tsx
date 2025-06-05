@@ -18,11 +18,11 @@ export default function AboutUs() {
               </h1>
               <div className="text-gray-700 text-base space-y-3">
                 <p>
-                  <strong className="text-xl text-secondary ">Bachat <span className="text-primary">Jar</span></strong> is India’s rising cashback and savings platform, designed to help users earn up to <strong>100% cashback</strong> on their favorite online purchases. With a fast-growing user base, Bachat Jar is simplifying online savings for shoppers across the country.
+                  <strong className="text-xl text-secondary ">Bachat <span className="text-primary">Jar</span></strong> is India&apos;s rising cashback and savings platform, designed to help users earn up to <strong>100% cashback</strong> on their favorite online purchases. With a fast-growing user base, Bachat Jar is simplifying online savings for shoppers across the country.
                 </p>
 
                 <p>
-                  Founded in <strong>2025</strong>, Bachat Jar was built on one simple mission — make every online transaction more rewarding. Whether you're shopping for clothes, gadgets, groceries, or booking your next trip, you deserve more in return.
+                  Founded in <strong>2025</strong>, Bachat Jar was built on one simple mission — make every online transaction more rewarding. Whether you&apos;re shopping for clothes, gadgets, groceries, or booking your next trip, you deserve more in return.
                 </p>
 
                 <p>

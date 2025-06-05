@@ -14,6 +14,7 @@ import { RootState } from "@/redux-store/redux_store";
 import { get_All_blogs } from "@/utils/api_url";
 import axios, { AxiosError } from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
+import SimpleLoader from "@/components/SimpleLoader";
 
 interface CBProps {
   blog: IBlog[];
@@ -26,10 +27,13 @@ const ClientBlog: React.FC<CBProps> = ({ blog, category }) => {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [page, setPage] = useState(1);
   const [bloglist, setBloglist] = useState<IBlog[]>(blog);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [hasMore, setHasMore] = useState<boolean>(true);
 
   const token = useSelector((state: RootState) => state.user.token);
 
-  const getCblogs = async (page: number, acategory: string | null = '') => {
+  const getCblogs = async (page: number, acategory: string | null = "") => {
+    setLoading(true);
     try {
       const { data } = await axios.post(
         get_All_blogs,
@@ -42,16 +46,21 @@ const ClientBlog: React.FC<CBProps> = ({ blog, category }) => {
         }
       );
       if (page === 1) {
-        setBloglist(data.data.blogs);  // new category selected → replace blogs
+        setBloglist(data.data.blogs); // new category selected → replace blogs
       } else {
-        setBloglist(prev => [...prev, ...data.data.blogs]); // load more → append
+        setBloglist((prev) => [...prev, ...data.data.blogs]); // load more → append
       }
+      if (!data.data.blogs || data.data.blogs.length === 0) setHasMore(false);
+      else setHasMore(true);
     } catch (error) {
       if (error instanceof AxiosError) {
         console.error("Error fetching blogs:", error.response?.data.message);
       } else {
         console.error("Unknown error", error);
       }
+      setHasMore(false);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -78,20 +87,22 @@ const ClientBlog: React.FC<CBProps> = ({ blog, category }) => {
     <>
       {/* Category Selector */}
       <div className="px-2.5 py-8 ">
-        {
-          category && category.length > 0 && <Swiper
+        {category && category.length > 0 && (
+          <Swiper
             spaceBetween={14}
             slidesPerView={4}
             breakpoints={{
               768: {
                 slidesPerView: 5,
               },
-             
             }}
           >
             {category.slice(0, 5).map((item, i) => (
               <SwiperSlide key={i}>
-                <div key={i} className="flex flex-col items-center justify-center">
+                <div
+                  key={i}
+                  className="flex flex-col items-center justify-center"
+                >
                   <button
                     onClick={() => handleCategoryClick(item._id.toString())}
                     className="rounded-full border-4 border-primary duration-200 ease-in-out hover:border-gray-400 cursor-pointer"
@@ -119,16 +130,13 @@ const ClientBlog: React.FC<CBProps> = ({ blog, category }) => {
                 >
                   <HiDotsHorizontal className="text-gray-600 text-3xl md:text-4xl" />
                 </button>
-                <h4 className="text-center text-lg text-secondary capitalize">See all</h4>
+                <h4 className="text-center text-lg text-secondary capitalize">
+                  See all
+                </h4>
               </div>
             </SwiperSlide>
           </Swiper>
-        }
-
-
-
-
-
+        )}
       </div>
 
       {/* Blog List */}
@@ -142,12 +150,19 @@ const ClientBlog: React.FC<CBProps> = ({ blog, category }) => {
 
         {/* Load More */}
         <div className="flex justify-center items-center pt-10">
-          <button
-            onClick={() => setPage(prev => prev + 1)}
-            className="text-sm py-2 px-8 transition-all duration-300 ease-in-out rounded-full border-2 border-primary text-white bg-primary"
-          >
-            More Blogs
-          </button>
+          {bloglist.length >= 10 ? (
+            hasMore ? (
+              <button
+                onClick={() => setPage((prev) => prev + 1)}
+                className="text-sm py-2 px-8 transition-all duration-300 ease-in-out rounded-full border-2 border-primary text-white bg-primary flex items-center gap-2"
+                disabled={loading}
+              >
+                {loading ? <SimpleLoader /> : "More Blogs"}
+              </button>
+            ) : (
+              <span className="text-gray-500 text-sm">No more blogs</span>
+            )
+          ) : null}
         </div>
       </div>
 
