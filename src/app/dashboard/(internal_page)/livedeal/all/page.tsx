@@ -68,6 +68,7 @@ const CategoryList = () => {
     });
   };
 
+  
   const delete_deal = async (item: string) => {
     try {
       const { data } = await axios.post(

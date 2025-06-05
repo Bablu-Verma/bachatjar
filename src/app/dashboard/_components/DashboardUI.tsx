@@ -70,13 +70,7 @@ const DashboardUI: React.FC<LayoutProps> = ({ children1 }) => {
       icon: "fas fa-tachometer-alt",
       roles: ["admin"], 
     },
-    {
-      id: 5,
-      name: "Live Deal Store",
-      url: "/dashboard/liverdeal-store",
-      icon: "fas fa-tachometer-alt",
-      roles: ["admin"], 
-    },
+   
     {
       id: 6,
       name: "Add Category",

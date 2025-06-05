@@ -90,17 +90,16 @@ export const bank_upi_admin_list_api = main_url + '/dashboard/bank/upi-list'
 export const order_list_admin_api = main_url + '/dashboard/order/list'
 export const order_edit_admin_api = main_url + '/dashboard/order/edit'
 export const order_detals_admin_api = main_url + '/dashboard/order/detail'
-export const scraper_live_deal_admin_api = main_url + '/dashboard/crawler'
-export const scraper_store_add_admin_api = main_url + '/dashboard/crawler-partner/add'
-export const scraper_store_list_admin_api = main_url + '/dashboard/crawler-partner/list'
-export const scraper_store_delete_admin_api = main_url + '/dashboard/crawler-partner/delete'
+
+
+
 export const withdrwal_list_admin_api = main_url + '/dashboard/withdrawal/list'
 export const withdrwal_editstatus_admin_api = main_url + '/dashboard/withdrawal/edit'
 export const withdrwal_request_details_admin_api = main_url + '/dashboard/withdrawal/details'
-export const live_deal_add_admin_api = main_url + '/dashboard/crawler/add'
-export const live_deal_list_admin_api = main_url + '/dashboard/crawler/list'
-export const live_dealdeleteone_list_admin_api = main_url + '/dashboard/crawler/deleteonedeal'
-export const live_dealdeletemany_list_admin_api = main_url + '/dashboard/crawler/deletemanydeal'
+export const live_deal_add_admin_api = main_url + '/dashboard/livedeal/add'
+export const live_deal_list_admin_api = main_url + '/dashboard/livedeal/list'
+export const live_dealdeleteone_list_admin_api = main_url + '/dashboard/livedeal/deleteonedeal'
+
 
 
 export const claim_form_list_api = main_url + '/dashboard/claim-form/list'
