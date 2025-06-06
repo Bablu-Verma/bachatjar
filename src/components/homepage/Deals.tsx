@@ -107,8 +107,8 @@ const Deals: React.FC<DealsProps> = ({ best_product }) => {
       </div>
 
       <div className="flex justify-center items-center pt-10">
-        {((openTab === "hot_deals" && deals.length >= 2) ||
-          (openTab === "live_offer" && liveDeal.length >= 2)) ? (
+        {((openTab === "hot_deals" && deals.length >= 10) ||
+          (openTab === "live_offer" && liveDeal.length >= 10)) ? (
           hasMore ? (
             <button
               onClick={() => {

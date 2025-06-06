@@ -16,6 +16,7 @@ import Image from "next/image";
 import login_image from "../../../../public/login_image.svg";
 import { setSummary } from "@/redux-store/slice/cashbackSummary";
 import WithGoogle from "@/components/ContinueWithGoogle";
+import { setClientCookie } from "@/helpers/client/client_function";
 
 interface IUserData {
   email: string;
@@ -83,6 +84,8 @@ const Login = () => {
 
       dispatch(login({ user: data.user, token: data.token }));
       dispatch(setSummary({ summary: data.summary }));
+      setClientCookie("token", data.token, 60 * 24 * 15);
+      setClientCookie("user", JSON.stringify(data.user), 60 * 24 * 15);
 
       setTimeout(() => {
         window.location.href = "/";
@@ -179,7 +182,7 @@ const Login = () => {
                   Forgot password?
                 </Link>
               </div>
-           
+
               <p className="text-sm mt-8 font-thin text-center">
                 I don&apos;t have an account?
                 <Link
@@ -190,12 +193,12 @@ const Login = () => {
                   SignUp{" "}
                 </Link>
               </p>
-                 <div className="flex justify-center items-center py-8">
+              <div className="flex justify-center items-center py-8">
                 <span>OR</span>
               </div>
-             <div className="mb-8">
-              <WithGoogle />
-             </div>
+              <div className="mb-8">
+                <WithGoogle />
+              </div>
             </div>
           </div>
         </div>
