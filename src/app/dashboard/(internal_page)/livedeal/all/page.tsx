@@ -211,7 +211,7 @@ const CategoryList = () => {
                     <span className="text-gray-800">{item.source}</span>
                   </td>
                   <td className="px-6 py-4">
-                    <span className="text-gray-800 ">{item.client_id}</span>
+                    <span className="text-gray-800 ">{item.affiliate_url}</span>
                   </td>
                   <td className="px-6 py-4">
                     <button

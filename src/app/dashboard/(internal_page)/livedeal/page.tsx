@@ -19,7 +19,7 @@ const LiveDeal = () => {
     title: '',
     price: "",
     source: "",
-    client_id: '',
+    affiliate_url: '',
     image: "",
     real_price: '',
   });
@@ -163,7 +163,7 @@ const LiveDeal = () => {
               <input
                 type="text"
                 name="client_id"
-                value={formData.client_id}
+                value={formData.affiliate_url}
                 onChange={handleInputChange}
                 placeholder="redirect url / commition url"
                 className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"

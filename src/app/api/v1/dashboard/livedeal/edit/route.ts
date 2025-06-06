@@ -31,12 +31,12 @@ export async function POST(req: Request) {
       title,
       price,
       source,
-      client_id,
+      affiliate_url,
       image,
       real_price,
     } = body;
 
-    if (!_id || !title || !price || !source || !client_id || !image) {
+    if (!_id || !title || !price || !source || !affiliate_url || !image) {
       return new NextResponse(
         JSON.stringify({ success: false, message: "Missing required fields" }),
         { status: 400, headers: { "Content-Type": "application/json" } }
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
         title,
         price,
         source,
-        client_id,
+        affiliate_url,
         image,
         real_price,
       },

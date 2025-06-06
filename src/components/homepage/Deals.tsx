@@ -140,7 +140,7 @@ const LiveDealCard = ({ item }: any) => {
   const timeAgo = getTimeAgo(item.createdAt ?? new Date());
   return (
     <Link
-      href={item.client_id}
+      href={item.affiliate_url}
       target="_blank"
       className="shadow-box_shadow_color hover:shadow-box_shadow_hover hover:translate-y-[-6px] bg-white overflow-hidden rounded-lg relative duration-200 border-[1px] border-transparent hover:border-gray-100 hover:border-[1px]  group"
     >

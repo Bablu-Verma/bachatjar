@@ -42,7 +42,7 @@ export async function POST(req: Request) {
       title,
       price,
       source,
-      client_id,
+      affiliate_url,
       image,
       real_price,
     } = body;
@@ -52,7 +52,7 @@ export async function POST(req: Request) {
       !title ||
       !price ||
       !source ||
-      !client_id ||
+      !affiliate_url ||
       !image 
     ) {
       return new NextResponse(
@@ -67,7 +67,7 @@ export async function POST(req: Request) {
       price,
       source,
       create_date: new Date(),
-      client_id,
+      affiliate_url,
       image,
       real_price,
     });

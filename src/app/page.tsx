@@ -20,6 +20,11 @@ import { ICoupon } from "@/model/CouponModel";
 import { IStore } from "@/model/StoreModel";
 import { home_api } from "@/utils/api_url";
 import axios, { AxiosError } from "axios";
+import Image from "next/image";
+import chat_icon from "../../public/chat.png"
+
+
+
 
 const GetData = async (token: string) => {
   try {
@@ -48,10 +53,19 @@ export default async function Home() {
     return <div>Error fetching data</div>;
   }
 
+  // const allProducts = await scrapeAllStores();
+
+
+
+
   return (
     <>
       <MainHeader />
       <CallApiInHome />
+      
+      <a target="_blank" href={`https://wa.me/91${process.env.NEXT_PUBLIC_NUMBER}`} className='fixed bottom-28 right-3 opacity-70 hover:opacity-100  cursor-pointer duration-300'>
+        <Image src={chat_icon} alt="Chatt icon" height={62} width={62} />
+      </a>
 
       <Hero
         home_store={page_data?.data.store}

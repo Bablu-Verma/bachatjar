@@ -5,9 +5,9 @@ export interface ILiveDeal extends Document {
     price: string;
     source: string;
     image: string;
-    client_id: string;
-    create_date: Date;
     real_price?: string | null;
+    affiliate_url: string;
+    create_date: Date;
 }
 
 const LiveDealSchema = new Schema<ILiveDeal>(
@@ -16,7 +16,7 @@ const LiveDealSchema = new Schema<ILiveDeal>(
         price: { type: String, required: true },
         source: { type: String, required: true },
         image: { type: String, required: true },
-        client_id: { type: String, required: true },
+        affiliate_url: { type: String, required: true },
         create_date: { type: Date, required: true, default: Date.now },
         real_price: { type: String, required: false, default: null },
     },
