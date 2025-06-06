@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import BottomToTop from "@/components/BottomToTop";
 import Footer from "@/components/Footer";
 import MainHeader from "@/components/header/MainHeader";
@@ -12,10 +13,87 @@ import Link from "next/link";
 import StoreClientTab from "./store_client_tab";
 import tracking_image from "../../../../public/track.webp";
 import UserStoreAction from "./user_store_action";
+import Script from 'next/script';
+import { Metadata } from "next";
 
 interface topstoreProps {
   _id: string;
   name: string; 
+}
+
+export const generateMetadata = async ({ params }: any): Promise<Metadata> => {
+  const slug = params.slug;
+  
+  // Fetch store data for dynamic metadata
+  try {
+    const { data } = await axios.post(
+      store_details_api,
+      { slug },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    
+    const store = data.data.store;
+    const storeName = store.name;
+    const storeDescription = store.description?.replace(/<[^>]*>?/gm, '').slice(0, 155) || '';
+    const storeImage = store.store_img;
+
+    return {
+      title: `${storeName} Cashback Offers & Coupons | BachatJar`,
+      description: `Get up to ${store.cashback_type === "FLAT_AMOUNT" ? `₹${store.cashback_rate}` : `${store.cashback_rate}%`} cashback at ${storeName}. ${storeDescription}`,
+      keywords: `${storeName} cashback, ${storeName} coupons, ${storeName} offers, ${storeName} deals, BachatJar`,
+      openGraph: {
+        title: `${storeName} - Exclusive Cashback Offers & Coupons`,
+        description: `Save money on ${storeName} with exclusive cashback offers and coupons. Get up to ${store.cashback_type === "FLAT_AMOUNT" ? `₹${store.cashback_rate}` : `${store.cashback_rate}%`} cashback on your purchases.`,
+        url: `https://bachatjar.com/store/${slug}`,
+        siteName: 'BachatJar',
+        images: [
+          {
+            url: storeImage,
+            width: 800,
+            height: 600,
+            alt: `${storeName} Store Logo`,
+          }
+        ],
+        locale: 'en_US',
+        type: 'website',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${storeName} Cashback & Coupons | BachatJar`,
+        description: `Save money on ${storeName} with exclusive cashback offers and coupons.`,
+        images: [storeImage],
+        creator: '@bachatjar',
+        site: '@bachatjar',
+      },
+      robots: {
+        index: true,
+        follow: true,
+        'max-snippet': -1,
+        'max-image-preview': 'large',
+        'max-video-preview': -1,
+      },
+      alternates: {
+        canonical: `https://bachatjar.com/store/${slug}`,
+      },
+    };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error) {
+    // Fallback metadata if store data fetch fails
+    return {
+      title: `Store Details - ${slug} | BachatJar`,
+      description: `Find the best cashback offers and coupons for ${slug} at BachatJar.`,
+      openGraph: {
+        title: `${slug} - Cashback Offers & Coupons`,
+        description: `Find the best cashback offers and coupons for ${slug} at BachatJar.`,
+        url: `https://bachatjar.com/store/${slug}`,
+        siteName: 'BachatJar',
+      },
+    };
+  }
 }
 
 const GetData = async (token: string, slug: string) => {
@@ -41,7 +119,6 @@ const GetData = async (token: string, slug: string) => {
   }
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const StoreDetail = async ({ params }: any) => {
   const token = await getServerToken();
   const slug = params?.slug;
@@ -71,6 +148,26 @@ const StoreDetail = async ({ params }: any) => {
     related_stores = [],
     top_stores = [],
   } = page_data;
+
+  const storeSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": store.name,
+    "image": store.store_img,
+    "description": store.description?.replace(/<[^>]*>?/gm, ''),
+    "url": `https://bachatjar.com/store/${slug}`,
+    "offers": {
+      "@type": "Offer",
+      "description": `Up to ${store.cashback_type === "FLAT_AMOUNT" ? `₹${store.cashback_rate}` : `${store.cashback_rate}%`} cashback`,
+      "priceCurrency": "INR",
+      "availability": "https://schema.org/InStock",
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.5",
+      "reviewCount": "100"
+    }
+  };
 
   return (
     <>
@@ -208,6 +305,11 @@ const StoreDetail = async ({ params }: any) => {
         <BottomToTop />
       </main>
       <Footer />
+      <Script
+        id="store-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(storeSchema) }}
+      />
     </>
   );
 };

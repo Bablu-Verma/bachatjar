@@ -1,8 +1,47 @@
-
 import BottomToTop from "@/components/BottomToTop";
 import Footer from "@/components/Footer";
 import MainHeader from "@/components/header/MainHeader";
 import Faq_client from "./faq_client";
+import { Metadata } from 'next';
+import Script from 'next/script';
+
+export const metadata: Metadata = {
+  title: 'Frequently Asked Questions (FAQ) | BachatJar',
+  description: 'Find answers to common questions about BachatJar cashback, how to earn and withdraw money, tracking orders, and more.',
+  keywords: 'BachatJar FAQ, cashback questions, how to earn cashback, withdrawal process, online shopping help',
+  openGraph: {
+    title: 'BachatJar FAQ - Get Help with Cashback & Shopping',
+    description: 'Find answers to your questions about earning and withdrawing cashback, shopping through BachatJar, and more.',
+    url: 'https://bachatjar.com/faq',
+    siteName: 'BachatJar',
+    images: [
+      {
+        url: '/faq-og.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'BachatJar FAQ',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'BachatJar FAQ - Cashback Help & Support',
+    description: 'Get answers to frequently asked questions about BachatJar cashback and shopping.',
+    images: ['/faq-twitter.jpg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    'max-snippet': -1,
+    'max-image-preview': 'large',
+    'max-video-preview': -1,
+  },
+  alternates: {
+    canonical: 'https://bachatjar.com/faq',
+  },
+};
 
 const faq_question = [
   {
@@ -111,8 +150,52 @@ const faq_question = [
 
 
 export default function FAQ() {
+  // Create FAQ schema
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faq_question.map(faq => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer
+      }
+    }))
+  };
+
+  // Create breadcrumb schema
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://bachatjar.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "FAQ",
+        "item": "https://bachatjar.com/faq"
+      }
+    ]
+  };
+
   return (
     <>
+      <Script
+        id="faq-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <Script
+        id="breadcrumb-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <MainHeader />
       <main>
         <div className="max-w-6xl mx-auto px-4 my-24 relative">

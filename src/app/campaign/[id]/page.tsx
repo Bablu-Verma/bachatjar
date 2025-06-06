@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import BottomToTop from "@/components/BottomToTop";
 import Footer from "@/components/Footer";
 import MainHeader from "@/components/header/MainHeader";
 import Image from "next/image";
 import React from "react";
+import { Metadata } from 'next';
+import Script from 'next/script';
 
 import { getServerToken } from "@/helpers/server/server_function";
 import axios, { AxiosError } from "axios";
@@ -43,7 +46,59 @@ import Link from "next/link";
   }
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function generateMetadata({ params }: any): Promise<Metadata> {
+  const token = await getServerToken();
+  const pageData = await GetData(token, params.id);
+
+  if (!pageData) {
+    return {
+      title: 'Product Not Found | BachatJar',
+      description: 'The requested product could not be found.',
+    };
+  }
+
+  const { product } = pageData;
+  const description = product.description?.replace(/<[^>]*>?/gm, '').slice(0, 155) || '';
+
+  return {
+    title: `${product.title} | ${product.store.name} - BachatJar`,
+    description: `${description} Get ₹${product.calculated_cashback} cashback on this deal.`,
+    keywords: `${product.store.name}, cashback offers, deals, online shopping, ${product.title}, BachatJar`,
+    openGraph: {
+      title: product.title,
+      description: description,
+      url: `https://bachatjar.com/campaign/${params.id}`,
+      siteName: 'BachatJar',
+      images: [
+        {
+          url: product.product_img || 'https://i.imgur.com/AZoKCRT.png',
+          width: 800,
+          height: 600,
+          alt: product.title,
+        }
+      ],
+      locale: 'en_US',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${product.title} - ${product.store.name}`,
+      description: description,
+      images: [product.product_img || 'https://i.imgur.com/AZoKCRT.png'],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      'max-snippet': -1,
+      'max-image-preview': 'large',
+      'max-video-preview': -1,
+    },
+    alternates: {
+      canonical: `https://bachatjar.com/campaign/${params.id}`,
+    },
+  };
+}
+
 const CampaignDetail = async ({ params }: any) => {
   const token = await getServerToken();
 
@@ -56,8 +111,46 @@ const CampaignDetail = async ({ params }: any) => {
 
   const { product } = page_data;
 
+  // Create product schema
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": product.title,
+    "description": product.description?.replace(/<[^>]*>?/gm, ''),
+    "image": product.product_img || 'https://i.imgur.com/AZoKCRT.png',
+    "url": `https://bachatjar.com/campaign/${params.id}`,
+    "brand": {
+      "@type": "Brand",
+      "name": product.store.name,
+      "logo": product.store.store_img
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": product.offer_price,
+      "priceCurrency": "INR",
+      "availability": "https://schema.org/InStock",
+      "seller": {
+        "@type": "Organization",
+        "name": product.store.name,
+        "image": product.store.store_img
+      },
+      "priceValidUntil": product.flash_sale?.[0]?.end_time || new Date().toISOString(),
+      "itemCondition": "https://schema.org/NewCondition"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.5",
+      "reviewCount": "100"
+    }
+  };
+
   return (
     <>
+      <Script
+        id="product-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
       <MainHeader />
       <main className="">
         <section className="max-w-6xl mx-auto mt-6 sm:mt-14 mb-16 p-2 xl:p-0">

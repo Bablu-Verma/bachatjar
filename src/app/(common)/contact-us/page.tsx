@@ -2,10 +2,106 @@ import BottomToTop from "@/components/BottomToTop";
 import Footer from "@/components/Footer";
 import MainHeader from "@/components/header/MainHeader";
 import ContactForm from "./_contact_form";
+import { Metadata } from 'next';
+import Script from 'next/script';
+
+export const metadata: Metadata = {
+  title: 'Contact Us - Get Support | BachatJar',
+  description: 'Get in touch with BachatJar support team. We\'re available 24/7 to help you with cashback, shopping queries, and technical support.',
+  keywords: 'contact BachatJar, customer support, help, customer service, support email, contact form',
+  openGraph: {
+    title: 'Contact BachatJar Support',
+    description: 'Need help? Contact our 24/7 support team for assistance with your cashback and shopping queries.',
+    url: 'https://bachatjar.com/contact-us',
+    siteName: 'BachatJar',
+    images: [
+      {
+        url: '/contact-og.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Contact BachatJar Support',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Contact BachatJar Support',
+    description: 'Get help from our 24/7 support team.',
+    images: ['/contact-twitter.jpg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    'max-snippet': -1,
+    'max-image-preview': 'large',
+    'max-video-preview': -1,
+  },
+  alternates: {
+    canonical: 'https://bachatjar.com/contact-us',
+  },
+};
 
 export default function ContactUs() {
+  // Create organization contact schema
+  const contactSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "BachatJar",
+    "url": "https://bachatjar.com",
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "telephone": "+91 857657567",
+        "contactType": "customer service",
+        "email": "customer@help.com",
+        "areaServed": "IN",
+        "availableLanguage": ["English", "Hindi"]
+      }
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "123 Main St",
+      "addressLocality": "New York",
+      "addressRegion": "NY",
+      "postalCode": "10001",
+      "addressCountry": "US"
+    }
+  };
+
+  // Create breadcrumb schema
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://bachatjar.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Contact Us",
+        "item": "https://bachatjar.com/contact-us"
+      }
+    ]
+  };
+
   return (
     <>
+      <Script
+        id="contact-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(contactSchema) }}
+      />
+      <Script
+        id="breadcrumb-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <MainHeader />
       <main>
         <div className="max-w-6xl mx-auto px-4 my-24  relative">

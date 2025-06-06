@@ -20,6 +20,55 @@ import { ICoupon } from "@/model/CouponModel";
 import { IStore } from "@/model/StoreModel";
 import { home_api } from "@/utils/api_url";
 import axios, { AxiosError } from "axios";
+import { Metadata } from 'next';
+import Script from 'next/script';
+
+export const metadata: Metadata = {
+  title: 'BachatJar - Save Money With Cashback & Coupons',
+  description: 'Discover the best cashback offers, coupons, and deals. Save money on your online shopping with BachatJar - Your trusted cashback and coupons platform.',
+  keywords: 'cashback, coupons, deals, online shopping, discounts, savings, BachatJar',
+  openGraph: {
+    title: 'BachatJar - Save Money With Cashback & Coupons',
+    description: 'Get cashback, exclusive coupons, and best deals for your online shopping with BachatJar.',
+    url: 'https://bachatjar.com',
+    siteName: 'BachatJar',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'BachatJar - Save Money With Cashback & Coupons',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'BachatJar - Save Money With Cashback & Coupons',
+    description: 'Get cashback, exclusive coupons, and best deals for your online shopping with BachatJar.',
+    images: ['/twitter-image.jpg'], 
+    creator: '@bachatjar',
+    site: '@bachatjar',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: 'cODByDz2q86NuNp7VN0zYzoJCHxGy6MNuhft7D9Jk0w',
+  },
+  alternates: {
+    canonical: 'https://bachatjar.com',
+  },
+};
 
 const GetData = async (token: string) => {
   try {
@@ -40,6 +89,45 @@ const GetData = async (token: string) => {
   }
 };
 
+const homePageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "BachatJar",
+  "url": "https://bachatjar.com",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://bachatjar.com/search?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  },
+  "sameAs": [
+    "https://facebook.com/bachatjar",
+    "https://twitter.com/bachatjar",
+    "https://instagram.com/bachatjar",
+    "https://linkedin.com/company/bachatjar"
+  ]
+};
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "BachatJar",
+  "url": "https://bachatjar.com",
+  "logo": "https://bachatjar.com/logo.png",
+  "description": "BachatJar helps you save money with cashback offers, coupons, and exclusive deals on online shopping.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "IN"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer support",
+    "email": "support@bachatjar.com"
+  }
+};
+
 export default async function Home() {
   const token = await getServerToken();
   const page_data = await GetData(token);
@@ -48,8 +136,41 @@ export default async function Home() {
     return <div>Error fetching data</div>;
   }
 
+  // Create dynamic offers schema based on deals
+  const offersSchema = {
+    "@context": "https://schema.org",
+    "@type": "OfferCatalog",
+    "name": "BachatJar Deals and Offers",
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    "itemListElement": page_data?.data.best_product.slice(0, 10).map((product: any) => ({
+      "@type": "Offer",
+      "name": product.title,
+      "description": product.description,
+      "price": product.sale_price || product.price,
+      "priceCurrency": "INR",
+      "availability": "https://schema.org/InStock",
+      "url": `https://bachatjar.com/product/${product.slug}`
+    }))
+  };
+
   return (
     <>
+      <Script
+        id="schema-website"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homePageSchema) }}
+      />
+      <Script
+        id="schema-organization"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <Script
+        id="schema-offers"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(offersSchema) }}
+      />
+      
       <MainHeader />
       <CallApiInHome />
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import BottomToTop from "@/components/BottomToTop";
 import Footer from "@/components/Footer";
 import MainHeader from "@/components/header/MainHeader";
@@ -9,6 +10,8 @@ import Link from "next/link";
 import styles from "./blog_page.module.css";
 import React from "react";
 import TableOfContents from "./TableOfContents";
+import { Metadata } from 'next';
+import Script from 'next/script';
 
 const GetData = async (token: string, slug: string) => {
   try {
@@ -36,14 +39,121 @@ const GetData = async (token: string, slug: string) => {
   }
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// Add generateMetadata function for dynamic SEO
+export async function generateMetadata({ params }: any): Promise<Metadata> {
+  const token = await getServerToken();
+  const pageData = await GetData(token, params.slug);
+
+  if (!pageData) {
+    return {
+      title: 'Blog Post Not Found | BachatJar',
+      description: 'The requested blog post could not be found.',
+    };
+  }
+
+  const { blog } = pageData;
+  const description = blog.short_desc?.replace(/<[^>]*>?/gm, '').slice(0, 155) || '';
+
+  return {
+    title: `${blog.title} | BachatJar Blog`,
+    description,
+    keywords: `${blog.blog_type}, shopping tips, cashback guides, BachatJar blog`,
+    openGraph: {
+      title: blog.title,
+      description,
+      url: `https://bachatjar.com/blog/${params.slug}`,
+      siteName: 'BachatJar',
+      images: [
+        {
+          url: blog.image[0],
+          width: 1200,
+          height: 630,
+          alt: blog.title,
+        }
+      ],
+      locale: 'en_US',
+      type: 'article',
+      publishedTime: blog.createdAt,
+      modifiedTime: blog.updatedAt,
+      authors: [blog.writer_id.email],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: blog.title,
+      description,
+      images: [blog.image[0]],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      'max-snippet': -1,
+      'max-image-preview': 'large',
+      'max-video-preview': -1,
+    },
+    alternates: {
+      canonical: `https://bachatjar.com/blog/${params.slug}`,
+    },
+  };
+}
+
 const BlogDetail = async ({ params }: any) => {
   const token = await getServerToken();
-  const awaitslug = await params;
-  const slug = awaitslug.slug;
-
-  const page_data = await GetData(token, slug);
+  const page_data = await GetData(token, params.slug);
   const { blog, relatedblogs } = page_data;
+
+  // Create article schema
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": blog.title,
+    "description": blog.short_desc?.replace(/<[^>]*>?/gm, ''),
+    "image": blog.image[0],
+    "datePublished": blog.createdAt,
+    "dateModified": blog.updatedAt,
+    "author": {
+      "@type": "Person",
+      "name": blog.writer_id.email
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "BachatJar",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://bachatjar.com/logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://bachatjar.com/blog/${params.slug}`
+    },
+    "articleBody": blog.desc?.replace(/<[^>]*>?/gm, '')
+  };
+
+  // Create breadcrumb schema
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://bachatjar.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://bachatjar.com/blog"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": blog.title,
+        "item": `https://bachatjar.com/blog/${params.slug}`
+      }
+    ]
+  };
 
   const formate_date = (item: string) => {
     const create_d = new Date(item);
@@ -52,6 +162,16 @@ const BlogDetail = async ({ params }: any) => {
 
   return (
     <>
+      <Script
+        id="article-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <Script
+        id="breadcrumb-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <MainHeader />
       <main className="">
         <section className="max-w-6xl mx-auto  mt-6 sm:mt-14 mb-16 p-2 xl:p-0">
