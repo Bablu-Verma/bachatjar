@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const dynamic = "force-dynamic";
 
 import BottomToTop from "@/components/BottomToTop";
@@ -9,6 +10,50 @@ import axios from "axios";
 import { get_All_blogs } from "@/utils/api_url";
 import ClientBlog from "./_clientblog";
 import Link from "next/link";
+import { Metadata } from "next";
+import Script from "next/script";
+
+export const metadata: Metadata = {
+  title: "Blog - Shopping Tips & Cashback Guides | BachatJar",
+  description:
+    "Discover shopping tips, cashback guides, and money-saving advice. Stay updated with the latest deals and offers through BachatJar blog.",
+  keywords:
+    "shopping blog, cashback guides, money saving tips, online shopping advice, BachatJar blog",
+  openGraph: {
+    title: "BachatJar Blog - Shopping Tips & Cashback Guides",
+    description:
+      "Get expert shopping tips, cashback guides, and money-saving advice from BachatJar.",
+    url: "https://bachatjar.com/blog",
+    siteName: "BachatJar",
+    images: [
+      {
+        url: "/blog-og.jpg",
+        width: 1200,
+        height: 630,
+        alt: "BachatJar Blog",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Shopping Tips & Cashback Guides | BachatJar Blog",
+    description:
+      "Expert shopping tips and cashback guides to help you save more.",
+    images: ["/blog-twitter.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    "max-snippet": -1,
+    "max-image-preview": "large",
+    "max-video-preview": -1,
+  },
+  alternates: {
+    canonical: "https://bachatjar.com/blog",
+  },
+};
 
 const fetchData = async () => {
   try {
@@ -44,8 +89,83 @@ const AllBlog = async () => {
   };
   const category = fetchBlogData?.category || [];
 
+  // Create blog list schema
+  const blogListSchema = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: "BachatJar Blog",
+    description: "Shopping tips, cashback guides, and money-saving advice",
+    url: "https://bachatjar.com/blog",
+    publisher: {
+      "@type": "Organization",
+      name: "BachatJar",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://bachatjar.com/logo.png",
+      },
+    },
+    blogPost: [
+      {
+        "@type": "BlogPosting",
+        headline: f_blog.title,
+        description: f_blog.short_desc?.replace(/<[^>]*>?/gm, ""),
+        image: f_blog.image[0],
+        url: `https://bachatjar.com/blog/${f_blog.slug}`,
+        datePublished: f_blog.createdAt,
+        dateModified: f_blog.updatedAt,
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": `https://bachatjar.com/blog/${f_blog.slug}`,
+        },
+      },
+      ...blogs.map((blog: any) => ({
+        "@type": "BlogPosting",
+        headline: blog.title,
+        description: blog.short_desc?.replace(/<[^>]*>?/gm, ""),
+        image: blog.image[0],
+        url: `https://bachatjar.com/blog/${blog.slug}`,
+        datePublished: blog.createdAt,
+        dateModified: blog.updatedAt,
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": `https://bachatjar.com/blog/${blog.slug}`,
+        },
+      })),
+    ],
+  };
+
+  // Create breadcrumb schema
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://bachatjar.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Blog",
+        item: "https://bachatjar.com/blog",
+      },
+    ],
+  };
+
   return (
     <>
+      <Script
+        id="blog-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogListSchema) }}
+      />
+      <Script
+        id="breadcrumb-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <MainHeader />
       <main className="pt-3">
         <section className="max-w-6xl mx-auto mb-5 p-2 xl:p-0">

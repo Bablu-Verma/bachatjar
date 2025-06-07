@@ -2,6 +2,8 @@ import { getTimeAgo } from "@/helpers/client/client_function";
 import { ICampaign } from "@/model/CampaignModel";
 import Image from "next/image";
 import Link from "next/link";
+
+
 import React from "react";
 
 interface CardProp {
@@ -9,15 +11,19 @@ interface CardProp {
 }
 
 const ProductCard: React.FC<CardProp> = ({ card_data }) => {
+
   const timeAgo = getTimeAgo(card_data.createdAt ?? new Date());
+  
+
 
   return (
     <Link
       href={
         card_data.slug_type === "INTERNAL"
           ? `/campaign/${card_data?.product_slug}`
-          : card_data?.store?.slug
+          : card_data?.store?.store_link
       }
+      target={card_data.slug_type !== "INTERNAL" ? '_blank' : '_self'}
       className="shadow-box_shadow_color hover:shadow-box_shadow_hover hover:translate-y-[-6px] bg-white overflow-hidden rounded-lg relative duration-200 border-[1px] border-transparent hover:border-gray-100 hover:border-[1px]  group"
     >
       {card_data?.product_tags && card_data.product_tags.includes("new") ? (

@@ -35,52 +35,31 @@ const EditProduct = () => {
 
   const [form_data, setForm_data] = useState<IClintCampaign>({
     title: "",
-    product_id: 0,
-    actual_price: 0,
-    store: "",
-    category: "",
-    product_img: '',
-    product_tags: [],
-    long_poster: [
-      {
-        is_active: false,
-        image: "",
-      },
-    ],
-    main_banner: [
-      {
-        is_active: false,
-        image: "",
-      },
-    ],
-
-    premium_product: [
-      {
-        is_active: false,
-        image: "",
-      },
-    ],
-
-    flash_sale: [
-      {
-        is_active: false,
-        image: "",
-        end_time: null,
-      },
-    ],
-    slug_type: "INTERNAL" as "INTERNAL" | "EXTERNAL",
-    meta_title: "",
-    meta_description: "",
-    meta_keywords: [],
-    meta_robots: "index, follow" as "index, follow" | "noindex, nofollow",
-    canonical_url: "",
-    structured_data: "{}",
-    og_image: "",
-    og_title: "",
-    og_description: "",
-    product_status: "ACTIVE" as "ACTIVE" | "PAUSE",
-  });
-
+   actual_price: 0,
+   offer_price: undefined, // add conditionally
+   store: "",
+   category: "",
+   product_img: "",
+   product_tags: [],
+   long_poster: [{ is_active: false, image: "" }],
+   main_banner: [{ is_active: false, image: "" }],
+   premium_product: [{ is_active: false, image: "" }],
+   flash_sale: [{ is_active: false, image: "", end_time: null }],
+   slug_type: "INTERNAL",
+   meta_title: "",
+   meta_description: "",
+   meta_keywords: [],
+   meta_robots: "index, follow",
+   canonical_url: "",
+   structured_data: "{}",
+   og_image: "",
+   og_title: "",
+   og_description: "",
+   product_status: "ACTIVE",
+   description: "",
+   t_and_c: "",
+   });
+ 
 
   const urlslug = pathname.split("/").pop() || "";
 
@@ -120,12 +99,13 @@ const EditProduct = () => {
 
   useEffect(() => {
     if (productDetails) {
+      
       setForm_data({
         title: productDetails.title || "",
-        product_id: Number(productDetails._id) || 0,
+        offer_price: productDetails.offer_price || 0,
         actual_price: productDetails.actual_price || 0,
-        store: typeof productDetails.store === "string" ? productDetails.store : "",
-        category: typeof productDetails.category === "string" ? productDetails.category : "",
+        store:productDetails.store._id.toString() ,
+        category: productDetails.category._id.toString(),
         product_img: productDetails.product_img || '',
         product_tags: productDetails.product_tags || [],
         long_poster: productDetails.long_poster || [
@@ -209,21 +189,7 @@ const EditProduct = () => {
       setLoading(true);
 
       const requiredFields = [
-        "title",
-        "actual_price",
-        "store",
-        "category",
-        "product_img",
-        "product_tags",
-        "slug_type",
-        "meta_title",
-        "meta_description",
-        "meta_keywords",
-        "product_status",
-        "og_title",
-        "og_image",
-        "og_description",
-        "canonical_url",
+        "title", "actual_price", "store", "category", "product_img", "product_status"
       ];
 
       const missingFields = requiredFields.filter(
@@ -236,21 +202,12 @@ const EditProduct = () => {
         setLoading(false);
         return;
       }
-      if (!editorContent.trim()) {
-        toast.error("Description is required.");
-        setLoading(false);
-        return;
-      }
-      if (!editorT_and_c.trim()) {
-        toast.error("T and C is required.");
-        setLoading(false);
-        return;
-      }
+     
 
-      // Clone form data
+     
       const formPayload = {
         ...form_data,
-        product_id:productDetails?._id,
+        _id:productDetails?._id,
         description: editorContent,
         t_and_c: editorT_and_c,
       };
@@ -278,7 +235,6 @@ const EditProduct = () => {
       setLoading(false);
     }
   };
-
 
 
   return (
@@ -385,24 +341,24 @@ const EditProduct = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
               />
             </div>
-
-            <div className="">
-            <label
-              htmlFor="images"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Product Images
-            </label>
+ <div>
+              <label
+                htmlFor="offer_price"
+                className="block text-sm font-medium text-gray-700"
+              >
+                offer_price (if NON_INSENTIVE)*
+              </label>
               <input
-                type="text"
-                id="images"
-                placeholder="add your image link"
-                name="product_img"
-                value={form_data.product_img}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
+                type="number"
+                id="offer_price"
+                name="offer_price"
+                value={form_data.offer_price}
                 onChange={handleChange}
+                placeholder="Enter Actual product price"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
               />
             </div>
+           
            
           </div>
          
@@ -428,28 +384,24 @@ const EditProduct = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
               />
             </div>
-
-            <div>
-              <label
-                htmlFor="slug_type"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Slug type
-              </label>
-              <select
-                id="slug_type"
-                name="slug_type"
-                value={form_data.slug_type}
-                onChange={handleChange}
+ <div className="">
+            <label
+              htmlFor="images"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Product Images
+            </label>
+              <input
+                type="text"
+                id="images"
+                placeholder="add your image link"
+                name="product_img"
+                value={form_data.product_img}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-              >
-                <option value="" disabled selected>
-                  slug_type
-                </option>
-                <option value="INTERNAL">INTERNAL</option>
-                <option value="EXTERNAL">EXTERNAL</option>
-              </select>
+                onChange={handleChange}
+              />
             </div>
+           
           </div>
 
           <div className="grid grid-cols-2 gap-5">
@@ -737,6 +689,27 @@ const EditProduct = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-5">
+             <div>
+              <label
+                htmlFor="slug_type"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Slug type
+              </label>
+              <select
+                id="slug_type"
+                name="slug_type"
+                value={form_data.slug_type}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
+              >
+                <option value="" disabled selected>
+                  slug_type
+                </option>
+                <option value="INTERNAL">INTERNAL</option>
+                <option value="EXTERNAL">EXTERNAL</option>
+              </select>
+            </div>
             <div>
               <label
                 htmlFor="product_status"
@@ -813,12 +786,12 @@ const EditProduct = () => {
               <input
                 type="text"
                 name="meta_keywords"
-                value={form_data.meta_keywords.join(", ")}
+               value={(form_data.meta_keywords || []).join(", ")}
                 onChange={(e) =>
                   setForm_data({
                     ...form_data,
-                    meta_keywords: e.target.value.split(","),
-                  })
+                    meta_keywords: e.target.value.split(",").map((kw) => kw.trim()),
+                    })
                 }
                 placeholder="Product meta_keywords (comma separated)"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "

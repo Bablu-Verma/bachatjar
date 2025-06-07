@@ -19,7 +19,7 @@ const CategoryList = () => {
   const [totalpage, setTotalPage] = useState(1);
   const [filters, setFilters] = useState({
     search: "",
-    cashback_status: "",
+    store_type: "",
     cashback_type: "",
     store_id: "",
     store_status: "ACTIVE",
@@ -113,14 +113,14 @@ const CategoryList = () => {
           </select>
 
           <select
-            name="cashback_status"
-            value={filters.cashback_status}
+            name="store_type"
+            value={filters.store_type}
             onChange={handleFilterChange}
             className="border p-2 rounded-md h-9 text-sm outline-none "
           >
-            <option disabled>cashback_status</option>
-            <option value="ACTIVE_CASHBACK">ACTIVE_CASHBACK</option>
-            <option value="INACTIVE_CASHBACK">INACTIVE_CASHBACK</option>
+            <option disabled>store_type</option>
+            <option value="INSENTIVE">INSENTIVE</option>
+            <option value="NON_INSENTIVE">NON_INSENTIVE</option>
           </select>
 
           <select

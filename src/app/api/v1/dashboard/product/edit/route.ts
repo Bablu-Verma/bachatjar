@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { generateSlug } from "@/helpers/client/client_function";
 import { authenticateAndValidateUser } from "@/lib/authenticate";
 import dbConnect from "@/lib/dbConnect";
@@ -10,247 +9,165 @@ export async function POST(req: Request) {
   await dbConnect();
 
   try {
-    const { authenticated, usertype, message } =
-      await authenticateAndValidateUser(req);
+    const { authenticated, usertype, message } = await authenticateAndValidateUser(req);
 
     if (!authenticated) {
-      return new NextResponse(
-        JSON.stringify({
-          success: false,
-          message: message || "User is not authenticated",
-        }),
-        { status: 401, headers: { "Content-Type": "application/json" } }
-      );
+      return NextResponse.json({ success: false, message: message || "User is not authenticated" }, { status: 401 });
     }
 
     if (!(usertype === "admin" || usertype === "data_editor")) {
-      return new NextResponse(
-        JSON.stringify({
-          success: false,
-          message: "Access denied: You do not have the required role",
-        }),
-        { status: 403, headers: { "Content-Type": "application/json" } }
-      );
+      return NextResponse.json({ success: false, message: "Access denied: You do not have the required role" }, { status: 403 });
     }
 
     const requestData = await req.json();
-    const {
-      product_id,
-      title,
-      actual_price,
-      store,
-      category,
-      description,
-      product_img,
-      t_and_c,
-      meta_title,
-      meta_description,
-      meta_keywords,
-      product_status,
-      product_tags,
-      long_poster,
-      main_banner,
-      premium_product,
-      flash_sale,
-      slug_type,
-      meta_robots,
-      canonical_url,
-      structured_data,
-      og_image,
-      og_title,
-      og_description,
-    } = requestData;
 
-    if (!product_id) {
-      return new NextResponse(
-        JSON.stringify({
-          success: false,
-          message: "Invalid request data. product_id is required.",
-        }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
+    if (!requestData._id) {
+      return NextResponse.json({ success: false, message: "_id is required to update campaign." }, { status: 400 });
     }
 
-    const campaign = await CampaignModel.findOne({ _id:product_id });
-
-    if (!campaign) {
-      return new NextResponse(
-        JSON.stringify({ success: false, message: "Product not found." }),
-        { status: 404, headers: { "Content-Type": "application/json" } }
-      );
+    // Step 1: Fetch current campaign
+    const currentCampaign = await CampaignModel.findById(requestData._id);
+    if (!currentCampaign) {
+      return NextResponse.json({ success: false, message: "Campaign not found." }, { status: 404 });
     }
 
-    if (title) {
-      const newSlug = generateSlug(title);
-      if (newSlug !== campaign.product_slug) {
-        const existingCampaign = await CampaignModel.findOne({
-          product_slug: newSlug,
-        });
-        if (existingCampaign) {
-          return new NextResponse(
-            JSON.stringify({
-              success: false,
-              message: `The slug "${newSlug}" is already in use. Please use a different product name.`,
-            }),
-            { status: 400, headers: { "Content-Type": "application/json" } }
-          );
+    // Step 2: Basic required fields check
+    const requiredFields = ["title", "actual_price", "store", "category", "product_img", "product_status"];
+    for (const field of requiredFields) {
+      const val = requestData[field];
+      if (val === undefined || val === null || (typeof val === "string" && val.trim() === "") || (Array.isArray(val) && val.length === 0)) {
+        return NextResponse.json({ success: false, message: `${field} is required.` }, { status: 400 });
+      }
+    }
+
+    // Step 3: Check if store changed and fetch store accordingly
+    const storeChanged = currentCampaign.store._id.toString() !== requestData.store;
+    let storeDoc;
+
+    if (storeChanged) {
+      // If store is being changed, fetch the new store details
+      storeDoc = await StoreModel.findById(requestData.store).select("cashback_rate cashback_type store_type slug name store_link");
+      if (!storeDoc) {
+        return NextResponse.json({ success: false, message: "Store not found." }, { status: 404 });
+      }
+    } else {
+      // If store is not being changed, fetch the current store details from database
+      storeDoc = await StoreModel.findById(currentCampaign.store._id).select("cashback_rate cashback_type store_type slug name store_link");
+      if (!storeDoc) {
+        return NextResponse.json({ success: false, message: "Current store not found in database." }, { status: 404 });
+      }
+    }
+
+    // Step 4: Store-based field validations
+    if (storeDoc.store_type !== "NON_INSENTIVE") {
+      const extraFields = ["description", "t_and_c", "meta_title", "meta_description", "meta_keywords"];
+      for (const field of extraFields) {
+        const val = requestData[field];
+        if (val === undefined || val === null || (typeof val === "string" && val.trim() === "") || (Array.isArray(val) && val.length === 0)) {
+          return NextResponse.json({ success: false, message: `${field} is required for this store type.` }, { status: 400 });
         }
-        campaign.product_slug = newSlug;
       }
     }
 
-    if (description && description.length < 20) {
-      return new NextResponse(
-        JSON.stringify({
-          success: false,
-          message: "Description must be at least 100 characters long.",
-        }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
-    }
-
-
-    const getStroe = await StoreModel.findById(store).select('_id cashback_rate cashback_type')
-    // console.log("getStroe",getStroe)
-
-     // Validate Number Fields
-     const actualPriceNum = Number(actual_price);
-     const cashbackNum = Number(getStroe.cashback_rate);
- 
-     // Ensure both values are valid numbers
-     if (isNaN(actualPriceNum) || actualPriceNum < 0) {
-       return new NextResponse(
-         JSON.stringify({
-           success: false,
-           message: "Invalid actual_price. Must be a positive number.",
-         }),
-         { status: 400, headers: { "Content-Type": "application/json" } }
-       );
-     }
- 
-     if (isNaN(cashbackNum) || cashbackNum < 0) {
-       return new NextResponse(
-         JSON.stringify({
-           success: false,
-           message: "Invalid cashback_. Must be a non-negative number.",
-         }),
-         { status: 400, headers: { "Content-Type": "application/json" } }
-       );
-     }
-
-    // Calculate cashback and offer price
-    let calculated_cashback_ = 0;
-    let offer_price_ = actualPriceNum;
-
-    if (getStroe.cashback_type === "FLAT_AMOUNT") {
-      calculated_cashback_ = cashbackNum;
-    } else if (getStroe.cashback_type === "PERCENTAGE") {
-      calculated_cashback_ = (actualPriceNum * cashbackNum) / 100;
-    }
-
-    // Ensure offer price does not go negative
-    offer_price_ = Math.max(0, actualPriceNum - calculated_cashback_);
-
-    const updateIfValid = (field: string, value: any) => {
-      if (value !== undefined && value !== null && value !== "") {
-        campaign[field] = value;
+// For NON_INSENTIVE stores, always validate offer_price
+if (storeDoc.store_type === "NON_INSENTIVE") {
+  if (requestData.offer_price === undefined || requestData.offer_price === null || isNaN(Number(requestData.offer_price))) {
+    return NextResponse.json({ success: false, message: "offer_price is required for NON_INSENTIVE store." }, { status: 400 });
+  }
+}
+    // Step 5: Title/Slug check
+    let slug = currentCampaign.product_slug;
+    if (requestData.title !== currentCampaign.title) {
+      slug = generateSlug(requestData.title);
+      const existingProduct = await CampaignModel.findOne({
+        product_slug: slug,
+        _id: { $ne: requestData._id }
+      });
+      if (existingProduct) {
+        return NextResponse.json({ success: false, message: "Another product with this title already exists." }, { status: 400 });
       }
+    }
+
+    // Step 6: Price Calculations
+    const actualPrice = Number(requestData.actual_price);
+    const cashbackRate = Number(storeDoc.cashback_rate || 0);
+
+    if (isNaN(actualPrice) || actualPrice < 0) {
+      return NextResponse.json({ success: false, message: "Invalid actual_price. Must be a positive number." }, { status: 400 });
+    }
+
+    let calculatedCashback = 0;
+    if (storeDoc.cashback_type === "FLAT_AMOUNT") {
+      calculatedCashback = cashbackRate;
+    } else if (storeDoc.cashback_type === "PERCENTAGE") {
+      calculatedCashback = (actualPrice * cashbackRate) / 100;
+    }
+
+    let offerPrice = 0;
+    if (storeDoc.store_type === "NON_INSENTIVE") {
+      offerPrice = Number(requestData.offer_price);
+    } else {
+      offerPrice = Math.max(0, actualPrice - calculatedCashback);
+    }
+
+    // Step 7: Update the campaign
+    const storeForCampaign = {
+      _id: storeDoc._id.toString(),
+      slug: storeDoc.slug,
+      name: storeDoc.name,
+      store_link: storeDoc.store_link || "",
     };
 
-    // Handle normal fields
-    updateIfValid("title", title);
-    updateIfValid("store", store);
-    updateIfValid("category", category);
-    updateIfValid("t_and_c", t_and_c);
-    updateIfValid("meta_title", meta_title);
-    updateIfValid("meta_description", meta_description);
-    updateIfValid("meta_robots", meta_robots);
-    updateIfValid("canonical_url", canonical_url);
-    updateIfValid("structured_data", structured_data);
-    updateIfValid("og_image", og_image);
-    updateIfValid("og_title", og_title);
-    updateIfValid("structured_data", structured_data);
-    updateIfValid("og_description", og_description);
-    updateIfValid("product_img", product_img);
-    updateIfValid(
-      "meta_keywords",
-      Array.isArray(meta_keywords) ? meta_keywords : undefined
+ 
+
+
+    const updatedCampaign = await CampaignModel.findByIdAndUpdate(
+      requestData._id,
+      {
+        title: requestData.title,
+        actual_price: actualPrice,
+        offer_price: offerPrice,
+        calculated_cashback: calculatedCashback,
+        store: storeForCampaign,
+        category: requestData.category,
+        description: requestData.description,
+        product_img: requestData.product_img,
+        product_tags: requestData.product_tags || [],
+        long_poster: requestData.long_poster || "",
+        main_banner: requestData.main_banner || "",
+        premium_product: requestData.premium_product || false,
+        flash_sale: requestData.flash_sale || false,
+        t_and_c: requestData.t_and_c,
+        product_slug: slug,
+        slug_type: requestData.slug_type || "custom",
+        meta_title: requestData.meta_title,
+        meta_description: requestData.meta_description,
+        meta_keywords: requestData.meta_keywords,
+        meta_robots: requestData.meta_robots || "",
+        canonical_url: requestData.canonical_url || "",
+        structured_data: requestData.structured_data || "",
+        og_image: requestData.og_image || "",
+        og_title: requestData.og_title || "",
+        og_description: requestData.og_description || "",
+        product_status: requestData.product_status,
+      },
+      { new: true }
     );
-    updateIfValid("actual_price", actual_price);
-    updateIfValid("calculated_cashback", calculated_cashback_);
-    updateIfValid("offer_price", offer_price_);
 
-  
-    
-    if (slug_type && ["INTERNAL", "EXTERNAL"].includes(slug_type)) {
-      campaign.slug_type = slug_type;
-    }
-    if (product_status && ["ACTIVE", "PAUSE"].includes(product_status)) {
-      campaign.product_status = product_status;
+    if (!updatedCampaign) {
+      return NextResponse.json({ success: false, message: "Campaign not found after update." }, { status: 404 });
     }
 
-    if (Array.isArray(product_tags)) {
-      campaign.product_tags = product_tags;
-    }
-    
-    const validateImageArray = (value: any) =>
-      Array.isArray(value) &&
-      value.every(
-        (item) =>
-          typeof item === "object" &&
-          (!item.is_active || (item.image && typeof item.image === "string"))
-      );
-
-    if (validateImageArray(long_poster)) {
-      campaign.long_poster = long_poster;
-    }
-    if (validateImageArray(main_banner)) {
-      campaign.main_banner = main_banner;
-    }
-    if (validateImageArray(premium_product)) {
-      campaign.premium_product = premium_product;
-    }
-    if (
-      Array.isArray(flash_sale) &&
-      flash_sale.every(
-        (item) =>
-          typeof item === "object" &&
-          (!item.is_active || (item.image && item.end_time))
-      )
-    ) {
-      campaign.flash_sale = flash_sale;
-    }
-
-    await campaign.save();
-
-    return new NextResponse(
-      JSON.stringify({
-        success: true,
-        message: "Campaign edited successfully.",
-     
-      }),
-      { status: 200, headers: { "Content-Type": "application/json" } }
-    );
+    return NextResponse.json({ success: true, message: "Campaign updated successfully." }, { status: 200 });
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error("Failed to edit campaign:", error.message);
-      return new NextResponse(
-        JSON.stringify({
-          success: false,
-          message: "Failed to edit campaign.",
-          error: error.message,
-        }),
-        { status: 500, headers: { "Content-Type": "application/json" } }
-      );
-    } else {
-      console.error("Unexpected error:", error);
-      return new NextResponse(
-        JSON.stringify({
-          success: false,
-          message: "An unexpected error occurred.",
-        }),
-        { status: 500, headers: { "Content-Type": "application/json" } }
-      );
-    }
+    console.error("Failed to update campaign:", error);
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Failed to update campaign",
+        error: error instanceof Error ? error.message : "Unexpected error occurred.",
+      },
+      { status: 500 }
+    );
   }
 }

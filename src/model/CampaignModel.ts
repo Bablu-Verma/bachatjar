@@ -1,33 +1,34 @@
 import mongoose, { Schema } from "mongoose";
 
 export interface ICampaign {
-  redirect_url: string;
+
   title: string;
   _id: string;
+  slug_type: "INTERNAL" | "EXTERNAL";
+  user_id: mongoose.Types.ObjectId;
   actual_price: number;
   offer_price: number;
   calculated_cashback: number;
-  user_id: mongoose.Types.ObjectId;
-   store: {
+  store: {
     _id: string;
     slug: string;
     name: string;
-  }
+    store_link:string;
+  };
   category: mongoose.Types.ObjectId;
-  description: string;
+  description?: string;
   product_img: string;
-  product_tags?: ("new" | "hot" | "best")[];
+  product_tags: ("new" | "hot" | "best" | "live")[];
   long_poster: { is_active: boolean; image: string }[];
   main_banner: { is_active: boolean; image: string }[];
   premium_product: { is_active: boolean; image: string }[];
   flash_sale: { is_active: boolean; image: string; end_time: string }[];
-  t_and_c: string;
+  t_and_c?: string;
   product_slug: string;
-  slug_type: "INTERNAL" | "EXTERNAL";
   tags?: string[];
-  meta_title: string;
-  meta_description: string;
-  meta_keywords: string[];
+  meta_title?: string;
+  meta_description?: string;
+  meta_keywords?: string[];
   meta_robots?: "index, follow" | "noindex, nofollow";
   canonical_url?: string;
   structured_data?: string;
@@ -41,40 +42,57 @@ export interface ICampaign {
 
 const CampaignSchema = new Schema<ICampaign>(
   {
+
+
     title: { type: String, required: [true, "Title is required"] },
-    actual_price: { type: Number, required: [true, "Price is required"] },
-    offer_price: { type: Number, required: [true, "Offer price is required"] },
-    calculated_cashback: {
-      type: Number,
-      required: [true, "Calculated Cashback is required"],
+
+    slug_type: {
+      type: String,
+      enum: ["INTERNAL", "EXTERNAL"],
+      default: "INTERNAL",
     },
+
     user_id: {
       type: Schema.Types.ObjectId,
-      required: [true, "Email is required"],
+      required: [true, "User ID is required"],
       index: true,
       ref: "User",
     },
-    store: {
-      type: Schema.Types.ObjectId,
-      required: [true, "Store is required"],
-      index: true,
-      ref: "Store",
+
+    actual_price: { type: Number, required: [true, "Actual price is required"] },
+
+    offer_price: { type: Number, required: [true, "Offer price is required"] },
+
+    calculated_cashback: {
+      type: Number,
+      required: [true, "Calculated cashback is required"],
     },
+
+    store: {
+      _id: { type: String, required: true },
+      slug: { type: String, required: true },
+      name: { type: String, required: true },
+      store_link: { type: String, required: true },
+
+    },
+
     category: {
       type: Schema.Types.ObjectId,
+      required: [true, "Category is required"],
       index: true,
       ref: "Category",
-      required: [true, "Category is required"],
     },
-    description: { type: String, required: [true, "Description is required"] },
-    product_img: { 
+
+    description: { type: String, required: false },
+
+    product_img: {
       type: String,
       required: [true, "Product image is required"],
     },
 
     product_tags: {
       type: [String],
-      enum: ["new", "hot", "best"],
+      enum: ["new", "hot", "best", "live"],
       default: [],
     },
 
@@ -82,7 +100,7 @@ const CampaignSchema = new Schema<ICampaign>(
       type: [
         {
           is_active: { type: Boolean, default: false },
-          image: { type: String },
+          image: { type: String, required: false },
         },
       ],
       default: [],
@@ -90,7 +108,7 @@ const CampaignSchema = new Schema<ICampaign>(
         validator: function (value: { is_active: boolean; image: string }[]) {
           return value.every((item) => !item.is_active || !!item.image);
         },
-        message: "Image is required when log_poster is active",
+        message: "Image is required when long_poster is active",
       },
     },
 
@@ -98,7 +116,7 @@ const CampaignSchema = new Schema<ICampaign>(
       type: [
         {
           is_active: { type: Boolean, default: false },
-          image: { type: String },
+          image: { type: String, required: false },
         },
       ],
       default: [],
@@ -114,7 +132,7 @@ const CampaignSchema = new Schema<ICampaign>(
       type: [
         {
           is_active: { type: Boolean, default: false },
-          image: { type: String },
+          image: { type: String, required: false },
         },
       ],
       default: [],
@@ -130,8 +148,8 @@ const CampaignSchema = new Schema<ICampaign>(
       type: [
         {
           is_active: { type: Boolean, default: false },
-          image: { type: String },
-          end_time: { type: String },
+          image: { type: String, required: false },
+          end_time: { type: String, required: false },
         },
       ],
       default: [],
@@ -147,46 +165,38 @@ const CampaignSchema = new Schema<ICampaign>(
       },
     },
 
-    t_and_c: {
-      type: String,
-      required: [true, "Terms and conditions are required"],
-    },
+    t_and_c: { type: String, required: false },
 
     product_slug: {
       type: String,
-      required: [true, "Slug is required"],
+      required: false,
       unique: true,
+      sparse: true, // Allows unique on optional field
     },
 
-    slug_type: {
+    tags: { type: [String], required: false },
+
+    meta_title: { type: String, required: false },
+
+    meta_description: { type: String, required: false },
+
+    meta_keywords: { type: [String], required: false },
+
+    meta_robots: {
       type: String,
-      enum: ["INTERNAL", "EXTERNAL"],
-      default: "INTERNAL",
+      enum: ["index, follow", "noindex, nofollow"],
+      required: false,
     },
 
-    meta_title: { type: String, required: [true, "Meta title is required"] },
+    canonical_url: { type: String, required: false },
 
-    meta_description: {
-      type: String,
-      required: [true, "Meta description is required"],
-    },
+    structured_data: { type: String, required: false },
 
-    meta_keywords: {
-      type: [String],
-      required: [true, "Meta keywords are required"],
-    },
+    og_image: { type: String, required: false },
 
-    meta_robots: { type: String, enum: ["index, follow", "noindex, nofollow"] },
+    og_title: { type: String, required: false },
 
-    canonical_url: { type: String },
-
-    structured_data: { type: String },
-
-    og_image: { type: String },
-
-    og_title: { type: String },
-
-    og_description: { type: String },
+    og_description: { type: String, required: false },
 
     product_status: {
       type: String,
@@ -199,7 +209,6 @@ const CampaignSchema = new Schema<ICampaign>(
 );
 
 const CampaignModel =
-  mongoose.models.Campaign ||
-  mongoose.model<ICampaign>("Campaign", CampaignSchema);
+  mongoose.models.Campaign || mongoose.model<ICampaign>("Campaign", CampaignSchema);
 
 export default CampaignModel;

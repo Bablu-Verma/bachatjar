@@ -96,9 +96,7 @@ export const order_detals_admin_api = main_url + '/dashboard/order/detail'
 export const withdrwal_list_admin_api = main_url + '/dashboard/withdrawal/list'
 export const withdrwal_editstatus_admin_api = main_url + '/dashboard/withdrawal/edit'
 export const withdrwal_request_details_admin_api = main_url + '/dashboard/withdrawal/details'
-export const live_deal_add_admin_api = main_url + '/dashboard/livedeal/add'
-export const live_deal_list_admin_api = main_url + '/dashboard/livedeal/list'
-export const live_dealdeleteone_list_admin_api = main_url + '/dashboard/livedeal/deleteonedeal'
+
 
 
 
