@@ -30,7 +30,7 @@ const HomePoster: React.FC<posterProps> = ({ poster }) => {
       >
         {poster.map((item, i) => (
           <SwiperSlide  key={i}>
-            <Link href={item.slug_type === 'INTERNAL' ? `/campaign/${item?.product_slug}` : item.redirect_url}>
+            <Link href={item.slug_type === 'INTERNAL' ? `/campaign/${item?.product_slug}` : item.store?.store_link}>
               <Image
                 src={item?.long_poster[0].image}
                 className="w-full h-[180px] md:h-[250px] rounded-t-md"

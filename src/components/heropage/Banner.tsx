@@ -37,7 +37,7 @@ const Banner: React.FC<BannerProps> = ({ banner }) => {
               href={
                 item.slug_type === "INTERNAL"
                   ? `/campaign/${item?.product_slug}`
-                  : item.redirect_url
+                  : item.store?.store_link
               }
               className="relative h-48 lg:h-60 rounded bg-cover bg-center block mx-2"
             >

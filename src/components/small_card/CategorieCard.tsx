@@ -17,7 +17,6 @@ const CategorieCard: React.FC<CategoryCard> = ({ item }) => {
       <RandomColor />
       <div className="w-full flex flex-col mt-4 justify-between items-center">
         <Image src={item.imges[0]} alt={item.name} width={120} height={70} className="mb-4 h-[70px] rounded" />
-
          <p className="text-gray-700 text-base font-medium  uppercase ">
           {item.name}
         </p>

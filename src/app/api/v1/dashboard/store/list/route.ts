@@ -45,7 +45,7 @@ export async function POST(req: Request) {
       page = 1,
       limit = 5,
       search,
-      cashback_status,
+      store_type,
       cashback_type,
       store_id,
       store_status,
@@ -57,8 +57,8 @@ export async function POST(req: Request) {
     const query: any = {};
 
     // Filter: Cashback Status
-    if (cashback_status && ["ACTIVE_CASHBACK", "INACTIVE_CASHBACK"].includes(cashback_status)) {
-      query.cashback_status = cashback_status;
+    if (store_type && ["INSENTIVE" , "NON_INSENTIVE"].includes(store_type)) {
+      query.store_type = store_type;
     }
 
     // Filter: Cashback Type

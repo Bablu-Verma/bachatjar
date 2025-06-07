@@ -12,28 +12,24 @@ import { useSelector } from "react-redux";
 const AddStore = () => {
   const [formData, setFormData] = useState({
     name: "",
-    store_img: "", 
-    cashback_status: "ACTIVE_CASHBACK" as "ACTIVE_CASHBACK" | "INACTIVE_CASHBACK",
+    store_img: "",
+    store_type: "INSENTIVE" as "INSENTIVE" | "NON_INSENTIVE",
     store_link: "",
     cashback_type: "PERCENTAGE" as "PERCENTAGE" | "FLAT_AMOUNT",
     cashback_rate: "",
+    upto_amount: "",
+    min_amount: "",
     store_status: "ACTIVE" as "ACTIVE" | "INACTIVE",
     category: "",
-    tracking: '',
-    upto_amount:'',
-    claim_form: 'INACTIVE_CLAIM_FORM' as  'ACTIVE_CLAIM_FORM' | 'INACTIVE_CLAIM_FORM'
+    tracking: "",
+    claim_form: "INACTIVE_CLAIM_FORM" as "ACTIVE_CLAIM_FORM" | "INACTIVE_CLAIM_FORM",
   });
 
   const [editorContent, setEditorContent] = useState("");
   const [editorContentTc, setEditorContentTc] = useState("");
   const [loading, setLoading] = useState(false);
   const token = useSelector((state: RootState) => state.user.token);
-  const [categoryList, setCategoryList] = useState<
-    { name: string; _id: string }[]
-  >([]);
-
-
-
+  const [categoryList, setCategoryList] = useState<{ name: string; _id: string }[]>([]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -45,25 +41,49 @@ const AddStore = () => {
     }));
   };
 
-  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { name, store_img, upto_amount, cashback_status, claim_form, store_link, cashback_type, cashback_rate, store_status,category,tracking } = formData;
+    const {
+      name,
+      store_img,
+      store_link,
+      store_type,
+      cashback_type,
+      cashback_rate,
+      store_status,
+      upto_amount,
+      min_amount,
+      category,
+      tracking,
+      claim_form,
+    } = formData;
 
     if (!name.trim()) return toast.error("Please enter a store name.");
     if (!store_img.trim()) return toast.error("Please enter a store image link.");
     if (!store_link.trim()) return toast.error("Please enter a store link.");
-    if (!cashback_rate.trim()) return toast.error("Please enter a cashback amount.");
-    if (isNaN(Number(cashback_rate)) || Number(cashback_rate) <= 0) return toast.error("Cashback amount must be a valid number greater than zero.");
+    if (!category.trim()) return toast.error("Please select a category.");
+    if (!editorContent.trim()) return toast.error("Please enter a store description.");
+    if (!editorContentTc.trim()) return toast.error("Please enter store terms and conditions.");
 
+    if (!cashback_type) return toast.error("Please select a cashback type.");
+    if (!cashback_rate.trim()) return toast.error("Please enter cashback amount.");
+    if (isNaN(Number(cashback_rate)) || Number(cashback_rate) <= 0)
+      return toast.error("Cashback amount must be a valid number greater than 0.");
 
-    if (!store_link) return toast.error("Please enter a valid store link URL.");
+    if (!store_type) return toast.error("Please select store type.");
 
-    if (!editorContent.trim()) return toast.error("Please enter a store dec.");
-    if (!editorContentTc.trim()) return toast.error("Please enter a store  tc.");
-    if (!category.trim()) return toast.error("Please add category.");
-    if (!tracking.trim()) return toast.error("Please store tracking time dec.");
+    if (store_type === "INSENTIVE") {
+      if (!tracking.trim()) return toast.error("Please enter tracking information.");
+
+      if (upto_amount && (isNaN(Number(upto_amount)) || Number(upto_amount) < 0)) {
+        return toast.error("Upto amount must be a valid non-negative number.");
+      }
+
+      if (min_amount && (isNaN(Number(min_amount)) || Number(min_amount) < 0)) {
+        return toast.error("Min amount must be a valid non-negative number.");
+      }
+    }
 
     setLoading(true);
 
@@ -71,19 +91,20 @@ const AddStore = () => {
       const { data } = await axios.post(
         add_store_api,
         {
-          name,
-          description: editorContent,
-          store_img,
-          cashback_status,
-          store_link,
+          name: name.trim(),
+          description: editorContent.trim(),
+          tc: editorContentTc.trim(),
+          store_img: store_img.trim(),
+          store_link: store_link.trim(),
           cashback_type,
-          cashback_rate,
+          cashback_rate: Number(cashback_rate),
+          upto_amount: upto_amount ? Number(upto_amount) : undefined,
+          min_amount: min_amount ? Number(min_amount) : undefined,
           store_status,
-          tc:editorContentTc,
-          upto_amount,
           category,
-          tracking,
-          claim_form
+          tracking: store_type === "INSENTIVE" ? tracking.trim() : "",
+          claim_form,
+          store_type,
         },
         {
           headers: {
@@ -107,27 +128,22 @@ const AddStore = () => {
   };
 
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [categoryRes] = await Promise.all([
-
-          axios.post(
-            category_list_dashboard_api,
-            { status: "ACTIVE" },
-            { headers: { Authorization: `Bearer ${token}` } }
-          ),
-        ]);
+        const categoryRes = await axios.post(
+          category_list_dashboard_api,
+          { status: "ACTIVE" },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
         setCategoryList(categoryRes.data.data || []);
       } catch (error) {
-        console.log(error);
+        console.log("Failed to fetch categories", error);
       }
     };
 
     fetchData();
   }, [token]);
-
 
   return (
     <>
@@ -175,7 +191,20 @@ const AddStore = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-4 gap-5">
+          <div className="grid grid-cols-3 gap-5">
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">store_type</label>
+              <select
+                name="store_type"
+                value={formData.store_type}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="INSENTIVE">INSENTIVE</option>
+                <option value="NON_INSENTIVE">NON_INSENTIVE</option>
+              </select>
+            </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Cashback Rate</label>
@@ -202,8 +231,9 @@ const AddStore = () => {
                 <option value="FLAT_AMOUNT">FLAT_AMOUNT</option>
               </select>
             </div>
+          </div>
 
-           
+          <div className="grid grid-cols-3 gap-5">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">claim_form</label>
               <select
@@ -216,23 +246,6 @@ const AddStore = () => {
                 <option value="INACTIVE_CLAIM_FORM">INACTIVE_CLAIM_FORM</option>
               </select>
             </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Cashback Status</label>
-              <select
-                name="cashback_status"
-                value={formData.cashback_status}
-                onChange={handleInputChange}
-                className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="ACTIVE_CASHBACK">ACTIVE_CASHBACK</option>
-                <option value="INACTIVE_CASHBACK">INACTIVE_CASHBACK</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-3 gap-5">
-
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">max purchase Amount</label>
               <input
@@ -241,6 +254,17 @@ const AddStore = () => {
                 value={formData.upto_amount}
                 onChange={handleInputChange}
                 placeholder="Enter max purchase Amount "
+                className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">min purchase Amount</label>
+              <input
+                type="text"
+                name="min_amount"
+                value={formData.min_amount}
+                onChange={handleInputChange}
+                placeholder="Enter min purchase Amount "
                 className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
               />
             </div>

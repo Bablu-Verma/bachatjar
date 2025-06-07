@@ -72,7 +72,12 @@ export const metadata: Metadata = {
 
 const GetData = async (token: string) => {
   try {
-    const data = await axios.post(home_api, {
+    const data = await axios.post(home_api,
+      {
+       tag : 'hot',
+       page: 1
+      },
+      {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -132,6 +137,10 @@ export default async function Home() {
   const token = await getServerToken();
   const page_data = await GetData(token);
 
+ 
+
+
+
   if (!page_data) {
     return <div>Error fetching data</div>;
   }
@@ -142,7 +151,7 @@ export default async function Home() {
     "@type": "OfferCatalog",
     "name": "BachatJar Deals and Offers",
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    "itemListElement": page_data?.data.best_product.slice(0, 10).map((product: any) => ({
+    "itemListElement": page_data?.data.best_product?.slice(0, 10).map((product: any) => ({
       "@type": "Offer",
       "name": product.title,
       "description": product.description,
@@ -183,14 +192,14 @@ export default async function Home() {
         <Loginhomepopup />
 
         {page_data?.data.flash_sale &&
-          page_data?.data.flash_sale.length > 0 && (
+          page_data?.data.flash_sale?.length > 0 && (
             <div className="py-7">
               <MainHeading title="Limited Time Offer" link={null} />
               <HomeFlash flashSale={page_data?.data.flash_sale} />
             </div>
           )}
 
-        {page_data?.data.best_product.length > 0 && (
+        {page_data?.data.best_product?.length > 0 && (
           <div className="py-7">
             <MainHeading title="Best For You" link={null} />
             <BestSalling best_product={page_data?.data.best_product} />
@@ -203,7 +212,7 @@ export default async function Home() {
           <Deals best_product={page_data?.data} />
         </div>
 
-        {page_data?.data.long_poster.length > 0 && (
+        {page_data?.data.long_poster?.length > 0 && (
           <div className="max-w-6xl mx-auto mt-14">
             <HomePoster poster={page_data?.data.long_poster} />
           </div>
@@ -213,14 +222,14 @@ export default async function Home() {
           <MainHeading title="Cashback store" link="/store" />
           <div className="max-w-6xl relative  m-auto  mb-12">
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4 lg:gap-5 mt-3 lg:mt-5">
-              {page_data?.data.store.map((item: IStore, i: number) => (
+              {page_data?.data.store?.map((item: IStore, i: number) => (
                 <StoreCard item={item} key={i} />
               ))}
             </div>
           </div>
         </div>
 
-        {page_data?.data.premium_product.length > 0 && (
+        {page_data?.data.premium_product?.length > 0 && (
           <div className="py-7">
             <MainHeading title="New Arrival" link={null} />
             <Featured arrival={page_data?.data.premium_product} />
@@ -231,21 +240,21 @@ export default async function Home() {
           <MainHeading title="New Coupon" link="/coupons" />
           <div className="max-w-6xl relative px-2 m-auto mt-2 lg:mt-8 mb-16">
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 lg:gap-5 mt-2 lg:mt-6">
-              {page_data?.data.coupon.map((item: ICoupon, i: number) => (
+              {page_data?.data.coupon?.map((item: ICoupon, i: number) => (
                 <CouponcodeCard item={item} key={i} />
               ))}
             </div>
           </div>
         </div>
 
-        {page_data?.data.category.length > 0 && (
+        {page_data?.data.category?.length > 0 && (
           <div className="max-w-6xl m-auto py-3 lg:px-2 lg:rounded-xl relative bg-[#f5c4d0]">
             <MainHeading title="Browse by category" link={null} />
             <HomeCategories category={page_data?.data.category} />
           </div>
         )}
 
-        {page_data?.data.blog.length > 0 && (
+        {page_data?.data.blog?.length > 0 && (
           <div className="py-7">
             <MainHeading title="Read Our Blog" link="/blog" />
             <HomeBlog blogs={page_data?.data.blog} />

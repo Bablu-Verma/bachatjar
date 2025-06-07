@@ -5,7 +5,7 @@ import {
   edit_store_api,
   store_details_dashboard_api,
 } from "@/utils/api_url";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -20,19 +20,20 @@ const EditCategory: React.FC = () => {
   const router = useRouter();
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    store_img: "",
-    cashback_status: "",
-    store_link: "",
-    cashback_type: "",
-    cashback_rate: "",
-    store_status: "",
-    category: "",
-    upto_amount: "",
-    tracking: "",
-    claim_form:''
-  });
+ const [formData, setFormData] = useState({
+  name: "",
+  store_img: "",
+  store_type: "", 
+  store_link: "",
+  cashback_type: "",
+  cashback_rate: "", // will parse to number before sending
+  store_status: "",
+  category: "",
+  tracking: "",
+  upto_amount: "",
+  min_amount: "",
+  claim_form: "",
+});
   const [editorContent, setEditorContent] = useState("");
   const urlslug = pathname.split("/").pop() || "";
   const [editorContentTc, setEditorContentTc] = useState("");
@@ -40,94 +41,127 @@ const EditCategory: React.FC = () => {
     { name: string; _id: string }[]
   >([]);
 
-  const getstoredetail = async () => {
-    try {
-      const { data } = await axios.post(
-        store_details_dashboard_api,
-        { slug: urlslug },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      const store_data = data.data.store;
-      // console.log(store_data)
-      setFormData({
-        name: store_data.name || "",
-        store_img: store_data.store_img || "",
-        cashback_status: store_data.cashback_status || "",
-        store_link: store_data.store_link || "",
-        cashback_type: store_data.cashback_type || "",
-        cashback_rate: store_data.cashback_rate || "",
-        store_status: store_data.store_status || "",
-        category: store_data.category || "",
-        tracking: store_data.tracking || "",
-        upto_amount: store_data.upto_amount || "",
-        claim_form: store_data.claim_form || ""
-      });
-      setEditorContent(store_data.description);
-      setEditorContentTc(store_data.tc);
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data?.message || "Error fetching category");
-      } else {
-        console.error("Unexpected error:", error);
+ const getstoredetail = async () => {
+  try {
+    const { data } = await axios.post(
+      store_details_dashboard_api,
+      { slug: urlslug },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       }
-    }
-  };
+    );
+
+    const store = data.data.store;
+
+    setFormData({
+      name: store.name || "",
+      store_img: store.store_img || "",
+      store_type: store.store_type || "", // updated key
+      store_link: store.store_link || "",
+      cashback_type: store.cashback_type || "",
+      cashback_rate: store.cashback_rate?.toString() || "",
+      store_status: store.store_status || "",
+      category: store.category?._id || "",
+      tracking: store.tracking || "",
+      upto_amount: store.upto_amount?.toString() || "",
+      min_amount: store.min_amount?.toString() || "",
+      claim_form: store.claim_form || "",
+    });
+
+    setEditorContent(store.description || "");
+    setEditorContentTc(store.tc || "");
+  } catch (error) {
+    toast.error(`Error fetching store details ${error}`);
+  }
+};
+
 
   useEffect(() => {
     getstoredetail();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [urlslug]);
 
   // Handle Input Changes
 
   // Handle Submit
-  const handleSubmit = async () => {
-    try {
-      setLoading(true);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { data } = await axios.post(
-        edit_store_api,
-        {
-          slug: urlslug,
-          name: formData.name,
-          description: editorContent,
-          store_img: formData.store_img,
-          cashback_status: formData.cashback_status,
-          store_link: formData.store_link,
-          cashback_type: formData.cashback_type,
-          cashback_rate: formData.cashback_rate,
-          store_status: formData.store_status,
-          tc: editorContentTc,
-          tracking: formData.tracking,
-          category: formData.category,
-          upto_amount: formData.upto_amount,
-          claim_form:formData.claim_form
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      toast.success("store updated successfully! Redirecting...");
-      setTimeout(() => router.push("/dashboard/all-stores"), 3000);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data?.message || "An error occurred");
-      } else {
-        console.error("Unexpected error:", error);
-      }
-    } finally {
-      setLoading(false);
+ const handleSubmit = async () => {
+  try {
+    setLoading(true);
+
+    const {
+      name,
+      store_img,
+      store_type,
+      store_link,
+      cashback_type,
+      cashback_rate,
+      store_status,
+      category,
+      tracking,
+      upto_amount,
+      min_amount,
+      claim_form,
+    } = formData;
+
+    // General validation
+    if (!name.trim()) return toast.error("Store name is required.");
+    if (!store_img.trim()) return toast.error("Store image is required.");
+    if (!store_link.trim()) return toast.error("Store link is required.");
+    if (!category.trim()) return toast.error("Category is required.");
+    if (!editorContent.trim()) return toast.error("Description is required.");
+    if (!editorContentTc.trim()) return toast.error("Terms & Conditions are required.");
+    if (!store_type) return toast.error("Store type is required.");
+
+    // Incentive-specific validation
+    if (store_type === "INSENTIVE") {
+      if (!cashback_type) return toast.error("Cashback type is required.");
+      if (!cashback_rate.trim()) return toast.error("Cashback rate is required.");
+      if (isNaN(Number(cashback_rate)) || Number(cashback_rate) <= 0)
+        return toast.error("Cashback rate must be a positive number.");
+      if (!tracking.trim()) return toast.error("Tracking info is required.");
+      if (upto_amount && (isNaN(Number(upto_amount)) || Number(upto_amount) < 0))
+        return toast.error("Upto amount must be a non-negative number.");
+      if (min_amount && (isNaN(Number(min_amount)) || Number(min_amount) < 0))
+        return toast.error("Min amount must be a non-negative number.");
     }
-  };
+
+    const payload = {
+      slug: urlslug,
+      name: name.trim(),
+      store_img: store_img.trim(),
+      store_type,
+      store_link: store_link.trim(),
+      description: editorContent,
+      tc: editorContentTc,
+      cashback_type: store_type === "INSENTIVE" ? cashback_type : undefined,
+      cashback_rate: store_type === "INSENTIVE" ? Number(cashback_rate) : undefined,
+      upto_amount: store_type === "INSENTIVE" && upto_amount ? Number(upto_amount) : undefined,
+      min_amount: store_type === "INSENTIVE" && min_amount ? Number(min_amount) : undefined,
+      tracking: store_type === "INSENTIVE" ? tracking.trim() : "",
+      store_status,
+      category,
+      claim_form: claim_form.trim(),
+    };
+
+    await axios.post(edit_store_api, payload, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    toast.success("Store updated successfully! Redirecting...");
+    setTimeout(() => router.push("/dashboard/all-stores"), 3000);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch {
+    toast.error("An error occurred while updating the store.");
+  }  finally {
+    setLoading(false);
+  }
+};
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -217,53 +251,19 @@ const EditCategory: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-4 gap-5">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Cashback rate
-              </label>
-              <input
-                type="number"
-                name="cashback_rate"
-                value={formData.cashback_rate}
-                onChange={handleInputChange}
-                placeholder="Enter cashback rate"
-                className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            {/* Cashback Type */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-              claim_form
-              </label>
+          <div className="grid grid-cols-3 gap-5">
+           <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">store_type</label>
               <select
-                name="claim_form"
-                value={formData.claim_form}
+                name="store_type"
+                value={formData.store_type}
                 onChange={handleInputChange}
                 className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
               >
-                <option value="ACTIVE_CLAIM_FORM">ACTIVE_CLAIM_FORM</option>
-                <option value="INACTIVE_CLAIM_FORM">INACTIVE_CLAIM_FORM</option>
+                <option value="INSENTIVE">INSENTIVE</option>
+                <option value="NON_INSENTIVE">NON_INSENTIVE</option>
               </select>
             </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Cashback Status
-              </label>
-              <select
-                name="cashback_status"
-                value={formData.cashback_status}
-                onChange={handleInputChange}
-                className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="ACTIVE_CASHBACK">ACTIVE_CASHBACK</option>
-                <option value="INACTIVE_CASHBACK">INACTIVE_CASHBACK</option>
-              </select>
-            </div>
-
-            {/* Cashback Status */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Cashback type
@@ -277,6 +277,19 @@ const EditCategory: React.FC = () => {
                 <option value="PERCENTAGE">PERCENTAGE</option>
                 <option value="FLAT_AMOUNT">FLAT_AMOUNT</option>
               </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Cashback rate
+              </label>
+              <input
+                type="number"
+                name="cashback_rate"
+                value={formData.cashback_rate}
+                onChange={handleInputChange}
+                placeholder="Enter cashback rate"
+                className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
+              />
             </div>
           </div>
 
@@ -307,7 +320,23 @@ const EditCategory: React.FC = () => {
                 className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
               />
             </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                min_amount purchase
+              </label>
+              <input
+                type="text"
+                name="min_amount"
+                value={formData.min_amount}
+                onChange={handleInputChange}
+                placeholder="Enter min_amount purchase "
+                className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
 
+
+          </div>
+          <div className="grid grid-cols-3 gap-5">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Category
@@ -331,23 +360,40 @@ const EditCategory: React.FC = () => {
                 })}
               </select>
             </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                claim_form
+              </label>
+              <select
+                name="claim_form"
+                value={formData.claim_form}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="ACTIVE_CLAIM_FORM">ACTIVE_CLAIM_FORM</option>
+                <option value="INACTIVE_CLAIM_FORM">INACTIVE_CLAIM_FORM</option>
+              </select>
+            </div>
+
+            {/* Store Status */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Store Status
+              </label>
+              <select
+                name="store_status"
+                value={formData.store_status}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="ACTIVE">ACTIVE</option>
+                <option value="INACTIVE">INACTIVE</option>
+              </select>
+            </div>
           </div>
 
-          {/* Store Status */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Store Status
-            </label>
-            <select
-              name="store_status"
-              value={formData.store_status}
-              onChange={handleInputChange}
-              className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="ACTIVE">ACTIVE</option>
-              <option value="INACTIVE">INACTIVE</option>
-            </select>
-          </div>
+
 
           {/* Store Description */}
           <div>
