@@ -136,16 +136,18 @@ const EditCategory: React.FC = () => {
       store_link: store_link.trim(),
       description: editorContent,
       tc: editorContentTc,
-      cashback_type: store_type === "INSENTIVE" ? cashback_type : undefined,
-      cashback_rate: store_type === "INSENTIVE" ? Number(cashback_rate) : undefined,
-      upto_amount: store_type === "INSENTIVE" && upto_amount ? Number(upto_amount) : undefined,
-      min_amount: store_type === "INSENTIVE" && min_amount ? Number(min_amount) : undefined,
-      tracking: store_type === "INSENTIVE" ? tracking.trim() : "",
+      cashback_type:  cashback_type,
+      cashback_rate: Number(cashback_rate) ,
+      upto_amount: Number(upto_amount) ,
+      min_amount:  Number(min_amount) ,
+      tracking:  tracking.trim() ,
       store_status,
       category,
       claim_form: claim_form.trim(),
     };
 
+
+    console.log("payload",payload)
     await axios.post(edit_store_api, payload, {
       headers: {
         "Content-Type": "application/json",

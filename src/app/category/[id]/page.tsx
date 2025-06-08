@@ -40,7 +40,8 @@ const GetData = async (token: string, slug: string) => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function generateMetadata({ params }: any): Promise<Metadata> {
   const token = await getServerToken();
-  const categoryData = await GetData(token, params.id);
+  const {id} = await params
+  const categoryData = await GetData(token, id);
 
   if (!categoryData) {
     return {
@@ -59,7 +60,7 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
     openGraph: {
       title: `${category_details.name} - Best Cashback Offers & Deals`,
       description: description,
-      url: `https://bachatjar.com/category/${params.id}`,
+      url: `https://bachatjar.com/category/${id}`,
       siteName: 'BachatJar',
       images: [
         {
@@ -86,7 +87,7 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
       'max-video-preview': -1,
     },
     alternates: {
-      canonical: `https://bachatjar.com/category/${params.id}`,
+      canonical: `https://bachatjar.com/category/${id}`,
     },
   };
 }
@@ -94,8 +95,8 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
 // Update CategoryDetail component to include schema
 const CategoryDetail = async ({ params }: any) => {
   const token = await getServerToken();
-  const slug = params.id;
-  const page_data = await GetData(token, slug);
+  const {id} = params;
+  const page_data = await GetData(token, id);
 
   const { category_details, relatedProducts, relatedCoupons, relatedStore } = page_data;
 
@@ -105,7 +106,7 @@ const CategoryDetail = async ({ params }: any) => {
     "@type": "CollectionPage",
     "name": category_details.name,
     "description": category_details.description?.replace(/<[^>]*>?/gm, ''),
-    "url": `https://bachatjar.com/category/${slug}`,
+    "url": `https://bachatjar.com/category/${id}`,
     "image": category_details.imges[0],
     "numberOfItems": relatedProducts.length + relatedCoupons.length,
     "hasPart": [
@@ -164,7 +165,7 @@ const CategoryDetail = async ({ params }: any) => {
             ></div>
           </div>
           <CategoryClientTab
-            slug={slug}
+            slug={id}
             relatedProducts={relatedProducts}
             relatedStore={relatedStore}
             relatedCoupons={relatedCoupons}

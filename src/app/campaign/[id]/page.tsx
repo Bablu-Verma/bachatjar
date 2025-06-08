@@ -48,7 +48,8 @@ import Link from "next/link";
 
 export async function generateMetadata({ params }: any): Promise<Metadata> {
   const token = await getServerToken();
-  const pageData = await GetData(token, params.id);
+  const {id} = await params
+  const pageData = await GetData(token, id);
 
   if (!pageData) {
     return {
@@ -67,7 +68,7 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
     openGraph: {
       title: product.title,
       description: description,
-      url: `https://bachatjar.com/campaign/${params.id}`,
+      url: `https://bachatjar.com/campaign/${id}`,
       siteName: 'BachatJar',
       images: [
         {
@@ -94,7 +95,7 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
       'max-video-preview': -1,
     },
     alternates: {
-      canonical: `https://bachatjar.com/campaign/${params.id}`,
+      canonical: `https://bachatjar.com/campaign/${id}`,
     },
   };
 }
@@ -103,11 +104,11 @@ const CampaignDetail = async ({ params }: any) => {
   const token = await getServerToken();
 
   const { id } = await params;
-  const slug = id;
+  
 
   
 
-  const page_data = await GetData(token, slug);
+  const page_data = await GetData(token, id);
 
   const { product } = page_data;
 
@@ -118,7 +119,7 @@ const CampaignDetail = async ({ params }: any) => {
     "name": product.title,
     "description": product.description?.replace(/<[^>]*>?/gm, ''),
     "image": product.product_img || 'https://i.imgur.com/AZoKCRT.png',
-    "url": `https://bachatjar.com/campaign/${params.id}`,
+    "url": `https://bachatjar.com/campaign/${id}`,
     "brand": {
       "@type": "Brand",
       "name": product.store.name,

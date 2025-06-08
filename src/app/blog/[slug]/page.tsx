@@ -42,7 +42,8 @@ const GetData = async (token: string, slug: string) => {
 // Add generateMetadata function for dynamic SEO
 export async function generateMetadata({ params }: any): Promise<Metadata> {
   const token = await getServerToken();
-  const pageData = await GetData(token, params.slug);
+  const {slug} = await params
+  const pageData = await GetData(token, slug);
 
   if (!pageData) {
     return {
@@ -61,7 +62,7 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
     openGraph: {
       title: blog.title,
       description,
-      url: `https://bachatjar.com/blog/${params.slug}`,
+      url: `https://bachatjar.com/blog/${slug}`,
       siteName: 'BachatJar',
       images: [
         {
@@ -91,14 +92,15 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
       'max-video-preview': -1,
     },
     alternates: {
-      canonical: `https://bachatjar.com/blog/${params.slug}`,
+      canonical: `https://bachatjar.com/blog/${slug}`,
     },
   };
 }
 
 const BlogDetail = async ({ params }: any) => {
   const token = await getServerToken();
-  const page_data = await GetData(token, params.slug);
+  const {slug} =await params
+  const page_data = await GetData(token, slug);
   const { blog, relatedblogs } = page_data;
 
   // Create article schema
@@ -124,7 +126,7 @@ const BlogDetail = async ({ params }: any) => {
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://bachatjar.com/blog/${params.slug}`
+      "@id": `https://bachatjar.com/blog/${slug}`
     },
     "articleBody": blog.desc?.replace(/<[^>]*>?/gm, '')
   };
@@ -150,7 +152,7 @@ const BlogDetail = async ({ params }: any) => {
         "@type": "ListItem",
         "position": 3,
         "name": blog.title,
-        "item": `https://bachatjar.com/blog/${params.slug}`
+        "item": `https://bachatjar.com/blog/${slug}`
       }
     ]
   };

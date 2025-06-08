@@ -19,10 +19,11 @@ import { Metadata } from "next";
 interface topstoreProps {
   _id: string;
   name: string; 
+  slug: string;
 }
 
 export const generateMetadata = async ({ params }: any): Promise<Metadata> => {
-  const slug = params.slug;
+  const {slug} =  await params;
   
   // Fetch store data for dynamic metadata
   try {
@@ -121,7 +122,7 @@ const GetData = async (token: string, slug: string) => {
 
 const StoreDetail = async ({ params }: any) => {
   const token = await getServerToken();
-  const slug = params?.slug;
+  const {slug} = await params;
   const page_data = await GetData(token, slug);
 
   if (!page_data) {
@@ -169,6 +170,8 @@ const StoreDetail = async ({ params }: any) => {
     }
   };
 
+  console.log(store)
+
   return (
     <>
       <MainHeader />
@@ -194,7 +197,7 @@ const StoreDetail = async ({ params }: any) => {
                     )}
                     {store.cashback_type == "PERCENTAGE" && (
                       <>Up to {store.cashback_rate}%</>
-                    )}{" "}
+                    )}
                     Off
                   </p>
                 </div>
@@ -206,7 +209,7 @@ const StoreDetail = async ({ params }: any) => {
 
                 <StoreDesc html_={store.description || ""} />
                 <div className="sm:flex gap-5  mt-6">
-                  <UserStoreAction store_id={store._id} />
+                  <UserStoreAction store_={store} />
                   <p className="hidden sm:inline-block text-xl text-center font-medium text-light pt-1 ">
                     {store.cashback_type == "FLAT_AMOUNT" && (
                       <>Up to ₹{store.cashback_rate}.00</>
@@ -223,7 +226,9 @@ const StoreDetail = async ({ params }: any) => {
             <Store_tc store_tc={store.tc} />
           </div>
         </section>
-        <section className="max-w-6xl mx-auto h-12 relative">
+        {
+            store.tracking && <section className="max-w-6xl mx-auto h-12 relative">
+          
           <div className="p-2 px-5 flex justify-center items-center gap-5">
             <span className="text-base text-secondary">Tracking Speed: </span>
             <Image
@@ -240,6 +245,8 @@ const StoreDetail = async ({ params }: any) => {
             </strong>
           </div>
         </section>
+          }
+        
         <section className="max-w-6xl px-2.5 my-12 mx-auto flex   flex-col-reverse sm:grid lg:gap-16 sm:gap-5 min-h-60 grid-cols-4">
           <div className="col-span-1 mt-12 sm:mt-0 ">
             {store.claim_form == "ACTIVE_CLAIM_FORM" && (
@@ -261,9 +268,9 @@ const StoreDetail = async ({ params }: any) => {
                     className="text-lg capitalize text-secondary mb-2"
                     key={i}
                   >
-                    {" "}
-                    {i + 1}.{" "}
-                    <Link className=" hover:underline" href="">
+                   
+                    {i + 1}.
+                    <Link className=" hover:underline" href={`/store/${item.slug}`}>
                       {item.name}
                     </Link>
                   </p>
@@ -281,11 +288,11 @@ const StoreDetail = async ({ params }: any) => {
                     className="text-lg capitalize text-secondary mb-2"
                     key={i}
                   >
-                    {" "}
+                   
                     {i + 1}.{" "}
                     <Link
                       className=" hover:underline hover:text-primary"
-                      href=""
+                      href={`/store/${item.slug}`}
                     >
                       {item.name}
                     </Link>

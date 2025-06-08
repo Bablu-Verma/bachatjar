@@ -42,34 +42,39 @@ const GetData = async (token: string, slug: string) => {
 
 export async function generateMetadata({ params }: any): Promise<Metadata> {
   const token = await getServerToken();
-  const couponData = await GetData(token, params.id);
+  const { id } = await params;
+  const couponData = await GetData(token, id);
+  
 
-  if (!couponData) {
-    return {
-      title: 'Coupon Not Found | BachatJar',
-      description: 'The requested coupon could not be found.',
-    };
-  }
-
-  const title = couponData.title;
+ if (
+  !couponData ||
+  typeof couponData !== 'object' ||
+  Array.isArray(couponData)
+) {
+  return {
+    title: 'Coupon Not Found | BachatJar',
+    description: 'The requested coupon could not be found.',
+  };
+}
+  const title = couponData?.title;
   const description = couponData.description?.replace(/<[^>]*>?/gm, '').slice(0, 155) || '';
-  const store = couponData.store_details;
+  const store = couponData?.store_details;
 
   return {
-    title: `${title} - ${store.name} Coupon | BachatJar`,
+    title: `${title} - ${store?.name} Coupon | BachatJar`,
     description: `${description} Get exclusive cashback and savings with BachatJar.`,
-    keywords: `${store.name} coupons, ${store.name} offers, ${store.name} deals, cashback offers, BachatJar`,
+    keywords: `${store?.name} coupons, ${store?.name} offers, ${store?.name} deals, cashback offers, BachatJar`,
     openGraph: {
-      title: `${title} - Exclusive ${store.name} Coupon`,
+      title: `${title} - Exclusive ${store?.name} Coupon`,
       description: description,
-      url: `https://bachatjar.com/coupons/${params.id}`,
+      url: `https://bachatjar.com/coupons/${id}`,
       siteName: 'BachatJar',
       images: [
         {
-          url: store.store_img || '/default-coupon.jpg',
+          url: store?.store_img || '/default-coupon.jpg',
           width: 800,
           height: 600,
-          alt: `${store.name} Coupon`,
+          alt: `${store?.name} Coupon`,
         }
       ],
       locale: 'en_US',
@@ -77,9 +82,9 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${title} - ${store.name} Coupon`,
+      title: `${title} - ${store?.name} Coupon`,
       description: description,
-      images: [store.store_img || '/default-coupon.jpg'],
+      images: [store?.store_img || '/default-coupon.jpg'],
     },
     robots: {
       index: true,
@@ -89,15 +94,15 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
       'max-video-preview': -1,
     },
     alternates: {
-      canonical: `https://bachatjar.com/coupons/${params.id}`,
+      canonical: `https://bachatjar.com/coupons/${id}`,
     },
   };
 }
 
 const CouponDetail = async ({ params }: any) => {
   const token = await getServerToken();
-  const slug = params.id;
-  const page_data = await GetData(token, slug);
+  const {id} = await params;
+  const page_data = await GetData(token, id);
 
   // Create coupon schema
   const couponSchema = {
@@ -110,8 +115,8 @@ const CouponDetail = async ({ params }: any) => {
     "availability": "https://schema.org/InStock",
     "seller": {
       "@type": "Organization",
-      "name": page_data.store_details.name,
-      "image": page_data.store_details.store_img
+      "name": page_data.store_details?.name,
+      "image": page_data.store_details?.store_img
     },
     "validFrom": page_data.start_date,
     "validThrough": page_data.end_date,

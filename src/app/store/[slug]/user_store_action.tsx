@@ -9,18 +9,22 @@ import { ProgressBar } from "react-loader-spinner";
 import { useSelector } from "react-redux";
 import { IoMdShare } from "react-icons/io";
 import { FaExternalLinkAlt } from "react-icons/fa";
+import { IStore } from "@/model/StoreModel";
 
 
 
 interface UserStoreActionProps {
-  store_id: string;
+  store_: IStore;
 }
 
-const UserStoreAction: React.FC<UserStoreActionProps> = ({ store_id }) => {
+const UserStoreAction: React.FC<UserStoreActionProps> = ({ store_ }) => {
   const token = useSelector((state: RootState) => state.user.token);
   const user = useSelector((state: RootState) => state.user.user);
 
   const [modelOpen, setModelOpen] = React.useState<boolean>(false);
+
+
+  console.log(store_)
 
   const shop_now = async () => {
     if (!token) {
@@ -39,7 +43,7 @@ const UserStoreAction: React.FC<UserStoreActionProps> = ({ store_id }) => {
       const { data } = await axios.post(
         create_order_api,
         {
-          store_id: store_id,
+          store_id: store_._id,
         },
         {
           headers: {
@@ -73,8 +77,7 @@ const UserStoreAction: React.FC<UserStoreActionProps> = ({ store_id }) => {
   };
 
 
-
-  const create_share_link = ()=>{
+  const create_share_link = ()=> {
     if (!token) {
       toast.error("You need to login to proceed");
 
@@ -85,7 +88,7 @@ const UserStoreAction: React.FC<UserStoreActionProps> = ({ store_id }) => {
       return;
     }
 
-    const create_link = `${process.env.NEXT_PUBLIC_SITE_URL}/create-order?store_id=${store_id}&user_id=${user?._id}`
+    const create_link = `${process.env.NEXT_PUBLIC_SITE_URL}/create-order?store_id=${store_._id}&user_id=${user?._id}`
 
     navigator.clipboard
     .writeText(create_link)
@@ -106,10 +109,13 @@ const UserStoreAction: React.FC<UserStoreActionProps> = ({ store_id }) => {
           onClick={shop_now}
           className="border-[1px] cursor-pointer justify-center items-center gap-2 inline-flex text-base rounded px-6 py-2 text-white "
         >
-          <span>Shop & Earn</span>
+          <span> {
+            store_.store_type != 'NON_INSENTIVE' ? 'Shop & Earn': 'Shop & Save'
+            } </span>
           <FaExternalLinkAlt />
         </a>
-        <button
+        {
+          store_.store_type != 'NON_INSENTIVE' &&  <button
           type="button"
           onClick={create_share_link}
           className=" justify-center items-center gap-2 text-base border-[1px] border-green-400 text-secondary inline-flex px-6 py-2 bg-green-400 rounded"
@@ -117,6 +123,8 @@ const UserStoreAction: React.FC<UserStoreActionProps> = ({ store_id }) => {
           <span>Share Link</span>
           <IoMdShare className="text-lg" />
         </button>
+        }
+       
       </div>
 
       {modelOpen && (
