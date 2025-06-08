@@ -25,6 +25,8 @@ const getInitialState = (): UserState => {
 
 const initialState: UserState = getInitialState();
 
+const days_15_in_minutes = 60 * 24 * 15;
+
 const UserSlice = createSlice({
   name: "user",
   initialState,
@@ -34,8 +36,8 @@ const UserSlice = createSlice({
       state.user = action.payload.user;
 
       if (isBrowser) {
-        setClientCookie("token", action.payload.token, 30);
-        setClientCookie("user", encodeURIComponent(JSON.stringify(action.payload.user)), 30);
+        setClientCookie("token", action.payload.token, days_15_in_minutes);
+        setClientCookie("user", encodeURIComponent(JSON.stringify(action.payload.user)), days_15_in_minutes);
       }
     },
     logout: (state) => {

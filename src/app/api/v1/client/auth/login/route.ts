@@ -106,7 +106,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       role: findUser.role,
       _id: findUser._id,
     };
-    const days_15 = 60 * 60 * 24 * 15; // 15 days in seconds
+    const days_15 = 60 * 60 * 24 * 15; 
     const JwtToken = generateJwtToken(Payload, days_15);
 
     const userData = findUser.toObject();

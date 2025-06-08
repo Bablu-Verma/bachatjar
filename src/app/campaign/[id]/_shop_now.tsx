@@ -15,10 +15,9 @@ interface IShopNowProps {
 const ShopNowButton: React.FC<IShopNowProps> = ({ page_data }) => {
   const token = useSelector((state: RootState) => state.user.token);
   
-
-
   const [modelOpen, setModelOpen] = React.useState<boolean>(false);
 
+  console.log(page_data)
 
   // console.log(page_data)
   const shop_now = async () => {

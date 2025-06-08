@@ -47,7 +47,7 @@ const AddProduct = () => {
   const [categoryList, setCategoryList] = useState<
     { name: string; _id: string }[]
   >([]);
-  const [storeList, setStoreList] = useState<{ name: string; _id: string }[]>(
+  const [storeList, setStoreList] = useState<{ name: string; _id: string, store_type:string }[]>(
     []
   );
   const [loding, setLoading] = useState(false);
@@ -169,6 +169,8 @@ const AddProduct = () => {
 };
 
 
+console.log(storeList)
+
   return (
     <>
       <h1 className="text-2xl py-2 font-medium text-secondary_color">
@@ -221,7 +223,7 @@ const AddProduct = () => {
                   Slected Store
                 </option>
                 {storeList.map((item, i) => {
-                  return <option value={item._id} key={i}>{item.name}</option>;
+                  return <option value={item._id} key={i}>{item.name}  ({item.store_type})</option>;
                 })}
               </select>
             </div>

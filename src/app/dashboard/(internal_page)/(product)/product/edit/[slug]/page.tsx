@@ -27,7 +27,7 @@ const EditProduct = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const pathname = usePathname();
 
-  const [storeList, setStoreList] = useState<{ name: string; _id: string }[]>(
+  const [storeList, setStoreList] = useState<{ name: string; _id: string, store_type:string }[]>(
     []
   );
   const [editorT_and_c, setEditor_t_and_c] = useState("");
@@ -292,7 +292,7 @@ const EditProduct = () => {
                   Slected Store
                 </option>
                 {storeList.map((item, i) => {
-                  return <option value={item._id} key={i}>{item.name}</option>;
+                  return <option value={item._id} key={i}>{item.name} ({item.store_type})</option>;
                 })}
               </select>
             </div>

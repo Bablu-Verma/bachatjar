@@ -28,6 +28,8 @@ const getInitialState = (): CashbackSummaryState => {
 
 const initialState: CashbackSummaryState = getInitialState();
 
+const days_15_in_minutes = 60 * 24 * 15;
+
 const CashbackSummarySlice = createSlice({
   name: "cashbackSummary",
   initialState,
@@ -36,7 +38,7 @@ const CashbackSummarySlice = createSlice({
       state.summary = action.payload.summary;
 
       if (isBrowser && action.payload.summary) {
-        setClientCookie("cashback_summary", encodeURIComponent(JSON.stringify(action.payload.summary)), 30);
+        setClientCookie("cashback_summary", encodeURIComponent(JSON.stringify(action.payload.summary)), days_15_in_minutes);
       }
     },
     clearSummary: (state) => {

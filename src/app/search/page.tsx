@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios, { AxiosError } from "axios"; // Import Axios
+import axios, { AxiosError } from "axios";
 import BottomToTop from "@/components/BottomToTop";
 import Footer from "@/components/Footer";
 import MainHeader from "@/components/header/MainHeader";
@@ -12,17 +12,21 @@ import { RootState } from "@/redux-store/redux_store";
 import { BallTriangle } from "react-loader-spinner";
 import ProductCard from "@/components/small_card/ProductCard";
 import { MainHeading } from "@/components/Heading";
-import { ICategory } from "@/model/CategoryModel";
-import CategorieCard from "@/components/small_card/CategorieCard";
+
+import { IStore } from "@/model/StoreModel";
+import { ICoupon } from "@/model/CouponModel";
+import CouponcodeCard from "@/components/small_card/CouponcodeCard";
+import StoreCard from "@/components/small_card/StoreCard";
 
 export default function SearchPage() {
-  const [query, setQuery] = useState<string>(""); // Explicit typing for better readability
+  const [query, setQuery] = useState<string>("");
   const [debouncedQuery, setDebouncedQuery] = useState<string>("");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [resultProduct, setResultProduct] = useState<any[]>([]); // Add typing based on actual API response
-  const [resultCategory, setResultCategory] = useState<ICategory[]>([]);
+  const [resultProduct, setResultProduct] = useState<any[]>([]);
+  const [resultStore, setResultStore] = useState<IStore[]>([]);
+  const [resultCoupons, setResultCoupons] = useState<ICoupon[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null); // Use null for no error state
+  const [error, setError] = useState<string | null>(null);
 
   const token = useSelector((state: RootState) => state.user.token);
 
@@ -37,7 +41,7 @@ export default function SearchPage() {
   const search_query = async (debouncedQuery: string) => {
     try {
       setLoading(true);
-      setError(null); // Reset error state before API call
+      setError(null);
 
       const { data } = await axios.post(
         search_client_,
@@ -50,15 +54,18 @@ export default function SearchPage() {
         }
       );
 
-      if (!data.data.categories.length && !data.data.campaigns.length) {
+      if (!data.data.stores.length && !data.data.campaigns.length && !data.data.coupons.length) {
         setError("No results found.");
         setResultProduct([]);
-        setResultCategory([]);
+        setResultStore([])
+        setResultCoupons([])
         return;
       }
-
+      console.log("data.data", data.data)
       setResultProduct(data.data.campaigns || []);
-      setResultCategory(data.data.categories || []);
+      setResultStore(data.data.stores || []);
+      setResultCoupons(data.data.coupons || []);
+
     } catch (err) {
       if (err instanceof AxiosError) {
         console.error("Error fetching search results", err.response?.data.message);
@@ -77,9 +84,10 @@ export default function SearchPage() {
       search_query(debouncedQuery);
     } else {
       setResultProduct([]);
-      setResultCategory([]);
+      setResultStore([])
+      setResultCoupons([])
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedQuery]);
 
   return (
@@ -104,7 +112,7 @@ export default function SearchPage() {
           </div>
         </div>
 
-        <div className="flex justify-center items-center lg:mt-20">
+        <div className="flex justify-center items-center ">
           {loading && (
             <BallTriangle
               height={100}
@@ -120,7 +128,7 @@ export default function SearchPage() {
 
         {resultProduct.length > 0 && (
           <>
-            <div className="px-2 lg:px-4 flex mt-7 md:mt-10 justify-start items-end mb-4 relative">
+            <div className="px-2 lg:px-4  mt-7  mb-4 relative">
               <MainHeading title="Products" link={null} />
             </div>
             <div className="px-2 lg:px-4 pt-2 grid grid-rows-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-4 gap-3 md:gap-6">
@@ -131,18 +139,36 @@ export default function SearchPage() {
           </>
         )}
 
-        {resultCategory.length > 0 && (
+        {resultStore.length > 0 && (
           <>
-            <div className="px-4 flex mt-7 md:mt-10 justify-start items-end mb-4 relative">
-              <MainHeading title="Category" link={null} />
+            <div className="px-2 lg:px-4  mt-7  mb-4 relative">
+              <MainHeading title="Stores" link={null} />
             </div>
-            <div className="px-4 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 pb-10 pt-2">
-              {resultCategory.map((item: ICategory,i) => (
-                <CategorieCard item={item} key={i} />
+            <div className="px-2 lg:px-4 pt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
+              {resultStore.map((store, i) => (
+                 <StoreCard item={store} key={i} />
               ))}
             </div>
           </>
         )}
+
+        {resultCoupons.length > 0 && (
+          <>
+            <div className="px-2 lg:px-4  mt-7  mb-4 relative">
+              <MainHeading title="Coupons" link={null} />
+            </div>
+            <div className="px-2 lg:px-4 pt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
+              {resultCoupons.map((coupon, i) => (
+                <CouponcodeCard item={coupon} key={i} />
+              ))}
+            </div>
+          </>
+        )}
+
+
+   <div className="py-10"></div>
+
+
 
         <BottomToTop />
       </main>

@@ -91,8 +91,8 @@ export default async function Category() {
       "url": `https://bachatjar.com/coupons/${coupon._id}`,
       "seller": {
         "@type": "Organization",
-        "name": coupon.store_details.name,
-        "image": coupon.store_details.store_img
+        "name": coupon.store_details?.name,
+        "image": coupon.store_details?.store_img
       },
       "validFrom": coupon.start_date,
       "validThrough": coupon.end_date,
