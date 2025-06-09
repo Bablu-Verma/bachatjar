@@ -214,9 +214,7 @@ export default async function Home() {
 
         {!token && <HowToWork />}
 
-        <div>
-          <Deals best_product={page_data?.data} />
-        </div>
+       <Deals  />
 
         {page_data?.data.long_poster?.length > 0 && (
           <div className="max-w-6xl mx-auto mt-14">

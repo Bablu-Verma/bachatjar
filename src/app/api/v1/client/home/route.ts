@@ -3,7 +3,6 @@ import dbConnect from "@/lib/dbConnect";
 import CampaignModel from "@/model/CampaignModel";
 import CategoryModel from "@/model/CategoryModel";
 import BlogModel from "@/model/BlogModal";
-import { authenticateAndValidateUser } from "@/lib/authenticate";
 import StoreModel from "@/model/StoreModel";
 import CouponModel from "@/model/CouponModel";
 
@@ -11,53 +10,14 @@ import CouponModel from "@/model/CouponModel";
 export async function POST(req: Request) {
   await dbConnect();
   const currentDate = new Date();
-  const body = await req.json();
-  const { page = 1, tag = 'hot_deals' } = body;
-  const offerDealLimit = 4
-  const skip_offer = (page - 1) * offerDealLimit;
-
-  const getOfferDeals = async (tag: string, skip: number, limit: number) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const query: any = { product_status: "ACTIVE" };
-  const validTags = ["new", "hot", "best", "live"];
-  if (tag && validTags.includes(tag)) {
-    query.product_tags = tag;
-  }
-
-  return CampaignModel.find(query)
-    .skip(skip)
-    .limit(limit)
-    .populate("store", "name cashback_type cashback_rate store_link store_img")
-    .populate("category", "name slug")
-    .select(
-      "store category offer_price calculated_cashback calculation_mode product_img product_tags actual_price product_slug slug_type title createdAt updatedAt _id"
-    )
-    .lean();
-};
-
-
-
-
-
+ 
   try {
-    const { } =
-      await authenticateAndValidateUser(req);
 
-    if (page === 1 && tag == 'hot') {
-      const offer_deal = await CampaignModel.find({
-        product_status: "ACTIVE"
-      })
-        .skip(skip_offer)
-        .limit(offerDealLimit)
-        .populate("store", "name cashback_type cashback_rate store_link store_img")
-        .populate("category", "name slug")
-        .select('store category offer_price calculated_cashback calculation_mode product_img product_tags actual_price product_slug slug_type title  createdAt updatedAt _id')
-        .lean();
-      const main_banner = await CampaignModel.find({
+    const main_banner = await CampaignModel.find({
         product_status: "ACTIVE",
         main_banner: { $elemMatch: { is_active: true } },
       }).limit(6).populate("store", "name cashback_type cashback_rate store_link store_img")
-        .populate("category", "name slug").select('store category main_banner product_slug slug_type title createdAt updatedAt').lean();
+        .populate("category", "name slug").select('store category main_banner product_slug slug_type title createdAt upDatedAt').lean();
 
       const store = await StoreModel.find({ store_status: "ACTIVE" }).limit(10).select('-description -store_link -store_status').lean();
 
@@ -109,18 +69,8 @@ export async function POST(req: Request) {
           blog,
           store,
           best_product,
-          offer_deal,
         },
       });
-    } else   {
-  // For all other cases: either page > 1 or page == 1 && tag != 'hot'
-  const offer_deal = await getOfferDeals(tag, skip_offer, offerDealLimit);
-  return NextResponse.json({
-    success: true,
-    message: "Offer deal loaded successfully.",
-    data: offer_deal,
-  });
-}
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error("Error fetching campaigns:", error.message);
