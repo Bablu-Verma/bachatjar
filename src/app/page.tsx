@@ -5,7 +5,7 @@ import { MainHeading } from "@/components/Heading";
 import Featured from "@/components/heropage/Featured";
 import Hero from "@/components/heropage/Hero";
 import BestSalling from "@/components/homepage/BestSelling";
-import CallApiInHome from "@/components/homepage/CallApiInHome";
+
 import Deals from "@/components/homepage/Deals";
 import HomeBlog from "@/components/homepage/HomeBlog";
 import HomeCategories from "@/components/homepage/HomeCategories";
@@ -24,6 +24,7 @@ import { Metadata } from 'next';
 import Script from 'next/script';
 import chat_icon from "../../public/chat.png"
 import Image from "next/image";
+import WatchlistSetHome from "@/components/homepage/WatchlistSetHome";
 
 export const metadata: Metadata = {
   title: 'BachatJar - Save Money With Cashback & Coupons',
@@ -140,12 +141,14 @@ export default async function Home() {
   const page_data = await GetData(token);
 
  
-
-
-
   if (!page_data) {
     return <div>Error fetching data</div>;
   }
+
+
+
+
+
 
   // Create dynamic offers schema based on deals
   const offersSchema = {
@@ -183,7 +186,7 @@ export default async function Home() {
       />
       
       <MainHeader />
-      <CallApiInHome />
+      <WatchlistSetHome watchlist={page_data?.data?.watchlist} />
       
       <a target="_blank" href={`https://wa.me/91${process.env.NEXT_PUBLIC_NUMBER}`} className='fixed bottom-28 right-3 opacity-70 hover:opacity-100  cursor-pointer duration-300'>
         <Image src={chat_icon} alt="Chatt_icon" height={62} width={62} className=''/>

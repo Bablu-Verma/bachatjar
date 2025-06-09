@@ -42,6 +42,7 @@ const Deals: React.FC = () => {
       if (newDeals.length === 0) setHasMore(false);
 
       setDeals((prev) => [...prev, ...newDeals]);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Error fetching deals:", error?.response?.data?.message || error.message);
       setHasMore(false);

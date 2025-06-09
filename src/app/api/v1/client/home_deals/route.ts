@@ -11,7 +11,7 @@ export async function POST(req: Request) {
   const skip_offer = (page - 1) * offerDealLimit;
 
   try {
-    // Create dynamic filter
+   // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const filter: any = {
       product_status: "ACTIVE"
     };
