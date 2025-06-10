@@ -29,7 +29,7 @@ export async function POST(req: Request) {
 
     const {
       page = 1,
-      limit = 2,
+      limit = 20,
       search,
       role,
       status,

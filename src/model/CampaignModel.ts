@@ -69,11 +69,10 @@ const CampaignSchema = new Schema<ICampaign>(
     },
 
     store: {
-      _id: { type: String, required: true },
-      slug: { type: String, required: true },
-      name: { type: String, required: true },
-      store_link: { type: String, required: true },
-
+      type: Schema.Types.ObjectId,
+      required: [true, "Store is required"],
+      index: true,
+      ref: "Store",
     },
 
     category: {

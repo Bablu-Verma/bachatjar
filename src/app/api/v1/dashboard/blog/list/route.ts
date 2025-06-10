@@ -33,7 +33,7 @@ export async function POST(req: Request) {
     }
 
     const requestData = await req.json();
- const {status,sortBy, search,endDate,startDate,page = 1, limit = 3}  = requestData
+ const {status,sortBy, search,endDate,startDate,page = 1, limit = 20}  = requestData
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const filters: any = {};
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

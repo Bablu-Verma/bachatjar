@@ -110,16 +110,6 @@ if (storeDoc.store_type === "NON_INSENTIVE") {
       offerPrice = Math.max(0, actualPrice - calculatedCashback);
     }
 
-    // Step 7: Update the campaign
-    const storeForCampaign = {
-      _id: storeDoc._id.toString(),
-      slug: storeDoc.slug,
-      name: storeDoc.name,
-      store_link: storeDoc.store_link || "",
-    };
-
- 
-
 
     const updatedCampaign = await CampaignModel.findByIdAndUpdate(
       requestData._id,
@@ -128,7 +118,7 @@ if (storeDoc.store_type === "NON_INSENTIVE") {
         actual_price: actualPrice,
         offer_price: offerPrice,
         calculated_cashback: calculatedCashback,
-        store: storeForCampaign,
+        store: storeDoc._id,
         category: requestData.category,
         description: requestData.description,
         product_img: requestData.product_img,

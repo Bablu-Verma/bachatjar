@@ -43,7 +43,7 @@ export async function POST(req: Request) {
    
     const {
       page = 1,
-      limit = 5,
+      limit = 20,
       search,
       store_type,
       cashback_type,

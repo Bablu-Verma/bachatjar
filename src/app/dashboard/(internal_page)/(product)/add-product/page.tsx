@@ -169,7 +169,7 @@ const AddProduct = () => {
 };
 
 
-console.log(storeList)
+
 
   return (
     <>

@@ -35,7 +35,7 @@ export async function POST(req: Request) {
     const requestData = await req.json();
     const {
       page = 1,
-      limit = 5,
+      limit = 20,
       status ,
       store,
       startDate,

@@ -87,13 +87,7 @@ export async function POST(req: Request) {
       offerPrice = Math.max(0, actualPrice - calculatedCashback);
     }
 
-    // Step 7: Create new campaign
-    const storeForCampaign = {
-      _id: storeDoc._id.toString(),
-      slug: storeDoc.slug,
-      name: storeDoc.name,
-      store_link:storeDoc.store_link
-    };
+
 
     const newCampaign = new CampaignModel({
       title: requestData.title,
@@ -101,7 +95,7 @@ export async function POST(req: Request) {
       offer_price: offerPrice,
       calculated_cashback: calculatedCashback,
       user_id: user?._id,
-      store: storeForCampaign,
+      store: storeDoc._id,
       category: requestData.category,
       description: requestData.description,
       product_img: requestData.product_img,

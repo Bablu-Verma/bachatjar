@@ -35,7 +35,7 @@ export async function POST(req: Request) {
       }
 
     const requestData = await req.json();
-    const { name, status, startDate, endDate, page = 1, limit = 10 } = requestData;
+    const { name, status, startDate, endDate, page = 1, limit = 20 } = requestData;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const query: any = {};

@@ -33,11 +33,11 @@ export async function POST(req: Request) {
 
     // Fetching active results with a limit of 10 per category
     const [ stores, coupons, campaigns] = await Promise.all([
-      StoreModel.find({ name: searchFilter,  store_status: "ACTIVE" }).limit(10).select('-description  -cashback_type -store_status').lean(),
+      StoreModel.find({ name: searchFilter,  store_status: "ACTIVE" }).limit(6).select('-description  -cashback_type -store_status').lean(),
 
-      CouponModel.find({ title: searchFilter, status: "ACTIVE" }).limit(10).populate('store', 'name slug store_img').populate('category', 'name slug').select('-description -expiry_date -status').lean(),
+      CouponModel.find({ title: searchFilter, status: "ACTIVE" }).limit(6).populate('store', 'name slug store_img').populate('category', 'name slug').select('-description -expiry_date -status').lean(),
 
-      CampaignModel.find({ title: searchFilter, product_status: "ACTIVE" }).limit(10).populate('store', 'name cashback_type cashback_rate store_link store_img').populate('category', 'name slug').select('store category offer_price calculated_cashback calculation_mode product_img product_tags  actual_price product_slug slug_type title  createdAt updatedAt _id').lean(),
+      CampaignModel.find({ title: searchFilter, product_status: "ACTIVE" }).limit(6).populate('store', 'name cashback_type cashback_rate store_link store_img').populate('category', 'name slug').select('store category offer_price calculated_cashback calculation_mode product_img product_tags  actual_price product_slug slug_type title  createdAt updatedAt _id').lean(),
     ]);
 
     return new NextResponse(

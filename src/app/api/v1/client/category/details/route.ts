@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     const requestData = await req.json();
     const { slug, page = 1, tabtype = null } = requestData;
 
-    const limit = 1;
+    const limit = 10;
 
     if (!slug) {
       return new NextResponse(

@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     const requestData = await req.json();
     const { page = 1, category = null } = requestData;
 
-    const limit = 2;
+    const limit = 10;
     const skip = (page - 1) * limit;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

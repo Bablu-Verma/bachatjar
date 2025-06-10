@@ -40,7 +40,7 @@ export async function POST(req: Request) {
       startDate,
       endDate,
       page = 1,
-      limit = 5,
+      limit = 10,
     } = await req.json();
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

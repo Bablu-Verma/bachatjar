@@ -12,7 +12,7 @@ export async function POST(req: Request) {
       page = 1,
     } = requestData;
 
-    const limit = 2
+    const limit = 10
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const query: any = {};

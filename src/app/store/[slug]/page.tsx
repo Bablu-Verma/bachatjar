@@ -125,6 +125,9 @@ const StoreDetail = async ({ params }: any) => {
   const {slug} = await params;
   const page_data = await GetData(token, slug);
 
+
+  console.log("store page data ", page_data)
+
   if (!page_data) {
     return (
       <>

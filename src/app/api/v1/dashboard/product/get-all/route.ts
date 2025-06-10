@@ -43,7 +43,7 @@ export async function POST(req: Request) {
       page = 1,
       title,
       store,
-      limit = 5,
+      limit = 10,
       product_status,
       startDate,
       endDate

@@ -31,7 +31,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const limit = 1;
+    const limit = 10;
     const skip = (page - 1) * limit;
 
     let relatedProducts: any[] = [];
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
 
     if (page === 1) {
     
-      relatedProducts = await CampaignModel.find({ store: store._id })
+      relatedProducts = await CampaignModel.find({ store: store._id,product_status:'ACTIVE' })
         .select(
           "store category offer_price calculated_cashback calculation_mode product_img product_tags actual_price product_slug slug_type title createdAt updatedAt _id"
         )
@@ -50,12 +50,17 @@ export async function POST(req: Request) {
         .limit(limit)
         .lean();
 
-      relatedCoupons = await CouponModel.find({ store: store._id })
+        console.log('relatedProducts', relatedProducts)
+
+      relatedCoupons = await CouponModel.find({ store: store._id, status:'ACTIVE' })
         .select("-description -status")
         .populate("store", "name cashback_type cashback_rate store_link store_img")
         .populate("category", "name slug")
         .limit(limit)
         .lean();
+ 
+        console.log('relatedCoupons', relatedCoupons)
+
 
       relatedStores = await StoreModel.find({
         category: store.category?._id,
@@ -95,6 +100,11 @@ export async function POST(req: Request) {
           .lean();
       }
     }
+
+
+    
+   
+
 
     return new NextResponse(
       JSON.stringify({

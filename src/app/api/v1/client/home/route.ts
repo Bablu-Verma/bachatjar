@@ -43,7 +43,7 @@ export async function POST(req: Request) {
     }).limit(6).populate("store", "name cashback_type cashback_rate store_link store_img")
       .populate("category", "name slug").select('store category main_banner product_slug slug_type title createdAt upDatedAt').lean();
 
-    const store = await StoreModel.find({ store_status: "ACTIVE" }).limit(10).select('-description -store_link -store_status').lean();
+    const store = await StoreModel.find({ store_status: "ACTIVE" }).limit(16).select('-description -store_link -store_status').lean();
 
     const flash_sale = await CampaignModel.find({
       product_status: "ACTIVE",

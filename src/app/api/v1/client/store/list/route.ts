@@ -9,7 +9,7 @@ export async function POST(req: Request) {
     // Extract Query Parameters
     const { page = 1 } = await req.json();
 
-    const limit = 2
+    const limit = 20
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const query: any = {};
     query.store_status = "ACTIVE";

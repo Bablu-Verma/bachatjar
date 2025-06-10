@@ -41,7 +41,8 @@ export async function POST(req: Request) {
       store_id,
       upto_amount:store_details.upto_amount,
       transaction_id: transactionId,
-      redirect_url: `${store_details.store_link}?q=redirect+url&id=${transactionId}`,
+      redirect_url: `${store_details.store_link}${transactionId}`,  //https:clitestie.com/click?pid=mygnratedid
+
       order_value: null,
       cashback: null,
       cashback_rate: store_details.cashback_rate,
