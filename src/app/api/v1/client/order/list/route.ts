@@ -19,7 +19,7 @@ export async function POST(req: Request) {
     // ✅ Get parameters from request
     const { page = 1, activetab = null } = await req.json();
 
-    const limit = 5;
+    const limit = 20;
     const skip = (Number(page) - 1) * limit;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

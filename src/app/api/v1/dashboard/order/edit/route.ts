@@ -62,12 +62,18 @@ export async function POST(req: Request) {
 
 
     if (payment_status === 'Confirmed') {
-      ConformAmountModel.create({
-        amount:record.cashback,
-        user_id:record.user_id
-      })
-    }
- 
+  const existing = await ConformAmountModel.findOne({ user_id: record.user_id });
+
+  if (existing) {
+    existing.amount += record.cashback;
+    await existing.save();
+  } else {
+    await ConformAmountModel.create({
+      amount: record.cashback,
+      user_id: record.user_id,
+    });
+  }
+}
 
     await record.save();
 

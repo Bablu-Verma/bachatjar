@@ -1,65 +1,118 @@
 "use client";
 
-import { useState } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
+import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
-import { offline_report_add_api } from "@/utils/api_url";
+import { list_store_dashboard_api, offline_report_add_api } from "@/utils/api_url";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux-store/redux_store";
+
+interface StoreItem {
+  _id: string;
+  name: string;
+
+}
+
+interface FailedRow {
+  click_id: string;
+  reason: string;
+}
 
 const AddOfflineReport = () => {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [message, setMessage] = useState('')
-  const [failedRows, setfailedRows] = useState<{ click_id: string, reason: string }[]>([])
+  const [message, setMessage] = useState("");
+  const [failedRows, setFailedRows] = useState<FailedRow[]>([]);
+  const [storeList, setStoreList] = useState<StoreItem[]>([]);
+  const [selectedStore, setSelectedStore] = useState<string>("");
+  const [uploadFiletype, setUploadFileType] = useState<string>("initial");
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMessage('')
-    if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
+  const token = useSelector((state: RootState) => state.user.token);
+
+
+
+  const getStores = async () => {
+    try {
+      const { data } = await axios.post(
+        list_store_dashboard_api,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setStoreList(data.data);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message);
+      } else {
+        toast.error("Unknown error while fetching stores.");
+      }
     }
   };
 
+
+  useEffect(() => {
+    getStores();
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!file) {
       toast.error("Please select a CSV file first.");
       return;
     }
 
+    if (!selectedStore) {
+      toast.error("Please select a store.");
+      return;
+    }
+
+
     setLoading(true);
+    setMessage("");
+    setFailedRows([]);
 
     try {
       const formData = new FormData();
       formData.append("file", file);
+      formData.append("storeId", selectedStore);
+      formData.append("reporttype", uploadFiletype);
+
 
       const res = await axios.post(offline_report_add_api, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      setMessage(res.data.message)
+      setMessage(res.data.message);
       toast.success(res.data.message || "File uploaded successfully.");
       setFile(null);
-      setfailedRows(res.data.failedRows)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      setFailedRows(res.data.failedRows);
     } catch (error: any) {
-      console.error(error);
       toast.error(error.response?.data?.message || "Failed to upload file.");
     } finally {
-      setLoading(false); // stop loading
+      setLoading(false);
     }
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMessage("");
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+    }
+  };
 
-  function downloadFailedRowsAsCSV() {
+  const downloadFailedRowsAsCSV = () => {
     if (!failedRows.length) return;
 
     const headers = Object.keys(failedRows[0]).join(",") + "\n";
-
     const csvRows = failedRows
       .map(row => `${row.click_id},${row.reason}`)
       .join("\n");
 
     const csvContent = headers + csvRows;
-
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
 
@@ -69,25 +122,58 @@ const AddOfflineReport = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  }
-
+  };
 
   return (
     <>
       <h1 className="text-2xl py-2 font-medium text-secondary_color">Add Offline Report</h1>
       <div className="max-w-4xl my-10 mx-auto p-5 bg-white border border-gray-200 rounded-lg shadow-sm">
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Upload CSV File
-            </label>
-            <input
-              type="file"
-              accept=".csv"
-              onChange={handleFileChange}
-              disabled={loading} // disable file input while uploading
-              className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
-            />
+          <div className="grid grid-cols-2 gap-8">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Upload CSV File
+              </label>
+              <input
+                type="file"
+                accept=".csv"
+                onChange={handleFileChange}
+                disabled={loading}
+                className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Select Store
+              </label>
+              <select
+                value={selectedStore}
+                onChange={(e) => setSelectedStore(e.target.value)}
+                disabled={loading}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none"
+              >
+                <option value="">Select Store</option>
+                {storeList.map((store) => (
+                  <option key={store._id} value={store._id}>
+                    {store.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+             <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Report Type
+              </label>
+              <select
+                value={uploadFiletype}
+                onChange={(e) => setUploadFileType(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none"
+              >
+                <option value="initial">initial</option>
+                <option value="followup">followup</option>
+              </select>
+            </div>
           </div>
 
           <div className="text-right">
@@ -101,42 +187,40 @@ const AddOfflineReport = () => {
             </button>
           </div>
         </form>
-        <p className="text-green-400 text-sm py-4">{message}</p>
 
-        <div>
-          {
-            failedRows && failedRows.length > 0 && <>
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold">Failed Rows</h2>
-                <button
-                  onClick={downloadFailedRowsAsCSV}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm"
-                >
-                  Download Failed Rows
-                </button>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="min-w-full bg-white border border-gray-200 rounded-md overflow-hidden">
-                  <thead className="bg-gray-100">
-                    <tr>
-                      <th className="text-left px-4 py-2 border-b">Click ID</th>
-                      <th className="text-left px-4 py-2 border-b">Reason</th>
+        {message && <p className="text-green-500 text-sm py-4">{message}</p>}
+
+        {failedRows.length > 0 && (
+          <div className="mt-6">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Failed Rows</h2>
+              <button
+                onClick={downloadFailedRowsAsCSV}
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm"
+              >
+                Download Failed Rows
+              </button>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="min-w-full bg-white border border-gray-200 rounded-md overflow-hidden">
+                <thead className="bg-gray-100">
+                  <tr>
+                    <th className="text-left px-4 py-2 border-b">Click ID</th>
+                    <th className="text-left px-4 py-2 border-b">Reason</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {failedRows.map((row, index) => (
+                    <tr key={index} className="hover:bg-gray-50">
+                      <td className="px-4 py-2 border-b">{row.click_id}</td>
+                      <td className="px-4 py-2 border-b">{row.reason}</td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {failedRows.map((row: { click_id: string, reason: string }, index) => (
-                      <tr key={index} className="hover:bg-gray-50">
-                        <td className="px-4 py-2 border-b">{row.click_id}</td>
-                        <td className="px-4 py-2 border-b">{row.reason}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-            </>
-          }
-        </div>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

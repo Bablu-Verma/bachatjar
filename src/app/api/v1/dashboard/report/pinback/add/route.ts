@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
-import PinbackResponseModel from "@/model/PinbackResponseModel";
+import PinbackResponseModel from "@/model/ClientReport";
 import OrderModel from "@/model/OrderModel";
 
 export async function POST(req: Request) {

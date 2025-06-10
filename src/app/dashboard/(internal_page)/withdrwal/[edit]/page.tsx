@@ -56,7 +56,7 @@ const EditOrder: React.FC = () => {
 
   useEffect(() => {
     getOrderdetail();
-  }, [getOrderdetail]);
+  }, []);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>

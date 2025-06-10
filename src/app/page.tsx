@@ -145,11 +145,6 @@ export default async function Home() {
     return <div>Error fetching data</div>;
   }
 
-
-
-
-
-
   // Create dynamic offers schema based on deals
   const offersSchema = {
     "@context": "https://schema.org",
@@ -188,7 +183,7 @@ export default async function Home() {
       <MainHeader />
       <WatchlistSetHome watchlist={page_data?.data?.watchlist} />
       
-      <a target="_blank" href={`https://wa.me/91${process.env.NEXT_PUBLIC_NUMBER}`} className='fixed bottom-28 right-3 opacity-70 hover:opacity-100  cursor-pointer duration-300'>
+      <a target="_blank" href={`https://wa.me/91${process.env.NEXT_PUBLIC_NUMBER}`} className='fixed bottom-28 right-3 z-50 opacity-70 hover:opacity-100  cursor-pointer duration-300'>
         <Image src={chat_icon} alt="Chatt_icon" height={62} width={62} className=''/>
       </a>
 

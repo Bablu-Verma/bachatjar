@@ -170,7 +170,6 @@ const StoreDetail = async ({ params }: any) => {
     }
   };
 
-  console.log(store)
 
   return (
     <>

@@ -57,7 +57,7 @@ const OrderSchema = new Schema<IOrder>(
       required: true,
     },
     order_value: { type: Number, default: null, required: false },
-    cashback: { type: Number, default: null, required: false },
+    cashback: { type: Number, default: null, required: false, set: (v: number) => Math.round(v), },
     cashback_rate: { type: Number, required: true },
     cashback_type: {
       type: String,

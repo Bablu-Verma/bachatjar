@@ -36,13 +36,12 @@ function CreateShareOrderInner() {
         );
 
         if (data.success === true) {
-          setTimeout(() => {
-            if (data?.url && typeof data.url === "string") {
-              window.open(data.url, "_blank");
-            } else {
-              console.error("Invalid URL");
-            }
-          }, 3000);
+      
+          if (data?.url && typeof data.url === "string") {
+             window.location.href = data.url
+          } else {
+            console.error("Invalid URL");
+          }
         }
       } catch (error) {
         if (error instanceof AxiosError) {

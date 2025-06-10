@@ -24,7 +24,7 @@ const UserStoreAction: React.FC<UserStoreActionProps> = ({ store_ }) => {
   const [modelOpen, setModelOpen] = React.useState<boolean>(false);
 
 
-  console.log(store_)
+  
 
   const shop_now = async () => {
     if (!token) {
@@ -57,7 +57,7 @@ const UserStoreAction: React.FC<UserStoreActionProps> = ({ store_ }) => {
         setTimeout(() => {
           setModelOpen(false);
           if (data?.url && typeof data.url === "string") {
-            window.open(data.url, "_blank");
+            window.location.href= data.url;
           } else {
             console.error("Invalid URL");
           }

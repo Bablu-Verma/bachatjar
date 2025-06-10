@@ -20,10 +20,12 @@ const ConformAmountSchema = new Schema<IConformAmount>(
     amount: {
       type: Number,
       required: true,
+      set: (v: number) => Math.round(v),
     },
     hold_amount: {
       type: Number,
-      default:0
+      default:0,
+      set: (v: number) => Math.round(v),
     }
   },
   {
