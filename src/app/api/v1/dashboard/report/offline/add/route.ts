@@ -24,7 +24,7 @@ export async function POST(req: Request) {
 
     const buffer = Buffer.from(await file.arrayBuffer());
     const csvText = buffer.toString("utf-8");
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const records: any[] = parse(csvText, {
       columns: true,
       skip_empty_lines: true,
@@ -37,6 +37,7 @@ export async function POST(req: Request) {
 
     let successCount = 0;
     let failedCount = 0;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const failedRows: any[] = [];
 
     for (const raw_data of records) {

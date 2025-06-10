@@ -6,7 +6,7 @@ export interface ClientReport extends Document {
   status?: string;
   amount: number;
   commission: number;
-  raw_data: Record<string, any>;
+  raw_data: Record<string, unknown>;
   createdAt: string;
   updatedAt: string;
   store: mongoose.Types.ObjectId;
