@@ -29,6 +29,7 @@ const ProfileEdit = () => {
     profileImage: '',
     dob: new Date(),
     gender: "",
+    email:'',
     subscribe_email: "",
     user_status: "",
     role: "",
@@ -49,8 +50,6 @@ const ProfileEdit = () => {
         }
       );
 
-
-      // console.log(data.data)
       setFormData({
         name: data.data.name,
         phone: data.data.phone,
@@ -60,6 +59,7 @@ const ProfileEdit = () => {
         subscribe_email:  data.data.subscribe_email,
         user_status: data.data.user_status,
         role: data.data.role,
+        email:data.data.email
       })
 
 
@@ -91,11 +91,14 @@ const ProfileEdit = () => {
 
   const call_db = async () => {
     setLoading(true);
+
+    console.log(formData)
+
     try {
       const { data } = await axios.post(
         users_detail_edit_by_admin,
         {
-          email:user?.email,
+          email:formData.email,
           name: formData.name,
           phone: formData.phone,
           profileImage: formData.profileImage,
@@ -123,6 +126,9 @@ const ProfileEdit = () => {
       setLoading(false);
     }
   };
+
+
+  
 
   return (
     <>
@@ -155,7 +161,7 @@ const ProfileEdit = () => {
             <input
               type="text"
               name="email"
-              value={user?.email}
+              value={formData.email}
               readOnly
               className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-primary"
             />
@@ -246,7 +252,7 @@ const ProfileEdit = () => {
                 user role
               </label>
               <select
-                name="user_status"
+                name="role"
                 value={formData.role}
                 onChange={handleChange}
                 className=" w-[250px] px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"

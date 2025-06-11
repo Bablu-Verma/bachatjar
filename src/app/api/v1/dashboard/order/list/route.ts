@@ -78,7 +78,7 @@ const limitNumber = Number(limit) || 5;
         path: "user_id",
         select: "name email",
       })
-      // .populate({path:"store_id", select:"name slug"})
+      .populate({path:"store_id", select:"name slug"})
       .sort({ createdAt: -1 })
       .skip((pageNumber - 1) * limitNumber)
       .limit(limitNumber)

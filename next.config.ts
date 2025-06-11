@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-// import './src/crawler/crawlerCron'
+
 
 
 const nextConfig: NextConfig = {
@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   images: {
     domains: ["i.imgur.com",'lh3.googleusercontent.com','images-eu.ssl-images-amazon.com', 'res.cloudinary.com','cdn-icons-png.flaticon.com', 'dev.bachatjar.com','assets.ajio.com', 'img.bachatjar.com',"localhost", 'm.media-amazon.com'], 
-  },
+  }
 };
 
 export default nextConfig;

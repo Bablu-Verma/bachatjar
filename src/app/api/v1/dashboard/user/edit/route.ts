@@ -32,6 +32,9 @@ export async function POST(req: Request) {
 
     const requestData = await req.json();
 
+
+    console.log(requestData)
+
     const {
       email,
       name,

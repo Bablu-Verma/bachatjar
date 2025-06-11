@@ -201,7 +201,7 @@ const DashboardUI: React.FC<LayoutProps> = ({ children1 }) => {
     <section className="h-screen w-[100%] max-w-[1400px] m-auto">
       <div className="flex justify-between">
         {activeSidebar && (
-          <aside className="max-w-[350px] w-[25%] overflow-hidden duration-150 h-screen">
+          <aside className={`${activeSidebar ? 'w-[300px]':'w-0'} duration-150 h-screen`}>
             <div className="overflow-y-auto max-h-screen">
               <h1 className="text-2xl font-semibold text-center text-secondary_color py-3 mb-3 select-none">
                 <span className="text-primary capitalize">{userI_data?.role}</span>Board
@@ -266,7 +266,7 @@ const DashboardUI: React.FC<LayoutProps> = ({ children1 }) => {
           </aside>
         )}
 
-        <div className="w-full px-2">
+        <div className={` px-2 w-auto`}>
           <header className="flex w-full justify-between items-center py-2 shadow-md">
             <button
               onClick={togelsidebar}
@@ -285,7 +285,7 @@ const DashboardUI: React.FC<LayoutProps> = ({ children1 }) => {
               </span>
             </h4>
           </header>
-          <div className="w-full h-[calc(100vh-4rem)] overflow-y-auto">
+          <div className={`h-[calc(100vh-4rem)] ${activeSidebar ? 'w-[1100px]':'w-[1400px]'}   overflow-y-auto  `}>
             {children1}
           </div>
         </div>

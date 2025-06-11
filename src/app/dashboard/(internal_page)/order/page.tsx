@@ -56,7 +56,7 @@ const OrderList = () => {
 
   useEffect(() => {
     getOrders();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 
   const handleFilterChange = (
@@ -90,6 +90,8 @@ const OrderList = () => {
       fetchData();
     }
   }, [token, showFilter]);
+
+
 
   return (
     <>
@@ -191,13 +193,19 @@ const OrderList = () => {
                   transaction_id
                 </th>
                 <th className="px-6 py-3 text-left font-medium text-gray-700">
-                  Order Value
+                  user
+                </th>
+                <th className="px-6 py-3 text-left font-medium text-gray-700">
+                  Order_value
                 </th>
                 <th className="px-6 py-3 text-left font-medium text-gray-700">
                   cashback
                 </th>
                 <th className="px-6 py-3 text-left font-medium text-gray-700">
                   payment_status
+                </th>
+                <th className="px-6 py-3 text-left font-medium text-gray-700">
+                  store
                 </th>
 
                 <th className="px-6 py-3 text-left font-medium text-gray-700">
@@ -212,19 +220,27 @@ const OrderList = () => {
               {OrderList.map((item: IOrder, i) => (
                 <tr key={i} className="bg-white hover:bg-gray-100">
                   <td className="px-6 py-4  ">{i + 1}</td>
-                  <td className="px-6 py-4  ">{item.transaction_id}</td>
+                  <td className="px-6 py-4 text-nowrap ">{item.transaction_id}</td> <td className="px-6 py-4  ">
+                   {/* @ts-ignore */}
+                    {item.user_id._id} <br /> { item.user_id.name} <br /> {item.user_id.email}
+
+                  </td>
                   <td className="px-6 py-4 text-gray-600">
                     {item.order_value}
                   </td>
                   <td className="px-6 py-4">{item.cashback}</td>
                   <td className="px-6 py-4">{item.payment_status}</td>
                   <td className="px-6 py-4">
-                    <button onClick={() => setSheet({ show: true, details: item })} className="">View details</button>
+                     {/* @ts-ignore */}
+                    {item.store_id._id} <br /> {item.store_id.name} 
+                  </td>
+                  <td className="px-6 py-4">
+                    <button onClick={() => setSheet({ show: true, details: item })} className="text-nowrap">View details</button>
                   </td>
                   <td className="px-6 py-4">
                     <Link
                       href={`/dashboard/order/${item._id}`}
-                      className="px-2 py-1 text-sm inline-block text-blue-500 hover:underline"
+                      className="px-2 text-nowrap py-1 text-sm inline-block text-blue-500 hover:underline"
                     >
                       Edit order
                     </Link>
