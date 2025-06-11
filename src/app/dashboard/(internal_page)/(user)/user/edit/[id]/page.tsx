@@ -9,16 +9,14 @@ import axios, { AxiosError } from "axios";
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
-import { IUser } from "@/common_type";
+
 import DateTimePicker from "react-datetime-picker";
 import { usePathname } from "next/navigation";
 import UploadImageGetLink from "@/app/dashboard/_components/Upload_image_get_link";
 
 const ProfileEdit = () => {
   const token = useSelector((state: RootState) => state.user.token);
-  const user = useSelector(
-    (state: RootState) => state.user.user
-  ) as IUser | null;
+
   const pathname = usePathname();
 
   const urlslug = pathname.split("/").pop() || "";

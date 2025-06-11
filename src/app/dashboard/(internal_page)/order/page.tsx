@@ -221,7 +221,7 @@ const OrderList = () => {
                 <tr key={i} className="bg-white hover:bg-gray-100">
                   <td className="px-6 py-4  ">{i + 1}</td>
                   <td className="px-6 py-4 text-nowrap ">{item.transaction_id}</td> <td className="px-6 py-4  ">
-                   {/* @ts-ignore */}
+                   {/* @ts-expect-error expected error due to type mismatch */}
                     {item.user_id._id} <br /> { item.user_id.name} <br /> {item.user_id.email}
 
                   </td>
@@ -231,7 +231,7 @@ const OrderList = () => {
                   <td className="px-6 py-4">{item.cashback}</td>
                   <td className="px-6 py-4">{item.payment_status}</td>
                   <td className="px-6 py-4">
-                     {/* @ts-ignore */}
+                    {/* @ts-expect-error expected error due to type mismatch */}
                     {item.store_id._id} <br /> {item.store_id.name} 
                   </td>
                   <td className="px-6 py-4">
