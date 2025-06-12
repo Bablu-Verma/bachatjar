@@ -111,6 +111,7 @@ const ShopNowButton: React.FC<IShopNowProps> = ({ page_data }) => {
       >
         Shop Now
       </button>
+      
       <button
         type="button"
         onClick={create_share_link}
