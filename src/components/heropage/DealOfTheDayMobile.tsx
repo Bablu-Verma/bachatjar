@@ -56,13 +56,13 @@ const DealOfTheDayMobile:React.FC<DealOfTheDayMobileProps> = ({deals}) => {
                   ? `/campaign/${item?.product_slug}`
                   : item.store?.store_link
               }
-              className="relative h-48 lg:h-64 rounded bg-cover bg-center block mx-2"
+              className="relative h-[180px] lg:h-64 rounded bg-cover bg-center block "
             >
               <Image
-                className="w-full h-[180px] rounded-md"
+                className="w-full h-full rounded-md"
                 src={item.product_img}
                 alt={item.title}
-                width={900}
+                width={400}
                 sizes="100vw"
                 height={400}
               />

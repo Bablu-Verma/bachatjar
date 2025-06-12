@@ -25,38 +25,38 @@ const HowToWork = () => {
   ];
   return (
     <>
-    
-    <div className="max-w-6xl mx-auto px-2 sm:px-4 pt-10 lg:pt-14 gap-5 sm:gap-12 lg:gap-16 hidden md:flex justify-center flex-col sm:flex-row">
-      <div className="flex justify-center items-center sm:text-start flex-col ">
-        <p className="text-base md:text-lg text-nowrap text-primary font-medium">Get Cashback in</p>
-        <div className="flex items-center">
-          <h1 className=" sm:text-8xl  md:text-9xl font-semibold text-primary">3</h1>
-          <div>
-            <p className="text-3xl font-semibold text-primary">Easy</p>
-            <p className="text-3xl font-semibold text-primary">Steps</p>
-          </div>
-        </div>
-      </div>
-      {howwork.map((item, i) => (
-        <div className="flex justify-center text-center flex-col items-center" key={i}>
-          <div className="bg-gray-400 rounded-full w-[80px] h-[80px] sm:w-[90px] sm:h-[90px] md:w-[100px] md:h-[100px] flex justify-center items-center mb-2">
-            <div className="bg-black rounded-full w-[60px] h-[60px] sm:w-[70px] sm:h-[70px] md:w-[75px] md:h-[75px] flex justify-center items-center">
-              <i className={`fa-solid ${item.icon} text-2xl sm:text-3xl md:text-4xl text-white`}></i>
+
+      <div className="max-w-6xl mx-auto px-2 sm:px-4 pt-10 lg:pt-14 gap-5 sm:gap-12 lg:gap-16 hidden md:flex justify-center flex-col sm:flex-row">
+        <div className="flex justify-center items-center sm:text-start flex-col ">
+          <p className="text-base md:text-lg text-nowrap text-primary font-medium">Get Cashback in</p>
+          <div className="flex items-center">
+            <h1 className=" sm:text-8xl  md:text-9xl font-semibold text-primary">3</h1>
+            <div>
+              <p className="text-3xl font-semibold text-primary">Easy</p>
+              <p className="text-3xl font-semibold text-primary">Steps</p>
             </div>
           </div>
-          <h3 className="uppercase text-lg md:text-xl text-nowrap font-bold pb-1 pt-3 text-black">
-            {item.title}
-          </h3>
-          <p className="text-sm sm:text-base font-normal text-gray-700">
-            {item.text}
-          </p>
         </div>
-      ))}
-    </div>
-<div className="md:hidden px-2 sm:px-4 pt-10 lg:pt-14">
-<Image src={steps} alt='cashback steps' height={200} width={200} sizes="100vw" className="h-auto w-full" />
-</div>
-    
+        {howwork.map((item, i) => (
+          <div className="flex justify-center text-center flex-col items-center" key={i}>
+            <div className="bg-gray-400 rounded-full w-[80px] h-[80px] sm:w-[90px] sm:h-[90px] md:w-[100px] md:h-[100px] flex justify-center items-center mb-2">
+              <div className="bg-black rounded-full w-[60px] h-[60px] sm:w-[70px] sm:h-[70px] md:w-[75px] md:h-[75px] flex justify-center items-center">
+                <i className={`fa-solid ${item.icon} text-2xl sm:text-3xl md:text-4xl text-white`}></i>
+              </div>
+            </div>
+            <h3 className="uppercase text-lg md:text-xl text-nowrap font-bold pb-1 pt-3 text-black">
+              {item.title}
+            </h3>
+            <p className="text-sm sm:text-base font-normal text-gray-700">
+              {item.text}
+            </p>
+          </div>
+        ))}
+      </div>
+      <div className="md:hidden px-1 sm:px-4 pt-10 lg:pt-14">
+        <Image src={steps} alt='cashback steps' height={200} width={200} sizes="100vw" className="h-auto w-full" />
+      </div>
+
     </>
   );
 };
