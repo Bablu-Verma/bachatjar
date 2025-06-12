@@ -3,12 +3,14 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, A11y } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 import Link from "next/link";
 import { ICampaign } from "@/model/CampaignModel";
 import Image from "next/image";
+
+
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 interface BannerProps {
   banner: ICampaign[];
@@ -16,12 +18,12 @@ interface BannerProps {
 
 const Banner: React.FC<BannerProps> = ({ banner }) => {
   return (
-    <div className="rounded col-span-5 lg:col-span-4 relative">
+    <div className="rounded col-span-5 md:col-span-4 relative">
       <Swiper
         spaceBetween={5}
         slidesPerView={1}
         loop={true}
-        modules={[Autoplay, Pagination, A11y]}
+        modules={[ Pagination,Autoplay,  A11y]}  
         pagination={{ clickable: true }}
         onSwiper={() => ""}
         onSlideChange={() => ""}
@@ -39,14 +41,15 @@ const Banner: React.FC<BannerProps> = ({ banner }) => {
                   ? `/campaign/${item?.product_slug}`
                   : item.store?.store_link
               }
-              className="relative h-48 lg:h-60 rounded bg-cover bg-center block mx-2"
+              className="relative h-[180px] lg:h-64 rounded bg-cover bg-center block mx-2"
             >
               <Image
-                sizes="(max-width: 1100px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="w-full h-48 lg:h-60"
+               
+                className="w-full  h-64"
                 src={item.main_banner[0].image}
                 alt={item.title}
                 width={900}
+                 sizes="100vw"
                 height={400}
               />
             </Link>

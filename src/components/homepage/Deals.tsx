@@ -68,7 +68,7 @@ const Deals: React.FC = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto pt-2 mb-4 relative">
+    <div className="max-w-6xl mx-auto  pt-8 lg:pt-10 relative">
       {/* Tabs */}
       <div className="flex px-2 justify-start items-center py-4 gap-6">
         {tabOptions.map((item) => (
@@ -85,14 +85,14 @@ const Deals: React.FC = () => {
       </div>
 
       {/* Deals Grid */}
-      <div className="grid px-2 grid-cols-2 md:grid-cols-3 gap-2 sm:gap-4 lg:grid-cols-4">
+      <div className="grid px-2 grid-cols-2 pt-2 md:grid-cols-3 gap-2 sm:gap-4 lg:grid-cols-4">
         {deals.map((item) => (
           <ProductCard key={item._id} card_data={item} />
         ))}
       </div>
 
       {/* Load More */}
-      <div className="flex justify-center items-center pt-10">
+      <div className="flex justify-center items-center pt-5">
         {hasMore ? (
           <button
             onClick={() => setPage((prev) => prev + 1)}

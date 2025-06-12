@@ -14,7 +14,7 @@ const Featured: React.FC<FeaturedProps> = ({ arrival }) => {
   const featured_4 = arrival[3];
   
   return (
-    <div className="max-w-6xl mx-auto px-2  pt-2 md:grid gap-2 md:gap-5 gap-y-5 grid-cols-4 mb-5">
+    <div className="max-w-6xl mx-auto px-2  pt-2 md:grid gap-2 md:gap-5 gap-y-5 grid-cols-4 ">
       <div
         style={{
           backgroundImage: `url(${featured_1?.premium_product[0]?.image})`,

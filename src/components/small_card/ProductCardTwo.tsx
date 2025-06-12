@@ -56,15 +56,15 @@ const ProductCardTwo: React.FC<CardProp> = ({ card_data }) => {
           borderBottomRightRadius: "30px",
           backgroundImage: "linear-gradient(120deg, #f093fb 0%, #f5576c 100%)",
         }}
-        className="absolute top-1 left-1 text-[14px] font-normal text-white py-0.5 px-2 rounded-md shadow flex justify-center items-center gap-2 pr-3"
+        className="absolute top-1 left-1 text-[12px] md:text-[14px] font-normal text-white py-0.5 px-2 rounded-md shadow flex justify-center items-center gap-2 pr-3"
       >
-        <span>Limited time offer</span> |{" "}
+        <span >Limited time offer</span> |{" "}
         <span>{remainingTime === "EXPIRED" ? "Expired" : remainingTime}</span>
       </div>
       <Image
         src={card_data?.flash_sale?.[0]?.image || "/fallback.jpg"}
-        className="w-full h-[170px] object-cover"
-        height={200}
+        className="w-full h-[180px] object-cover"
+        height={220}
         sizes="100vw"
         width={400}
         alt={card_data?.title || "Product Image"}

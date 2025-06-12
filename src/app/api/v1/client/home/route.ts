@@ -62,6 +62,13 @@ export async function POST(req: Request) {
     }).limit(10).select('store category offer_price calculated_cashback calculation_mode product_img product_tags actual_price product_slug slug_type title  createdAt updatedAt _id').populate("store", "name cashback_type cashback_rate store_link store_img")
       .populate("category", "name slug").lean();
 
+      const live_product = await CampaignModel.find({
+      product_status: "ACTIVE",
+      product_tags: "new",
+    }).limit(10).select('store category offer_price calculated_cashback calculation_mode product_img product_tags actual_price product_slug slug_type title  createdAt updatedAt _id').populate("store", "name cashback_type cashback_rate store_link store_img")
+      .lean();
+
+
     const long_poster = await CampaignModel.find({
       product_status: "ACTIVE",
       long_poster: { $elemMatch: { is_active: true } },
@@ -93,6 +100,7 @@ export async function POST(req: Request) {
         blog,
         store,
         best_product,
+        live_product:live_product,
         watchlist: watchlist_array
       },
     });

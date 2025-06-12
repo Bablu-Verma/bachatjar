@@ -4,6 +4,9 @@ import React, { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCardTwo from "../small_card/ProductCardTwo";
 import { ICampaign } from "@/model/CampaignModel";
+import { Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 interface IfleasProp {
   flashSale: ICampaign[];
@@ -15,20 +18,24 @@ const Flash: React.FC<IfleasProp> = ({ flashSale }) => {
   const swiperRef = useRef<any>(null);
 
   return (
-    <div className="max-w-6xl mx-auto pt-2 mb-4 relative">
+    <div className="max-w-6xl mx-auto pt-2  flash_swiper relative">
     
       <Swiper
-        spaceBetween={14}
+        navigation={true} modules={[Navigation]}
+        spaceBetween={0}
         slidesPerView={1.1}
         breakpoints={{
+           420: {
+            slidesPerView: 1.4,
+          },
           520: {
-            slidesPerView: 1.3,
+            slidesPerView: 1.8,
           },
           768: {
-            slidesPerView: 1.9,
+            slidesPerView: 2.3,
           },
           1024: {
-            slidesPerView: 2.1,
+            slidesPerView: 3.1,
           },
         }}
         onSwiper={(swiper) => (swiperRef.current = swiper)}

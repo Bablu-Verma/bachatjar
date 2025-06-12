@@ -25,6 +25,9 @@ import Script from 'next/script';
 import chat_icon from "../../public/chat.png"
 import Image from "next/image";
 import WatchlistSetHome from "@/components/homepage/WatchlistSetHome";
+import DealOfTheDayMobile from "@/components/heropage/DealOfTheDayMobile";
+
+
 
 export const metadata: Metadata = {
   title: 'BachatJar - Save Money With Cashback & Coupons',
@@ -162,6 +165,7 @@ export default async function Home() {
     }))
   };
 
+
   return (
     <>
       <Script
@@ -182,29 +186,45 @@ export default async function Home() {
       
       <MainHeader />
       <WatchlistSetHome watchlist={page_data?.data?.watchlist} />
-      
-      <a target="_blank" href={`https://wa.me/91${process.env.NEXT_PUBLIC_NUMBER}`} className='fixed bottom-28 right-3 z-50 opacity-70 hover:opacity-100  cursor-pointer duration-300'>
+
+      {
+        token && <a target="_blank" href={`https://wa.me/91${process.env.NEXT_PUBLIC_NUMBER}`} className='fixed bottom-28 right-3 z-50 opacity-70 hover:opacity-100  cursor-pointer duration-300'>
         <Image src={chat_icon} alt="Chatt_icon" height={62} width={62} className=''/>
       </a>
+      }
+      
+
+      
+     
 
       <Hero
-        home_store={page_data?.data.store}
+        deals={page_data?.data.live_product}
         banner={page_data?.data.main_banner}
       />
 
       <main>
+
+
+       {page_data?.data.live_product &&
+          page_data?.data.live_product?.length > 0 && (
+            <div className="pt-8 lg:pt-10 md:hidden">
+              <MainHeading title="Live Deals" link={null} />
+              <DealOfTheDayMobile deals={page_data?.data.live_product} />
+            </div>
+          )}
+
         <Loginhomepopup />
 
         {page_data?.data.flash_sale &&
           page_data?.data.flash_sale?.length > 0 && (
-            <div className="py-7">
+            <div className="pt-8 lg:pt-10">
               <MainHeading title="Limited Time Offer" link={null} />
               <HomeFlash flashSale={page_data?.data.flash_sale} />
             </div>
           )}
 
         {page_data?.data.best_product?.length > 0 && (
-          <div className="py-7">
+          <div className="pt-8 lg:pt-10">
             <MainHeading title="Best For You" link={null} />
             <BestSalling best_product={page_data?.data.best_product} />
           </div>
@@ -215,49 +235,45 @@ export default async function Home() {
        <Deals  />
 
         {page_data?.data.long_poster?.length > 0 && (
-          <div className="max-w-6xl mx-auto mt-14">
+          <div className="max-w-6xl mx-auto pt-8 lg:pt-10">
             <HomePoster poster={page_data?.data.long_poster} />
           </div>
         )}
 
-        <div className="max-w-6xl m-auto bg-gradient-to-b from-[#f1f5f8] to-[#dfe8ef] py-3 px-2 rounded-xl mt-4 lg:mt-14">
+        <div className="max-w-6xl m-auto bg-gradient-to-b from-[#f1f5f8] to-[#dfe8ef] py-3 px-2 rounded-xl pt-8 lg:pt-10">
           <MainHeading title="Cashback store" link="/store" />
-          <div className="max-w-6xl relative  m-auto  mb-12">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4 lg:gap-5 mt-3 lg:mt-5">
+          <div className="max-w-6xl relative m-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4 lg:gap-5 pt-2">
               {page_data?.data.store?.map((item: IStore, i: number) => (
                 <StoreCard item={item} key={i} />
               ))}
             </div>
-          </div>
         </div>
 
         {page_data?.data.premium_product?.length > 0 && (
-          <div className="py-7">
+          <div className="pt-8 lg:pt-10">
             <MainHeading title="New Arrival" link={null} />
             <Featured arrival={page_data?.data.premium_product} />
           </div>
         )}
 
-        <div className="py-7">
+        <div className="pt-8 lg:pt-10">
           <MainHeading title="New Coupon" link="/coupons" />
-          <div className="max-w-6xl relative px-2 m-auto mt-2 lg:mt-8 mb-16">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 lg:gap-5 mt-2 lg:mt-6">
+          <div className="max-w-6xl relative px-2 m-auto mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 lg:gap-5 ">
               {page_data?.data.coupon?.map((item: ICoupon, i: number) => (
                 <CouponcodeCard item={item} key={i} />
               ))}
             </div>
-          </div>
         </div>
 
         {page_data?.data.category?.length > 0 && (
-          <div className="max-w-6xl m-auto py-3 lg:px-2 lg:rounded-xl relative bg-[#f5c4d0]">
+          <div className="max-w-6xl m-auto py-3 mt-8 lg:mt-10 lg:px-2 lg:rounded-xl relative bg-[#f5c4d0]">
             <MainHeading title="Browse by category" link={null} />
             <HomeCategories category={page_data?.data.category} />
           </div>
         )}
 
         {page_data?.data.blog?.length > 0 && (
-          <div className="py-7">
+          <div className="mt-8 lg:mt-10">
             <MainHeading title="Read Our Blog" link="/blog" />
             <HomeBlog blogs={page_data?.data.blog} />
           </div>

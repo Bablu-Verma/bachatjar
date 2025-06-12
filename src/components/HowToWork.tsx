@@ -1,4 +1,6 @@
+import Image from "next/image";
 import React from "react";
+import steps from '../../public/steps.png'
 
 const HowToWork = () => {
   const howwork = [
@@ -22,11 +24,13 @@ const HowToWork = () => {
     },
   ];
   return (
-    <div className="max-w-6xl mx-auto px-2 sm:px-4 py-2 lg:py-6 gap-5 sm:gap-12 lg:gap-16 flex justify-center flex-col sm:flex-row">
+    <>
+    
+    <div className="max-w-6xl mx-auto px-2 sm:px-4 pt-10 lg:pt-14 gap-5 sm:gap-12 lg:gap-16 hidden md:flex justify-center flex-col sm:flex-row">
       <div className="flex justify-center items-center sm:text-start flex-col ">
-        <p className="text-lg text-nowrap text-primary font-medium">Get Cashback in</p>
+        <p className="text-base md:text-lg text-nowrap text-primary font-medium">Get Cashback in</p>
         <div className="flex items-center">
-          <h1 className="text-9xl font-semibold text-primary">3</h1>
+          <h1 className=" sm:text-8xl  md:text-9xl font-semibold text-primary">3</h1>
           <div>
             <p className="text-3xl font-semibold text-primary">Easy</p>
             <p className="text-3xl font-semibold text-primary">Steps</p>
@@ -40,7 +44,7 @@ const HowToWork = () => {
               <i className={`fa-solid ${item.icon} text-2xl sm:text-3xl md:text-4xl text-white`}></i>
             </div>
           </div>
-          <h3 className="uppercase text:xl md:text-xl font-bold pb-1 pt-3 text-black">
+          <h3 className="uppercase text-lg md:text-xl text-nowrap font-bold pb-1 pt-3 text-black">
             {item.title}
           </h3>
           <p className="text-sm sm:text-base font-normal text-gray-700">
@@ -49,6 +53,11 @@ const HowToWork = () => {
         </div>
       ))}
     </div>
+<div className="md:hidden px-2 sm:px-4 pt-10 lg:pt-14">
+<Image src={steps} alt='cashback steps' height={200} width={200} sizes="100vw" className="h-auto w-full" />
+</div>
+    
+    </>
   );
 };
 

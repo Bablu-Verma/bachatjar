@@ -216,6 +216,7 @@ const OrderList = () => {
                 </th>
               </tr>
             </thead>
+
             <tbody>
               {OrderList.map((item: IOrder, i) => (
                 <tr key={i} className="bg-white hover:bg-gray-100">
@@ -249,6 +250,7 @@ const OrderList = () => {
                 </tr>
               ))}
             </tbody>
+
           </table>
         </div>
 
@@ -329,6 +331,7 @@ const OrderList = () => {
               )}
 
             </div>
+            
           </div>
         </div>
       )}

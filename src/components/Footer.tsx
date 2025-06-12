@@ -16,18 +16,18 @@ const Footer = () => {
 
   return (
     <footer className="bg-black text-white">
-      <div className="max-w-6xl mx-auto px-2 relative grid pt-16 pb-8 gap-7 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
-        <div>
+      <div className="max-w-6xl mx-auto px-2 relative grid pt-16 pb-8 gap-7 grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+        <div className="col-span-2 md:col-span-1">
           <Link href="/" className="mb-4 inline-block">
             <Image
               src={logo}
               className="w-[140px] lg:w-[160px] h-auto"
               alt="logo"
             />
-            {/* <h1 className="text-secondary py-2 text-3xl font-semibold tracking-wider">Bachat<span className="text-primary">Jar</span></h1> */}
+           
           </Link>
           <p className="text-base font-thin mb-3">
-            Get Up to 100% off <br /> your All Orders
+            Get Up to 100% off your All Orders
           </p>
         </div>
 

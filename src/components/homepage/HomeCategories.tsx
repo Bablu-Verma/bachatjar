@@ -32,7 +32,7 @@ const HomeCategories: React.FC<CategoryProps> = ({ category }) => {
       <div className="max-w-6xl mx-auto pt-2 mb-4">
         <button
           onClick={() => setOpendrawer(true)}
-          className="text-primary  py-2 px-5 sm:px-8 rounded-sm capitalize font-medium text-sm hover:shadow-sm duration-200 absolute top-7 right-0 z-20"
+          className="text-primary  py-2 px-5 sm:px-8 rounded-sm capitalize font-medium text-sm hover:shadow-sm duration-200 absolute top-5 right-0 z-20"
         >
           View All
         </button>

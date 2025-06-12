@@ -175,3 +175,26 @@ input:checked {
   font-size: 16px;
   line-height: 1.5;
 }
+
+
+.swiper-button-prev,
+.swiper-button-next {
+  background-color: white;
+  border-radius: 9999px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  width: 28px !important;
+  height: 40px !important;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 16px !important;
+  font-weight: bold;
+  color: var(--dark-color) !important;
+}
+
+/* Optional: Hover effect */
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  background-color: #eee;
+}
