@@ -8,18 +8,20 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux-store/redux_store";
 import { create_order_api } from "@/utils/api_url";
 import { ProgressBar } from "react-loader-spinner";
+import { IoMdShare } from "react-icons/io";
+import { IUser } from "@/common_type";
 
 interface IShopNowProps {
   page_data: ICampaign;
 }
 const ShopNowButton: React.FC<IShopNowProps> = ({ page_data }) => {
   const token = useSelector((state: RootState) => state.user.token);
-  
+  const user = useSelector((state: RootState) => state.user.user) as IUser | null;
   const [modelOpen, setModelOpen] = React.useState<boolean>(false);
 
-  console.log(page_data)
 
-  // console.log(page_data)
+  console.log("user data", user)
+
   const shop_now = async () => {
     if (!token) {
       toast.error("You need to login to proceed");
@@ -56,7 +58,7 @@ const ShopNowButton: React.FC<IShopNowProps> = ({ page_data }) => {
           } else {
             console.error("Invalid URL");
           }
-         
+
         }, 3000);
       }
     } catch (error) {
@@ -72,13 +74,51 @@ const ShopNowButton: React.FC<IShopNowProps> = ({ page_data }) => {
     }
   };
 
+
+
+  const create_share_link = () => {
+    if (!token) {
+      toast.error("You need to login to proceed");
+
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+
+      return;
+    }
+
+    const create_link = `${process.env.NEXT_PUBLIC_SITE_URL}/create-order?store_id=${page_data.store._id}&user_id=${user?._id}`
+
+    navigator.clipboard
+      .writeText(create_link)
+      .then(() => {
+        toast.success("Link copied to clipboard!");
+      })
+      .catch((err) => {
+        console.error("Failed to copy: ", err);
+        toast.error("Failed to copy link. Please try again.");
+      });
+
+  }
+
+
+
   return (
-    <>
+    <div className="flex gap-3  md:gap-5 flex-wrap">
       <button
         onClick={shop_now}
-        className=" w-[180px]  py-2 text-base text-center rounded-full outline-none border-none text-white  duration-200 bg-primary"
+        className="w-[150px]  sm:w-[180px]  py-2 text-base text-center rounded-full outline-none border-none text-white  duration-200 bg-primary"
       >
         Shop Now
+      </button>
+      <button
+        type="button"
+        onClick={create_share_link}
+        title='Share & Earn'
+        className=" justify-center items-center gap-2 text-base border-[1px] text-nowrap border-green-400 text-secondary inline-flex px-6 py-2 bg-green-400 rounded-full"
+      >
+        <span className="hidden md:inline-block">Share Link</span>
+        <IoMdShare className="text-lg" />
       </button>
       {modelOpen && (
         <div
@@ -102,7 +142,7 @@ const ShopNowButton: React.FC<IShopNowProps> = ({ page_data }) => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

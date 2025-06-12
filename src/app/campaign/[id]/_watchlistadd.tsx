@@ -74,7 +74,7 @@ const Watchlistadd:React.FC<IWAadProps> = ({oneitem}) => {
       aria-label="Add to Wishlist"
       role="button"
       disabled={isAdding}
-      className={`py-2 px-5 text-center text-secondary outline-none border-none duration-200`}
+      className={`py-2 px-3 text-center text-secondary outline-none border-none duration-200`}
     >
       <i
         className={`fa-heart text-2xl mr-1 ${

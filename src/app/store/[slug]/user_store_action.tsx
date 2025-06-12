@@ -23,9 +23,6 @@ const UserStoreAction: React.FC<UserStoreActionProps> = ({ store_ }) => {
 
   const [modelOpen, setModelOpen] = React.useState<boolean>(false);
 
-
-  
-
   const shop_now = async () => {
     if (!token) {
       toast.error("You need to login to proceed");

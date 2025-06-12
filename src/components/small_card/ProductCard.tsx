@@ -13,8 +13,6 @@ interface CardProp {
 const ProductCard: React.FC<CardProp> = ({ card_data }) => {
 
   const timeAgo = getTimeAgo(card_data.createdAt ?? new Date());
-  
-
 
   return (
     <Link
@@ -60,30 +58,26 @@ const ProductCard: React.FC<CardProp> = ({ card_data }) => {
 
         <h4
           title={card_data?.title}
-          className="text-[#16171a] font-normal text-sm my-1 mb-5 capitalize line-clamp-2"
+          className="text-[#16171a] font-normal text-sm my-1 mb-3 capitalize line-clamp-2"
         >
           {card_data?.title}
         </h4>
-        <div className="flex items-center justify-between mt-1">
+        <div className=" mt-1">
           <span>
             <strong className="text-primary text-lg mr-2 sm:text-xl sm:mr-3 mb-1">
               ₹{card_data?.offer_price.toString()}/-
             </strong>
-            <small className="text-red-500 text-[14px] sm:text-sm py-.5 px-2 border-[1px] border-red-500 ">
+            <small className="text-red-500 text-[14px] sm:text-sm py-.5 px-2 border-[1px] border-red-400 ">
               ₹{card_data?.calculated_cashback.toString()} Off
             </small>
-            <br />
-            <span className="text-gray-600 text-base font-medium line-through">
+          </span>
+          <div className="flex justify-between mt-2 mb-1 items-center ">
+             <span className="text-gray-600 text-base font-medium line-through">
               ₹{card_data?.actual_price.toString()}
             </span>
-          </span>
-          <div className="flex justify-between mt-4 mb-1 items-center ">
             <button
-              className="select-none rounded-md text-[#2491ef] font-medium py-1 text-sm duration-200 text-nowrap ease-in-out
-           "
-            >
-              GRAB NOW
-            </button>
+              className="select-none pr-1 rounded-md text-[#2491ef] font-medium py-1 text-sm duration-200 text-nowrap ease-in-out "
+            > Grab Now </button>
           </div>
         </div>
       </div>

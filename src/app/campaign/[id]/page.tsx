@@ -212,7 +212,7 @@ const CampaignDetail = async ({ params }: any) => {
                   ₹{product?.calculated_cashback} Off
                 </small>
               </div>
-              <div className="py-7 flex justify- gap-5 items-center">
+              <div className="py-7 flex  gap-3 md:gap-5 items-center">
                 <ShopNowButton page_data={product} />
 
                 <Watchlistadd oneitem={product} />
