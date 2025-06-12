@@ -3,7 +3,7 @@
 import React from 'react'
 import Banner from './Banner'
 import { ICampaign } from '@/model/CampaignModel';
-import { IStore } from '@/model/StoreModel';
+
 import DealOfTheDay from './DealOfTheDay';
 
 
