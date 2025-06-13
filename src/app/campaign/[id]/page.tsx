@@ -18,6 +18,7 @@ import Watchlistadd from "./_watchlistadd";
 import styles from "./product_page.module.css";
 import ShopNowButton from "./_shop_now";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
  const GetData = async (token: string, slug: string) => {
   try {
@@ -39,7 +40,7 @@ import Link from "next/link";
   } catch (error) {
     if (error instanceof AxiosError) {
       console.error("Error registering user", error.response?.data.message);
-      toast.error(error.response?.data.message);
+      // toast.error(error.response?.data.message);
     } else {
       console.error("Unknown error", error);
     }
@@ -109,6 +110,11 @@ const CampaignDetail = async ({ params }: any) => {
   
 
   const page_data = await GetData(token, id);
+
+   if(!page_data){
+      notFound()
+    }
+  
 
   const { product } = page_data;
 

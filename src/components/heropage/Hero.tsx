@@ -15,7 +15,7 @@ interface HeroProps {
 const Hero: React.FC<HeroProps> = ({deals, banner}) => {
   return (
     <section className="pt-2 lg:pt-6">
-      <div className="max-w-6xl mx-auto lg:px-4 gap-2 grid grid-cols-5">
+      <div className="max-w-6xl mx-auto lg:px-4 gap-1 grid grid-cols-6">
         <DealOfTheDay deals={deals}/>
         <Banner banner={banner}/>
       </div>

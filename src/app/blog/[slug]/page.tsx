@@ -12,6 +12,7 @@ import React from "react";
 import TableOfContents from "./TableOfContents";
 import { Metadata } from 'next';
 import Script from 'next/script';
+import { notFound } from "next/navigation";
 
 const GetData = async (token: string, slug: string) => {
   try {
@@ -101,6 +102,12 @@ const BlogDetail = async ({ params }: any) => {
   const token = await getServerToken();
   const {slug} =await params
   const page_data = await GetData(token, slug);
+
+  if(!page_data){
+    notFound()
+  }
+
+
   const { blog, relatedblogs } = page_data;
 
   // Create article schema

@@ -15,12 +15,38 @@ import tracking_image from "../../../../public/track.webp";
 import UserStoreAction from "./user_store_action";
 import Script from 'next/script';
 import { Metadata } from "next";
+import { notFound } from 'next/navigation'
 
 interface topstoreProps {
   _id: string;
   name: string; 
   slug: string;
 }
+
+
+const GetData = async (token: string, slug: string) => {
+  try {
+    const { data } = await axios.post(
+      store_details_api,
+      { slug },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return data.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      console.error("Error fetching store details", error.response?.data.message);
+      // toast.error(error.response?.data.message);
+      
+    } else {
+      console.error("Unknown error", error);
+    }
+    return null; 
+  }
+};
 
 export const generateMetadata = async ({ params }: any): Promise<Metadata> => {
   const {slug} =  await params;
@@ -97,28 +123,7 @@ export const generateMetadata = async ({ params }: any): Promise<Metadata> => {
   }
 }
 
-const GetData = async (token: string, slug: string) => {
-  try {
-    const { data } = await axios.post(
-      store_details_api,
-      { slug },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    return data.data;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      console.error("Error fetching store details", error.response?.data.message);
-      toast.error(error.response?.data.message);
-    } else {
-      console.error("Unknown error", error);
-    }
-    return null; 
-  }
-};
+
 
 const StoreDetail = async ({ params }: any) => {
   const token = await getServerToken();
@@ -129,20 +134,8 @@ const StoreDetail = async ({ params }: any) => {
   console.log("store page data ", page_data)
 
   if (!page_data) {
-    return (
-      <>
-        <MainHeader />
-        <main className="min-h-screen flex items-center justify-center">
-          <div className="text-center">
-            <h2 className="text-2xl font-semibold mb-4">Store not found</h2>
-            <p className="text-gray-600">
-              We couldn&apos;t load this store&apos;s details. Please try again later.
-            </p>
-          </div>
-        </main>
-        <Footer />
-      </>
-    );
+   
+     notFound()
   }
 
   const {

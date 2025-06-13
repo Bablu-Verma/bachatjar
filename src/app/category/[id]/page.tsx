@@ -11,8 +11,9 @@ import toast from "react-hot-toast";
 import CategoryClientTab from "./category_client_tab";
 import { Metadata } from 'next';
 import Script from 'next/script';
+import { notFound } from "next/navigation";
 
-const GetData = async (token: string, slug: string) => {
+const GetData = async ( slug: string) => {
   try {
     const { data } = await axios.post(
       category_details_api,
@@ -30,7 +31,7 @@ const GetData = async (token: string, slug: string) => {
   } catch (error) {
     if (error instanceof AxiosError) {
       console.error("Error registering user", error.response?.data.message);
-      toast.error(error.response?.data.message);
+      // toast.error(error.response?.data.message);
     } else {
       console.error("Unknown error", error);
     }
@@ -39,9 +40,9 @@ const GetData = async (token: string, slug: string) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function generateMetadata({ params }: any): Promise<Metadata> {
-  const token = await getServerToken();
+
   const {id} = await params
-  const categoryData = await GetData(token, id);
+  const categoryData = await GetData( id);
 
   if (!categoryData) {
     return {
@@ -96,7 +97,12 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
 const CategoryDetail = async ({ params }: any) => {
   const token = await getServerToken();
   const {id} = params;
-  const page_data = await GetData(token, id);
+  const page_data = await GetData(id);
+
+   if(!page_data){
+      notFound()
+    }
+  
 
   const { category_details, relatedProducts, relatedCoupons, relatedStore } = page_data;
 

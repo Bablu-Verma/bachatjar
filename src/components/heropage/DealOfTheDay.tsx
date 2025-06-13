@@ -3,14 +3,14 @@
 import Link from "next/link";
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCoverflow} from 'swiper/modules';
+import { EffectCreative, Autoplay} from 'swiper/modules';
 
 import Image from "next/image";
 import { ICampaign } from "@/model/CampaignModel";
 
 
 import 'swiper/css';
-import 'swiper/css/effect-coverflow';
+import 'swiper/css/effect-creative';
 
 
 interface DealOfTheDayProps{
@@ -20,22 +20,25 @@ interface DealOfTheDayProps{
 const DealOfTheDay:React.FC<DealOfTheDayProps> = ({deals}) => {
 
   return (
-    <div className=" mt-0 rounded hidden md:block col-span-1">
+    <div className=" mt-0 rounded hidden md:block col-span-2">
       <Swiper
       loop={true}
-       effect={'coverflow'}
-        grabCursor={true}
-        centeredSlides={true}
-        slidesPerView={'auto'}
-        coverflowEffect={{
-          rotate: 50,
-          stretch: 0,
-          depth: 100,
-          modifier: 1,
-          slideShadows: true,
+      grabCursor={true}
+        effect={'creative'}
+        creativeEffect={{
+          prev: {
+            shadow: true,
+            translate: [0, 0, -400],
+          },
+          next: {
+            translate: ['100%', 0, 0],
+          },
         }}
-        
-        modules={[EffectCoverflow]}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        modules={[EffectCreative, Autoplay]}
       >
         {deals.map((item, i) => (
           <SwiperSlide key={i}>

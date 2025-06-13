@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import CouponDetailsClient from "./CouponDetailsClient";
 import { Metadata } from 'next';
 import Script from 'next/script';
+import { notFound } from "next/navigation";
 
 
 const GetData = async (token: string, slug: string) => {
@@ -33,7 +34,7 @@ const GetData = async (token: string, slug: string) => {
   } catch (error) {
     if (error instanceof AxiosError) {
       console.error("Error get coupon detail", error.response?.data.message);
-      toast.error(error.response?.data.message);
+      // toast.error(error.response?.data.message);
     } else {
       console.error("Unknown error", error);
     }
@@ -103,6 +104,11 @@ const CouponDetail = async ({ params }: any) => {
   const token = await getServerToken();
   const {id} = await params;
   const page_data = await GetData(token, id);
+
+   if(!page_data){
+      notFound()
+    }
+  
 
   // Create coupon schema
   const couponSchema = {
