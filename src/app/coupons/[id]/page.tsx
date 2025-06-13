@@ -6,7 +6,7 @@ import React from "react";
 import axios, { AxiosError } from "axios";
 import { coupons_detail_api } from "@/utils/api_url";
 import { getServerToken } from "@/helpers/server/server_function";
-import toast from "react-hot-toast";
+
 import CouponDetailsClient from "./CouponDetailsClient";
 import { Metadata } from 'next';
 import Script from 'next/script';

@@ -9,7 +9,7 @@ import Script from 'next/script';
 
 import { getServerToken } from "@/helpers/server/server_function";
 import axios, { AxiosError } from "axios";
-import toast from "react-hot-toast";
+
 import { product_details_ } from "@/utils/api_url";
 import { getTimeAgo } from "@/helpers/client/client_function";
 import Campaign_user_event from "./_campaign_user_event";

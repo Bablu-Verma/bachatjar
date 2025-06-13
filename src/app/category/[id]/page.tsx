@@ -6,8 +6,8 @@ import Image from "next/image";
 import React from "react";
 import axios, { AxiosError } from "axios";
 import { category_details_api } from "@/utils/api_url";
-import { getServerToken } from "@/helpers/server/server_function";
-import toast from "react-hot-toast";
+
+
 import CategoryClientTab from "./category_client_tab";
 import { Metadata } from 'next';
 import Script from 'next/script';
@@ -95,7 +95,7 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
 
 // Update CategoryDetail component to include schema
 const CategoryDetail = async ({ params }: any) => {
-  const token = await getServerToken();
+
   const {id} = params;
   const page_data = await GetData(id);
 

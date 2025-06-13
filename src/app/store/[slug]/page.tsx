@@ -7,7 +7,7 @@ import React from "react";
 import axios, { AxiosError } from "axios";
 import { store_details_api } from "@/utils/api_url";
 import { getServerToken } from "@/helpers/server/server_function";
-import toast from "react-hot-toast";
+
 import { Store_tc, StoreDesc } from "./store_desc_tc";
 import Link from "next/link";
 import StoreClientTab from "./store_client_tab";
