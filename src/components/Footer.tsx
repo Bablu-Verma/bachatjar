@@ -62,42 +62,6 @@ const Footer = () => {
           </div>
         </div>
         <div>
-          <h3 className="text-lg font-normal mb-4">Quick Link</h3>
-          <div className="flex flex-col gap-1">
-            <Link
-              href="/contact-us"
-              className="text-sm font-thin hover:pl-1 duration-200 py-0.5"
-            >
-              Contact Us
-            </Link>
-
-            <Link
-              href="/about"
-              className="text-sm font-thin hover:pl-1 duration-200 py-0.5"
-            >
-              About Us
-            </Link>
-            <Link
-              href="/faq"
-              className="text-sm font-thin hover:pl-1 duration-200 py-0.5"
-            >
-              FAQ
-            </Link>
-            <Link
-              href="/terms_conditions"
-              className="text-sm font-thin hover:pl-1 duration-200 py-0.5"
-            >
-              Terms Conditions
-            </Link>
-            <Link
-              href="/privacy_policy"
-              className="text-sm font-thin hover:pl-1 duration-200 py-0.5"
-            >
-              Privacy Policy
-            </Link>
-          </div>
-        </div>
-        <div>
           <h3 className="text-lg font-normal mb-4">Account</h3>
           <div className="flex flex-col gap-1">
             <Link
@@ -133,6 +97,50 @@ const Footer = () => {
             </Link>
           </div>
         </div>
+        <div>
+          <h3 className="text-lg font-normal mb-4">Quick Link</h3>
+          <div className="flex flex-col gap-1">
+            <Link
+              href="/contact-us"
+              className="text-sm font-thin hover:pl-1 duration-200 py-0.5"
+            >
+              Contact Us
+            </Link>
+
+            <Link
+              href="/about"
+              className="text-sm font-thin hover:pl-1 duration-200 py-0.5"
+            >
+              About Us
+            </Link>
+            <Link
+              href="/faq"
+              className="text-sm font-thin hover:pl-1 duration-200 py-0.5"
+            >
+              FAQ
+            </Link>
+             <a
+             target="_blank"
+              href="https://forms.gle/emfxCorGPxDcmTgo6"
+              className="text-sm font-thin hover:pl-1 duration-200 py-0.5"
+            >
+              Feedback & Suggestions
+            </a>
+            <Link
+              href="/terms_conditions"
+              className="text-sm font-thin hover:pl-1 duration-200 py-0.5"
+            >
+              Terms Conditions
+            </Link>
+            <Link
+              href="/privacy_policy"
+              className="text-sm font-thin hover:pl-1 duration-200 py-0.5"
+            >
+              Privacy Policy
+            </Link>
+          </div>
+        </div>
+        
 
         <div>
           <h3 className="text-lg font-normal mb-4">Support</h3>

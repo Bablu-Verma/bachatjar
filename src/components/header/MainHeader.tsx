@@ -185,7 +185,7 @@ const MainHeader = () => {
           <div
             id="mobile-menu"
             style={{ backgroundColor: "rgba(0, 0, 0, 0.3)" }}
-            className="fixed top-[0%] w-full z-[990] left-0 lg:hidden "
+            className="fixed top-[0%] bottom-0 w-full z-[990] h-screen left-0 lg:hidden "
           >
             <div className="bg-white max-w-[500px] p-4 pr-8 h-screen relative pt-12">
               <button onClick={showtoggle} className="absolute top-3 right-5">
@@ -250,7 +250,7 @@ const MainHeader = () => {
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
                     <Link
                       className="text-gray-700 font-normal pl-2  block"
-                      href="/about-su"
+                      href="/about-us"
                     >
                       About Us
                     </Link>
