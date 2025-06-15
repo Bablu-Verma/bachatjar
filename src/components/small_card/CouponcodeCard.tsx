@@ -1,7 +1,7 @@
 "use client";
 
 import { ICoupon } from "@/model/CouponModel";
-import { IStore } from "@/model/StoreModel";
+
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -9,20 +9,25 @@ import React from "react";
 interface CouponcodeCardProps {
   item: ICoupon;
 }
+
+
 const CouponcodeCard: React.FC<CouponcodeCardProps> = ({ item }) => {
-  // console.log(item);
+  console.log(item);
   return (
     <Link
       href={`/coupons/${item._id}`}
       className="shadow-sm rounded rounded-tr-3xl rounded-bl-3xl relative hover:shadow-lg duration-200 border-[1px] border-gray-200 p-4 lg:p-6  bg-[#fff]"
     >
-      <Image
-        src={"/placeholder.png"}
-        alt={'store image'}
-        width={70}
-        height={50}
-        className="rounded-md ml-1 mb-3"
-      />
+
+ <Image
+// @ts-expect-error: store is populated but TS sees ObjectId
+  src={item.store?.store_img}
+  // @ts-expect-error: store is populated but TS sees ObjectId
+  alt={item.store?.name}
+  width={70}
+  height={50}
+  className="rounded-md ml-1 mb-3"
+/>
       <h2 className="text-lg text-secondary font-semibold tracking-wide mb-1">
         Flat {item.discount} Off
       </h2>

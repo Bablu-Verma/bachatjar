@@ -63,7 +63,7 @@ const ProductCardTwo: React.FC<CardProp> = ({ card_data }) => {
       </div>
       <Image
         src={card_data?.flash_sale?.[0]?.image || "/fallback.jpg"}
-        className="w-full h-[180px] object-cover"
+        className="w-full h-[180px] "
         height={220}
         sizes="100vw"
         width={400}
