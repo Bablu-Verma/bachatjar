@@ -17,8 +17,8 @@ const CouponcodeCard: React.FC<CouponcodeCardProps> = ({ item }) => {
       className="shadow-sm rounded rounded-tr-3xl rounded-bl-3xl relative hover:shadow-lg duration-200 border-[1px] border-gray-200 p-4 lg:p-6  bg-[#fff]"
     >
       <Image
-        src={typeof item.store === "object" && "store_img" in item.store ? ((item.store as unknown) as IStore).store_img : "/placeholder.png"}
-        alt={typeof item.store === "object" && "name" in item.store ? ((item.store as unknown) as IStore).name : "Store"}
+        src={"/placeholder.png"}
+        alt={'store image'}
         width={70}
         height={50}
         className="rounded-md ml-1 mb-3"
