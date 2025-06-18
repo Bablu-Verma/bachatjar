@@ -153,14 +153,21 @@ const ProfileLayout: React.FC<LayoutProps> = ({ children }) => {
                 onClick={handleLinkClick} 
                 className="text-sm text-gray-500 hover:pl-1 cursor-pointer duration-200 my-1 py-0.5 block"
               >
-                withdrawal
+                Withdrawal
+              </Link>
+               <Link
+                href="/notification"
+                onClick={handleLinkClick} 
+                className="text-sm text-gray-500 hover:pl-1 cursor-pointer duration-200 my-1 py-0.5 block"
+              >
+                Notification
               </Link>
               <Link
                 href="/withdrawal-list"
                 onClick={handleLinkClick} 
                 className="text-sm text-gray-500 hover:pl-1 cursor-pointer duration-200 my-1 py-0.5 block"
               >
-                withdrawal list
+                Withdrawal list
               </Link>
               {(user_data.role === "admin" ||
                 user_data.role === "data_editor" ||

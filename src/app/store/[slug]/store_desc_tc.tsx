@@ -12,7 +12,7 @@ export const StoreDesc: React.FC<IStoreDesc> = ({ html_ }) => {
   <div className='relative'>
    <div className={`${open ? 'h-auto':'h-12'} relative overflow-hidden pt-2`}>
      <div
-      className=" text-sm text-white text-left"
+     className="text-sm !text-white text-left"
       dangerouslySetInnerHTML={{ __html: html_ }}
     />
    </div>

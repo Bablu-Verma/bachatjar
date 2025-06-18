@@ -1,5 +1,6 @@
 import { authenticateAndValidateUser } from "@/lib/authenticate";
 import dbConnect from "@/lib/dbConnect";
+import { sendMessage } from "@/lib/sendMessage";
 import WithdrawalRequestModel from "@/model/WithdrawalRequestModel";
 import { NextResponse } from "next/server";
 
@@ -48,11 +49,28 @@ export async function POST(req: Request) {
     withdrawalRequest.status = new_status;
     withdrawalRequest.history.push({
       status: new_status,
-      details: details || `Status changed to ${new_status} by admin`,
+      details: details || `Status changed to ${new_status} by Team`,
       date: new Date(),
     });
 
     await withdrawalRequest.save();
+
+    await sendMessage({
+      userId: withdrawalRequest.user_id.toString(),  // Ensure string format
+      title: `Your Withdrawal Status Has Been Updated – ${new_status}`,
+      body: `Hi there,
+
+Your withdrawal request has been updated to the status: **${new_status}**.
+
+${details || "No additional details were provided."}
+
+You can view the full history of your withdrawal in your BachatJar dashboard.
+
+If you have questions or didn’t request this, please contact our support team immediately.
+
+Thank you,  
+The BachatJar Team 💸`
+    });
 
     return NextResponse.json(
       {

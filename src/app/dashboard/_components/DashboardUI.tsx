@@ -189,6 +189,28 @@ const DashboardUI: React.FC<LayoutProps> = ({ children1 }) => {
       icon: "fas fa-tachometer-alt",
       roles: ["admin", ], 
     },
+     {
+      id: 4,
+      name: "Newsletter",
+      url: "/dashboard/newsletter",
+      icon: "fas fa-tachometer-alt",
+      roles: ["admin", "data_editor"],
+    },
+    {
+      id: 24,
+      name: "Message Send",
+      url: "/dashboard/message/send-message",
+      icon: "fas fa-tachometer-alt",
+      roles: ["admin", "data_editor"],
+    },
+    
+    {
+      id: 23,
+      name: "image",
+      url: "/dashboard/image",
+      icon: "fas fa-tachometer-alt",
+      roles: ["admin"], 
+    },
    
   ];
 

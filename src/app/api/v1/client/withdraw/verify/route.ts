@@ -3,6 +3,7 @@ import dbConnect from "@/lib/dbConnect";
 import { authenticateAndValidateUser } from "@/lib/authenticate";
 import WithdrawalRequestModel from "@/model/WithdrawalRequestModel";
 import ConformAmountModel from "@/model/ConformAmountModel";
+import { sendMessage } from "@/lib/sendMessage";
 
 export async function POST(request: Request) {
   await dbConnect();
@@ -151,7 +152,7 @@ export async function POST(request: Request) {
     withdrawalRequest.status = "PENDING";
     withdrawalRequest.history.push({
       status: "PENDING",
-      details: "Withdrawal marked as pending by admin",
+      details: "Withdrawal marked as pending by Team",
       date: new Date(),
     });
     withdrawalRequest.otp = undefined;
@@ -168,7 +169,7 @@ export async function POST(request: Request) {
     const conformAmount = await ConformAmountModel.findOne({ user_id: user?._id }).select('-createdAt -updatedAt');
     const withdrawalRequests = await WithdrawalRequestModel.find({ user_id: user?._id }).select('-upi_id -requested_at -processed_at -createdAt -updatedAt');
 
-   
+
     const conform_cb = conformAmount?.amount || 0;
     const total_hold = conformAmount?.hold_amount || 0;
 
@@ -186,6 +187,23 @@ export async function POST(request: Request) {
     });
 
     const total_cb = conform_cb + withdrawal_pending + total_withdrawal;
+
+
+    await sendMessage({
+      userId: withdrawalRequest.user_id,
+      title: "Your Withdrawal Request Has Been Received – BachatJar",
+      body: `Hi ${user?.email || "there"},
+
+We’ve received your withdrawal request of ₹${withdrawalRequest.amount} to UPI ID **${withdrawalRequest.upi_id}**.
+
+If this was you, no further action is needed — your request is being processed and will be completed shortly.
+
+Didn't make this request?  
+Please contact our support team immediately to secure your account.
+
+Thank you,  
+The BachatJar Team 💸`
+    });
 
 
     return new NextResponse(

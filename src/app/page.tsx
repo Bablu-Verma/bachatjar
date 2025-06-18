@@ -26,6 +26,7 @@ import chat_icon from "../../public/chat.png"
 import Image from "next/image";
 import WatchlistSetHome from "@/components/homepage/WatchlistSetHome";
 import DealOfTheDayMobile from "@/components/heropage/DealOfTheDayMobile";
+import Newsletter from "@/components/newsletter";
 
 
 
@@ -280,7 +281,7 @@ export default async function Home() {
         )}
         <BottomToTop />
       </main>
-
+      <Newsletter />
       <Footer />
     </>
   );

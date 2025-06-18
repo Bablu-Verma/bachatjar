@@ -27,7 +27,7 @@ const Footer = () => {
            
           </Link>
           <p className="text-base font-thin mb-3">
-            Get Up to 100% off your All Orders
+            Get Up to 100% off on your All Orders
           </p>
         </div>
 
@@ -145,8 +145,8 @@ const Footer = () => {
         <div>
           <h3 className="text-lg font-normal mb-4">Support</h3>
           <address className="text-sm font-thin mb-3">
-            Noida sector 63, <br />
-            India-201301
+            Noida sector 121, <br />
+            India-201307
           </address>
           <i className="text-sm font-thin mb-2 inline-block">
             help@bachatjar.com

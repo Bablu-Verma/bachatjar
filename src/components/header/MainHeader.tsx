@@ -250,7 +250,7 @@ const MainHeader = () => {
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
                     <Link
                       className="text-gray-700 font-normal pl-2  block"
-                      href="/about-us"
+                      href="/about"
                     >
                       About Us
                     </Link>

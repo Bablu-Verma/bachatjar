@@ -7,6 +7,7 @@ import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/UserModel";
 
 import { NextResponse, NextRequest } from "next/server";
+import { sendMessage } from "@/lib/sendMessage";
 
 interface IRequestBody {
   email: string;
@@ -104,6 +105,20 @@ export async function POST(req: NextRequest) {
     User.password = hashPassword
 
     await User.save()
+
+     await sendMessage({
+          userId: User._id,         
+          title: "Your BachatJar Password Was Changed Successfully",
+         body: `Hi ${User.name || "there"},
+
+We wanted to let you know that your BachatJar account password was changed successfully. If this was you, there’s nothing more to do.
+
+**Didn’t make this change?**  
+Please reset your password immediately and contact our support team for help.
+
+Stay safe,  
+The BachatJar Team`
+      });
 
     return new NextResponse(
       JSON.stringify({

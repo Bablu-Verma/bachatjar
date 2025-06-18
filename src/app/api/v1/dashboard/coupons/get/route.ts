@@ -94,7 +94,6 @@ export async function POST(req: Request) {
         pagination: {
          
           totalPages,
-         
         
         },
       }),

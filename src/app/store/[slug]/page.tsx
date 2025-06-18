@@ -131,7 +131,7 @@ const StoreDetail = async ({ params }: any) => {
   const page_data = await GetData(token, slug);
 
 
-  console.log("store page data ", page_data)
+  // console.log("store page data ", page_data)
 
   if (!page_data) {
    

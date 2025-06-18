@@ -33,8 +33,6 @@ export async function POST(req: Request) {
       );
     }
   
-
-
     const {
       transaction_id,
       start_date,

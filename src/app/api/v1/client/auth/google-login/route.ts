@@ -7,10 +7,12 @@ import UserModel from "@/model/UserModel";
 import WithdrawalRequestModel from "@/model/WithdrawalRequestModel";
 import { NextRequest, NextResponse } from "next/server";
 import admin from "firebase-admin";
+import { Welcome_email } from "@/email/welcom_email";
+import { sendMessage } from "@/lib/sendMessage";
 
 if (!admin.apps.length) {
   admin.initializeApp({
-    credential: admin.credential.applicationDefault(), 
+    credential: admin.credential.applicationDefault(),
   });
 }
 
@@ -42,10 +44,10 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     }
 
 
-     const decoded = await admin.auth().verifyIdToken(google_token);
-    const {  email, name, picture } = decoded;
+    const decoded = await admin.auth().verifyIdToken(google_token);
+    const { email, name, picture } = decoded;
 
-     if (!email) {
+    if (!email) {
       return new NextResponse(
         JSON.stringify({
           success: false,
@@ -81,18 +83,58 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     if (!User) {
 
-    User = await UserModel.create({
+      User = await UserModel.create({
         name: name || "No Name",
         email,
         profile: picture,
-        password: "GOOGLE_OAUTH_USER", 
+        password: "GOOGLE_OAUTH_USER",
         email_verified: true,
         accept_terms_conditions_privacy_policy: true,
-    });
+      });
+      await Welcome_email(name, email)
+
+      await sendMessage({
+        userId: User._id,         // assuming MongoDB-style _id
+        title: "Welcome to BachatJar – Unlock Exclusive Cashback & Deals!",
+        body: `Hi ${name || "there"}, 
+
+Welcome to BachatJar – your new favorite place for saving money! 🎉
+
+From exclusive cashback offers to unbeatable deals, we’re here to make every purchase more rewarding. Start exploring and make the most of your shopping!
+
+Happy Saving,  
+The BachatJar Team 💰`
+      });
+
+
+      const WELCOME_BONUS_AMOUNT = 50;
+      const existingBonus = await ConformAmountModel.findOne({ user_id: User._id });
+
+      if (!existingBonus) {
+        await ConformAmountModel.create({
+          amount: WELCOME_BONUS_AMOUNT,
+          user_id: User._id,
+        });
+
+        // Send message to notify user
+        await sendMessage({
+          userId: User._id.toString(),
+          title: "🎁 Welcome Bonus Credited – BachatJar",
+          body: `Hi ${User.name || "there"},
+
+Welcome to BachatJar! You've received a ₹${WELCOME_BONUS_AMOUNT} bonus as a warm welcome from us. 🎉
+
+The bonus has been added to your BachatJar wallet and is ready for use.
+
+Enjoy saving and earning,  
+The BachatJar Team 💸`
+        });
+      }
+
 
     }
 
-   if (User.user_status == "REMOVED") {
+    if (User.user_status == "REMOVED") {
       return new NextResponse(
         JSON.stringify({
           success: false,
@@ -107,14 +149,14 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       );
     }
 
-   
+
 
     const Payload = {
       email,
       role: User.role,
       _id: User._id,
     };
-    const days_15 = 60 * 60 * 24 * 15; 
+    const days_15 = 60 * 60 * 24 * 15;
     const JwtToken = generateJwtToken(Payload, days_15);
 
     const userData = User.toObject();

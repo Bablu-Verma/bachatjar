@@ -115,7 +115,7 @@ export default function ContactUs() {
                 <p className="text-sm text-gray-500 ml-3 mb-2">
                   We are availbable 24/7,7 days a week.
                 </p>
-                <p className="text-sm text-gray-500 ml-3 mb-2">Phone: +91 857657567</p>
+                <p className="text-sm text-gray-500 ml-3 mb-2">Phone: +91 {process.env.NEXT_PUBLIC_NUMBER}</p>
               </div>
               <div className="mb-6 border-b-2 pb-2">
                 <h2 className="text-xl font-semibold text-secondary capitalize mb-3">
@@ -125,18 +125,16 @@ export default function ContactUs() {
                   Find out our form and we will connact you within 24 hours.
                 </p>
                 <p className="text-sm text-gray-500 ml-3 mb-2">
-                  Email: customer@help.com
+                  Email: help@bachatjar.com
                 </p>
-                <p className="text-sm text-gray-500 ml-3 mb-2">
-                  Email: discount@help.com
-                </p>
+             
               </div>
               <div className="mb-6">
                 <h2 className="text-xl font-semibold text-secondary capitalize mb-3">
                  <i className="fa-solid fa-location-pin text-primary mr-3"></i> Address
                 </h2>
                 <address className="text-sm text-gray-500 ml-3 mb-2">
-                  Street: 123 Main St, New York, NY 10001
+                  Sector - 121 Noida, India
                 </address>
               
               </div>

@@ -36,7 +36,6 @@ function CreateShareOrderInner() {
         );
 
         if (data.success === true) {
-      
           if (data?.url && typeof data.url === "string") {
              window.location.href = data.url
           } else {

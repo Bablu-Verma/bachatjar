@@ -3,7 +3,9 @@
 const main_url = process.env.NEXT_PUBLIC_API_URL || 'https://www/bachatjar.com/api/v1'
 
 
-export const upload_image_api = process.env.NEXT_PUBLIC_UPLOAD_IMAGE || 'https://bachatjar.com/api/v1/upload_image'
+export const upload_image_api = process.env.NEXT_PUBLIC_UPLOAD_IMAGE || 'https://bachatjar.com/api/v1/image/upload_image'
+export const all_image_api =  main_url + '/image/all_image'
+export const image_delete_api =  main_url + '/image/delete_image'
 
 // client api
 
@@ -49,6 +51,12 @@ export const claim_form_add_api = main_url + '/client/claim-form/add'
 export const create_share_link_api = main_url + '/client/order/create_share_link'
 export const change_password_request_api = main_url + '/client/auth/change_password_request'
 export const change_password_save_api = main_url + '/client/auth/change_password_save'
+export const newsletter_save_email_api = main_url + '/client/newsletter'
+export const message_list_client_api = main_url + '/client/message'
+export const message_read_mark_client_api = main_url + '/client/message/read'
+
+
+
 
 
 
@@ -91,18 +99,16 @@ export const bank_upi_admin_list_api = main_url + '/dashboard/bank/upi-list'
 export const order_list_admin_api = main_url + '/dashboard/order/list'
 export const order_edit_admin_api = main_url + '/dashboard/order/edit'
 export const order_detals_admin_api = main_url + '/dashboard/order/detail'
-
-
-
 export const withdrwal_list_admin_api = main_url + '/dashboard/withdrawal/list'
 export const withdrwal_editstatus_admin_api = main_url + '/dashboard/withdrawal/edit'
 export const withdrwal_request_details_admin_api = main_url + '/dashboard/withdrawal/details'
-
-
-
-
 export const claim_form_list_api = main_url + '/dashboard/claim-form/list'
+export const newsletter_get_api = main_url + '/dashboard/newsletter'
+export const newsletter_delete_api = main_url + '/dashboard/newsletter/delete'
 
+export const send_message_api = main_url + '/dashboard/message/send-message'
+export const message_list_api = main_url + '/dashboard/message/list'
+export const message_delete_api = main_url + '/dashboard/message/delete'
 
 
 

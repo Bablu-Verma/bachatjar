@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/UserModel";
 import { authenticateAndValidateUser } from "@/lib/authenticate";
+import { account_deletion_request_email } from "@/email/account_deleted_confirmation_email";
 
 export async function POST(req: Request) {
   await dbConnect();
@@ -48,6 +49,8 @@ const { authenticated, user, message } =
         }
       );
     }
+
+    await account_deletion_request_email(updatedUser.name, updatedUser.email)
 
     return new NextResponse(
       JSON.stringify({

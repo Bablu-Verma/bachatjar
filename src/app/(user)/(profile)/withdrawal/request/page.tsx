@@ -50,7 +50,7 @@ const WithdrawRequest: React.FC = () => {
 
   useEffect(() => {
     fetchWithdrawRequestData();
-  }, [fetchWithdrawRequestData]);
+  }, []);
 
 
   // console.log('bankList',bankList)

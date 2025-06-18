@@ -1,6 +1,7 @@
 
 import { authenticateAndValidateUser } from "@/lib/authenticate";
 import dbConnect from "@/lib/dbConnect";
+import { sendMessage } from "@/lib/sendMessage";
 import UserUPIModel from "@/model/UserUPIModel";
 
 import { NextResponse } from "next/server";
@@ -80,7 +81,6 @@ export async function POST(request: Request) {
     
     const upi_document = await UserUPIModel.findOne({ _id:documant_id, user_id: user?._id});
 
-
     if (!upi_document) {
       return new NextResponse(
         JSON.stringify({
@@ -138,6 +138,20 @@ export async function POST(request: Request) {
     upi_document.status = "ACTIVE";
     
     await upi_document.save();
+
+await sendMessage({
+  userId: upi_document.user_id,
+  title: "Your UPI ID Has Been Successfully Linked to BachatJar",
+  body: `Hi ${upi_document.user_email || "there"},
+
+Your UPI ID **${upi_document.upi_id}** has been successfully linked to your BachatJar account. You’re now all set to receive cashback and rewards directly to your UPI!
+
+For your security, if you didn’t perform this action, please remove the UPI from your account settings and contact our support immediately.
+
+Keep saving,  
+The BachatJar Team 💸`
+});
+
 
     return new NextResponse(
       JSON.stringify({
