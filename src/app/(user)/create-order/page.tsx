@@ -14,7 +14,7 @@ import { RotatingLines } from "react-loader-spinner";
 
 
 
-export default function CreateUserOrder() {
+const CreateUserOrder = () => {
 
   const searchParams = useSearchParams();
   const token = useSelector((state: RootState) => state.user.token);
@@ -22,54 +22,45 @@ export default function CreateUserOrder() {
   const store_id = searchParams.get("store_id");
 
 
-  if (!store_id) {
-    toast.error("Missing parameters.");
-    return;
-  }
+  useEffect(() => {
+    if (!store_id) {
+      toast.error("Missing parameters.");
+      return;
+    }
 
-  const shop_now = async () => {
+    const shop_now = async () => {
+      try {
+        const { data } = await axios.post(
+          create_order_api,
+          { store_id },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-    try {
-      const { data } = await axios.post(
-        create_order_api,
-        {
-          store_id: store_id,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-
-      if (data.success == true) {
-        if (data?.url && typeof data.url === "string") {
+        if (data.success && typeof data.url === "string") {
           setTimeout(() => {
-            window.location.href = data.url
-          }, 3000)
+            window.location.href = data.url;
+          }, 3000);
         } else {
           console.error("Invalid URL");
         }
-
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          console.error("Error registering user", error.response?.data.message);
+          toast.error(error.response?.data.message);
+        } else {
+          console.error("Unknown error", error);
+        }
       }
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        console.error("Error registering user", error.response?.data.message);
-        toast.error(error.response?.data.message);
-      } else {
-        console.error("Unknown error", error);
-      }
+    };
 
-    }
-  };
+    shop_now();
+  }, [store_id, token]); 
 
-
-  useEffect(() => {
-    shop_now()
-
-  }, [])
 
 
   return (
@@ -79,15 +70,15 @@ export default function CreateUserOrder() {
 
         <div className="flex justify-center items-center gap-5 flex-col">
           <RotatingLines
-          visible={true}
-          strokeWidth="5"
-          width="70"
-          strokeColor="#CC2B52"
-          animationDuration="0.75"
-          ariaLabel="rotating-lines-loading"
-        />
+            visible={true}
+            strokeWidth="5"
+            width="70"
+            strokeColor="#CC2B52"
+            animationDuration="0.75"
+            ariaLabel="rotating-lines-loading"
+          />
 
-        <p className='text-secondary text-lg'><strong>Create Your Order</strong>, Please wait.</p>
+          <p className='text-secondary text-lg'><strong>Create Your Order</strong>, Please wait.</p>
         </div>
 
       </main>
@@ -95,3 +86,6 @@ export default function CreateUserOrder() {
     </>
   );
 }
+
+
+export default CreateUserOrder
