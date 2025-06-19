@@ -251,12 +251,12 @@ const MainHeader = () => {
 
 
               <div>
-                <ul className="select-none shadow-sm shadow-gray-200 text-[14px] rounded-lg p-2">
+                <ul className="select-none shadow-sm shadow-gray-200 text-[16px] rounded-lg p-2">
 
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
                     <Link
                       className="text-gray-700 font-normal pl-2  block"
-                      href={userlogin ? '/profile-edit' : '/login'}
+                      href={userlogin ? '/edit' : '/login'}
                     >
                       Profile Edit
                     </Link>
@@ -327,7 +327,7 @@ const MainHeader = () => {
 
                 </ul>
 
-                <ul className="select-none  mt-6 text-[16px] p-2">
+                <ul className="select-none  mt-6 text-[18px] p-2">
 
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
                     <Link
@@ -379,14 +379,14 @@ const MainHeader = () => {
                   </li>
                 </ul>
                 {
-                  userlogin && <ul className="select-none  mt-6 text-[16px] p-2">
+                  userlogin && <ul className="select-none  mt-6 text-[18px] p-2">
 
                     <li className="mx-1 my-1 hover:pl-2 duration-150">
                       <button
                         onClick={logOut_user}
                         className="text-base text-red-600  font-medium hover:pl-1 cursor-pointer duration-200 my-1 ml-3 py-1 block"
                       >
-                        <i className="fa-solid text-lg fa-right-from-bracket"></i> Logout
+                        <i className="fa-solid text-xl fa-right-from-bracket"></i> Logout
                       </button>
                     </li>
                   </ul>
