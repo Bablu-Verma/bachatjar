@@ -24,9 +24,7 @@ export async function OPTIONS() {
 }
 
 export async function POST(req: NextRequest) {
-
-  const { authenticated, message } =
-    await authenticateAndValidateUser(req);
+  const { authenticated, message } = await authenticateAndValidateUser(req);
 
   if (!authenticated) {
     return new NextResponse(
@@ -67,28 +65,31 @@ export async function POST(req: NextRequest) {
 
     const buffer = Buffer.from(await file.arrayBuffer());
 
-    const optimizedBuffer = await sharp(buffer)
-      .resize({ width: 1920, height: 1080, fit: "inside", withoutEnlargement: true })
-      .jpeg({ quality: 70, progressive: true })
+    // 🧠 Use sharp to resize and compress
+    const resizedBuffer = await sharp(buffer)
+      .resize({
+        width: 1920,
+        height: 1080,
+        fit: "inside",
+      })
+      .webp({ quality: 70 })  
       .toBuffer();
 
     const timestamp = Date.now();
     const originalName = path.parse(file.name).name.replace(/[^\w.-]/g, "_");
     const filename = `${timestamp}_${originalName}.jpg`;
 
-    // const targetDir = path.join(process.cwd(), "public", "img");
-    const targetDir = '/var/www/bachatjar/img'
+    const targetDir = "/var/www/bachatjar/img";
     await mkdir(targetDir, { recursive: true });
 
     const filepath = path.join(targetDir, filename);
-    await writeFile(filepath, optimizedBuffer);
+    await writeFile(filepath, resizedBuffer);
 
     return NextResponse.json({
       success: true,
       message: "Image uploaded successfully.",
       url: `${process.env.IMAGE_URL}/${filename}`,
     });
-
   } catch (error: unknown) {
     console.error("Upload error:", error);
     return NextResponse.json(

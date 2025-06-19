@@ -7,6 +7,7 @@ export interface IUser {
     gender: string;
     token: string;
     profile: string | null;
+    role:string
 }
 
 export interface IUserAddress {

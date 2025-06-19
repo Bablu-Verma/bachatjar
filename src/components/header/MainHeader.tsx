@@ -3,13 +3,15 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux-store/redux_store";
 import Image from "next/image";
 import { IUser } from "@/common_type";
 import logo from "../../../public/dark_logo.png";
 import { GiTwoCoins } from "react-icons/gi";
 import SearchAnimation from "../SearchAnimation";
+import { logout } from "@/redux-store/slice/userSlice";
+import { clearSummary } from "@/redux-store/slice/cashbackSummary";
 
 
 
@@ -24,6 +26,9 @@ const MainHeader = () => {
   ) as IUser | null;
   const wishlist = useSelector((state: RootState) => state.wishlist.items);
   const summary = useSelector((state: RootState) => state.cashbackSummary.summary)
+
+  const dispatch = useDispatch();
+
   const userlogin = token_ ? true : false;
 
   const showtoggle = () => {
@@ -52,7 +57,13 @@ const MainHeader = () => {
     };
   }, [lastScrollY]);
 
-
+  const logOut_user = () => {
+    setTimeout(() => {
+      dispatch(logout());
+      dispatch(clearSummary());
+      window.location.href = "/login";
+    }, 1000);
+  };
 
   return (
     <nav
@@ -115,7 +126,7 @@ const MainHeader = () => {
               href="/search"
               className=" relative mr-7 hidden lg:block md:min-w-[350px] min-w-[200px] w-[25%] rounded-sm overflow-hidden cursor-pointer"
             >
-             <SearchAnimation />
+              <SearchAnimation />
               <button
                 disabled
                 type="button"
@@ -181,23 +192,53 @@ const MainHeader = () => {
             <i className="fa-solid fa-bars text-xl" id="menu_icon"></i>
           </button>
         </div>
+
+
         {toggleMenu && (
           <div
             id="mobile-menu"
-            style={{ backgroundColor: "rgba(0, 0, 0, 0.3)" }}
-            className="fixed top-[0%] bottom-0 w-full z-[990] h-screen left-0 lg:hidden "
+            style={{ backgroundColor: "rgba(0, 0, 0, 0.3)", height: '100vh' }}
+            className="fixed top-[0%] bottom-0 w-full z-[990]   left-0 lg:hidden "
           >
-            <div className="bg-white max-w-[500px] p-4 pr-8 h-screen relative pt-12">
+            <div className="bg-white max-w-[500px] p-4 pr-8 h-screen overflow-auto  relative pt-10">
               <button onClick={showtoggle} className="absolute top-3 right-5">
                 <i className="fa-solid fa-times text-xl  text-gray-700"></i>
               </button>
+
+
+              <div className="flex items-center gap-4 mb-6">
+                {user?.profile ? (
+                  <div className="rounded-full w-[65px] h-[65px] overflow-hidden">
+                    <Image
+                      src={user?.profile}
+                      alt="User Image"
+                      width={65}
+                      sizes="100vw"
+                      height={65}
+                      className="rounded-full w-[65px] h-[65px]"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-[65px] h-[65px] bg-gray-300 rounded-full flex items-center justify-center text-3xl text-secondary font-bold">
+                    {user?.name?.[0] ?? "U"}
+                  </div>
+                )}
+                <div>
+                  <h2 className="text-lg sm:text-xl capitalize font-semibold text-primary">{user?.name ?? "User"}</h2>
+                  {
+                    userlogin ? <Link href='/profile' className="text-gray-600 hover:underline text-sm sm:text-base">{user?.email}</Link> : <Link href='/login' className="text-gray-600 text-sm sm:text-base hover:underline">Login/Register</Link>
+                  }
+
+                </div>
+              </div>
+
               {pathname != "/search" && (
                 <Link
                   href="/search"
-                  className="relative mb-7 lg:hidden inline-block w-full rounded-sm overflow-hidden"
+                  className="relative mb-5 lg:hidden inline-block w-full rounded-sm overflow-hidden"
                 >
-                
-                   <SearchAnimation />
+
+                  <SearchAnimation />
                   <button
                     type="button"
                     disabled
@@ -208,35 +249,92 @@ const MainHeader = () => {
                 </Link>
               )}
 
-             
+
               <div>
-                <h2 className="text-lg pl-2 mb-2 text-secondary font-medium">
-                  <span className="pr-4">Redirect</span>{" "}
-                  <i className="fa-solid fa-caret-down"></i>
-                </h2>
-                <ul className="select-none border-[1px] border-gray-200 rounded-lg p-2">
-                  <li className="mx-1 my-1 hover:pl-2 duration-150">
-                    {!userlogin && <Link
-                        href="/login"
-                        className="text-gray-700 font-normal pl-2  block"
-                      >
-                        Login / Register
-                      </Link> }
-                  </li>
+                <ul className="select-none shadow-sm shadow-gray-200 text-[14px] rounded-lg p-2">
+
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
                     <Link
                       className="text-gray-700 font-normal pl-2  block"
-                      href="/"
+                      href={userlogin ? '/profile-edit' : '/login'}
                     >
-                      Home
+                      Profile Edit
                     </Link>
                   </li>
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
                     <Link
                       className="text-gray-700 font-normal pl-2  block"
+                      href={userlogin ? '/order-list' : '/login'}
+                    >
+                      All Order
+                    </Link>
+                  </li>
+                  <li className="mx-1 my-1 hover:pl-2 duration-150">
+                    <Link
+                      className="text-gray-700 font-normal pl-2  block"
+                      href={userlogin ? '/addupi' : '/login'}
+                    >
+                      Add UPI
+                    </Link>
+                  </li>
+                  <li className="mx-1 my-1 hover:pl-2 duration-150">
+                    <Link
+                      className="text-gray-700 font-normal pl-2  block"
+                      href={userlogin ? '/wishlist' : '/login'}
+                    >
+                      Your Wishlist
+                    </Link>
+                  </li>
+                  <li className="mx-1 my-1 hover:pl-2 duration-150">
+                    <Link
+                      className="text-gray-700 font-normal pl-2  block"
+                      href={userlogin ? '/notification' : '/login'}
+                    >
+                      Notification
+                    </Link>
+                  </li>
+                  <li className="mx-1 my-1 hover:pl-2 duration-150">
+                    <Link
+                      className="text-gray-700 font-normal pl-2  block"
+                      href={userlogin ? '/withdrawal/request' : '/login'}
+                    >
+                      Withdrawal
+                    </Link>
+                  </li>
+
+                  <li className="mx-1 my-1 hover:pl-2 duration-150">
+                    <Link
+                      className="text-gray-700 font-normal pl-2  block"
+                      href={userlogin ? '/withdrawal-list' : '/login'}
+                    >
+                      Withdrawal list
+                    </Link>
+                  </li>
+
+
+                  {user && ["admin", "data_editor", "blog_editor"].includes(user.role) && (
+                    <li className="mx-1 my-1 hover:pl-2 duration-150">
+                      <Link
+                        className="text-gray-700 font-normal pl-2 block"
+                        href={userlogin ? '/dashboard' : '/login'}
+                      >
+                        Dashboard
+                      </Link>
+                    </li>
+                  )}
+
+
+
+                </ul>
+
+                <ul className="select-none  mt-6 text-[16px] p-2">
+
+                  <li className="mx-1 my-1 hover:pl-2 duration-150">
+                    <Link
+                      className="text-gray-700 font-normal pl-2  block"
                       href="/store"
                     >
-                      Store
+                      Cashback Store
                     </Link>
                   </li>
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
@@ -244,7 +342,7 @@ const MainHeader = () => {
                       className="text-gray-700 font-normal pl-2  block"
                       href="/coupons"
                     >
-                      Coupons
+                      All Coupons
                     </Link>
                   </li>
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
@@ -260,17 +358,9 @@ const MainHeader = () => {
                       className="text-gray-700 font-normal pl-2  block"
                       href="/blog"
                     >
-                      blog
+                      Our Blog
                     </Link>
                   </li>
-                </ul>
-              </div>
-              <div className="mt-6">
-                <h2 className="text-lg pl-2 mb-2 text-secondary font-medium">
-                  <span className="pr-4">Help & Support</span>{" "}
-                  <i className="fa-solid fa-caret-down"></i>
-                </h2>
-                <ul className="select-none border-[1px] border-gray-200 rounded-lg p-2">
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
                     <Link
                       className="text-gray-700 font-normal pl-2  block"
@@ -284,11 +374,26 @@ const MainHeader = () => {
                       className="text-gray-700 font-normal pl-2  block"
                       href="/faq"
                     >
-                      FAQ
+                      FAQ / Help
                     </Link>
                   </li>
                 </ul>
+                {
+                  userlogin && <ul className="select-none  mt-6 text-[16px] p-2">
+
+                    <li className="mx-1 my-1 hover:pl-2 duration-150">
+                      <button
+                        onClick={logOut_user}
+                        className="text-base text-red-600  font-medium hover:pl-1 cursor-pointer duration-200 my-1 ml-3 py-1 block"
+                      >
+                        <i className="fa-solid text-lg fa-right-from-bracket"></i> Logout
+                      </button>
+                    </li>
+                  </ul>
+                }
+
               </div>
+
             </div>
           </div>
         )}

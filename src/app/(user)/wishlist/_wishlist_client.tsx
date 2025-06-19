@@ -85,7 +85,7 @@ const Wishlist_client: React.FC<IWCProps> = ({ item_ }) => {
               </div>
               <p className="text-[#16171a] font-normal text-sm my-1 mb-5 capitalize line-clamp-3">{item.title}</p>
               <div className="flex items-center  justify-between gap-4 ">
-                <h3 className="text-green-700 text-lg font-medium">Up to ₹{item.calculated_cashback.toString()}</h3>
+                <h3 className="text-green-700 text-base font-medium">Up to ₹{item.calculated_cashback.toString()} Off</h3>
                 <Link
                   href={`/campaign/${item.product_slug}`}
                   className="text-primary text-nowrap text-base hover:underline"

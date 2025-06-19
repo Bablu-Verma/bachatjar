@@ -1,20 +1,24 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import { Suspense, useEffect } from "react";
+import { useEffect } from "react";
 import { generateSignature } from "@/helpers/server/uuidv4";
 import { pinback_report_add_api } from "@/utils/api_url";
 import axios, { AxiosError } from "axios";
 import { useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation"; 
 
-function PinbackInner() {
+const Pinback = () => {
   const searchParams = useSearchParams();
+  const { store_id } = useParams(); 
 
   const savepinbackdata = async (paramsObject: { [k: string]: string }) => {
     try {
       await axios.post(
         pinback_report_add_api,
-        { raw_data: paramsObject },
+        {
+          raw_data: paramsObject,
+          store_id: store_id as string,
+        },
         { headers: { "Content-Type": "application/json" } }
       );
     } catch (error) {
@@ -29,6 +33,7 @@ function PinbackInner() {
   useEffect(() => {
     const paramsObject = Object.fromEntries(searchParams.entries());
     const click_id = paramsObject.click_id;
+
     if (click_id) {
       const parts = click_id.split("-");
       const extractedSignature = parts.pop();
@@ -36,21 +41,20 @@ function PinbackInner() {
       const generatedSignature = generateSignature(originalData);
 
       if (generatedSignature === extractedSignature) {
-        // console.log("✅ Valid signature:");
-        savepinbackdata(paramsObject);
+        console.log("✅ Valid signature:", click_id);
+        savepinbackdata(paramsObject); 
       } else {
-        // console.log("❌ Invalid signature:", extractedSignature);
+        console.log("❌ Invalid signature:", extractedSignature);
       }
     }
   }, [searchParams]);
 
   return null;
-}
+};
 
-export default function Pinback() {
-  return (
-    <Suspense>
-      <PinbackInner />
-    </Suspense>
-  );
-}
+export default Pinback;
+
+// type:  followup |  initial
+// http://localhost:3000/pinback/store_id?click_id=''&order_id=''&status=''&amount=0&commission=0&type='initial'
+
+
