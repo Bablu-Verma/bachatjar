@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     siteName: 'BachatJar',
     images: [
       {
-        url: '/coupons-og.jpg',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'BachatJar Coupons and Promo Codes',
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Best Coupons & Promo Codes',
     description: 'Find the latest coupons and promo codes from top brands at BachatJar.',
-    images: ['/coupons-twitter.jpg'],
+    images: ['/twitter-image.png'],
   },
   robots: {
     index: true,

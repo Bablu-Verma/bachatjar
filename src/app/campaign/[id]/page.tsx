@@ -73,7 +73,7 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
       siteName: 'BachatJar',
       images: [
         {
-          url: product.product_img || 'https://i.imgur.com/AZoKCRT.png',
+          url: product.product_img || '/og-image.png',
           width: 800,
           height: 600,
           alt: product.title,
@@ -86,7 +86,7 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
       card: 'summary_large_image',
       title: `${product.title} - ${product.store.name}`,
       description: description,
-      images: [product.product_img || 'https://i.imgur.com/AZoKCRT.png'],
+      images: [product.product_img || '/twitter-image.png'],
     },
     robots: {
       index: true,

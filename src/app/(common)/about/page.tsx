@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     siteName: 'BachatJar',
     images: [
       {
-        url: '/about-og.jpg',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'About BachatJar',
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'About BachatJar - India\'s Leading Cashback Platform',
     description: 'Learn how BachatJar helps Indians save more on online shopping.',
-    images: ['/about-twitter.jpg'],
+    images: ['/twitter-image.png'],
   },
   robots: {
     index: true,

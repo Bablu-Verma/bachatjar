@@ -65,7 +65,7 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
       siteName: 'BachatJar',
       images: [
         {
-          url: category_details.imges[0] || '/default-category.jpg',
+          url: category_details.imges[0] || '/og-image.png',
           width: 800,
           height: 600,
           alt: `${category_details.name} Category`,
@@ -78,7 +78,7 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
       card: 'summary_large_image',
       title: `${category_details.name} Cashback Offers & Deals`,
       description: description,
-      images: [category_details.imges[0] || '/default-category.jpg'],
+      images: [category_details.imges[0] || '/twitter-image.png'],
     },
     robots: {
       index: true,

@@ -83,7 +83,7 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
       card: 'summary_large_image',
       title: blog.title,
       description,
-      images: [blog.image[0]],
+      images: [blog.image[0] || '/twitter-image.png'] ,
     },
     robots: {
       index: true,

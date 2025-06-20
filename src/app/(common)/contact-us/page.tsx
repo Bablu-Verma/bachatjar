@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     siteName: 'BachatJar',
     images: [
       {
-        url: '/contact-og.jpg',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Contact BachatJar Support',
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Contact BachatJar Support',
     description: 'Get help from our 24/7 support team.',
-    images: ['/contact-twitter.jpg'],
+    images: ['/twitter-image.png'],
   },
   robots: {
     index: true,
