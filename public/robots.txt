@@ -1,0 +1,24 @@
+User-agent: *
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /profile
+Disallow: /addupi
+Disallow: /withdrawal
+Disallow: /claim-form
+Disallow: /order-list
+Disallow: /notification
+Disallow: /withdrawal-list
+Disallow: /wishlist
+Disallow: /pinback
+Disallow: /redirect-partner-site
+Disallow: /create-share-order
+Disallow: /create-order
+
+# Allow legal pages for SEO
+Allow: /privacy_policy
+Allow: /terms_conditions
+
+# Allow everything else
+Allow: /
+
+Sitemap: https://bachatjar.com/sitemap.xml
