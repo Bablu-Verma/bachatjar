@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     siteName: 'BachatJar',
     images: [
       {
-        url: '/og-image.png',
+        url: 'https://bachatjar.com/og-image.png',
         width: 1200,
         height: 630,
         alt: 'BachatJar - Save Money With Cashback & Coupons',
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'BachatJar - Save Money With Cashback & Coupons',
     description: 'Get cashback, exclusive coupons, and best deals for your online shopping with BachatJar.',
-    images: ['/twitter-image.png'], 
+    images: ['https://bachatjar.com/twitter-image.png'], 
     creator: '@bachatjar',
     site: '@bachatjar',
   },

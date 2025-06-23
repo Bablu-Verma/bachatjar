@@ -2,7 +2,7 @@ import BottomToTop from "@/components/BottomToTop";
 import Footer from "@/components/Footer";
 import MainHeader from "@/components/header/MainHeader";
 import Image from "next/image";
-import about_image from "../../../../public/aboutus.jpg";
+import about_image from "../../../../public/aboutus.png";
 import Link from "next/link";
 import { Metadata } from 'next';
 import Script from 'next/script';
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     siteName: 'BachatJar',
     images: [
       {
-        url: '/og-image.png',
+        url: 'https://bachatjar.com/og-image.png',
         width: 1200,
         height: 630,
         alt: 'About BachatJar',
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'About BachatJar - India\'s Leading Cashback Platform',
     description: 'Learn how BachatJar helps Indians save more on online shopping.',
-    images: ['/twitter-image.png'],
+    images: ['https://bachatjar.com/twitter-image.png'],
   },
   robots: {
     index: true,
@@ -98,66 +98,46 @@ export default function AboutUs() {
       <MainHeader />
       <main>
         <section className="max-w-6xl mx-auto px-4 py-24 relative">
-          <div className="lg:grid grid-cols-5 gap-5">
+          <div className="flex flex-col-reverse items-center sm:items-start lg:grid grid-cols-5 gap-5">
             <div className="col-span-3">
               <h1 className="text-4xl font-bold mb-6 text-gray-800">
                 About Us
               </h1>
               <div className="text-gray-700 text-base space-y-3">
-                <p>
-                  <strong className="text-xl text-secondary ">
-                    Bachat <span className="text-primary">Jar</span>
-                  </strong>{" "}
-                  is India&apos;s rising cashback and savings platform, designed
-                  to help users earn up to <strong>100% cashback</strong> on
-                  their favorite online purchases. With a fast-growing user
-                  base, Bachat Jar is simplifying online savings for shoppers
-                  across the country.
-                </p>
+                <p> At  <strong className="text-xl text-secondary ">
+                  Bachat <span className="text-primary">Jar</span>
+                </strong>, we are dedicated to providing high-quality products at affordable prices, helping you make the most out of every purchase. Founded by Mohit Kumar Gaur and Bablu Verma, Bachat Jar is a trusted name in the e-commerce space, committed to offering a wide range of products designed to meet the needs of our diverse customer base. Whether you're looking for everyday essentials or special items, our goal is to provide you with a seamless shopping experience that combines convenience, reliability, and value.</p>
+
+                <p>Located in New Delhi, we have built our business on the principles of customer satisfaction and innovation. By carefully curating our product range, we ensure that you receive only the best- all while maintaining competitive prices. Our team, led by Mohit Gaur and Bablu Verma, works tirelessly to ensure that every product offered on Bachat Jar meets stringent quality standards.</p>
 
                 <p>
-                  Founded in <strong>2025</strong>, Bachat Jar was built on one
-                  simple mission — make every online transaction more rewarding.
-                  Whether you&apos;re shopping for clothes, gadgets, groceries,
-                  or booking your next trip, you deserve more in return.
+                  Our office is located at:
+                  <address>
+                    Saumya Sales, Gali No. 3, KH No. 374, Mata Mandir, Majpur, New Delhi, DL 110093, India.
+                  </address>
                 </p>
 
-                <p>
-                  Our partnerships with top Indian e-commerce platforms like
-                  Flipkart, Amazon, Myntra, and Ajio allow us to bring you
-                  verified cashback offers, exclusive promo codes, and the best
-                  deals — all in one place.
-                </p>
+                <p>At Bachat Jar, we understand the importance of convenience, which is why we make sure that all your orders are processed quickly and efficiently. Whether you are a first-time shopper or a loyal customer, we are here to make sure your experience with us is always positive. We strive to build long-term relationships with our customers based on trust and great service.</p>
 
-                <p>
-                  With a secure tracking system and a transparent dashboard, we
-                  make it easy for you to track your orders and cashback
-                  earnings. Withdraw your cashback anytime via bank transfer,
-                  UPI, or digital wallets.
-                </p>
+                <h3 className="font-medium">Why Choose Bachat Jar?</h3>
 
-                <p>
-                  Founder behind Bachat Jar, started the platform with the goal
-                  of transforming the way Indians save. With a background in
-                  e-commerce and a passion for innovation, he created Bachat Jar
-                  to ensure shoppers are always rewarded.
-                </p>
-
-                <p>
-                  Join us early on this journey and experience a smarter, more
-                  rewarding way to shop online. Thank you for choosing Bachat
-                  Jar.
-                </p>
+                <ul className="list-disc pl-6">
+                  <li>Wide Product Range: From everyday essentials to unique items, we have something for everyone.</li>
+                  <li>Affordable Pricing: Get the best value for your money without compromising on quality.</li>
+                  <li>Customer-Centric Approach: We prioritize customer satisfaction in every aspect of our business.</li>
+                  <li>Shop with us today and experience the best in quality, price, and service!</li>
+                </ul>
               </div>
+
             </div>
-            <div className="col-span-2 pt-10 lg:pt-20">
+            <div className="col-span-2 pt-5 lg:pt-20">
               <Image
                 src={about_image}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 alt="About image"
                 height={300}
                 width={100}
-                className="w-full h-auto"
+                className="w-full h-auto max-w-[300px] sm:max-w-[500px]"
               />
             </div>
           </div>

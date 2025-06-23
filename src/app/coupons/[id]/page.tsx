@@ -72,7 +72,7 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
       siteName: 'BachatJar',
       images: [
         {
-          url: store?.store_img || '/og-image.png',
+          url: store?.store_img || 'https://bachatjar.com/og-image.png',
           width: 800,
           height: 600,
           alt: `${store?.name} Coupon`,
@@ -85,7 +85,7 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
       card: 'summary_large_image',
       title: `${title} - ${store?.name} Coupon`,
       description: description,
-      images: [store?.store_img || '/twitter-image.png'],
+      images: [store?.store_img || 'https://bachatjar.com/twitter-image.png'],
     },
     robots: {
       index: true,

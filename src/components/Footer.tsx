@@ -145,8 +145,8 @@ const Footer = () => {
         <div>
           <h3 className="text-lg font-normal mb-4">Support</h3>
           <address className="text-sm font-thin mb-3">
-            Noida sector 121, <br />
-            India-201307
+            KH No-374, Maujpur New Delhi <br />
+            India-110093
           </address>
           <i className="text-sm font-thin mb-2 inline-block">
             help@bachatjar.com

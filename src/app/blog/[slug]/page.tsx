@@ -67,7 +67,7 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
       siteName: 'BachatJar',
       images: [
         {
-          url: blog.image[0],
+          url: blog.image[0] || 'https://bachatjar.com/og-image.png',
           width: 1200,
           height: 630,
           alt: blog.title,
@@ -83,7 +83,7 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
       card: 'summary_large_image',
       title: blog.title,
       description,
-      images: [blog.image[0] || '/twitter-image.png'] ,
+      images: [blog.image[0] || 'https://bachatjar.com/twitter-image.png'] ,
     },
     robots: {
       index: true,

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     siteName: 'BachatJar',
     images: [
       {
-        url: '/og-image.png',
+        url: 'https://bachatjar.com/og-image.png',
         width: 1200,
         height: 630,
         alt: 'BachatJar FAQ',
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'BachatJar FAQ - Cashback Help & Support',
     description: 'Get answers to frequently asked questions about BachatJar cashback and shopping.',
-    images: ['/twitter-image.png'],
+    images: ['https://bachatjar.com/twitter-image.png'],
   },
   robots: {
     index: true,

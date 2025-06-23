@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     siteName: 'BachatJar',
     images: [
       {
-        url: '/og-image.png',
+        url: 'https://bachatjar.com/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Contact BachatJar Support',
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Contact BachatJar Support',
     description: 'Get help from our 24/7 support team.',
-    images: ['/twitter-image.png'],
+    images: ['https://bachatjar.com/twitter-image.png'],
   },
   robots: {
     index: true,
@@ -134,7 +134,8 @@ export default function ContactUs() {
                  <i className="fa-solid fa-location-pin text-primary mr-3"></i> Address
                 </h2>
                 <address className="text-sm text-gray-500 ml-3 mb-2">
-                  Sector - 121 Noida, India
+                 KH No-374, Maujpur New Delhi <br />
+                 India-110093
                 </address>
               
               </div>

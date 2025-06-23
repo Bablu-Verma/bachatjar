@@ -75,7 +75,7 @@ export const generateMetadata = async ({ params }: any): Promise<Metadata> => {
       openGraph: {
         title: `${storeName} - Exclusive Cashback Offers & Coupons`,
         description: `Save money on ${storeName} with exclusive cashback offers and coupons. Get up to ${store.cashback_type === "FLAT_AMOUNT" ? `₹${store.cashback_rate}` : `${store.cashback_rate}%`} cashback on your purchases.`,
-        url: `https://bachatjar.com/store/${slug}` || '/og-image.png',
+        url: `https://bachatjar.com/store/${slug}` || 'https://bachatjar.com/og-image.png',
         siteName: 'BachatJar',
         images: [
           {
@@ -92,7 +92,7 @@ export const generateMetadata = async ({ params }: any): Promise<Metadata> => {
         card: 'summary_large_image',
         title: `${storeName} Cashback & Coupons | BachatJar`,
         description: `Save money on ${storeName} with exclusive cashback offers and coupons.`,
-        images: [storeImage || '/twitter-image.png'],
+        images: [storeImage || 'https://bachatjar.com/twitter-image.png'],
         creator: '@bachatjar',
         site: '@bachatjar',
       },

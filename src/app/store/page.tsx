@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     siteName: 'BachatJar',
     images: [
       {
-        url: '/og-image.png',
+        url: 'https://bachatjar.com/og-image.png',
         width: 1200,
         height: 630,
         alt: 'BachatJar Cashback Stores',
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Best Cashback Stores | BachatJar',
     description: 'Shop and earn cashback from top online stores at BachatJar.',
-    images: ['/twitter-image.png'],
+    images: ['https://bachatjar.com/twitter-image.png'],
   },
   robots: {
     index: true,
