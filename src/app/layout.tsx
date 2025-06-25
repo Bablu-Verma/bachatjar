@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import { Toaster } from 'react-hot-toast';
 import "./globals.css";
+import './dangerouslyHTML.css'
 import ReduxProvider from "@/redux-store/provider_";
 
 import 'react-datetime-picker/dist/DateTimePicker.css';

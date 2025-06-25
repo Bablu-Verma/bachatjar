@@ -12,7 +12,7 @@ export const StoreDesc: React.FC<IStoreDesc> = ({ html_ }) => {
   <div className='relative'>
    <div className={`${open ? 'h-auto':'h-12'} relative overflow-hidden pt-2`}>
      <div
-     className="text-sm !text-white text-left"
+      className="dangerouslyHTML store_desc"
       dangerouslySetInnerHTML={{ __html: html_ }}
     />
    </div>
@@ -51,7 +51,7 @@ export const Store_tc: React.FC<IStoreTC> = ({
             Store Terms & Condition
             </h3>
 
-            <div dangerouslySetInnerHTML={{ __html: store_tc || ''}}>
+            <div className="dangerouslyHTML" dangerouslySetInnerHTML={{ __html: store_tc || ''}}>
             </div>
             <button
               onClick={() => setOpentc(false)}

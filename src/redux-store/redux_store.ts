@@ -7,12 +7,14 @@ import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
 
 import wishlistReduce from './slice/wishlistSlice'
 import CashbackSummarySlice from './slice/cashbackSummary'
+import notificationSlice from './slice/notificationSlice'
 
 const store_ = configureStore({
   reducer: {
     user: userSlice,
     cashbackSummary:CashbackSummarySlice,
     wishlist: wishlistReduce,
+    notification:notificationSlice
   },
 });
 

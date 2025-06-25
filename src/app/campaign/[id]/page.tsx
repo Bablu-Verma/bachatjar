@@ -15,7 +15,6 @@ import { getTimeAgo } from "@/helpers/client/client_function";
 import Campaign_user_event from "./_campaign_user_event";
 import Offer_end_component from "./_offer_end_component";
 import Watchlistadd from "./_watchlistadd";
-import styles from "./product_page.module.css";
 import ShopNowButton from "./_shop_now";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -245,7 +244,7 @@ const CampaignDetail = async ({ params }: any) => {
 
               <div className=" w-full  mt-6  rounded">
                 <div
-                  className={`${styles.product_style} text-base text-gray-500`}
+                  className={`dangerouslyHTML`}
                   dangerouslySetInnerHTML={{
                     __html: product.description || "",
                   }}

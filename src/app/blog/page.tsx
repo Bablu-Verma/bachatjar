@@ -178,7 +178,7 @@ const AllBlog = async () => {
                 {f_blog.title}
               </h3>
               <div
-                className="text-base line-clamp-6 text-gray-700"
+                className="dangerouslyHTML"
                 dangerouslySetInnerHTML={{ __html: f_blog.short_desc || "" }}
               ></div>
               <div className="mt-14">

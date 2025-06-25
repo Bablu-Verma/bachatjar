@@ -7,6 +7,7 @@ import StoreModel from "@/model/StoreModel";
 import CouponModel from "@/model/CouponModel";
 import { authenticateAndValidateUser } from "@/lib/authenticate";
 import WishlistModel from "@/model/WishlistModel";
+import Message from "@/model/Message";
 
 
 export async function POST(req: Request) {
@@ -14,14 +15,16 @@ export async function POST(req: Request) {
   const currentDate = new Date();
 
   try {
-    
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let watchlist_array: any[] = [];
+    let notification_array: any[] = [];
 
     const { authenticated, user } = await authenticateAndValidateUser(req);
 
     if (authenticated && user?._id) {
       const user_id = user._id;
+
       const watchlist = await WishlistModel.findOne({ user_id });
 
       if (watchlist?.campaigns?.length) {
@@ -33,17 +36,26 @@ export async function POST(req: Request) {
           .populate('store', 'name cashback_type cashback_rate store_link store_img')
           .lean();
       }
+
+     notification_array = await Message.find({
+        userId: user_id,
+        read: 'FALSE',
+      })
+        .sort({ createdAt: -1 })
+        .lean();
+
+      
     }
 
-
+// console.log("notification_array", notification_array)
 
     const main_banner = await CampaignModel.find({
       product_status: "ACTIVE",
       main_banner: { $elemMatch: { is_active: true } },
     }).limit(6).populate("store", "name cashback_type cashback_rate store_link store_img")
-      .populate("category", "name slug").select('store category main_banner product_slug slug_type title createdAt upDatedAt').lean();
+      .populate("category", "name slug").select('store category main_banner product_slug slug_type title createdAt upDatedAt').sort({ createdAt: -1 }).lean();
 
-    const store = await StoreModel.find({ store_status: "ACTIVE" }).limit(16).select('-description -store_link -store_status').lean();
+    const store = await StoreModel.find({ store_status: "ACTIVE" }).limit(16).select('-description -store_link -store_status').sort({ createdAt: -1 }).lean();
 
     const flash_sale = await CampaignModel.find({
       product_status: "ACTIVE",
@@ -54,18 +66,18 @@ export async function POST(req: Request) {
         },
       },
     }).select('store category flash_sale product_slug slug_type title  createdAt updatedAt _id').populate("store", "name cashback_type cashback_rate store_link store_img")
-      .populate("category", "name slug").lean();
+      .populate("category", "name slug").sort({ createdAt: -1 }).lean();
 
     const best_product = await CampaignModel.find({
       product_status: "ACTIVE",
       product_tags: "best",
-    }).limit(10).select('store category offer_price calculated_cashback calculation_mode product_img product_tags actual_price product_slug slug_type title  createdAt updatedAt _id').populate("store", "name cashback_type cashback_rate store_link store_img")
+    }).limit(10).sort({ createdAt: -1 }).select('store category offer_price calculated_cashback calculation_mode product_img product_tags actual_price product_slug slug_type title  createdAt updatedAt _id').populate("store", "name cashback_type cashback_rate store_link store_img")
       .populate("category", "name slug").lean();
 
-      const live_product = await CampaignModel.find({
+    const live_product = await CampaignModel.find({
       product_status: "ACTIVE",
       product_tags: "new",
-    }).limit(10).select('store category offer_price calculated_cashback calculation_mode product_img product_tags actual_price product_slug slug_type title  createdAt updatedAt _id').populate("store", "name cashback_type cashback_rate store_link store_img")
+    }).limit(10).sort({ createdAt: -1 }).select('store category offer_price calculated_cashback calculation_mode product_img product_tags actual_price product_slug slug_type title  createdAt updatedAt _id').populate("store", "name cashback_type cashback_rate store_link store_img")
       .lean();
 
 
@@ -73,7 +85,7 @@ export async function POST(req: Request) {
       product_status: "ACTIVE",
       long_poster: { $elemMatch: { is_active: true } },
     }).limit(4).select('store category long_poster product_slug slug_type  title').populate("store", "name cashback_type cashback_rate store_link store_img")
-      .populate("category", "name slug").lean();
+      .populate("category", "name slug").sort({ createdAt: -1 }).lean();
 
     const premium_product = await CampaignModel.find({
       product_status: "ACTIVE",
@@ -81,11 +93,11 @@ export async function POST(req: Request) {
     }).select('store category premium_product product_slug slug_type title ').populate("store", "name cashback_type cashback_rate store_link store_img")
       .populate("category", "name slug").limit(4).lean();
 
-    const coupon = await CouponModel.find({ status: "ACTIVE" }).select('-description -expiry_date -status').limit(8).populate('store', 'name cashback_type cashback_rate store_link store_img').populate('category', 'name').lean();
+    const coupon = await CouponModel.find({ status: "ACTIVE" }).sort({ createdAt: -1 }).select('-description -expiry_date -status').limit(8).populate('store', 'name cashback_type cashback_rate store_link store_img').populate('category', 'name').lean();
 
     const category = await CategoryModel.find({ status: "ACTIVE" }).select('-status -description').lean();
 
-    const blog = await BlogModel.find({ status: "ACTIVE" }).limit(4).select('-short_desc -desc -status -meta_title -meta_description -meta_keywords -canonical_url -og_image -og_title -og_description -twitter_card -schema_markup -reading_time -tags -publish_schedule -writer_email -keywords').lean();
+    const blog = await BlogModel.find({ status: "ACTIVE" }).limit(4).select('-short_desc -desc -status -meta_title -meta_description -meta_keywords -canonical_url -og_image -og_title -og_description -twitter_card -schema_markup -reading_time -tags -publish_schedule -writer_email -keywords').sort({ createdAt: -1 }).lean();
 
     return NextResponse.json({
       success: true,
@@ -100,8 +112,9 @@ export async function POST(req: Request) {
         blog,
         store,
         best_product,
-        live_product:live_product,
-        watchlist: watchlist_array
+        live_product: live_product,
+        watchlist: watchlist_array,
+        notification: notification_array
       },
     });
   } catch (error: unknown) {

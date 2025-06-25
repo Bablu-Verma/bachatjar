@@ -24,7 +24,7 @@ import { Metadata } from 'next';
 import Script from 'next/script';
 import chat_icon from "../../public/chat.png"
 import Image from "next/image";
-import WatchlistSetHome from "@/components/homepage/WatchlistSetHome";
+import HomeClientDataSet from "@/components/homepage/HomeClientDataSet";
 import DealOfTheDayMobile from "@/components/heropage/DealOfTheDayMobile";
 import Newsletter from "@/components/newsletter";
 
@@ -167,11 +167,15 @@ export default async function Home() {
   };
 
 
+console.log()
+
+
   return (
     <>
       <Script
         id="schema-website"
         type="application/ld+json"
+       
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homePageSchema) }}
       />
       <Script
@@ -186,7 +190,7 @@ export default async function Home() {
       />
       
       <MainHeader />
-      <WatchlistSetHome watchlist={page_data?.data?.watchlist} />
+      <HomeClientDataSet notification={page_data?.data.notification} watchlist={page_data?.data?.watchlist} />
 
       {
         token && <a target="_blank" href={`https://wa.me/91${process.env.NEXT_PUBLIC_NUMBER}`} className='fixed bottom-28 right-3 z-50 opacity-70 hover:opacity-100  cursor-pointer duration-300'>

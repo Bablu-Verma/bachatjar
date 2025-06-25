@@ -164,7 +164,7 @@ const CategoryDetail = async ({ params }: any) => {
               {category_details.name}
             </h1>
             <div
-              className="pt-4 text-sm"
+              className="dangerouslyHTML pt-4 text-sm"
               dangerouslySetInnerHTML={{
                 __html: category_details.description || "",
               }}

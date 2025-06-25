@@ -69,6 +69,10 @@ const TiptapEditor: React.FC<{
 
   const token = useSelector((state: RootState) => state.user.token);
 
+  const removeStyleAttributes = (html: string): string => {
+    return html.replace(/style="[^"]*"/g, "");
+  };
+
   const CustomHeading = Heading.extend({
     addAttributes() {
       return {
@@ -92,7 +96,7 @@ const TiptapEditor: React.FC<{
         orderedList: {},
         strike: {},
       }),
-     
+
       HorizontalRule,
       Superscript,
       Subscript,
@@ -124,7 +128,9 @@ const TiptapEditor: React.FC<{
     ],
     content: <p>this is your editor</p>,
     onUpdate: ({ editor }) => {
-      setEditorContent(editor.getHTML());
+      const rawHTML = editor.getHTML();
+      const cleanHTML = removeStyleAttributes(rawHTML);
+      setEditorContent(cleanHTML);
     },
   });
 
@@ -168,7 +174,7 @@ const TiptapEditor: React.FC<{
 
       const formData = new FormData();
       formData.append("image", file);
-     
+
 
       try {
         const { data } = await axios.post(upload_image_api, formData, {
@@ -292,12 +298,19 @@ const TiptapEditor: React.FC<{
 
           <select
             onChange={(e) => {
-              const level = Number(e.target.value) as 1 | 2 | 3 | 4 | 5 | 6;
-              editor.chain().focus().toggleHeading({ level }).run();
+              const value = e.target.value;
+
+              if (value === "paragraph") {
+                editor.chain().focus().setParagraph().run();
+              } else {
+                const level = Number(value) as 1 | 2 | 3 | 4 | 5 | 6;
+                editor.chain().focus().toggleHeading({ level }).run();
+              }
             }}
             className="border px-2 py-1 rounded"
           >
-            <option value="">Heading</option>
+            <option value="">Font Size</option>
+            <option value="paragraph">Paragraph</option>
             <option value="1">H1</option>
             <option value="2">H2</option>
             <option value="3">H3</option>
@@ -479,9 +492,8 @@ const TiptapEditor: React.FC<{
             type="button"
             title={`${showCode ? "Hide" : "Show"} Code`}
             onClick={() => setShowCode(!showCode)}
-            className={` ${
-              showCode ? "bg-gray-600" : "bg-gray-200"
-            } text-black px-2 py-1 rounded`}
+            className={` ${showCode ? "bg-gray-600" : "bg-gray-200"
+              } text-black px-2 py-1 rounded`}
           >
             <FaCode />
           </button>

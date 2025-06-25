@@ -69,7 +69,7 @@ const CategoryDetail = async ({params}: any) => {
             <h1 className="text-xl text-secondary font-medium  my-3">
               {page_data.name}
             </h1>
-            <div className="pt-4 text-sm"  dangerouslySetInnerHTML={{ __html: page_data.description || '' }}>
+            <div className="dangerouslyHTML pt-4"  dangerouslySetInnerHTML={{ __html: page_data.description || '' }}>
             </div>
           </div>
 

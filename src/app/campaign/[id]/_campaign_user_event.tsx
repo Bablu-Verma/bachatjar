@@ -34,7 +34,7 @@ const Campaign_user_event: React.FC<campaign__event_props> = ({
             Important Information
             </h3>
 
-            <div dangerouslySetInnerHTML={{ __html: campaign_data?.t_and_c || ''}}>
+            <div className="dangerouslyHTML" dangerouslySetInnerHTML={{ __html: campaign_data?.t_and_c || ''}}>
             </div>
             <button
               onClick={() => setOpentc(false)}

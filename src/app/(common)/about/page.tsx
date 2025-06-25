@@ -106,7 +106,7 @@ export default function AboutUs() {
               <div className="text-gray-700 text-base space-y-3">
                 <p> At  <strong className="text-xl text-secondary ">
                   Bachat <span className="text-primary">Jar</span>
-                </strong>, we are dedicated to providing high-quality products at affordable prices, helping you make the most out of every purchase. Founded by Mohit Kumar Gaur and Bablu Verma, Bachat Jar is a trusted name in the e-commerce space, committed to offering a wide range of products designed to meet the needs of our diverse customer base. Whether you're looking for everyday essentials or special items, our goal is to provide you with a seamless shopping experience that combines convenience, reliability, and value.</p>
+                </strong>, we are dedicated to providing high-quality products at affordable prices, helping you make the most out of every purchase. Founded by Mohit Kumar Gaur and Bablu Verma, Bachat Jar is a trusted name in the e-commerce space, committed to offering a wide range of products designed to meet the needs of our diverse customer base. Whether you&apos;re looking for everyday essentials or special items, our goal is to provide you with a seamless shopping experience that combines convenience, reliability, and value.</p>
 
                 <p>Located in New Delhi, we have built our business on the principles of customer satisfaction and innovation. By carefully curating our product range, we ensure that you receive only the best- all while maintaining competitive prices. Our team, led by Mohit Gaur and Bablu Verma, works tirelessly to ensure that every product offered on Bachat Jar meets stringent quality standards.</p>
 

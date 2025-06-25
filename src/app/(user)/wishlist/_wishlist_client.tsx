@@ -22,7 +22,7 @@ const Wishlist_client: React.FC<IWCProps> = ({ item_ }) => {
 
   useEffect(() => {
     dispatch(addItem(item_));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 
@@ -56,17 +56,17 @@ const Wishlist_client: React.FC<IWCProps> = ({ item_ }) => {
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-2 pt-2 md:grid-cols-3 gap-2 sm:gap-4 lg:grid-cols-4">
         {wishlist.map((item, i) => (
           // console.log(item),
           <div key={i} className="bg-white border-[1px] rounded overflow-hidden border-gray-300 ">
             <div className='relative '>
               <button
-                className="text-red-400 absolute right-2 top-2 p-1 hover:text-red-700"
+                className="text-red-400 absolute right-1 top-1 p-1 hover:text-red-700"
                 title="Remove this item"
                 onClick={() => remover_data(item._id ?? 0)}
               >
-                <i className="fa-solid fa-trash text-lg"></i>
+                <i className="fa-solid fa-trash text-base"></i>
               </button>
               <Image
                 src={item.product_img}
@@ -77,19 +77,33 @@ const Wishlist_client: React.FC<IWCProps> = ({ item_ }) => {
                 alt={item.title}
               />
             </div>
-            <div className="p-3">
+            <div className="p-2">
               <div className="flex justify-end pt-1">
-              <Link href={`/store/${item.store.slug}`} className="text-sm inline-block text-gray-600 capitalize  ">
-                {item.store.name}
-              </Link>
+                <Link href={`/store/${item.store.slug}`} className="capitalize font-normal text-xs text-gray-500 whitespace-nowrap text-ellipsis overflow-hidden">
+                  <i className="fa-solid fa-store mr-1"></i>
+                  {/* <i className="fa-solid fa-shop mr-1"></i> */}
+                  {item.store.name}
+                </Link>
+
               </div>
-              <p className="text-[#16171a] font-normal text-sm my-1 mb-5 capitalize line-clamp-3">{item.title}</p>
-              <div className="flex items-center  justify-between gap-4 ">
-                <h3 className="text-green-700 text-base font-medium">Up to ₹{item.calculated_cashback.toString()} Off</h3>
-                <Link
-                  href={`/campaign/${item.product_slug}`}
-                  className="text-primary text-nowrap text-base hover:underline"
-                > Grab Now</Link>
+              <p className="text-[#16171a] font-normal text-sm my-1 capitalize line-clamp-3">{item.title}</p>
+              <div className="pt-2">
+                <span>
+                  <strong className="text-primary text-lg mr-2 sm:text-xl sm:mr-3 mb-1">
+                    ₹{item?.offer_price.toString()}/-
+                  </strong>
+                  {/* <small className="text-red-500 text-nowrap text-[12px] sm:text-sm py-.5 px-2 border-[1px] border-red-400 ">
+                    ₹{item?.calculated_cashback.toString()} Off
+                  </small> */}
+                </span>
+                <div className="flex justify-between mt-2 mb-1 items-center ">
+                  <span className="text-gray-600 text-base font-medium line-through">
+                    ₹{item?.actual_price.toString()}
+                  </span>
+                  <button
+                    className="select-none pr-1 rounded-md text-[#2491ef] font-medium py-1 text-sm duration-200 text-nowrap ease-in-out "
+                  > Grab Now </button>
+                </div>
               </div>
             </div>
           </div>

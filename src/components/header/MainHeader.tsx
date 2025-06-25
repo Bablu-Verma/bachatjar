@@ -25,7 +25,10 @@ const MainHeader = () => {
     (state: RootState) => state.user.user
   ) as IUser | null;
   const wishlist = useSelector((state: RootState) => state.wishlist.items);
+  const notification = useSelector((state: RootState) => state.notification.items);
   const summary = useSelector((state: RootState) => state.cashbackSummary.summary)
+
+  const unreadCount = notification.filter((n) => n.read === 'FALSE').length;
 
   const dispatch = useDispatch();
 
@@ -74,7 +77,7 @@ const MainHeader = () => {
         <Link href="/" className="py-.5 inline-block">
           <Image
             src={logo}
-            className="w-[110px] lg:w-[130px] h-auto"
+            className="w-[90px] sm:w-[110px] lg:w-[130px] h-auto"
             alt="logo"
           />
           {/* <h1 className="text-secondary py-2 text-3xl font-semibold tracking-wider">Bachat<span className="text-primary">Jar</span></h1> */}
@@ -136,9 +139,10 @@ const MainHeader = () => {
               </button>
             </Link>
           )}
+
           <Link
             href={userlogin ? "/wishlist" : "/login"}
-            className="select-none text-primary p-1 px-1.5  hover:bg-gray-100 flex justify-center items-center rounded relative"
+            className="hidden  select-none text-primary p-1 px-1.5  hover:bg-gray-100 sm:flex justify-center items-center rounded relative  mr-3"
           >
             <i className="fa-regular fa-heart text-xl"></i>
             {userlogin && wishlist.length > 0 && (
@@ -146,6 +150,18 @@ const MainHeader = () => {
                 {wishlist.length}
               </span>
             )}
+          </Link>
+
+           <Link
+            href={userlogin ? "/notification" : "/login"}
+            className="select-none text-primary p-1 px-1.5  hover:bg-gray-100 flex justify-center items-center rounded relative mr-3"
+          >
+          <i className="fa-solid fa-bell text-xl"></i>
+            {userlogin && unreadCount > 0 && (
+    <span className="w-4 h-4 justify-center flex items-center rounded-full bg-green-300 absolute top-0 -right-2 text-[12px] text-secondary">
+      {unreadCount}
+    </span>
+  )}
           </Link>
 
           {userlogin ? (
@@ -282,7 +298,7 @@ const MainHeader = () => {
                       className="text-gray-700 font-normal pl-2  block"
                       href={userlogin ? '/wishlist' : '/login'}
                     >
-                      Your Wishlist
+                      Your Wishlist <span className="text-sm text-green-400">({ userlogin && wishlist.length})</span>
                     </Link>
                   </li>
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
@@ -290,7 +306,7 @@ const MainHeader = () => {
                       className="text-gray-700 font-normal pl-2  block"
                       href={userlogin ? '/notification' : '/login'}
                     >
-                      Notification
+                      Notification <span className="text-sm text-green-400">( { userlogin && unreadCount})</span>
                     </Link>
                   </li>
                   <li className="mx-1 my-1 hover:pl-2 duration-150">

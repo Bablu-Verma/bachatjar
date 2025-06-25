@@ -7,7 +7,7 @@ import { blog_details } from "@/utils/api_url";
 import axios, { AxiosError } from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import styles from "./blog_page.module.css";
+
 import React from "react";
 import TableOfContents from "./TableOfContents";
 import { Metadata } from 'next';
@@ -212,11 +212,11 @@ const BlogDetail = async ({ params }: any) => {
               </div>
 
               <div
-                className="text-base border-[1px] text-gray-700 border-gray-200 rounded-md mt-10 bg-pink-200 p-4"
+                className="dangerouslyHTML"
                 dangerouslySetInnerHTML={{ __html: blog.short_desc || "" }}
               ></div>
               <div
-                className={`${styles.blog_style} mt-16`}
+                className={`dangerouslyHTML mt-16`}
                 dangerouslySetInnerHTML={{ __html: blog.desc || "" }}
               ></div>
             </div>

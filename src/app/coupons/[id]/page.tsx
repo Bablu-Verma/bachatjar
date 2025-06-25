@@ -146,7 +146,7 @@ const CouponDetail = async ({ params }: any) => {
            <CouponDetailsClient page_data={page_data}/>
           <div className="max-w-[700px] mt-6 m-auto shadow-sm rounded rounded-tr-3xl rounded-bl-3xl relative  border-[1px] border-gray-200 py-8 px-7  bg-[#fff]">
             <h3 className="text-lg text-secondary font-semibold tracking-wide mb-3">More Detail</h3>
-           <div dangerouslySetInnerHTML={{ __html: page_data.description || ''}}>
+           <div className="dangerouslyHTML" dangerouslySetInnerHTML={{ __html: page_data.description || ''}}>
 
            </div>
           </div>
