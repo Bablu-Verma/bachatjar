@@ -2,7 +2,7 @@ import BottomToTop from "@/components/BottomToTop";
 import Footer from "@/components/Footer";
 import MainHeader from "@/components/header/MainHeader";
 import { MainHeading } from "@/components/Heading";
-import Featured from "@/components/heropage/Featured";
+import Featured from "@/components/homepage/Featured";
 import Hero from "@/components/heropage/Hero";
 import BestSalling from "@/components/homepage/BestSelling";
 
@@ -167,7 +167,6 @@ export default async function Home() {
   };
 
 
-console.log()
 
 
   return (

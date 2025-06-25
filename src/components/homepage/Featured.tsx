@@ -64,7 +64,7 @@ const Featured: React.FC<FeaturedProps> = ({ arrival }) => {
             >
               Shop Now
             </Link>
-          </div>SSS
+          </div>
         </div>
       )}
 
