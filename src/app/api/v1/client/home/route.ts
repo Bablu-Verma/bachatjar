@@ -18,6 +18,7 @@ export async function POST(req: Request) {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let watchlist_array: any[] = [];
+     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let notification_array: any[] = [];
 
     const { authenticated, user } = await authenticateAndValidateUser(req);
