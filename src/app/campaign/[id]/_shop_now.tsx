@@ -72,7 +72,7 @@ const ShopNowButton: React.FC<IShopNowProps> = ({ page_data }) => {
         onClick={shop_now}
         className="w-[150px]  sm:w-[180px]  py-2 text-base text-center rounded-full outline-none border-none text-white  duration-200 bg-primary"
       >
-        Shop Now
+        Shop & Earn
       </button>
 
       <button

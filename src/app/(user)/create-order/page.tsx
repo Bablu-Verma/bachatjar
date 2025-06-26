@@ -45,6 +45,7 @@ const CreateUserOrder = () => {
           setTimeout(() => {
             window.location.href = data.url;
           }, 3000);
+          // console.log('data.url', data.url)
         } else {
           console.error("Invalid URL");
         }
