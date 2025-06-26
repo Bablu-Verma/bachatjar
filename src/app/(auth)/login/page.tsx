@@ -135,6 +135,15 @@ const Login = () => {
                 Shop Your Favorite Products With Maximum Discount
               </p>
 
+                            
+              <div className="mb-2">
+                <WithGoogle title='Login' />
+              </div>
+
+              <div className="flex pl-20 items-center py-5">
+                <span>OR</span>
+              </div>
+
               <div className="flex flex-col gap-4">
                 <input
                   type="email"
@@ -193,12 +202,7 @@ const Login = () => {
                   SignUp{" "}
                 </Link>
               </p>
-              <div className="flex justify-center items-center py-8">
-                <span>OR</span>
-              </div>
-              <div className="mb-8">
-                <WithGoogle />
-              </div>
+
             </div>
           </div>
         </div>

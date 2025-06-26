@@ -13,6 +13,8 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import sign_up_image from "../../../../public/sign_up_image.svg";
 import WithGoogle from "@/components/ContinueWithGoogle";
+import ReCAPTCHA from "react-google-recaptcha";
+
 
 interface IUserData {
   email: string;
@@ -28,6 +30,7 @@ const Signup = () => {
     name: "",
     site_policy_conditions: false,
   });
+  const [CheckUser, setCheckUser] = useState(false)
 
   const router = useRouter();
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -80,8 +83,20 @@ const Signup = () => {
       toast.error("Agree to site Terms & Conditions, Privacy Policy");
       return;
     }
+
+    if(!CheckUser){
+      toast.error("Please verify you're not a robot.");
+      return;
+    }
+
     register_user();
   };
+
+
+  const onChangeReCAPTCHA = ()=>{
+    setCheckUser(true)
+  
+  }
 
   const textChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -166,6 +181,15 @@ const Signup = () => {
                 Just One Step Away From Saving Big!
               </p>
 
+              
+             <div className="mb-5 pt-4">
+              <WithGoogle title='SignUp' />
+             </div>
+
+              <div className="flex pl-20 items-center pb-4">
+                <span>OR</span>
+              </div>
+
               <form className="flex flex-col gap-4">
                 <input
                   type="text"
@@ -246,6 +270,13 @@ const Signup = () => {
                   </Link>
                 </div>
               </form>
+<div className="pt-5">
+  <ReCAPTCHA
+    sitekey={process.env.NEXT_PUBLIC_reCAPTCHA_SITE_KEY || 'site_key'}
+    onChange={onChangeReCAPTCHA}
+  />
+</div>
+              
               <div className="flex flex-col gap-2 my-10 ">
                 <button
                   type="button"
@@ -265,12 +296,7 @@ const Signup = () => {
                   Login
                 </Link>
               </p>
-               <div className="flex justify-center items-center py-8">
-                <span>OR</span>
-              </div>
-             <div className="mb-8">
-              <WithGoogle />
-             </div>
+              
             </div>
           </div>
         </div>

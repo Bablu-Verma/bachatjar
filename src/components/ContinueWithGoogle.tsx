@@ -13,8 +13,11 @@ import { login } from "@/redux-store/slice/userSlice";
 import { setSummary } from "@/redux-store/slice/cashbackSummary";
 
 
+type WithGoogleProps = {
+  title: string;
+};
 
-const WithGoogle = () => {
+const WithGoogle: React.FC<WithGoogleProps> = ({title}) => {
 
  const dispatch = useDispatch()
 
@@ -56,9 +59,9 @@ const WithGoogle = () => {
 };
 
     return (
-        <button onClick={loginWithGoogle} className="flex justify-center gap-2 items-center m-auto py-[4px] rounded-md shadow-sm px-4 border-[1px] border-gray-300">
+        <button onClick={loginWithGoogle} className="flex justify-center gap-2 items-center  py-[4px] rounded-md shadow-sm px-4 border-[1px] border-gray-300">
             <Image width={22} src={google_image} alt="google logo" />
-            <span className="text-secondary text-base">Continue with Google</span>
+            <span className="text-secondary text-base">{title} with Google</span>
         </button>
     );
 };
