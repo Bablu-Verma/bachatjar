@@ -163,6 +163,8 @@ export async function POST(req: NextRequest) {
         },
       }
     );
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err:any) {
     console.error("Error registering user", err);
     if ((err as RateLimiterRes).msBeforeNext !== undefined) {
