@@ -2,11 +2,21 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import { authenticateAndValidateUser } from "@/lib/authenticate";
 import ClaimFormModel from "@/model/ClaimForm";
+import limiter from "@/lib/rateLimiter";
+import { RateLimiterRes } from "rate-limiter-flexible";
 
 export async function POST(req: Request) {
   await dbConnect();
 
+  const ip =
+  req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+  req.headers.get("x-real-ip") ||
+  "unknown";
+  
+
   try {
+
+     await limiter.consume(ip);
     const { authenticated, user, message } = await authenticateAndValidateUser(req);
 
     if (!authenticated || !user) {
@@ -94,6 +104,24 @@ export async function POST(req: Request) {
 
   } catch (error) {
     console.error("Error submitting claim:", error);
+
+      if ((error as RateLimiterRes).msBeforeNext !== undefined) {
+                const retryAfter = Math.ceil((error as RateLimiterRes).msBeforeNext / 1000);
+                return new NextResponse(
+                  JSON.stringify({
+                    success: false,
+                    message: `Too many requests. Try again in ${retryAfter} seconds.`,
+                  }),
+                  {
+                    status: 429,
+                    headers: {
+                      "Content-Type": "application/json",
+                      "Retry-After": retryAfter.toString(),
+                    },
+                  }
+                );
+              }
+
     return NextResponse.json(
       { 
         success: false, 

@@ -9,6 +9,8 @@ import { NextRequest, NextResponse } from "next/server";
 import admin from "firebase-admin";
 import { Welcome_email } from "@/email/welcom_email";
 import { sendMessage } from "@/lib/sendMessage";
+import limiter from "@/lib/rateLimiter";
+import { RateLimiterRes } from "rate-limiter-flexible";
 
 if (!admin.apps.length) {
   admin.initializeApp({
@@ -24,7 +26,15 @@ interface IRequestBody {
 export async function POST(req: NextRequest): Promise<NextResponse> {
   await dbConnect();
 
+    const ip =
+  req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+  req.headers.get("x-real-ip") ||
+  "unknown";
+
   try {
+
+     await limiter.consume(ip);
+
     const body: IRequestBody = await req.json();
     const { google_token } = body;
 
@@ -217,6 +227,26 @@ The BachatJar Team 💸`
     );
   } catch (error) {
     console.error("Error during authentication:", error);
+
+
+     if ((error as RateLimiterRes).msBeforeNext !== undefined) {
+            const retryAfter = Math.ceil((error as RateLimiterRes).msBeforeNext / 1000);
+            return new NextResponse(
+              JSON.stringify({
+                success: false,
+                message: `Too many requests. Try again in ${retryAfter} seconds.`,
+              }),
+              {
+                status: 429,
+                headers: {
+                  "Content-Type": "application/json",
+                  "Retry-After": retryAfter.toString(),
+                },
+              }
+            );
+          }
+
+
     return new NextResponse(
       JSON.stringify({
         success: false,

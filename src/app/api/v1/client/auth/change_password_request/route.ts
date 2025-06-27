@@ -3,18 +3,28 @@ import { changepassword_request_email } from "@/email/changepassword_request";
 import { generateJwtToken } from "@/helpers/server/server_function";
 
 import dbConnect from "@/lib/dbConnect";
+import limiter from "@/lib/rateLimiter";
 import UserModel from "@/model/UserModel";
-
+import { RateLimiterRes } from 'rate-limiter-flexible';
 import { NextResponse } from "next/server";
 
-// varify valid user
+
 
 export async function POST(request: Request) {
   await dbConnect();
 
+   const ip =
+  request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+  request.headers.get("x-real-ip") ||
+  "unknown";
+
 
   try {
+
+       await limiter.consume(ip);
+
     const { email } = await request.json();
+
 
     if (!email) {
       return new NextResponse(
@@ -32,7 +42,7 @@ export async function POST(request: Request) {
     }
 
 
-    const findUser = await UserModel.findOne({ email: email });
+  const findUser = await UserModel.findOne({ email: email });
 
 
     if (!findUser) {
@@ -93,6 +103,24 @@ export async function POST(request: Request) {
     );
   } catch (error) {
     console.error("Error verify user", error);
+
+       if ((error as RateLimiterRes).msBeforeNext !== undefined) {
+        const retryAfter = Math.ceil((error as RateLimiterRes).msBeforeNext / 1000);
+        return new NextResponse(
+          JSON.stringify({
+            success: false,
+            message: `Too many requests. Try again in ${retryAfter} seconds.`,
+          }),
+          {
+            status: 429,
+            headers: {
+              "Content-Type": "application/json",
+              "Retry-After": retryAfter.toString(),
+            },
+          }
+        );
+      }
+
     return new NextResponse(
       JSON.stringify({
         success: false,

@@ -4,11 +4,20 @@ import { authenticateAndValidateUser } from "@/lib/authenticate";
 import UserUPIModel from "@/model/UserUPIModel";
 import { generateOTP } from "@/helpers/server/server_function";
 import { upi_verify_email } from "@/email/user_upi_verify";
+import limiter from "@/lib/rateLimiter";
 
 export async function POST(req: Request) {
   await dbConnect();
 
+  
+     const ip =
+      req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      req.headers.get("x-real-ip") ||
+      "unknown";
+
   try {
+
+    await limiter.consume(ip);
     // Authenticate user
     const { authenticated, user, message } = await authenticateAndValidateUser(req);
 
@@ -18,6 +27,8 @@ export async function POST(req: Request) {
         { status: 401 }
       );
     }
+
+    
 
     const { upi_link_bank_name, upi_holder_name_aspr_upi, upi_id } = await req.json();
 

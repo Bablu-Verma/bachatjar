@@ -4,6 +4,8 @@ import { writeFile, mkdir } from "fs/promises";
 import sharp from "sharp";
 import type { NextRequest } from "next/server";
 import { authenticateAndValidateUser } from "@/lib/authenticate";
+import limiter from "@/lib/rateLimiter";
+import { RateLimiterRes } from "rate-limiter-flexible";
 
 export const config = {
   api: {
@@ -24,8 +26,23 @@ export async function OPTIONS() {
 }
 
 export async function POST(req: NextRequest) {
-  const { authenticated, message } = await authenticateAndValidateUser(req);
 
+
+    const ip =
+  req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+  req.headers.get("x-real-ip") ||
+  "unknown";
+
+
+
+
+  try {
+
+     await limiter.consume(ip);
+
+       const { authenticated, message } = await authenticateAndValidateUser(req);
+
+  
   if (!authenticated) {
     return new NextResponse(
       JSON.stringify({
@@ -41,7 +58,6 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  try {
     const formData = await req.formData();
     const file = formData.get("image") as File | null;
 
@@ -92,6 +108,26 @@ export async function POST(req: NextRequest) {
     });
   } catch (error: unknown) {
     console.error("Upload error:", error);
+
+
+      if ((error as RateLimiterRes).msBeforeNext !== undefined) {
+                const retryAfter = Math.ceil((error as RateLimiterRes).msBeforeNext / 1000);
+                return new NextResponse(
+                  JSON.stringify({
+                    success: false,
+                    message: `Too many requests. Try again in ${retryAfter} seconds.`,
+                  }),
+                  {
+                    status: 429,
+                    headers: {
+                      "Content-Type": "application/json",
+                      "Retry-After": retryAfter.toString(),
+                    },
+                  }
+                );
+              }
+    
+
     return NextResponse.json(
       {
         success: false,

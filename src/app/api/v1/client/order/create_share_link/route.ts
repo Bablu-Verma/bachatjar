@@ -3,12 +3,20 @@ import dbConnect from "@/lib/dbConnect";
 import OrderModel from "@/model/OrderModel";
 import StoreModel from "@/model/StoreModel";
 import { generateCustomUuid } from "@/helpers/server/uuidv4";
+import limiter from "@/lib/rateLimiter";
+import { RateLimiterRes } from "rate-limiter-flexible";
 
 export async function POST(req: Request) {
   await dbConnect();
 
+    const ip =
+  req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+  req.headers.get("x-real-ip") ||
+  "unknown";
+
   try {
    
+      await limiter.consume(ip);
 
     const body = await req.json();
     const { store_id, user_id } = body;
@@ -67,6 +75,25 @@ export async function POST(req: Request) {
     );
   } catch (error) {
     console.error("Error creating order:", error);
+
+
+      if ((error as RateLimiterRes).msBeforeNext !== undefined) {
+                const retryAfter = Math.ceil((error as RateLimiterRes).msBeforeNext / 1000);
+                return new NextResponse(
+                  JSON.stringify({
+                    success: false,
+                    message: `Too many requests. Try again in ${retryAfter} seconds.`,
+                  }),
+                  {
+                    status: 429,
+                    headers: {
+                      "Content-Type": "application/json",
+                      "Retry-After": retryAfter.toString(),
+                    },
+                  }
+                );
+              }
+
     return NextResponse.json(
       {
         success: false,
