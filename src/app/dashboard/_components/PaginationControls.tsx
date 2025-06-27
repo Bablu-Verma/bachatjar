@@ -11,7 +11,36 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
   totalPages,
   onPageChange,
 }) => {
-  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+  const getPageNumbers = () => {
+    const pages: (number | string)[] = [];
+    const delta = 2; 
+
+    const range = [];
+    for (let i = Math.max(2, currentPage - delta); i <= Math.min(totalPages - 1, currentPage + delta); i++) {
+      range.push(i);
+    }
+
+    if (currentPage - delta > 2) {
+      pages.push(1, "...", ...range);
+    } else {
+      pages.push(...Array.from({ length: Math.min(1 + delta * 2, totalPages - 1) }, (_, i) => i + 1));
+    }
+
+    if (currentPage + delta < totalPages - 1) {
+      pages.push("...", totalPages);
+    } else if (totalPages > 1) {
+      pages.push(totalPages);
+    }
+
+    // Ensure the first page is always included
+    if (!pages.includes(1)) {
+      pages.unshift(1);
+    }
+
+    return pages;
+  };
+
+  const pageNumbers = getPageNumbers();
 
   return (
     <div className="flex items-center justify-center space-x-2">
@@ -20,21 +49,22 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
         disabled={currentPage === 1}
         onClick={() => onPageChange(currentPage - 1)}
       >
-        <i className="fa-solid text-secondary_color text-base fa-angles-left"></i>
+        <i className="fa-solid fa-angles-left text-secondary_color text-base"></i>
       </button>
 
-      {pages.map((page) =>
-        page === currentPage ? (
-          <button
-            key={page}
-            className="px-2 py-1 text-white text-sm bg-blue-500 rounded-md hover:bg-blue-600"
-          >
-            {page}
-          </button>
+      {pageNumbers.map((page, index) =>
+        typeof page === "string" ? (
+          <span key={index} className="px-2 py-1 text-gray-500 text-sm">
+            ...
+          </span>
         ) : (
           <button
             key={page}
-            className="px-2 py-1 text-gray-500 text-sm bg-gray-200 rounded-md hover:bg-gray-300"
+            className={`px-2 py-1 text-sm rounded-md ${
+              page === currentPage
+                ? "bg-blue-500 text-white hover:bg-blue-600"
+                : "text-gray-500 bg-gray-200 hover:bg-gray-300"
+            }`}
             onClick={() => onPageChange(page)}
           >
             {page}
@@ -43,7 +73,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
       )}
 
       <button
-        className="px-2 py-1 text-gray-500 bg-gray-200 rounded-md hover:bg-gray-300"
+        className="px-2 py-1 text-gray-500 bg-gray-200 rounded-md hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
         disabled={currentPage === totalPages}
         onClick={() => onPageChange(currentPage + 1)}
       >

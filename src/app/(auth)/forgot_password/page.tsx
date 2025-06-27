@@ -84,13 +84,13 @@ const ForgotPassword = () => {
               alt="login"
               width={350}
               height={350}
-              className=""
+              className="w-56 sm:w-full sm:max-w-[300px]"
             />
             <div className="w-full max-w-[400px] px-2">
-              <h2 className="text-2xl lg:text-3xl font-semibold mb-2 mt-4">
+              <h2 className="text-2xl lg:text-3xl text-center sm:text-left font-semibold mb-2 mt-4">
                 Forgot your Password
               </h2>
-              <p className="text-sm font-normal mb-10">
+              <p className="text-sm text-center sm:text-left font-normal mb-10">
                 Don&apos;t worry your accout is safe
               </p>
 
@@ -105,7 +105,7 @@ const ForgotPassword = () => {
                   className="w-full bg-gray-100 px-3 py-2 outline-none text-base text-black border-b-2 border-gray-500"
                 />
               </div>
-              <div className=" mt-6 mb-8">
+              <div className=" mt-6 mb-8 flex flex-row justify-center">
                 <button
                   onClick={SubmitData}
                   className="bg-primary text-white text-sm lg:text-base font-medium duration-200 p-1.5 min-w-[150px] border-[1px] border-primary rounded shadow-sm hover:shadow-2xl"

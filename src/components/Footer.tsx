@@ -155,7 +155,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="max-w-6xl m-auto flex justify-center items-center gap-4 py-5">
-        <a target="_blank" className="text-sm tracking-wider opacity-75 hover:opacity-100 select-none" href="https://www.linkedin.com/company/bachat-jar/">Linkdin</a>
+        <a target="_blank" className="text-sm tracking-wider opacity-75 hover:opacity-100 select-none" href="https://www.linkedin.com/company/bachat-jar/">Linkedin</a>
         <a target="_blank" className="text-sm tracking-wider opacity-75 hover:opacity-100 select-none" href="https://www.instagram.com/bachat_jar/">Instagram</a>
         {/* <a target="_blank" className="text-sm tracking-wider opacity-75 hover:opacity-100 select-none"  href="https://www.linkedin.com/company/bachat-jar/">Facebook</a>
         <a target="_blank" className="text-sm tracking-wider opacity-75 hover:opacity-100 select-none" href="https://www.linkedin.com/company/bachat-jar/">YouTube</a>

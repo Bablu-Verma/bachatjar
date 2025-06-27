@@ -12,7 +12,21 @@ import { GiTwoCoins } from "react-icons/gi";
 import SearchAnimation from "../SearchAnimation";
 import { logout } from "@/redux-store/slice/userSlice";
 import { clearSummary } from "@/redux-store/slice/cashbackSummary";
+import { FaUser } from "react-icons/fa";
+import { FaShoppingCart } from "react-icons/fa";
+import { BsBank2 } from "react-icons/bs";
+import { FaHeart } from "react-icons/fa";
+import { FaBell } from "react-icons/fa";
+import { FaMoneyBillWave } from "react-icons/fa";
+import { FaList } from "react-icons/fa";
+import { MdDashboard } from "react-icons/md";
+import { MdStore } from "react-icons/md";
+import { RiCoupon3Fill } from "react-icons/ri";
+import { FcAbout } from "react-icons/fc";
+import { FaBlog } from "react-icons/fa";
 
+import { MdHelp } from "react-icons/md";
+import { FcBusinessContact } from "react-icons/fc";
 
 
 const MainHeader = () => {
@@ -152,16 +166,16 @@ const MainHeader = () => {
             )}
           </Link>
 
-           <Link
+          <Link
             href={userlogin ? "/notification" : "/login"}
             className="select-none text-primary p-1 px-1.5  hover:bg-gray-100 flex justify-center items-center rounded relative mr-3"
           >
-          <i className="fa-solid fa-bell text-xl"></i>
+            <i className="fa-solid fa-bell text-xl"></i>
             {userlogin && unreadCount > 0 && (
-    <span className="w-4 h-4 justify-center flex items-center rounded-full bg-green-300 absolute top-0 -right-2 text-[12px] text-secondary">
-      {unreadCount}
-    </span>
-  )}
+              <span className="w-4 h-4 justify-center flex items-center rounded-full bg-green-300 absolute top-0 -right-2 text-[12px] text-secondary">
+                {unreadCount}
+              </span>
+            )}
           </Link>
 
           {userlogin ? (
@@ -216,7 +230,7 @@ const MainHeader = () => {
             style={{ backgroundColor: "rgba(0, 0, 0, 0.3)", height: '100vh' }}
             className="fixed top-[0%] bottom-0 w-full z-[990]   left-0 lg:hidden "
           >
-            <div className="bg-white max-w-[500px] p-4 pr-8 h-screen overflow-auto  relative pt-10">
+            <div className="bg-white max-w-[500px] p-4  h-screen overflow-auto  relative pt-10">
               <button onClick={showtoggle} className="absolute top-3 right-5">
                 <i className="fa-solid fa-times text-xl  text-gray-700"></i>
               </button>
@@ -271,59 +285,63 @@ const MainHeader = () => {
 
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
                     <Link
-                      className="text-gray-700 font-normal pl-2  block"
+                   
+                      className="text-gray-700 font-normal pl-2 items-center flex gap-2"
                       href={userlogin ? '/edit' : '/login'}
                     >
-                      Profile Edit
+                      <FaUser className="text-base" />   Profile Edit
                     </Link>
                   </li>
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
                     <Link
-                      className="text-gray-700 font-normal pl-2  block"
+                      className="text-gray-700 items-center flex gap-2 font-normal pl-2 "
                       href={userlogin ? '/order-list' : '/login'}
                     >
-                      All Order
+                      <FaShoppingCart className="text-base" />    All Order
                     </Link>
                   </li>
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
                     <Link
-                      className="text-gray-700 font-normal pl-2  block"
+                   
+                      className="text-gray-700 font-normal pl-2  items-center flex gap-2"
                       href={userlogin ? '/addupi' : '/login'}
                     >
-                      Add UPI
+                      <BsBank2 className="text-base" />   Add UPI
                     </Link>
                   </li>
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
                     <Link
-                      className="text-gray-700 font-normal pl-2  block"
+                      className="text-gray-700 font-normal pl-2  items-center flex gap-2"
                       href={userlogin ? '/wishlist' : '/login'}
                     >
-                      Your Wishlist <span className="text-sm text-green-400">({ userlogin && wishlist.length})</span>
+                      <FaHeart className="text-base" /> Your Wishlist <span className="text-sm text-green-400">{userlogin && wishlist.length > 0 && <>({wishlist.length})</>}</span>
                     </Link>
                   </li>
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
                     <Link
-                      className="text-gray-700 font-normal pl-2  block"
+                      className="text-gray-700 font-normal pl-2  items-center flex gap-2"
                       href={userlogin ? '/notification' : '/login'}
                     >
-                      Notification <span className="text-sm text-green-400">( { userlogin && unreadCount})</span>
+                      <FaBell className="text-base" />  Notification <span className="text-sm text-green-400">{userlogin && unreadCount != 0 && <>({unreadCount})</>}</span>
                     </Link>
                   </li>
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
                     <Link
-                      className="text-gray-700 font-normal pl-2  block"
+                  
+                      className="text-gray-700 font-normal pl-2  items-center flex gap-2"
                       href={userlogin ? '/withdrawal/request' : '/login'}
                     >
-                      Withdrawal
+                      <FaMoneyBillWave className="text-base" />     Withdrawal
                     </Link>
                   </li>
 
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
                     <Link
-                      className="text-gray-700 font-normal pl-2  block"
+                    
+                      className="text-gray-700 font-normal pl-2  items-center flex gap-2"
                       href={userlogin ? '/withdrawal-list' : '/login'}
                     >
-                      Withdrawal list
+                      <FaList className="text-base" />    Withdrawal list
                     </Link>
                   </li>
 
@@ -331,10 +349,10 @@ const MainHeader = () => {
                   {user && ["admin", "data_editor", "blog_editor"].includes(user.role) && (
                     <li className="mx-1 my-1 hover:pl-2 duration-150">
                       <Link
-                        className="text-gray-700 font-normal pl-2 block"
+                        className="text-gray-700 font-normal pl-2 items-center flex gap-2"
                         href={userlogin ? '/dashboard' : '/login'}
                       >
-                        Dashboard
+                        <MdDashboard className="text-base" />      Dashboard
                       </Link>
                     </li>
                   )}
@@ -343,53 +361,57 @@ const MainHeader = () => {
 
                 </ul>
 
-                <ul className="select-none  mt-6 text-[18px] p-2">
+                <ul className="select-none  mt-4 p-2">
 
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
                     <Link
-                      className="text-gray-700 font-normal pl-2  block"
+                      className="text-gray-700 font-normal pl-2  items-center flex gap-2"
                       href="/store"
                     >
-                      Cashback Store
+                      <MdStore className="text-base" />      Cashback Store
                     </Link>
                   </li>
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
                     <Link
-                      className="text-gray-700 font-normal pl-2  block"
+                      className="text-gray-700 font-normal pl-2  items-center flex gap-2"
                       href="/coupons"
                     >
-                      All Coupons
+                      <RiCoupon3Fill className="text-base" />   All Coupons
                     </Link>
                   </li>
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
                     <Link
-                      className="text-gray-700 font-normal pl-2  block"
+                      className="text-gray-700 font-normal pl-2  items-center flex gap-2"
                       href="/about"
                     >
-                      About Us
+                      <FcAbout className="text-base" /> About Us
                     </Link>
                   </li>
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
                     <Link
-                      className="text-gray-700 font-normal pl-2  block"
+                      className="text-gray-700 font-normal pl-2  items-center flex gap-2"
                       href="/blog"
                     >
+                      <FaBlog className="text-base" />
                       Our Blog
                     </Link>
                   </li>
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
+
                     <Link
-                      className="text-gray-700 font-normal pl-2  block"
+                      className="text-gray-700 font-normal pl-2  items-center flex gap-2"
                       href="/contact-us"
                     >
+                      <FcBusinessContact className="text-base" />
                       Contact Us
                     </Link>
                   </li>
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
                     <Link
-                      className="text-gray-700 font-normal pl-2  block"
+                      className="text-gray-700 font-normal pl-2  items-center flex gap-2"
                       href="/faq"
                     >
+                      <MdHelp className="text-base" />
                       FAQ / Help
                     </Link>
                   </li>

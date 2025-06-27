@@ -171,22 +171,24 @@ const Signup = () => {
               alt="login"
               width={350}
               height={350}
-              className=""
+              className="hidden sm:inline-block"
             />
             <div>
-              <h2 className="text-2xl lg:text-3xl font-semibold mb-2 mt-4">
+             <div className="text-center sm:text-left">
+               <h2 className="text-2xl lg:text-3xl font-semibold mb-2 mt-4">
                 Create an account
               </h2>
               <p className="text-sm font-normal mb-6">
                 Just One Step Away From Saving Big!
               </p>
+             </div>
 
               
-             <div className="mb-5 pt-4">
+             <div className="mb-5 pt-4 flex justify-center items-center sm:justify-start">
               <WithGoogle title='SignUp' />
              </div>
 
-              <div className="flex pl-20 items-center pb-4">
+              <div className="flex justify-center sm:justify-start sm:pl-20 items-center pb-4">
                 <span>OR</span>
               </div>
 
@@ -227,9 +229,9 @@ const Signup = () => {
                     className="absolute top-3 right-3 cursor-pointer opacity-75 hover:opacity-95"
                   >
                     {showPassword ? (
-                      <i className="fa-regular fa-eye text-dark text-xl"></i>
+                      <i className="fa-regular fa-eye text-dark text-base"></i>
                     ) : (
-                      <i className="fa-regular fa-eye-slash text-dark text-xl"></i>
+                      <i className="fa-regular fa-eye-slash text-dark text-base"></i>
                     )}
                   </span>
                 </div>
@@ -270,18 +272,18 @@ const Signup = () => {
                   </Link>
                 </div>
               </form>
-<div className="pt-5">
+<div className="pt-5 justify-center flex sm:justify-center items-center" >
   <ReCAPTCHA
     sitekey={process.env.NEXT_PUBLIC_reCAPTCHA_SITE_KEY || 'site_key'}
     onChange={onChangeReCAPTCHA}
   />
 </div>
               
-              <div className="flex flex-col gap-2 my-10 ">
+              <div className="flex flex-col  gap-2 my-10 ">
                 <button
                   type="button"
                   onClick={SubmitData}
-                  className="bg-primary text-white text-sm lg:text-base font-medium duration-200 p-2 border-[1px] border-primary rounded shadow-sm hover:shadow-2xl"
+                  className="bg-primary text-white text-sm lg:text-base font-medium duration-200 p-2  border-[1px] border-primary rounded shadow-sm hover:shadow-2xl"
                 >
                   Create Account
                 </button>

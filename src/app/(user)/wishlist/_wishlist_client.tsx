@@ -62,15 +62,15 @@ const Wishlist_client: React.FC<IWCProps> = ({ item_ }) => {
           <div key={i} className="bg-white border-[1px] rounded overflow-hidden border-gray-300 ">
             <div className='relative '>
               <button
-                className="text-red-400 absolute right-1 top-1 p-1 hover:text-red-700"
+                className="bg-red-600 opacity-70 h-8 w-8 rounded-full text-white absolute right-1 top-1 p-1 hover:opacity-100"
                 title="Remove this item"
                 onClick={() => remover_data(item._id ?? 0)}
               >
-                <i className="fa-solid fa-trash text-base"></i>
+                <i className="fa-solid fa-trash text-sm"></i>
               </button>
               <Image
                 src={item.product_img}
-                className="h-28 w-full"
+                className="h-28 w-full rounded-md"
                 width={100}
                 height={100}
                 sizes="100vw"
@@ -92,17 +92,19 @@ const Wishlist_client: React.FC<IWCProps> = ({ item_ }) => {
                   <strong className="text-primary text-lg mr-2 sm:text-xl sm:mr-3 mb-1">
                     ₹{item?.offer_price.toString()}/-
                   </strong>
-                  {/* <small className="text-red-500 text-nowrap text-[12px] sm:text-sm py-.5 px-2 border-[1px] border-red-400 ">
+                  <small className="text-red-500 text-nowrap text-[12px] sm:text-sm py-.5 px-2 border-[1px] border-red-400 ">
                     ₹{item?.calculated_cashback.toString()} Off
-                  </small> */}
+                  </small>
                 </span>
                 <div className="flex justify-between mt-2 mb-1 items-center ">
                   <span className="text-gray-600 text-base font-medium line-through">
                     ₹{item?.actual_price.toString()}
                   </span>
-                  <button
-                    className="select-none pr-1 rounded-md text-[#2491ef] font-medium py-1 text-sm duration-200 text-nowrap ease-in-out "
-                  > Grab Now </button>
+                <button
+  className="select-none rounded-full bg-gradient-to-r from-red-500 via-pink-500 to-red-600 text-white text-center font-semibold py-2 px-5 text-sm shadow-md hover:scale-105 hover:shadow-lg transition-all duration-300 ease-in-out"
+>
+   Grab Now
+</button>
                 </div>
               </div>
             </div>

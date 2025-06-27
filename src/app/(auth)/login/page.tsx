@@ -119,16 +119,16 @@ const Login = () => {
       <MainHeader />
       <main>
         <div className="max-w-6xl m-auto min-h-[80vh] flex justify-center items-center  pb-10 md:pb-3">
-          <div className="col-span-1 items-center md:grid grid-cols-2">
+          <div className="col-span-1 items-center sm:grid grid-cols-2">
             <Image
               src={login_image}
               alt="login"
               width={350}
               height={350}
-              className=""
+              className="hidden sm:inline-block"
             />
-            <div className="col-span-1 px-2 ">
-              <h2 className="text-2xl lg:text-3xl font-semibold mb-2 mt-4">
+            <div className="col-span-1 px-2 text-center sm:text-left ">
+              <h2 className="text-2xl lg:text-3xl  font-semibold mb-2 mt-4">
                 Login your account
               </h2>
               <p className="text-sm font-normal mb-6">
@@ -136,11 +136,11 @@ const Login = () => {
               </p>
 
                             
-              <div className="mb-2">
+              <div className="mb-2 flex justify-center sm:justify-start items-center">
                 <WithGoogle title='Login' />
               </div>
 
-              <div className="flex pl-20 items-center py-5">
+              <div className="flex justify-center sm:justify-start sm:pl-20 items-center py-5">
                 <span>OR</span>
               </div>
 
@@ -170,14 +170,14 @@ const Login = () => {
                     className="absolute top-3 right-3 cursor-pointer opacity-75 hover:opacity-95"
                   >
                     {showPassword ? (
-                      <i className="fa-regular fa-eye text-dark text-xl"></i>
+                      <i className="fa-regular fa-eye text-dark text-base"></i>
                     ) : (
-                      <i className="fa-regular fa-eye-slash text-dark text-xl"></i>
+                      <i className="fa-regular fa-eye-slash text-dark text-base"></i>
                     )}
                   </span>
                 </div>
               </div>
-              <div className="flex justify-between gap-3 lg:gap-4 my-10">
+              <div className="flex flex-col sm:flex-row items-center  justify-between gap-7 sm:gap-5 lg:gap-4 my-10">
                 <button
                   onClick={SubmitData}
                   className="bg-primary text-white text-sm lg:text-base font-medium duration-200 p-1.5 min-w-36 lg:min-w-48 border-[1px] border-primary rounded shadow-sm hover:shadow-2xl"

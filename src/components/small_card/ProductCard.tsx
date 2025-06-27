@@ -25,25 +25,25 @@ const ProductCard: React.FC<CardProp> = ({ card_data }) => {
       className="shadow-box_shadow_color hover:shadow-box_shadow_hover hover:translate-y-[-6px] bg-white overflow-hidden rounded-lg relative duration-200 border-[1px] border-transparent hover:border-gray-100 hover:border-[1px]  group"
     >
       {card_data?.product_tags && card_data.product_tags.includes("new") ? (
-        <span className="absolute top-2 left-2 bg-green-600 py-[1px] px-5 text-[12px] rounded-md shadow-md text-white font-medium z-10 select-none">
+        <span className="absolute top-2 left-2 bg-green-600 py-[1px] px-5 text-[12px] opacity-80 rounded-full shadow-md text-white font-medium z-10 select-none">
           New
         </span>
       ) : card_data?.product_tags && card_data.product_tags.includes("hot") ? (
-        <span className="absolute top-2 left-2 bg-red-600 py-[1px] px-5 text-[12px] rounded-md shadow-md text-white font-medium z-10 select-none">
+        <span className="absolute top-2 left-2 bg-red-600 py-[1px] px-5 text-[12px] rounded-full opacity-80 shadow-md text-white font-medium z-10 select-none">
           Hot
         </span>
       ) : null}
       <div className=" overflow-hidden relative p-1 pb-3 sm:pb-0 sm:p-3 flex justify-center items-center">
         <Image
           src={card_data?.product_img}
-          className="w-full  h-[150px] rounded-t-md"
+          className="w-full  h-[150px] rounded-md"
           height={200}
           width={200}
           alt={card_data?.title}
         />
       </div>
 
-      <div className="p-2 pt-0">
+      <div className="p-2 pt-2">
         <div className="flex justify-between item-center gap-2">
           <span className="capitalize font-normal text-xs text-gray-500 whitespace-nowrap text-ellipsis overflow-hidden">
             <i className="fa-solid fa-store mr-1"></i>
@@ -76,8 +76,10 @@ const ProductCard: React.FC<CardProp> = ({ card_data }) => {
               ₹{card_data?.actual_price.toString()}
             </span>
             <button
-              className="select-none pr-1 rounded-md text-[#2491ef] font-medium py-1 text-sm duration-200 text-nowrap ease-in-out "
-            > Grab Now </button>
+  className="select-none rounded-full bg-gradient-to-r from-red-500 via-pink-500 to-red-600 text-white text-center font-semibold py-2 px-5 text-sm shadow-md hover:scale-105 hover:shadow-lg transition-all duration-300 ease-in-out"
+>
+   Grab Now
+</button>
           </div>
         </div>
       </div>

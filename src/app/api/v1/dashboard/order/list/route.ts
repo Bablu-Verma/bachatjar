@@ -40,14 +40,14 @@ export async function POST(req: Request) {
       startDate,
       endDate,
       page = 1,
-      limit = 10,
+      limit = 20,
     } = await req.json();
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const query: any = {};
 
     const pageNumber = Number(page) || 1;
-const limitNumber = Number(limit) || 5;
+    const limitNumber = Number(limit) || 5;
 
     if (payment_status && payment_status !== "ALL") {
       query.payment_status = payment_status;
@@ -72,6 +72,10 @@ const limitNumber = Number(limit) || 5;
         query.createdAt = { $gte: start, $lte: end };
       }
     }
+
+    
+
+  
    
     const orders = await OrderModel.find(query)
       .populate({
@@ -85,6 +89,14 @@ const limitNumber = Number(limit) || 5;
       .lean()
 
     const totalOrders = await OrderModel.countDocuments(query);
+
+
+  //  const ordersWithMissingStores = orders.filter(order => !order.store_id);
+  //  const ordersWithMissingUser = orders.filter(order => !order.user_id);
+
+  //  console.log('Orders with deleted/missing stores:', ordersWithMissingStores);
+  //  console.log('Orders with deleted/missing user:', ordersWithMissingUser);
+
 
     return new NextResponse(
       JSON.stringify({
