@@ -22,7 +22,7 @@ const Featured: React.FC<FeaturedProps> = ({ arrival }) => {
         className={`row-span-2 min-h-[250px]  col-span-2  bg-cover bg-center bg-no-repeat md:rounded relative`}
       >
         <div className="absolute left-5 bottom-5 w-[80%]">
-          <h3 className="font-semibold capitalize text-2xl md:text-3xl text-white tracking-wide pb-2">
+          <h3 className="font-semibold capitalize text-2xl md:text-3xl line-clamp-2 text-white tracking-wide pb-2">
             {featured_1?.store.name}
           </h3>
           <p className="text-sm md:text-base text-white line-clamp-2">
@@ -48,7 +48,7 @@ const Featured: React.FC<FeaturedProps> = ({ arrival }) => {
           className={`bg-green-500 min-h-[250px]  relative md:rounded bg-cover bg-center bg-no-repeat col-span-2`}
         >
           <div className="absolute left-5 bottom-5 w-[80%]">
-            <h3 className="font-semibold capitalize text-2xl md:text-3xl text-white tracking-wide pb-2">
+            <h3 className="font-semibold  line-clamp-2 capitalize text-2xl md:text-3xl text-white tracking-wide pb-2">
               {featured_2.store.name}
             </h3>
             <p className="text-sm md:text-base text-white line-clamp-2">
@@ -76,7 +76,7 @@ const Featured: React.FC<FeaturedProps> = ({ arrival }) => {
           className="bg-green-500 min-h-[220px] md:rounded bg-cover bg-center relative bg-no-repeat"
         >
           <div className="absolute left-5 bottom-5 w-[80%]">
-            <h3 className="font-semibold capitalize text-2xl md:text-3xl text-white tracking-wide pb-2">
+            <h3 className="font-semibold capitalize text-2xl line-clamp-2 md:text-3xl text-white tracking-wide pb-2">
               {featured_3?.store.name}
             </h3>
             <p className="text-sm md:text-base text-white line-clamp-2">
@@ -104,7 +104,7 @@ const Featured: React.FC<FeaturedProps> = ({ arrival }) => {
           className="bg-green-500 min-h-[220px] md:rounded  relative bg-cover bg-center bg-no-repeat"
         >
           <div className="absolute left-5 bottom-5 w-[80%]">
-            <h3 className="font-semibold text-2xl capitalize md:text-3xl text-white tracking-wide pb-2">
+            <h3 className="font-semibold text-2xl capitalize line-clamp-2 md:text-3xl text-white tracking-wide pb-2">
               {featured_4?.store.name}
             </h3>
             <p className="text-sm md:text-base text-white line-clamp-2">

@@ -6,8 +6,9 @@ import {
   generateOTP,
 } from "@/helpers/server/server_function";
 import dbConnect from "@/lib/dbConnect";
+import limiter from "@/lib/rateLimiter";
 import UserModel from "@/model/UserModel";
-
+import { RateLimiterRes } from 'rate-limiter-flexible';
 import { NextResponse, NextRequest } from "next/server";
 
 interface IRequestBody {
@@ -20,7 +21,17 @@ interface IRequestBody {
 export async function POST(req: NextRequest) {
   await dbConnect();
 
+   const ip =
+  req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+  req.headers.get("x-real-ip") ||
+  "unknown";
+
   try {
+
+   
+     await limiter.consume(ip);
+
+
     const body: IRequestBody = await req.json();
 
     const { email, password, name, accept_terms_conditions_privacy_policy } =
@@ -152,19 +163,38 @@ export async function POST(req: NextRequest) {
         },
       }
     );
-  } catch (error) {
-    console.error("Error registering user", error);
+  } catch (err:any) {
+    console.error("Error registering user", err);
+    if ((err as RateLimiterRes).msBeforeNext !== undefined) {
+    const retryAfter = Math.ceil((err as RateLimiterRes).msBeforeNext / 1000);
     return new NextResponse(
       JSON.stringify({
         success: false,
-        message: "Failed to register user",
+        message: `Too many requests. Try again in ${retryAfter} seconds.`,
       }),
       {
-        status: 500,
+        status: 429,
         headers: {
           "Content-Type": "application/json",
+          "Retry-After": retryAfter.toString(),
         },
       }
     );
+  }
+
+  // Other unexpected errors
+  console.error("Unexpected error:", err);
+  return new NextResponse(
+    JSON.stringify({
+      success: false,
+      message: "Internal server error",
+    }),
+    {
+      status: 500,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
   }
 }
