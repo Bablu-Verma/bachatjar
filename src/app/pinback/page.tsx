@@ -5,11 +5,10 @@ import { generateSignature } from "@/helpers/server/uuidv4";
 import { pinback_report_add_api } from "@/utils/api_url";
 import axios, { AxiosError } from "axios";
 import { useSearchParams } from "next/navigation";
-import { useParams } from "next/navigation"; 
 
 const Pinback = () => {
   const searchParams = useSearchParams();
-  const { store_id } = useParams(); 
+
 
   const savepinbackdata = async (paramsObject: { [k: string]: string }) => {
     try {
@@ -17,7 +16,6 @@ const Pinback = () => {
         pinback_report_add_api,
         {
           raw_data: paramsObject,
-          store_id: store_id as string,
         },
         { headers: { "Content-Type": "application/json" } }
       );

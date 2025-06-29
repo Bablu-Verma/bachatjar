@@ -127,7 +127,7 @@ const EditOrder: React.FC = () => {
             </tr>
             <tr className="border-t">
               <td className="p-2 font-semibold">Cashback Rate</td>
-              <td className="p-2">{orderDetails.cashback_rate}% ({orderDetails.cashback_type})</td>
+              <td className="p-2">{orderDetails.cashback_rate} ({orderDetails.cashback_type})</td>
             </tr>
             <tr className="border-t">
               <td className="p-2 font-semibold">Upto Amount</td>

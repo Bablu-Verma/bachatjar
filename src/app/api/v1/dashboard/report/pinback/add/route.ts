@@ -2,12 +2,13 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import OrderModel from "@/model/OrderModel";
 import ClientReport from "@/model/ClientReport";
+import { sendMessage } from "@/lib/sendMessage";
 
 export async function POST(req: Request) {
   await dbConnect();
 
   try {
-    const { raw_data, store_id } = await req.json();
+    const { raw_data } = await req.json();
 
     if (!raw_data) {
       return new NextResponse(
@@ -15,13 +16,7 @@ export async function POST(req: Request) {
         { status: 400, headers: { "Content-Type": "application/json" } }
       );
     }
-    if (!store_id) {
-      return new NextResponse(
-        JSON.stringify({ success: false, message: "store_id is required" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
-    }
-
+  
     const { click_id, order_id, status, amount, commission, type } = {
       ...raw_data,
       amount: Number(raw_data.amount),
@@ -39,6 +34,21 @@ export async function POST(req: Request) {
     }
 
 
+    const findOrder = await OrderModel.findOne({
+      transaction_id: click_id,
+    }).select("-redirect_url");
+
+    if (!findOrder) {
+      return new NextResponse(
+        JSON.stringify({
+          success: false,
+          message: "No matching order found for this click_id",
+        }),
+        { status: 404, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+
     try {
 
       if (type === "initial") {
@@ -49,7 +59,7 @@ export async function POST(req: Request) {
           amount,
           commission,
           raw_data,
-          store: store_id,
+          store: findOrder.store_id,
           report_type: "PINBACK",
         });
 
@@ -98,19 +108,7 @@ export async function POST(req: Request) {
       }
     }
 
-    const findOrder = await OrderModel.findOne({
-      transaction_id: click_id,
-    }).select("-redirect_url");
-
-    if (!findOrder) {
-      return new NextResponse(
-        JSON.stringify({
-          success: false,
-          message: "No matching order found for this click_id",
-        }),
-        { status: 404, headers: { "Content-Type": "application/json" } }
-      );
-    }
+    
 
     // console.log("findOrder.upto_amount:", findOrder.upto_amount);
     // console.log("Order amount:", amount);
@@ -127,7 +125,7 @@ export async function POST(req: Request) {
     if (findOrder.cashback_type === "PERCENTAGE") {
       finalCashback = (applicableAmount * (findOrder.cashback_rate || 0)) / 100;
     } else if (findOrder.cashback_type === "FLAT_AMOUNT") {
-      finalCashback = findOrder.cashback_rate || 0;
+     finalCashback = Math.min(findOrder.cashback_rate || 0, applicableAmount);
     }
 
     // Optional: Round cashback to 2 decimal places
@@ -150,6 +148,25 @@ export async function POST(req: Request) {
         date: new Date(),
         details: "Payment updated to Pending based on Online report",
       });
+
+     await sendMessage({
+  userId: findOrder.user_id.toString(),
+  title: `Update on Your Order – Transaction ID: ${click_id}`,
+  body: `Hi there,
+
+Your order with Transaction ID **${click_id}** has been updated to the status: **Pending**.
+
+You can view the complete order history anytime on your BachatJar dashboard.
+
+If you have any questions or did not initiate this request, please contact our support team immediately.
+
+Thank you,  
+The BachatJar Team 💸`
+});
+
+
+
+
     } else if (upperStatus === "CANCELLED" || upperStatus === 'RETURNED') {
       findOrder.payment_status = "Failed";
       findOrder.payment_history.push({
@@ -157,6 +174,24 @@ export async function POST(req: Request) {
         date: new Date(),
         details: "Order is cancelled based on Online report",
       });
+
+
+        await sendMessage({
+  userId: findOrder.user_id.toString(),
+  title: `Important Update: Order Failed – Transaction ID: ${click_id}`,
+  body: `Hi there,
+
+We regret to inform you that your order with Transaction ID **${click_id}** has been marked as **Failed**.
+
+We understand this might be disappointing. Sometimes, failures occur due to issues like incomplete transactions or discrepancies in order details.
+
+You can check more information in your BachatJar dashboard. If you believe this is a mistake or need assistance, please reach out to our support team — we’re here to help.
+
+Thank you for your understanding,  
+The BachatJar Team 💸`
+});
+
+
     }
 
     // Step 6: Save

@@ -26,7 +26,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
   try {
 
-     await limiter.consume(ip);
+    await limiter.consume(ip);
 
     const body: IRequestBody = await req.json();
     const { email, password } = body;

@@ -4,23 +4,40 @@ import OrderModel from "@/model/OrderModel";
 import ClientReport from "@/model/ClientReport";
 import { parse } from "csv-parse/sync";
 import { generateSignature } from "@/helpers/server/uuidv4";
+import { authenticateAndValidateUser } from "@/lib/authenticate";
+import { sendMessage } from "@/lib/sendMessage";
 
 export async function POST(req: Request) {
   await dbConnect();
 
   try {
+
+     const { authenticated, usertype, message } = await authenticateAndValidateUser(req);
+    
+        if (!authenticated) {
+          return NextResponse.json(
+            { success: false, message: message || "User is not authenticated" },
+            { status: 401 }
+          );
+        }
+    
+        if (usertype !== "admin") {
+          return NextResponse.json(
+            { success: false, message: "Access denied: Only admin can delete users" },
+            { status: 403 }
+          );
+        }
+
+
     const formData = await req.formData();
     const file = formData.get("file") as File;
-    const storeId = formData.get("storeId") as string;
     const reporttype = (formData.get("reporttype") as string || "initial").toLowerCase(); // default to "initial"
 
     if (!file) {
       return NextResponse.json({ success: false, message: "File is required" }, { status: 400 });
     }
 
-    if (!storeId) {
-      return NextResponse.json({ success: false, message: "Store ID is required" }, { status: 400 });
-    }
+ 
 
     const buffer = Buffer.from(await file.arrayBuffer());
     const csvText = buffer.toString("utf-8");
@@ -37,6 +54,8 @@ export async function POST(req: Request) {
 
     let successCount = 0;
     let failedCount = 0;
+
+ 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const failedRows: any[] = [];
 
@@ -75,6 +94,14 @@ export async function POST(req: Request) {
 
         const existingReport = await ClientReport.findOne({ click_id });
 
+          // Update Order
+        const order = await OrderModel.findOne({ transaction_id: click_id }).select("-redirect_url");
+
+        if (!order) {
+          failedCount++;
+          failedRows.push({ click_id, reason: "No matching order found for click_id" });
+          continue;
+        }
         if (reporttype === "initial") {
           if (existingReport) {
             failedCount++;
@@ -89,7 +116,7 @@ export async function POST(req: Request) {
             amount,
             commission,
             raw_data,
-            store: storeId,
+            store: order.store_id,
             report_type: "OFFLINE",
           });
 
@@ -112,14 +139,7 @@ export async function POST(req: Request) {
           await existingReport.save();
         }
 
-        // Update Order
-        const order = await OrderModel.findOne({ transaction_id: click_id }).select("-redirect_url");
-
-        if (!order) {
-          failedCount++;
-          failedRows.push({ click_id, reason: "No matching order found for click_id" });
-          continue;
-        }
+      
 
         const applicableAmount = order.upto_amount
           ? Math.min(amount, order.upto_amount)
@@ -130,7 +150,7 @@ export async function POST(req: Request) {
         if (order.cashback_type === "PERCENTAGE") {
           cashback = (applicableAmount * (order.cashback_rate || 0)) / 100;
         } else if (order.cashback_type === "FLAT_AMOUNT") {
-          cashback = order.cashback_rate || 0;
+          cashback = Math.min(order.cashback_rate || 0, applicableAmount);
         }
 
         cashback = Math.round(cashback * 100) / 100;
@@ -147,12 +167,42 @@ export async function POST(req: Request) {
             date: new Date(),
             details: "Payment updated to Pending based on offline report",
           });
+
+               await sendMessage({
+            userId: order.user_id.toString(),
+            title: `Update on Your Order – Transaction ID: ${click_id}`,
+            body: `Hi there,
+          
+          Your order with Transaction ID **${click_id}** has been updated to the status: **Pending**.
+          
+          You can view the complete order history anytime on your BachatJar dashboard.
+          
+          If you have any questions or did not initiate this request, please contact our support team immediately.
+          
+          Thank you,  
+          The BachatJar Team 💸`
+          });
+          
         } else if (upperStatus === "CANCELLED" || upperStatus === 'RETURNED') {
           order.payment_status = "Failed";
           order.payment_history.push({
             status: "Failed",
             date: new Date(),
             details: "Order is cancelled based on offline report",
+          });
+           await sendMessage({
+            userId: order.user_id.toString(),
+            title: `Important Update: Order Failed – Transaction ID: ${click_id}`,
+            body: `Hi there,
+
+          We regret to inform you that your order with Transaction ID **${click_id}** has been marked as **Failed**.
+
+          We understand this might be disappointing. Sometimes, failures occur due to issues like incomplete transactions or discrepancies in order details.
+
+          You can check more information in your BachatJar dashboard. If you believe this is a mistake or need assistance, please reach out to our support team — we’re here to help.
+
+          Thank you for your understanding,  
+          The BachatJar Team 💸`
           });
         }
 

@@ -52,7 +52,7 @@ const Featured: React.FC<FeaturedProps> = ({ arrival }) => {
               {featured_2.store.name}
             </h3>
             <p className="text-sm md:text-base text-white line-clamp-2">
-              {featured_3?.title}
+              {featured_2?.title}
             </p>
             <Link
               href={

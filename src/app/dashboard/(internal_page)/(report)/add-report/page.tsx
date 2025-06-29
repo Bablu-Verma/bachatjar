@@ -6,12 +6,8 @@ import toast from "react-hot-toast";
 import { list_store_dashboard_api, offline_report_add_api } from "@/utils/api_url";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux-store/redux_store";
+import AddOfflineManualReport from "./ManualReport";
 
-interface StoreItem {
-  _id: string;
-  name: string;
-
-}
 
 interface FailedRow {
   click_id: string;
@@ -23,39 +19,12 @@ const AddOfflineReport = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState("");
   const [failedRows, setFailedRows] = useState<FailedRow[]>([]);
-  const [storeList, setStoreList] = useState<StoreItem[]>([]);
-  const [selectedStore, setSelectedStore] = useState<string>("");
+
   const [uploadFiletype, setUploadFileType] = useState<string>("initial");
 
   const token = useSelector((state: RootState) => state.user.token);
 
 
-
-  const getStores = async () => {
-    try {
-      const { data } = await axios.post(
-        list_store_dashboard_api,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setStoreList(data.data);
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data.message);
-      } else {
-        toast.error("Unknown error while fetching stores.");
-      }
-    }
-  };
-
-
-  useEffect(() => {
-    getStores();
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,10 +34,6 @@ const AddOfflineReport = () => {
       return;
     }
 
-    if (!selectedStore) {
-      toast.error("Please select a store.");
-      return;
-    }
 
 
     setLoading(true);
@@ -78,12 +43,13 @@ const AddOfflineReport = () => {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("storeId", selectedStore);
       formData.append("reporttype", uploadFiletype);
 
 
       const res = await axios.post(offline_report_add_api, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: { "Content-Type": "multipart/form-data",
+           Authorization: `Bearer ${token}`
+         },
       });
 
       setMessage(res.data.message);
@@ -144,24 +110,7 @@ const AddOfflineReport = () => {
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Select Store
-              </label>
-              <select
-                value={selectedStore}
-                onChange={(e) => setSelectedStore(e.target.value)}
-                disabled={loading}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none"
-              >
-                <option value="">Select Store</option>
-                {storeList.map((store) => (
-                  <option key={store._id} value={store._id}>
-                    {store.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+          
              <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Report Type
@@ -223,6 +172,8 @@ const AddOfflineReport = () => {
           </div>
         )}
       </div>
+
+      <AddOfflineManualReport />
     </>
   );
 };
