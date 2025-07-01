@@ -11,8 +11,9 @@ import 'react-clock/dist/Clock.css';
 
 
 export const metadata: Metadata = {
-  title: "Bachat Jar | We help save your Money",
-  description: "Discover the best discounts, cashback deals, exclusive offers, coupons, and free products on Bachat Jar — your smart partner in saving money every day.",
+  title: "BachatJar – Cashback, Coupons & Promo Codes | Save Big on Every Online Purchase in India",
+  description: 'Shop online & earn real cashback on every purchase. Get latest discount coupons, promo codes & exclusive offers only at BachatJar',
+  keywords: 'Cashback website India, Best cashback offers, Online shopping cashback, Discount coupons India, Promo codes Flipkart/Amazon, savings,Earn money shopping online, BachatJar,Real cashback deals, Top cashback sites in India ',
 };
 
 export default function RootLayout({

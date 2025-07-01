@@ -120,19 +120,32 @@ const UploadImageGetLink = () => {
 
 
       </div>
-      {imgLink && (
-        <p className="mt-2 text-green-600">
-          Your Image Link:{' '}
-          <Link
-            href={imgLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-500 underline"
-          >
-            {imgLink}
-          </Link>
-        </p>
-      )}
+    {imgLink && (
+  <div className="mt-4">
+    <div className="flex items-center justify-start gap-5">
+      <span>Link:</span>
+       <button
+        onClick={() => {
+          navigator.clipboard.writeText(imgLink);
+          toast.success("Link copied to clipboard!");
+        }}
+        className="text-xs bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded"
+      >
+        Copy
+      </button>
+      <Link
+        href={imgLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-500 underline break-all  line-clamp-1 "
+      >
+        {imgLink}
+      </Link>
+     
+    </div>
+  </div>
+)}
+
     </div>
   );
 };

@@ -16,9 +16,6 @@ interface IClientDataSet {
 
 const HomeClientDataSet:React.FC<IClientDataSet> = ({watchlist, notification}) => {
   const dispatch = useDispatch();
-
-
-  
   
   useEffect(() => {
     dispatch(addItem(watchlist));

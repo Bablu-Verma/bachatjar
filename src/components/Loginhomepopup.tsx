@@ -22,7 +22,7 @@ const Loginhomepopup = () => {
       if (!hasVisited && !token) {
         const timer = setTimeout(() => {
           setShowPopup(true);
-        }, 30000); 
+        }, 80000); 
   
         return () => clearTimeout(timer); 
       }

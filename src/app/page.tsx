@@ -31,12 +31,12 @@ import Newsletter from "@/components/newsletter";
 
 
 export const metadata: Metadata = {
-  title: 'BachatJar - Save Money With Cashback & Coupons',
-  description: 'Discover the best cashback offers, coupons, and deals. Save money on your online shopping with BachatJar - Your trusted cashback and coupons platform.',
-  keywords: 'cashback, coupons, deals, online shopping, discounts, savings, BachatJar',
+ title: "BachatJar – Cashback, Coupons & Promo Codes | Save Big on Every Online Purchase in India",
+  description: 'Shop online & earn real cashback on every purchase. Get latest discount coupons, promo codes & exclusive offers only at BachatJar',
+  keywords: 'Cashback website India, Best cashback offers, Online shopping cashback, Discount coupons India, Promo codes Flipkart/Amazon, savings,Earn money shopping online, BachatJar,Real cashback deals, Top cashback sites in India ',
   openGraph: {
-    title: 'BachatJar - Save Money With Cashback & Coupons',
-    description: 'Get cashback, exclusive coupons, and best deals for your online shopping with BachatJar.',
+   title: "BachatJar – Cashback, Coupons & Promo Codes | Save Big on Every Online Purchase in India",
+    description: 'Shop online & earn real cashback on every purchase. Get latest discount coupons, promo codes & exclusive offers only at BachatJar',
     url: 'https://bachatjar.com',
     siteName: 'BachatJar',
     images: [
@@ -52,8 +52,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'BachatJar - Save Money With Cashback & Coupons',
-    description: 'Get cashback, exclusive coupons, and best deals for your online shopping with BachatJar.',
+  title: "BachatJar – Cashback, Coupons & Promo Codes | Save Big on Every Online Purchase in India",
+   description: 'Shop online & earn real cashback on every purchase. Get latest discount coupons, promo codes & exclusive offers only at BachatJar',
     images: ['https://bachatjar.com/twitter-image.png'], 
     creator: '@bachatjar',
     site: '@bachatjar',
@@ -128,7 +128,7 @@ const organizationSchema = {
   "name": "BachatJar",
   "url": "https://bachatjar.com",
   "logo": "https://bachatjar.com/logo.png",
-  "description": "BachatJar helps you save money with cashback offers, coupons, and exclusive deals on online shopping.",
+   "description": 'Shop online & earn real cashback on every purchase. Get latest discount coupons, promo codes & exclusive offers only at BachatJar',
   "address": {
     "@type": "PostalAddress",
     "addressCountry": "IN"
