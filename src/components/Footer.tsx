@@ -154,25 +154,14 @@ const Footer = () => {
           <p className="text-sm font-thin">+91 {process.env.NEXT_PUBLIC_NUMBER}</p>
         </div>
       </div>
-      <div className="max-w-6xl m-auto flex justify-center items-center gap-4 py-5">
+      <div className="max-w-6xl m-auto flex justify-center items-center gap-4 pt-5 pb-16">
         <a target="_blank" className="text-sm tracking-wider opacity-75 hover:opacity-100 select-none" href="https://www.linkedin.com/company/bachat-jar/">Linkedin</a>
         <a target="_blank" className="text-sm tracking-wider opacity-75 hover:opacity-100 select-none" href="https://www.instagram.com/bachat_jar/">Instagram</a>
         {/* <a target="_blank" className="text-sm tracking-wider opacity-75 hover:opacity-100 select-none"  href="https://www.linkedin.com/company/bachat-jar/">Facebook</a>
         <a target="_blank" className="text-sm tracking-wider opacity-75 hover:opacity-100 select-none" href="https://www.linkedin.com/company/bachat-jar/">YouTube</a>
         <a target="_blank" className="text-sm tracking-wider opacity-75 hover:opacity-100 select-none" href="https://www.linkedin.com/company/bachat-jar/">Telegram</a> */}
       </div>
-      <div className="py-3 border-t-[0.5px] border-gray-400 select-none">
-        <div className="py-10 flex justify-center items-center flex-col">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl pb-1 text-white ">
-            #SaveMoreWithBachatJar
-          </h1>
-          <h5>We help save your money</h5>
-        </div>
-        <p className="text-sm tracking-wide font-medium text-gray-600 text-center">
-          <i className="fa-regular  fa-copyright"></i> Copyright BachatJar 2025.
-          All rights reserved.
-        </p>
-      </div>
+    
     </footer>
   );
 };

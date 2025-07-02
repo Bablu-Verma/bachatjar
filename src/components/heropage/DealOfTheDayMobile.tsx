@@ -91,7 +91,7 @@ const DealOfTheDayMobile: React.FC<DealOfTheDayMobileProps> = ({ deals }) => {
                     </span>
                     <button
                       className="select-none pr-1 rounded-md text-[#2491ef] font-medium py-1 text-sm duration-200 text-nowrap ease-in-out "
-                    > Grab Now </button>
+                    > Shop Now </button>
                   </div>
                 </div>
               </div>

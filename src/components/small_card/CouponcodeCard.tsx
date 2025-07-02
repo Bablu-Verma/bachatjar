@@ -16,7 +16,7 @@ const CouponcodeCard: React.FC<CouponcodeCardProps> = ({ item }) => {
   return (
     <Link
       href={`/coupons/${item._id}`}
-      className="shadow-sm rounded rounded-tr-3xl rounded-bl-3xl relative hover:shadow-lg duration-200 border-[1px] border-gray-200 p-4 lg:p-6  bg-[#fff]"
+      className="shadow-sm rounded rounded-tr-3xl rounded-bl-3xl relative hover:shadow-lg duration-200 border-[1px] border-gray-200 p-3 sm:p-4 lg:p-6  bg-[#fff]"
     >
 
  <Image

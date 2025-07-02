@@ -70,12 +70,12 @@ const Deals: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto  pt-8 lg:pt-10 relative">
       {/* Tabs */}
-      <div className="flex px-2 justify-start items-center py-4 gap-6">
+      <div className="flex px-2 justify-start items-center pt-4 pb-2 gap-2 sm:gap-6">
         {tabOptions.map((item) => (
           <button
             key={item.tag}
             onClick={() => handleTabChange(item.tag)}
-            className={`text-sm py-1 px-6 transition-all duration-300 ease-in-out rounded-full border-2 border-primary ${
+            className={`text-sm py-1 px-6 transition-all duration-300 ease-in-out rounded-full border-2 border-primary text-nowrap ${
               openTab === item.tag ? "text-white bg-primary" : "text-primary bg-white"
             }`}
           >

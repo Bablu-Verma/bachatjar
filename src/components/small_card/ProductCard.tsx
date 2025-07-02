@@ -76,7 +76,7 @@ const ProductCard: React.FC<CardProp> = ({ card_data }) => {
               ₹{card_data?.actual_price.toString()}
             </span>
             <button
-  className="select-none rounded-full bg-gradient-to-r from-red-500 via-pink-500 to-red-600 text-white text-center font-semibold py-2 px-5 text-sm shadow-md hover:scale-105 hover:shadow-lg transition-all duration-300 ease-in-out"
+  className="select-none rounded-full bg-gradient-to-r from-red-500 via-pink-500 to-red-600 text-white text-center font-semibold py-1 px-3 text-[12px] sm:text-sm shadow-md hover:scale-105 hover:shadow-lg transition-all duration-300 ease-in-out"
 >
    Grab Now
 </button>

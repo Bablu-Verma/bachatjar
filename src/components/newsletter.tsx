@@ -59,12 +59,15 @@ const Newsletter = () => {
 
 
   return (
-    <div className="bg-gray-800 py-14 text-white">
-      <div className="max-w-4xl mx-auto text-center px-4">
-        <h4 className="text-[12px] sm:text-base uppercase tracking-wide  font-normal pb-4 ">Get Latest Offers</h4>
-        <h1 className="text-3xl md:text-4xl tracking-wide font-semibold pb-2">Subscribe Now</h1>
-        <p className="text-base text-center mb-10 font-light tracking-wide">Subscribe to get exclusive deals, updates & insider-only  discounts—direct to your inbox.</p>
-        <div className="flex items-center  justify-center relative rounded-full ">
+    <div className="bg-gray-800 py-10 text-white">
+      <div className="max-w-6xl mx-auto px-4">
+       <div className="flex justify-center md:justify-between flex-col md:flex-row items-center md:items-end pb-5">
+        <div>
+         <h4 className="text-[12px] sm:text-base uppercase text-center md:text-left tracking-wide  font-normal pb-3 ">Get Latest Offers</h4>
+        <h1 className="text-2xl md:text-3xl pb-3  tracking-wide text-center md:text-left font-semibold md:pb-1">Subscribe Now</h1>
+       </div>
+       
+        <div className="flex items-center justify-center relative rounded-full ">
           <div className='relative'>
             <input
               value={email}
@@ -84,6 +87,8 @@ const Newsletter = () => {
             </button>
           </div>
         </div>
+       </div>
+         <p className="text-sm md:text-base text-center md:text-left   font-light tracking-wide">Subscribe to get exclusive deals, updates & insider-only  discounts—direct to your inbox.</p>
       </div>
     </div>
   );

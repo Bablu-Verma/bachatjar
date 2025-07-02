@@ -36,8 +36,8 @@ const HomeCategories: React.FC<CategoryProps> = ({ category }) => {
         >
           View All
         </button>
-        <div className="grid grid-cols-[repeat(auto-fit,_minmax(150px,1fr))] px-2 gap-4 sm:gap-5">
-          {category.slice(0, 5).map((item, i) => (
+        <div className="grid grid-cols-[repeat(auto-fit,_minmax(150px,1fr))] px-2 gap-2 sm:gap-3 ">
+          {category.slice(0, 6).map((item, i) => (
             <CategorieCard item={item} key={i} />
           ))}
         </div>

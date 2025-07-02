@@ -41,11 +41,11 @@ const Banner: React.FC<BannerProps> = ({ banner }) => {
                   ? `/campaign/${item?.product_slug}`
                   : item.store?.store_link
               }
-              className="relative h-[210px] lg:h-64 rounded bg-cover bg-center block mx-2"
+              className="relative h-[190px] lg:h-64   bg-cover bg-center block mx-2"
             >
               <Image
                
-                className="w-full h-[210px] lg:h-64 "
+                className="w-full h-[190px] lg:h-64 rounded-lg md:rounded  "
                 src={item.main_banner[0].image}
                 alt={item.title}
                 width={900}

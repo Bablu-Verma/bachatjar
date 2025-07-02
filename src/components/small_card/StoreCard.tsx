@@ -24,10 +24,6 @@ const StoreCard: React.FC<istorecard> = ({ item }) => {
         className="rounded-md mb-3 h-auto"
       />
 
-      <div className="text-sm sm:text-base capitalize text text-blue-500">
-        {item.name}
-      </div>
-
       <div className="text-[12px] sm:text-sm w-full items-center justify-center flex rounded-md mt-2 text-primary gap-[2px] capitalize py-1 px-2 bg-[#F5C4D0]">
         {" "}
         <span>Upto</span>

@@ -32,9 +32,9 @@ const BlogCard: React.FC<BlogCardProps> = ({ item }) => {
       <div className="max-h-[200px] overflow-hidden relative">
         <span className="w-full h-auto bg-[rgba(0,0,0,.2)] absolute top-0 left-0 bottom-0 right-0 z-10"></span>
         <Image
-          unoptimized
+     
           src={item?.image[0]}
-          className="w-full"
+          className="w-full h-[130px]"
           alt="shose"
           fill={false}
           width={400}
@@ -44,21 +44,21 @@ const BlogCard: React.FC<BlogCardProps> = ({ item }) => {
         />
       </div>
       <div className="pb-2 pt-1 px-2">
-        <h4 className="text-gray-800 font-medium text-sm py-1 line-clamp-3">
+        <h4 className="text-gray-800 font-medium text-sm py-1 line-clamp-2">
           {item?.title}
         </h4>
-        <div className="flex justify-between items-center">
-          <div>
-            <span style={{ fontSize: "14px" }} className="text-gray-500 mr-3">
+        <div className="">
+          <div className="flex justify-between mt-1 items-center">
+            <span  className="text-gray-500 mr-2 md:mr-3 text-[12px] text-sm">
               <i className="fa-regular fa-eye"></i> {item?.views}
             </span>
-            <span style={{ fontSize: "14px" }} className="text-gray-500">
+            <span  className="text-gray-500 text-[12px] md:text-sm">
               <i className="fa-regular fa-clock"></i> {formattedDate}
             </span>
           </div>
           <Link
             href={`/blog/${item?.slug}`}
-            className="text-primary text-base hover:pr-1 duration-200"
+            className="text-primary mt-1 text-sm md:text-base text-nowrap hover:pr-1 duration-200"
           >
             Read More
           </Link>

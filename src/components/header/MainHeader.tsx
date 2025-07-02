@@ -87,7 +87,7 @@ const MainHeader = () => {
       className={`border-b-2 border-gray-200 z-50 bg-white sticky top-0 transition-transform duration-500 ${isVisible ? "translate-y-0" : "-translate-y-full"
         }`}
     >
-      <div className="max-w-6xl m-auto py-1 flex justify-between items-center max-lg:px-4">
+      <div className="max-w-6xl m-auto py-2 sm:py-1 flex justify-between items-center max-lg:px-4">
         <Link href="/" className="py-.5 inline-block">
           <Image
             src={logo}

@@ -27,6 +27,7 @@ import Image from "next/image";
 import HomeClientDataSet from "@/components/homepage/HomeClientDataSet";
 import DealOfTheDayMobile from "@/components/heropage/DealOfTheDayMobile";
 import Newsletter from "@/components/newsletter";
+import FooterBottom from "@/components/FooterBottom";
 
 
 
@@ -198,8 +199,6 @@ export default async function Home() {
       }
       
 
-      
-     
 
       <Hero
         deals={page_data?.data.live_product}
@@ -234,7 +233,13 @@ export default async function Home() {
           </div>
         )}
 
-        {!token && <HowToWork />}
+        {
+          token &&  <div className="pt-8 lg:pt-10">
+            <MainHeading title="Three Steps to save with BachatJar" link={null} />
+            <HowToWork />
+          </div>
+        }
+
 
        <Deals  />
 
@@ -286,6 +291,7 @@ export default async function Home() {
       </main>
       <Newsletter />
       <Footer />
+      <FooterBottom />
     </>
   );
 }
