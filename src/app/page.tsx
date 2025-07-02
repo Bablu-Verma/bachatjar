@@ -234,7 +234,7 @@ export default async function Home() {
         )}
 
         {
-          token &&  <div className="pt-8 lg:pt-10">
+          !token &&  <div className="pt-8 lg:pt-10">
             <MainHeading title="Three Steps to save with BachatJar" link={null} />
             <HowToWork />
           </div>

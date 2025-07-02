@@ -61,8 +61,7 @@
 //             affiliate_url: partnerInfo.affiliate_base_url,
 //           });
 //         }
-
-//         if (results.length >= 1) break; 
+//         if (results.length >= 1) break;
 //       }
 
 //       return results;
@@ -85,7 +84,7 @@
 //   for (const partner of partners) {
 //     const products = await scrapePartner(partner);
 //     allProducts.push(...products);
-//     await delay(2000); 
+//     await delay(2000);
 //   }
 
 //  if (allProducts && allProducts.length > 0) {
@@ -96,7 +95,7 @@
 //     console.error('❌ Error saving live deals to DB:', error);
 //   }
 // } else {
-//   console.log('ℹ️ No products to save.');
+//   console.log(' No products to save.');
 // }
 
 //   return allProducts;
