@@ -149,7 +149,7 @@ const Footer = () => {
             India-110093
           </address>
           <i className="text-sm font-thin mb-2 inline-block">
-            help@bachatjar.com
+            {process.env.NEXT_PUBLIC_EMAIL}
           </i>
           <p className="text-sm font-thin">+91 {process.env.NEXT_PUBLIC_NUMBER}</p>
         </div>

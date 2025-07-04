@@ -57,13 +57,13 @@ const faq_question = [
   {
     id: 3,
     question: "How long does it take for cashback to be credited?",
-    answer: "Typically, cashback is credited after the retailer confirms the purchase and the return/refund period ends, which can take up to 60 days.",
+    answer: "Typically, cashback is credited after the retailer confirms the purchase and the return/refund period ends, which can take up to 45-60 days.",
   },
-{
-  id: 4,
-  question: "Can I combine cashback with promo codes?",
-  answer: "Currently, cashback cannot be combined with promo codes on the retailer’s site. We’ll update you if this changes.",
-},
+  {
+    id: 4,
+    question: "Can I combine cashback with promo codes?",
+    answer: "Currently, cashback cannot be combined with promo codes on the retailer’s site. We’ll update you if this changes.",
+  },
   {
     id: 5,
     question: "Is there a minimum purchase amount to get cashback?",
@@ -97,7 +97,7 @@ const faq_question = [
   {
     id: 11,
     question: "How do I know if my order is confirmed?",
-    answer: "You can check your cashback status in your Bachat Jar dashboard — statuses include Pending, Confirmed, or Paid.",
+    answer: "You can check your cashback status in your Bachat Jar dashboard — statuses include Pending, Confirmed.",
   },
   {
     id: 12,
@@ -122,7 +122,7 @@ const faq_question = [
   {
     id: 16,
     question: "How can I contact Bachat Jar support?",
-    answer: "You can reach out to our support team via the Contact Us page or email at support@bachatjar.com.",
+    answer: `You can reach out to our support team via the Contact Us page or email at ${process.env.NEXT_PUBLIC_EMAIL}.`,
   },
   {
     id: 17,
@@ -142,7 +142,7 @@ const faq_question = [
   {
     id: 20,
     question: "What should I do if I forgot my account password?",
-    answer: "Use the 'Forgot Password' option on the login page to reset your password via your registered email.",
+    answer: `Use the 'Forgot Password' option on the login page to reset your password via your registered email. ${process.env.NEXT_PUBLIC_SITE_URL}/forgot_password`,
   },
 ];
 

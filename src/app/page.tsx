@@ -22,12 +22,13 @@ import { home_api } from "@/utils/api_url";
 import axios, { AxiosError } from "axios";
 import { Metadata } from 'next';
 import Script from 'next/script';
-import chat_icon from "../../public/chat.png"
-import Image from "next/image";
+
+
 import HomeClientDataSet from "@/components/homepage/HomeClientDataSet";
 import DealOfTheDayMobile from "@/components/heropage/DealOfTheDayMobile";
 import Newsletter from "@/components/newsletter";
 import FooterBottom from "@/components/FooterBottom";
+import WhatsApp from "@/components/WhatsApp";
 
 
 
@@ -192,13 +193,8 @@ export default async function Home() {
       <MainHeader />
       <HomeClientDataSet notification={page_data?.data.notification} watchlist={page_data?.data?.watchlist} />
 
-      {
-        token && <a target="_blank" href={`https://wa.me/91${process.env.NEXT_PUBLIC_NUMBER}`} className='fixed bottom-28 right-3 z-50 opacity-70 hover:opacity-100  cursor-pointer duration-300'>
-        <Image src={chat_icon} alt="Chatt_icon" height={62} width={62} className=''/>
-      </a>
-      }
-      
 
+      <WhatsApp />
 
       <Hero
         deals={page_data?.data.live_product}
