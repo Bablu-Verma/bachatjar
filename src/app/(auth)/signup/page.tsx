@@ -28,7 +28,7 @@ const Signup = () => {
     email: "",
     password: "",
     name: "",
-    site_policy_conditions: false,
+    site_policy_conditions: true,
   });
   const [CheckUser, setCheckUser] = useState(false)
 
@@ -84,7 +84,7 @@ const Signup = () => {
       return;
     }
 
-    if(!CheckUser){
+    if (!CheckUser) {
       toast.error("Please verify you're not a robot.");
       return;
     }
@@ -93,9 +93,9 @@ const Signup = () => {
   };
 
 
-  const onChangeReCAPTCHA = ()=>{
+  const onChangeReCAPTCHA = () => {
     setCheckUser(true)
-  
+
   }
 
   const textChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -133,7 +133,7 @@ const Signup = () => {
         email: "",
         password: "",
         name: "",
-        site_policy_conditions: false,
+        site_policy_conditions: true,
       });
 
       const UserRegisterInfo = {
@@ -174,19 +174,19 @@ const Signup = () => {
               className="hidden sm:inline-block"
             />
             <div>
-             <div className="text-center sm:text-left">
-               <h2 className="text-2xl lg:text-3xl font-semibold mb-2 mt-4">
-                Create an account
-              </h2>
-              <p className="text-sm font-normal mb-6">
-                Just One Step Away From Saving Big!
-              </p>
-             </div>
+              <div className="text-center sm:text-left">
+                <h2 className="text-2xl lg:text-3xl font-semibold mb-2 mt-4">
+                  Create an account
+                </h2>
+                <p className="text-sm font-normal mb-6">
+                  Just One Step Away From Saving Big!
+                </p>
+              </div>
 
-              
-             <div className="mb-5 pt-4 flex justify-center items-center sm:justify-start">
-              <WithGoogle title='SignUp' />
-             </div>
+
+              <div className="mb-5 pt-4 flex justify-center items-center sm:justify-start">
+                <WithGoogle title='SignUp' />
+              </div>
 
               <div className="flex justify-center sm:justify-start sm:pl-20 items-center pb-4">
                 <span>OR</span>
@@ -237,27 +237,14 @@ const Signup = () => {
                 </div>
 
                 <div className="lg:flex items-center mt-3 ml-4">
-                  <input
-                    type="checkbox"
-                    id="site_policy_conditions"
-                    name="site_policy_conditions"
-                    checked={userData.site_policy_conditions}
-                    onChange={(e) =>
-                      setUserData({
-                        ...userData,
-                        site_policy_conditions: e.target.checked,
-                      })
-                    }
-                    className="mr-2"
-                  />
                   <label
-                    htmlFor="site_policy_conditions"
                     className="select-none cursor-pointer text-sm"
                   >
                     I agree to the site&apos;s
                   </label>
                   <Link
                     href="/terms_conditions"
+                    target="_blank"
                     className="text-blue-400 hover:underline pl-1 inline-block text-sm"
                   >
                     Terms & Conditions{" "}
@@ -265,20 +252,21 @@ const Signup = () => {
                   ,
                   <Link
                     href="/privacy_policy"
+                    target="_blank"
                     className="text-blue-400 hover:underline pl-1 inline-block text-sm"
                   >
-                    {" "}
+
                     Privacy Policy
                   </Link>
                 </div>
               </form>
-<div className="pt-5 justify-center flex sm:justify-center items-center" >
-  <ReCAPTCHA
-    sitekey={process.env.NEXT_PUBLIC_reCAPTCHA_SITE_KEY || 'site_key'}
-    onChange={onChangeReCAPTCHA}
-  />
-</div>
-              
+              <div className="pt-5 justify-center flex sm:justify-center items-center" >
+                <ReCAPTCHA
+                  sitekey={process.env.NEXT_PUBLIC_reCAPTCHA_SITE_KEY || 'site_key'}
+                  onChange={onChangeReCAPTCHA}
+                />
+              </div>
+
               <div className="flex flex-col  gap-2 my-10 ">
                 <button
                   type="button"
@@ -287,7 +275,7 @@ const Signup = () => {
                 >
                   Create Account
                 </button>
-             
+
               </div>
               <p className="text-sm font-thin text-center">
                 Already have account?{" "}
@@ -298,7 +286,7 @@ const Signup = () => {
                   Login
                 </Link>
               </p>
-              
+
             </div>
           </div>
         </div>

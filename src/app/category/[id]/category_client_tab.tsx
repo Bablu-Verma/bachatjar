@@ -95,21 +95,21 @@ const CategoryClientTab: React.FC<CAProps> = ({
 
   const renderContent = useMemo(() => ({
     Product: (items: ICampaign[]) => (
-      <div className="grid grid-rows-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-6">
         {items.map((item, i) => (
           <ProductCard card_data={item} key={item._id || i} />
         ))}
       </div>
     ),
     Coupons: (items: ICoupon[]) => (
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6">
         {items.map((item, i) => (
           <CouponcodeCard item={item} key={item._id || i} />
         ))}
       </div>
     ),
     Store: (items: IStore[]) => (
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-8 mt-6 lg:mt-10">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-8 mt-6 lg:mt-10">
         {items.map((item, i) => (
           <StoreCard item={item} key={item._id ? String(item._id) : String(i)} />
         ))}

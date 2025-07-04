@@ -96,14 +96,14 @@ const StoreClientTab: React.FC<ATProps> = ({ relatedProducts, relatedCoupons, sl
       {openTab == "Product" &&
         Product &&
         Product.length > 0 && (
-          <div className="grid grid-rows-1 sm:grid-cols-2  lg:grid-cols-3 gap-3 md:gap-6">
+          <div className="grid  grid-cols-2 md:grid-cols-3 gap-2 sm:gap-4 ">
             {Product.map((item, i) => {
               return <ProductCard card_data={item} key={i} />;
             })}
           </div>
         )}
       {openTab == "Coupons" && relatedCoupons && relatedCoupons.length > 0 && (
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+        <div className="grid  grid-cols-2 md:grid-cols-3 gap-2 sm:gap-4 ">
           {Coupons.map((item, i) => {
             return <CouponcodeCard item={item} key={i} />;
           })}
