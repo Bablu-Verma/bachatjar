@@ -170,7 +170,7 @@ const AllBlog = async () => {
       <main className="pt-3">
         <section className="max-w-6xl mx-auto mb-5 p-2 xl:p-0">
           <div className="flex flex-col-reverse lg:grid grid-cols-2 gap-4 border-b-[1px] pb-14 border-b-gray-200">
-            <div className="pt-20 pr-5">
+            <div className="pt-10 lg:pt-20 pr-5">
               <small className="text-primary uppercase text-base mb-3">
                 FEATURED
               </small>
@@ -193,7 +193,7 @@ const AllBlog = async () => {
             <Image
               height={200}
               width={500}
-              className="w-[100%] h-auto"
+              className="w-[100%] h-auto mt-5 lg:mt-20"
               alt={f_blog.title}
               src={f_blog.image[0]}
             />

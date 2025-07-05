@@ -44,7 +44,7 @@ const TableOfContents = ({ contents }: ITableOfContents) => {
       {headings.map((item, i) => (
         <div key={item.id} className="group mb-4 flex justify-start gap-1">
           <span className="group-hover:text-blue-500 text-gray-700">
-            {i + 1}.
+            {/* {i + 1}. */}
           </span>
           <Link
             href={`#${item.id}`}

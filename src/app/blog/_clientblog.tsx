@@ -16,6 +16,8 @@ import axios, { AxiosError } from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SimpleLoader from "@/components/SimpleLoader";
 
+import "swiper/css";
+
 interface CBProps {
   blog: IBlog[];
   category: IBCategory[];
@@ -92,11 +94,42 @@ const ClientBlog: React.FC<CBProps> = ({ blog, category }) => {
             spaceBetween={14}
             slidesPerView={4}
             breakpoints={{
-              768: {
+              480: {
                 slidesPerView: 5,
+                spaceBetween: 12,
+              },
+              640: {
+                slidesPerView: 6,
+                spaceBetween: 14,
+              },
+              768: {
+                slidesPerView: 7,
+                spaceBetween: 16,
+              },
+              1024: {
+                slidesPerView: 8,
+                spaceBetween: 20,
+              },
+              1280: {
+                slidesPerView: 9,
+                spaceBetween: 24,
               },
             }}
           >
+
+             <SwiperSlide>
+              <div className="flex flex-col items-center justify-center">
+                <button
+                  onClick={() => setMenu(true)}
+                  className="rounded-full border-4 w-16 h-16 md:w-20 md:h-20 flex justify-center items-center duration-200 ease-in-out border-gray-400 cursor-pointer"
+                >
+                  <HiDotsHorizontal className="text-gray-600 text-3xl md:text-4xl" />
+                </button>
+                <h4 className="text-center text-lg text-secondary capitalize">
+                  See all
+                </h4>
+              </div>
+            </SwiperSlide>
             {category.slice(0, 5).map((item, i) => (
               <SwiperSlide key={i}>
                 <div
@@ -122,19 +155,7 @@ const ClientBlog: React.FC<CBProps> = ({ blog, category }) => {
                 </div>
               </SwiperSlide>
             ))}
-            <SwiperSlide>
-              <div className="flex flex-col items-center justify-center">
-                <button
-                  onClick={() => setMenu(true)}
-                  className="rounded-full border-4 w-16 h-16 md:w-20 md:h-20 flex justify-center items-center duration-200 ease-in-out border-gray-400 cursor-pointer"
-                >
-                  <HiDotsHorizontal className="text-gray-600 text-3xl md:text-4xl" />
-                </button>
-                <h4 className="text-center text-lg text-secondary capitalize">
-                  See all
-                </h4>
-              </div>
-            </SwiperSlide>
+           
           </Swiper>
         )}
       </div>
@@ -142,7 +163,7 @@ const ClientBlog: React.FC<CBProps> = ({ blog, category }) => {
       {/* Blog List */}
       <div>
         <MainHeading title="Latest Blog" link={null} />
-        <div className="grid grid-rows-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 pt-6 md:gap-6">
+        <div className="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 pt-6 md:gap-6">
           {bloglist.map((item, i) => (
             <BlogCard item={item} key={i} />
           ))}

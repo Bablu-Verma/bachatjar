@@ -77,13 +77,13 @@ const TiptapEditor: React.FC<{
     addAttributes() {
       return {
         ...this.parent?.(),
-        id: {
-          default: null,
-          parseHTML: (element) => element.getAttribute("id") || uuidv4(),
-          renderHTML: (attributes) => {
-            return attributes.id ? { id: attributes.id } : {};
-          },
-        },
+       id: {
+              default: () => uuidv4(),
+              parseHTML: (element) => element.getAttribute("id") || uuidv4(),
+              renderHTML: (attributes) => {
+                return attributes.id ? { id: attributes.id } : {};
+              },
+            }
       };
     },
   });
@@ -95,6 +95,7 @@ const TiptapEditor: React.FC<{
         bulletList: {},
         orderedList: {},
         strike: {},
+        heading: false,
       }),
 
       HorizontalRule,
