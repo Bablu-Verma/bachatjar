@@ -66,7 +66,7 @@ const DashboardUI: React.FC<LayoutProps> = ({ children1 }) => {
    
    
     {
-      id: 6,
+      id: 4,
       name: "Add Category",
       url: "/dashboard/add-category",
       icon: "fas fa-tachometer-alt",
@@ -74,14 +74,14 @@ const DashboardUI: React.FC<LayoutProps> = ({ children1 }) => {
     },
    
     {
-      id: 7,
+      id: 5,
       name: "All Category",
       url: "/dashboard/all-category",
       icon: "fas fa-tachometer-alt",
       roles: ["admin", "data_editor"], 
     },
     {
-      id: 8,
+      id: 6,
       name: "Add store",
       url: "/dashboard/add-store",
       icon: "fas fa-tachometer-alt",
@@ -89,7 +89,7 @@ const DashboardUI: React.FC<LayoutProps> = ({ children1 }) => {
     },
    
     {
-      id: 9,
+      id: 7,
       name: "All Stores",
       url: "/dashboard/all-stores",
       icon: "fas fa-tachometer-alt",
@@ -97,7 +97,7 @@ const DashboardUI: React.FC<LayoutProps> = ({ children1 }) => {
     },
    
     {
-      id: 10,
+      id: 8,
       name: "Add coupons",
       url: "/dashboard/add-coupons",
       icon: "fas fa-tachometer-alt",
@@ -105,7 +105,7 @@ const DashboardUI: React.FC<LayoutProps> = ({ children1 }) => {
     },
    
     {
-      id:11,
+      id:9,
       name: "All Coupons",
       url: "/dashboard/all-coupons",
       icon: "fas fa-tachometer-alt",
@@ -113,97 +113,105 @@ const DashboardUI: React.FC<LayoutProps> = ({ children1 }) => {
     },
    
     {
-      id: 12,
+      id: 10,
       name: "Add Blog",
       url: "/dashboard/add-blog",
       icon: "fas fa-tachometer-alt",
       roles: ["admin", "blog_editor"], 
     },
     {
-      id: 13,
+      id: 11,
       name: "Blog List",
       url: "/dashboard/blog-list",
       icon: "fas fa-tachometer-alt",
       roles: ["admin", "blog_editor"], 
     },
     {
-      id: 14,
+      id: 12,
       name: "Add Blog Category",
       url: "/dashboard/add-blog-category",
       icon: "fas fa-tachometer-alt",
       roles: ["admin", "blog_editor"], 
     },
     {
-      id: 15,
+      id: 13,
       name: " All Blog Category List",
       url: "/dashboard/blog-category-list",
       icon: "fas fa-tachometer-alt",
       roles: ["admin", "blog_editor"], 
     },
     {
-      id: 16,
+      id: 14,
       name: "Order",
       url: "/dashboard/order",
       icon: "fas fa-tachometer-alt",
       roles: ["admin"], 
     },
     {
-      id: 17,
+      id: 15,
       name: "Users",
       url: "/dashboard/all-user",
       icon: "fas fa-tachometer-alt",
       roles: ["admin"], 
     },
     {
-      id: 18,
+      id: 16,
       name: "Contact Us Data",
       url: "/dashboard/contact-us/list",
       icon: "fas fa-tachometer-alt",
       roles: ["admin"], 
     },
     {
-      id: 19,
+      id: 17,
       name: "UPI Id",
       url: "/dashboard/upi/upi-list",
       icon: "fas fa-tachometer-alt",
       roles: ["admin"], 
     },
     {
-      id: 20,
+      id: 18,
       name: "Report",
       url: "/dashboard/add-report",
       icon: "fas fa-tachometer-alt",
       roles: ["admin"], 
     },
     {
-      id: 21,
+      id: 19,
       name: "All withdrwal",
       url: "/dashboard/withdrwal",
       icon: "fas fa-tachometer-alt",
       roles: ["admin", ], 
     },
     {
-      id: 22,
+      id: 20,
       name: "Claim form",
       url: "/dashboard/claim-form/list",
       icon: "fas fa-tachometer-alt",
       roles: ["admin", ], 
     },
+    {
+      id: 22,
+      name: "Claim form tamplate",
+      url: "/dashboard/claim-form-tamplate/add",
+      icon: "fas fa-tachometer-alt",
+      roles: ["admin", "data_editor"],
+    },
      {
-      id: 4,
+      id: 21,
       name: "Newsletter",
       url: "/dashboard/newsletter",
       icon: "fas fa-tachometer-alt",
       roles: ["admin", "data_editor"],
     },
     {
-      id: 24,
+      id: 22,
       name: "Message Send",
       url: "/dashboard/message/send-message",
       icon: "fas fa-tachometer-alt",
       roles: ["admin", "data_editor"],
     },
-    
+     
+
     {
       id: 23,
       name: "image",

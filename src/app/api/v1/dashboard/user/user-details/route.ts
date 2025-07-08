@@ -3,10 +3,11 @@ import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/UserModel";
 import { authenticateAndValidateUser } from "@/lib/authenticate";
 import UserUPIModel from "@/model/UserUPIModel";
-import ClaimFormModel from "@/model/ClaimForm";
+
 import WithdrawalRequestModel from "@/model/WithdrawalRequestModel";
 import OrderModel from "@/model/OrderModel";
 import ConformAmountModel from "@/model/ConformAmountModel";
+import ClaimFormModel from "@/model/ClaimFormData";
 
 export async function POST(req: Request) {
   await dbConnect();

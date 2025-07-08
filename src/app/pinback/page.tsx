@@ -53,6 +53,6 @@ const Pinback = () => {
 export default Pinback;
 
 // type:  followup |  initial
-// http://localhost:3000/pinback/store_id?click_id=''&order_id=''&status=''&amount=0&commission=0&type='initial'
+// https://bachatjar.com/pinback?click_id=''&order_id=''&status=''&amount=0&commission=0&type='initial'
 
 

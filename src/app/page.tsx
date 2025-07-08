@@ -32,6 +32,7 @@ import WhatsApp from "@/components/WhatsApp";
 
 
 
+
 export const metadata: Metadata = {
  title: "BachatJar – Cashback, Coupons & Promo Codes | Save Big on Every Online Purchase in India",
   description: 'Shop online & earn real cashback on every purchase. Get latest discount coupons, promo codes & exclusive offers only at BachatJar',
@@ -169,6 +170,11 @@ export default async function Home() {
   };
 
 
+
+
+  // const scrat_data = await scrapeAllStores()
+
+  // console.log(scrat_data)
 
 
   return (

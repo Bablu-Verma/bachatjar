@@ -10,7 +10,7 @@ import StoreModel from "@/model/StoreModel";
 import CouponModel from "@/model/CouponModel";
 import CampaignModel from "@/model/CampaignModel";
 import BlogCategoryModel from "@/model/BlogCategoryModel";
-import ClaimFormModel from "@/model/ClaimForm";
+import ClaimFormModel from "@/model/ClaimFormData";
 
 export async function POST(req: Request) {
   await dbConnect();

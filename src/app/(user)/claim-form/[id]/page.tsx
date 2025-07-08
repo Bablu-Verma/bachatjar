@@ -4,82 +4,90 @@ import BottomToTop from "@/components/BottomToTop";
 import Footer from "@/components/Footer";
 import MainHeader from "@/components/header/MainHeader";
 import { RootState } from "@/redux-store/redux_store";
-import { claim_form_add_api, upload_image_api } from "@/utils/api_url";
-import { FaImage, FaSpinner } from "react-icons/fa";
+import {
+  claim_form_add_api,
+  claim_form_tamp_getone_api,
+  upload_image_api,
+} from "@/utils/api_url";
+import { FaSpinner } from "react-icons/fa";
 import axios, { AxiosError } from "axios";
 import { usePathname } from "next/navigation";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
-import { IoMdClose } from "react-icons/io";
-import { useRef, useState } from "react";
-import Image from "next/image";
+
+import { useEffect, useState } from "react";
+import { IClaimField } from "@/model/ClaimFormTemplate";
 
 export default function ClaimForm() {
   const token = useSelector((state: RootState) => state.user.token);
   const pathname = usePathname();
   const urlslug = pathname.split("/").pop() || "";
-  const fileInputRef = useRef<HTMLInputElement>(null);
+
 
   const [form_data, setFormData] = useState({
     store_id: urlslug,
     transaction_id: "",
     reason: "",
-    partner_site_orderid: "",
-    partner_site_order_status: "",
-    product_order_date: "",
-    product_delever_date: "",
-    order_value: "",
-    supporting_documents: [] as string[], 
+    dynamic_fields: {} as Record<string, string | string[]>,
   });
 
-  const [tempFiles, setTempFiles] = useState<File[]>([]);
+  const [dynamicFileInputs, setDynamicFileInputs] = useState<Record<string, File[]>>({});
+  const [templateFields, setTemplateFields] = useState<IClaimField[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
+  const fetchTemplateByStore = async () => {
+    try {
+      const { data } = await axios.post(
+        claim_form_tamp_getone_api,
+        { store: urlslug },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (data?.success && data?.data?.fields) {
+        setTemplateFields(data.data.fields);
+      } else {
+        toast.error(data?.message || "No template found.");
+      }
+    } catch (error) {
+      toast.error("Failed to fetch template fields.");
+      console.error("Fetch error", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTemplateByStore();
+  }, [urlslug]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleAddImage = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
+  const handleDynamicChange = (label: string, value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      dynamic_fields: {
+        ...prev.dynamic_fields,
+        [label]: value,
+      },
+    }));
   };
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || e.target.files.length === 0) return;
-
-    const files = Array.from(e.target.files);
-    
-    // Validate number of files
-    if (tempFiles.length + files.length > 3) {
-      toast.error("You can upload a maximum of 3 images.");
-      return;
-    }
-
-    // Validate file types
-    const validTypes = ["image/jpeg", "image/png", "image/webp"];
-    const invalidFiles = files.filter(file => !validTypes.includes(file.type));
-    if (invalidFiles.length > 0) {
-      toast.error("Only JPG, PNG, and WEBP images are allowed.");
-      return;
-    }
-
-    setTempFiles(prev => [...prev, ...files]);
-  };
-
-  const handleRemoveImage = (index: number) => {
-    setTempFiles(prev => prev.filter((_, i) => i !== index));
+  const handleDynamicFileChange = (label: string, files: FileList | null) => {
+    if (!files || files.length === 0) return;
+    setDynamicFileInputs((prev) => ({
+      ...prev,
+      [label]: Array.from(files),
+    }));
   };
 
   const uploadImages = async (files: File[]): Promise<string[]> => {
     const uploadedUrls: string[] = [];
-    
+
     for (const file of files) {
       const formData = new FormData();
       formData.append("image", file);
@@ -97,62 +105,63 @@ export default function ClaimForm() {
         throw new Error("Failed to upload one or more images");
       }
     }
-    
+
     return uploadedUrls;
   };
 
   const sendClaimForm = async () => {
-   
-    const {
-      store_id,
-      transaction_id,
-      reason,
-      partner_site_orderid,
-      partner_site_order_status,
-      product_order_date,
-      order_value,
-    } = form_data;
-    
-    if (
-      !store_id ||
-      !transaction_id ||
-      !reason ||
-      !partner_site_orderid ||
-      !partner_site_order_status ||
-      !product_order_date ||
-      !order_value
-    ) {
-      toast.error("Please fill all fields before submitting.");
+    const { store_id, reason, transaction_id } = form_data;
+
+    // Base field validation
+    if (!store_id || !reason || !transaction_id) {
+      toast.error("Please fill all required base fields.");
       return;
     }
-
 
     if (reason?.length < 10) {
       toast.error("Reason must be at least 10 characters long");
       return;
     }
 
+    // Validate required dynamic fields
+    for (const field of templateFields) {
+      const value = form_data.dynamic_fields[field.label];
+      const isFileField = field.type === "file";
+      const isRequired = field.required;
 
-    if (tempFiles.length === 0) {
-      toast.error("Please upload at least one supporting document.");
-      return;
+      if (isRequired) {
+        if (isFileField && (!dynamicFileInputs[field.label] || dynamicFileInputs[field.label].length === 0)) {
+          toast.error(`Please upload a file for "${field.label}"`);
+          return;
+        } else if (!isFileField && (!value || value === "")) {
+          toast.error(`Please fill the field "${field.label}"`);
+          return;
+        }
+      }
     }
 
     setIsUploading(true);
 
     try {
-      
-      const imageUrls = await uploadImages(tempFiles);
-      
-     
+      const dynamicFieldUploads: Record<string, string | string[]> = { ...form_data.dynamic_fields };
+
+      // Upload file inputs and replace with URLs
+      for (const label of Object.keys(dynamicFileInputs)) {
+        const files = dynamicFileInputs[label];
+        if (files.length > 0) {
+          const urls = await uploadImages(files);
+          dynamicFieldUploads[label] = urls.length === 1 ? urls[0] : urls;
+        }
+      }
+
       setIsUploading(false);
       setIsSubmitting(true);
-      
+
       const response = await axios.post(
         claim_form_add_api,
         {
           ...form_data,
-          supporting_documents: imageUrls,
+          dynamic_fields: dynamicFieldUploads,
         },
         {
           headers: {
@@ -168,7 +177,7 @@ export default function ClaimForm() {
     } catch (error) {
       setIsUploading(false);
       setIsSubmitting(false);
-      
+
       if (error instanceof AxiosError) {
         console.error("Error ", error.response?.data.message);
         toast.error(error.response?.data.message || "Submission failed");
@@ -194,6 +203,7 @@ export default function ClaimForm() {
               placeholder="Store ID"
               className="border rounded-md p-2 w-full"
             />
+            <label className="block font-medium mb-1">Transaction ID <span className="text-red-500">*</span></label>
             <input
               type="text"
               name="transaction_id"
@@ -202,6 +212,7 @@ export default function ClaimForm() {
               placeholder="Transaction ID"
               className="border rounded-md p-2 w-full"
             />
+            <label className="block font-medium mb-1">Reason <span className="text-red-500">*</span></label>
             <textarea
               name="reason"
               value={form_data.reason}
@@ -209,114 +220,41 @@ export default function ClaimForm() {
               placeholder="Reason"
               className="border rounded-md p-2 w-full h-24"
             />
-             <input
-              type="text"
-              name="partner_site_orderid"
-              value={form_data.partner_site_orderid}
-              onChange={handleChange}
-              placeholder="Partner Site Order ID"
-              className="border rounded-md p-2 w-full"
-            />
-            <div className="grid grid-cols-2 gap-5">
-           
-             <input
-              type="number"
-              name="order_value"
-              value={form_data.order_value}
-              onChange={handleChange}
-              placeholder="Order Value"
-              className="border rounded-md p-2 w-full"
-            />
-             <input
-              type="text"
-              name="partner_site_order_status"
-              value={form_data.partner_site_order_status}
-              onChange={handleChange}
-              placeholder="Partner Site Order Status"
-              className="border rounded-md p-2 w-full"
-            />
-            </div>
-           
 
-           
-            <div className="grid grid-cols-2 gap-5">
-            <div>
-            <label className="text-sm">Product Order Date</label>
-            <input
-              type="date"
-              name="product_order_date"
-              value={form_data.product_order_date}
-              onChange={handleChange}
-              className="border rounded-md p-2 w-full"
-            />
-            </div>
-           <div>
-           <label className="text-sm">Product Delever Date</label>
-           <input
-              type="date"
-              name="product_delever_date"
-              value={form_data.product_delever_date}
-              onChange={handleChange}
-              className="border rounded-md p-2 w-full"
-            />
-           </div>
-            </div>
-            
-            <div>
-              <input
-                type="file"
-                accept="image/jpeg, image/png, image/webp"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                className="hidden"
-                multiple
-              />
+            {templateFields.map((field, idx) => (
+              <div key={idx}>
+                <label className="block font-medium mb-1">
+                  {field.label}
+                  {field.required && <span className="text-red-500">*</span>}
+                </label>
 
-              <button
-                type="button"
-                onClick={handleAddImage}
-                disabled={isUploading || isSubmitting}
-                className="border rounded-md p-2 w-full py-2 px-4 flex justify-center items-center gap-3 hover:bg-gray-100 transition disabled:opacity-50"
-              >
-                <FaImage className="text-lg" />
-                <span>Add Image</span>
-              </button>
-              <p className="text-xs text-gray-500 mt-1">Max 3 images (JPG, PNG, WEBP)</p>
-            </div>
+                {["text", "number", "date"].includes(field.type) && (
+                  <input
+                    type={field.type}
+                    required={field.required}
+                    value={form_data.dynamic_fields[field.label] || ""}
+                    onChange={(e) => handleDynamicChange(field.label, e.target.value)}
+                    className="border rounded-md p-2 w-full"
+                  />
+                )}
 
-            {/* Preview uploaded images */}
-            <div>
-              {tempFiles.length > 0 && (
-                <div className="mt-4 grid grid-cols-2 lg:grid-cols-4 gap-4">
-                  {tempFiles.map((file, index) => (
-                    <div key={index} className="relative">
-                      <Image
-                        src={URL.createObjectURL(file)}
-                        alt="Uploaded Preview"
-                        width={200}
-                        height={96}
-                        className="w-full h-24 object-cover rounded-md"
-                        style={{ objectFit: "cover", borderRadius: "0.375rem" }}
-                        unoptimized
-                      />
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveImage(index)}
-                        disabled={isUploading || isSubmitting}
-                        className="absolute top-2 right-2 bg-red-500 flex justify-center items-center text-sm text-white rounded-full h-5 w-5 hover:text-secondary disabled:opacity-50"
-                      >
-                        <IoMdClose className="text-base" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+                {field.type === "file" && (
+                  <input
+                    type="file"
+                    accept="image/jpeg, image/png, image/webp"
+                    multiple={false}
+                    required={field.required}
+                    onChange={(e) => handleDynamicFileChange(field.label, e.target.files)}
+                    className="border rounded-md p-2 w-full"
+                  />
+                )}
+              </div>
+            ))}
 
             <div className="flex justify-center items-center pt-5">
               <button
                 onClick={sendClaimForm}
-                disabled={isUploading || isSubmitting || tempFiles.length === 0}
+                disabled={isUploading || isSubmitting}
                 className="bg-primary max-w-[250px] text-white py-2 px-12 rounded-md hover:text-secondary transition flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 {(isUploading || isSubmitting) && (

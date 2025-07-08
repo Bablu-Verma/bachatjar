@@ -22,7 +22,6 @@ const AddStore = () => {
     store_status: "ACTIVE" as "ACTIVE" | "INACTIVE",
     category: "",
     tracking: "",
-    claim_form: "INACTIVE_CLAIM_FORM" as "ACTIVE_CLAIM_FORM" | "INACTIVE_CLAIM_FORM",
   });
 
   const [editorContent, setEditorContent] = useState("");
@@ -56,7 +55,6 @@ const AddStore = () => {
       min_amount,
       category,
       tracking,
-      claim_form,
     } = formData;
 
     if (!name.trim()) return toast.error("Please enter a store name.");
@@ -103,7 +101,7 @@ const AddStore = () => {
           store_status,
           category,
           tracking: store_type === "INSENTIVE" ? tracking.trim() : "",
-          claim_form,
+          claim_form : 'INACTIVE_CLAIM_FORM',
           store_type,
         },
         {
@@ -151,7 +149,11 @@ const AddStore = () => {
       <div className="max-w-4xl my-10 mx-auto p-5 bg-white border border-gray-200 rounded-lg shadow-sm">
         <UploadImageGetLink />
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
+         
+
+          <div className="grid grid-cols-2 gap-5">
+            {/* Store Link */}
+             <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Store Name</label>
             <input
               type="text"
@@ -162,9 +164,6 @@ const AddStore = () => {
               className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
             />
           </div>
-
-          <div className="grid grid-cols-2 gap-5">
-            {/* Store Link */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Store Link</label>
               <input
@@ -177,18 +176,7 @@ const AddStore = () => {
               />
             </div>
 
-            {/* Store Image */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Store Image</label>
-              <input
-                type="text"
-                name="store_img"
-                value={formData.store_img}
-                onChange={handleInputChange}
-                placeholder="Add store image link"
-                className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+           
           </div>
 
           <div className="grid grid-cols-3 gap-5">
@@ -233,19 +221,8 @@ const AddStore = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-5">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">claim_form</label>
-              <select
-                name="claim_form"
-                value={formData.claim_form}
-                onChange={handleInputChange}
-                className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="ACTIVE_CLAIM_FORM" >ACTIVE_CLAIM_FORM</option>
-                <option value="INACTIVE_CLAIM_FORM">INACTIVE_CLAIM_FORM</option>
-              </select>
-            </div>
+          <div className="grid grid-cols-2 gap-5">
+         
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">max purchase Amount</label>
               <input
@@ -305,8 +282,20 @@ const AddStore = () => {
 
           </div>
 
-
-          {/* Store Status */}
+<div className="grid grid-cols-2 gap-5">
+   {/* Store Image */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Store Image</label>
+              <input
+                type="text"
+                name="store_img"
+                value={formData.store_img}
+                onChange={handleInputChange}
+                placeholder="Add store image link"
+                className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            {/* Store Status */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Store Status</label>
             <select
@@ -319,6 +308,9 @@ const AddStore = () => {
               <option value="INACTIVE">INACTIVE</option>
             </select>
           </div>
+</div>
+
+          
 
           {/* Store Description */}
           <div>

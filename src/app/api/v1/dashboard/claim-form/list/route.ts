@@ -2,7 +2,8 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import { authenticateAndValidateUser } from "@/lib/authenticate";
-import ClaimFormModel from "@/model/ClaimForm";
+import ClaimFormModel from "@/model/ClaimFormData";
+
 
 
 export async function POST(req: Request) {
@@ -34,18 +35,13 @@ export async function POST(req: Request) {
     }
   
     const {
-      transaction_id,
       start_date,
       end_date,
-      partner_site_orderid,
       page = 1,
       limit = 10,
     } = await req.json();
 
     const filters: any = { };
-
-    if (transaction_id) filters.order_id = transaction_id;
-    if (partner_site_orderid) filters.partner_site_orderid = partner_site_orderid;
 
     // Handle date range filter
     if (start_date || end_date) {
@@ -73,7 +69,6 @@ export async function POST(req: Request) {
     // Get total count for pagination
     const totalRecords = await ClaimFormModel.countDocuments(filters);
 
- 
     return NextResponse.json(
       {
         success: true,

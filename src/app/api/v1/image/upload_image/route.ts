@@ -97,9 +97,15 @@ export async function POST(req: NextRequest) {
 
     const targetDir = "/var/www/bachatjar/img";
     await mkdir(targetDir, { recursive: true });
-
     const filepath = path.join(targetDir, filename);
     await writeFile(filepath, resizedBuffer);
+
+
+    // const uploadDir = path.join(process.cwd(), "public", "uploads");
+    // await mkdir(uploadDir, { recursive: true });
+    // const filepath = path.join(uploadDir, filename);
+    // await writeFile(filepath, resizedBuffer);
+
 
     return NextResponse.json({
       success: true,

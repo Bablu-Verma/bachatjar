@@ -54,7 +54,7 @@ export const change_password_save_api = main_url + '/client/auth/change_password
 export const newsletter_save_email_api = main_url + '/client/newsletter'
 export const message_list_client_api = main_url + '/client/message'
 export const message_read_mark_client_api = main_url + '/client/message/read'
-
+export const claim_form_tamp_getone_api = main_url + '/client/claim-form-template/getone'
 
 
 
@@ -104,6 +104,7 @@ export const withdrwal_list_admin_api = main_url + '/dashboard/withdrawal/list'
 export const withdrwal_editstatus_admin_api = main_url + '/dashboard/withdrawal/edit'
 export const withdrwal_request_details_admin_api = main_url + '/dashboard/withdrawal/details'
 export const claim_form_list_api = main_url + '/dashboard/claim-form/list'
+export const claim_form_edit_api = main_url + '/dashboard/claim-form/edit'
 export const newsletter_get_api = main_url + '/dashboard/newsletter'
 export const newsletter_delete_api = main_url + '/dashboard/newsletter/delete'
 
@@ -111,6 +112,9 @@ export const send_message_api = main_url + '/dashboard/message/send-message'
 export const message_list_api = main_url + '/dashboard/message/list'
 export const message_delete_api = main_url + '/dashboard/message/delete'
 
+export const claim_form_tamp_add_api = main_url + '/dashboard/claim-form-template/add'
+export const claim_form_tamp_list_api = main_url + '/dashboard/claim-form-template/list'
+export const claim_form_tamp_delete_api = main_url + '/dashboard/claim-form-template/delete'
 
 
 

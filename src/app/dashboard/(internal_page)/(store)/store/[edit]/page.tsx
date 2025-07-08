@@ -21,6 +21,7 @@ const EditCategory: React.FC = () => {
 
   const [loading, setLoading] = useState<boolean>(false);
  const [formData, setFormData] = useState({
+  id:'',
   name: "",
   store_img: "",
   store_type: "", 
@@ -57,6 +58,7 @@ const EditCategory: React.FC = () => {
     const store = data.data.store;
 
     setFormData({
+      id:store._id || '',
       name: store.name || "",
       store_img: store.store_img || "",
       store_type: store.store_type || "", // updated key
@@ -207,7 +209,8 @@ const EditCategory: React.FC = () => {
           }}
           className="space-y-6"
         >
-          <div>
+         <div className="grid grid-cols-2 gap-5 mt-5">
+           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Store Name
             </label>
@@ -220,7 +223,19 @@ const EditCategory: React.FC = () => {
               className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
             />
           </div>
+           <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Store Id
+            </label>
+            <input
+              type="text"
+              readOnly
+              value={formData.id}
+              className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
 
+         </div>
           <div className="grid grid-cols-2 gap-5">
             {/* Store Link */}
             <div>
