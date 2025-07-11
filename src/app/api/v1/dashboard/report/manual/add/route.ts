@@ -94,15 +94,9 @@ export async function POST(req: Request) {
 
       const report = new ClientReport({
         click_id,
-        order_id,
-        status: order_status,
-        amount,
         store: order.store_id,
-        commission,
         raw_data: requestData,
-        product_name,
-        order_date,
-        report_type: "OFFLINE",
+        report_type: "MANUAL",
       });
 
       await report.save();
@@ -145,11 +139,6 @@ export async function POST(req: Request) {
     }
 
     cashback = Math.round(cashback * 100) / 100;
-
-
-    console.log('order==', order)
-
-    console.log("cashback...", cashback)
 
     order.order_value = amount;
     order.cashback = cashback;

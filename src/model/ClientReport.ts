@@ -2,39 +2,15 @@ import mongoose, { Schema, Document, model } from 'mongoose';
 
 export interface ClientReport extends Document {
   click_id: string;
-  order_id?: string;
-  status?: string;
-  amount: number;
-  commission: number;
   raw_data: Record<string, unknown>;
-  createdAt: string;
-  updatedAt: string;
   store: mongoose.Types.ObjectId;
-  report_type: 'OFFLINE' | 'PINBACK';
+  report_type: 'OFFLINE' | 'PINBACK' | 'MANUAL';
 }
 
 const ClientReportSchema: Schema<ClientReport> = new Schema(
   {
     click_id: {
       type: String,
-      required: true,
-    },
-    order_id: {
-      type: String,
-    },
-    status: {
-      type: String,
-    },
-    amount: {
-      type: Number,
-      required: true,
-    },
-    commission: {
-      type: Number,
-      required: true,
-    },
-    raw_data: {
-      type: Schema.Types.Mixed,
       required: true,
     },
     store: {
@@ -44,9 +20,14 @@ const ClientReportSchema: Schema<ClientReport> = new Schema(
     },
     report_type: {
       type: String,
-      enum: ['OFFLINE', 'PINBACK'],
+      enum: ['OFFLINE', 'PINBACK', 'MANUAL'],
       required: true,
     },
+     raw_data: {
+      type: Schema.Types.Mixed,
+      required: true,
+    },
+    
   },
   {
     timestamps: true,

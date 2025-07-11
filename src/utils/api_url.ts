@@ -90,6 +90,7 @@ export const product_dashboard_details_ = main_url + '/dashboard/product/get-det
 export const pinback_report_add_api = main_url + '/dashboard/report/pinback/add'
 export const offline_report_add_api = main_url + '/dashboard/report/offline/add'
 export const manual_report_add_api = main_url + '/dashboard/report/manual/add'
+export const report_list_api = main_url + '/dashboard/report/list'
 export const all_users = main_url + '/dashboard/user/list'
 export const users_details_admin = main_url + '/dashboard/user/user-details'
 export const users_edit_details_admin = main_url + '/dashboard/user/edit_user_details'

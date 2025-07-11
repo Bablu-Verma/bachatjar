@@ -111,10 +111,6 @@ export async function POST(req: Request) {
 
           const report = new ClientReport({
             click_id,
-            order_id,
-            status,
-            amount,
-            commission,
             raw_data,
             store: order.store_id,
             report_type: "OFFLINE",

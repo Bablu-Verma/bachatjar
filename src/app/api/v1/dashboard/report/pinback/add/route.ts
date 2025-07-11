@@ -16,8 +16,8 @@ export async function POST(req: Request) {
         { status: 400, headers: { "Content-Type": "application/json" } }
       );
     }
-  
-    const { click_id, order_id, status, amount, commission, type } = {
+
+    const { click_id, status, amount, commission, type } = {
       ...raw_data,
       amount: Number(raw_data.amount),
       commission: Number(raw_data.commission),
@@ -54,26 +54,18 @@ export async function POST(req: Request) {
       if (type === "initial") {
         const report = new ClientReport({
           click_id,
-          order_id,
-          status,
-          amount,
-          commission,
           raw_data,
           store: findOrder.store_id,
           report_type: "PINBACK",
         });
 
         await report.save();
-        console.log("✅ New client report saved.");
+        // console.log("✅ New client report saved.");
       } else if (type === "followup") {
         const updated = await ClientReport.findOneAndUpdate(
           { click_id },
           {
             $set: {
-              order_id,
-              status,
-              amount,
-              commission,
               raw_data,
             },
           },
@@ -81,16 +73,16 @@ export async function POST(req: Request) {
         );
 
         if (updated) {
-          console.log("✅ Client report updated.");
+          // console.log("✅ Client report updated.");
         } else {
-          console.warn("⚠️ No report found for click_id:", click_id);
+          // console.warn("⚠️ No report found for click_id:", click_id);
         }
       } else {
-        console.error("❌ Invalid type:", type);
-         return new NextResponse(
-    JSON.stringify({ success: false, message: "Invalid type" }),
-    { status: 400, headers: { "Content-Type": "application/json" } }
-  );
+        // console.error("❌ Invalid type:", type);
+        return new NextResponse(
+          JSON.stringify({ success: false, message: "Invalid type" }),
+          { status: 400, headers: { "Content-Type": "application/json" } }
+        );
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -108,16 +100,9 @@ export async function POST(req: Request) {
       }
     }
 
-    
-
-    // console.log("findOrder.upto_amount:", findOrder.upto_amount);
-    // console.log("Order amount:", amount);
-
     const applicableAmount = findOrder.upto_amount
       ? Math.min(amount, findOrder.upto_amount)
       : amount;
-
-    // console.log("Applicable Amount for Cashback:", applicableAmount);
 
     // Step 2: Calculate final cashback
     let finalCashback = 0;
@@ -125,7 +110,7 @@ export async function POST(req: Request) {
     if (findOrder.cashback_type === "PERCENTAGE") {
       finalCashback = (applicableAmount * (findOrder.cashback_rate || 0)) / 100;
     } else if (findOrder.cashback_type === "FLAT_AMOUNT") {
-     finalCashback = Math.min(findOrder.cashback_rate || 0, applicableAmount);
+      finalCashback = Math.min(findOrder.cashback_rate || 0, applicableAmount);
     }
 
     // Optional: Round cashback to 2 decimal places
@@ -149,20 +134,20 @@ export async function POST(req: Request) {
         details: "Payment updated to Pending based on Online report",
       });
 
-     await sendMessage({
-  userId: findOrder.user_id.toString(),
-  title: `Update on Your Order – Transaction ID: ${click_id}`,
-  body: `Hi there,
+      await sendMessage({
+        userId: findOrder.user_id.toString(),
+        title: `Update on Your Order – Transaction ID: ${click_id}`,
+        body: `Hi there,
 
-Your order with Transaction ID **${click_id}** has been updated to the status: **Pending**.
+          Your order with Transaction ID **${click_id}** has been updated to the status: **Pending**.
 
-You can view the complete order history anytime on your BachatJar dashboard.
+          You can view the complete order history anytime on your BachatJar dashboard.
 
-If you have any questions or did not initiate this request, please contact our support team immediately.
+          If you have any questions or did not initiate this request, please contact our support team immediately.
 
-Thank you,  
-The BachatJar Team 💸`
-});
+          Thank you,  
+          The BachatJar Team 💸`
+      });
 
 
 
@@ -176,20 +161,21 @@ The BachatJar Team 💸`
       });
 
 
-        await sendMessage({
-  userId: findOrder.user_id.toString(),
-  title: `Important Update: Order Failed – Transaction ID: ${click_id}`,
-  body: `Hi there,
+      await sendMessage({
+        userId: findOrder.user_id.toString(),
+        title: `Important Update: Order Failed – Transaction ID: ${click_id}`,
+        body: `Hi there,
 
-We regret to inform you that your order with Transaction ID **${click_id}** has been marked as **Failed**.
+        We regret to inform you that your order with Transaction ID **${click_id}** has been marked as **Failed**.
 
-We understand this might be disappointing. Sometimes, failures occur due to issues like incomplete transactions or discrepancies in order details.
+        We understand this might be disappointing. Sometimes, failures occur due to issues like incomplete transactions or discrepancies in order details.
 
-You can check more information in your BachatJar dashboard. If you believe this is a mistake or need assistance, please reach out to our support team — we’re here to help.
+        You can check more information in your BachatJar dashboard. If you believe this is a mistake or need assistance, please reach out to our support team — we’re here to help.
 
-Thank you for your understanding,  
-The BachatJar Team 💸`
-});
+        Thank you for your understanding,  
+        The BachatJar Team 💸`
+
+      });
 
 
     }

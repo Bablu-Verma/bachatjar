@@ -177,13 +177,21 @@ const DashboardUI: React.FC<LayoutProps> = ({ children1 }) => {
     },
     {
       id: 19,
+      name: "Report List",
+      url: "/dashboard/report-list",
+      icon: "fas fa-tachometer-alt",
+      roles: ["admin"], 
+    },
+    
+    {
+      id: 20,
       name: "All withdrwal",
       url: "/dashboard/withdrwal",
       icon: "fas fa-tachometer-alt",
       roles: ["admin", ], 
     },
     {
-      id: 20,
+      id: 21,
       name: "Claim form",
       url: "/dashboard/claim-form/list",
       icon: "fas fa-tachometer-alt",
@@ -197,14 +205,14 @@ const DashboardUI: React.FC<LayoutProps> = ({ children1 }) => {
       roles: ["admin", "data_editor"],
     },
      {
-      id: 21,
+      id: 23,
       name: "Newsletter",
       url: "/dashboard/newsletter",
       icon: "fas fa-tachometer-alt",
       roles: ["admin", "data_editor"],
     },
     {
-      id: 22,
+      id: 24,
       name: "Message Send",
       url: "/dashboard/message/send-message",
       icon: "fas fa-tachometer-alt",
@@ -213,7 +221,7 @@ const DashboardUI: React.FC<LayoutProps> = ({ children1 }) => {
      
 
     {
-      id: 23,
+      id: 25,
       name: "image",
       url: "/dashboard/image",
       icon: "fas fa-tachometer-alt",
