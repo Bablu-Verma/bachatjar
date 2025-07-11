@@ -56,6 +56,8 @@ async function scrapePartner(partner: typeof partners[0]): Promise<Product[]> {
   (elements, partnerInfo) => {
     const results = [];
 
+    console.log("elements",elements)
+
     for (const el of elements) {
       const titleEl = el.querySelector(partnerInfo.title);
       const priceEl = el.querySelector(partnerInfo.offer_price);

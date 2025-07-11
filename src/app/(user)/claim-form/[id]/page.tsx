@@ -110,10 +110,10 @@ export default function ClaimForm() {
   };
 
   const sendClaimForm = async () => {
-    const { store_id, reason, transaction_id } = form_data;
+    const { store_id, reason } = form_data;
 
     // Base field validation
-    if (!store_id || !reason || !transaction_id) {
+    if (!store_id || !reason ) {
       toast.error("Please fill all required base fields.");
       return;
     }
@@ -203,7 +203,7 @@ export default function ClaimForm() {
               placeholder="Store ID"
               className="border rounded-md p-2 w-full"
             />
-            <label className="block font-medium mb-1">Transaction ID <span className="text-red-500">*</span></label>
+            <label className="block font-medium mb-1">Transaction ID </label>
             <input
               type="text"
               name="transaction_id"

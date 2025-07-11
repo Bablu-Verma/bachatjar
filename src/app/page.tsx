@@ -29,6 +29,7 @@ import DealOfTheDayMobile from "@/components/heropage/DealOfTheDayMobile";
 import Newsletter from "@/components/newsletter";
 import FooterBottom from "@/components/FooterBottom";
 import WhatsApp from "@/components/WhatsApp";
+// import { scrapeAllStores } from "@/lib/scraper";
 
 
 
