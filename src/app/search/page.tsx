@@ -17,6 +17,8 @@ import { IStore } from "@/model/StoreModel";
 import { ICoupon } from "@/model/CouponModel";
 import CouponcodeCard from "@/components/small_card/CouponcodeCard";
 import StoreCard from "@/components/small_card/StoreCard";
+import { IReferral } from "@/model/ReferralModel";
+import ReferralCard from "@/components/small_card/ReferralCard";
 
 export default function SearchPage() {
   const [query, setQuery] = useState<string>("");
@@ -25,6 +27,7 @@ export default function SearchPage() {
   const [resultProduct, setResultProduct] = useState<any[]>([]);
   const [resultStore, setResultStore] = useState<IStore[]>([]);
   const [resultCoupons, setResultCoupons] = useState<ICoupon[]>([]);
+  const [resultReferral, setResultReferral] = useState<IReferral[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -53,18 +56,20 @@ export default function SearchPage() {
           },
         }
       );
-
-      if (!data.data.stores.length && !data.data.campaigns.length && !data.data.coupons.length) {
+console.log(data.data)
+      if (!data.data.stores.length && !data.data.campaigns.length && !data.data.coupons.length && !data.data.referral.length) {
         setError("No results found.");
         setResultProduct([]);
         setResultStore([])
         setResultCoupons([])
+        setResultReferral([])
         return;
       }
       console.log("data.data", data.data)
       setResultProduct(data.data.campaigns || []);
       setResultStore(data.data.stores || []);
       setResultCoupons(data.data.coupons || []);
+      setResultReferral(data.data.referral ||[])
 
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -86,6 +91,7 @@ export default function SearchPage() {
       setResultProduct([]);
       setResultStore([])
       setResultCoupons([])
+       setResultReferral([])
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedQuery]);
@@ -131,7 +137,7 @@ export default function SearchPage() {
             <div className="px-2 lg:px-4  mt-7  mb-4 relative">
               <MainHeading title="Products" link={null} />
             </div>
-            <div className="px-2 lg:px-4 pt-2 grid grid-rows-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-4 gap-3 md:gap-6">
+            <div className="px-2 lg:px-4 pt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-4 gap-3 md:gap-6">
               {resultProduct.map((item, i) => (
                 <ProductCard card_data={item} key={i} />
               ))}
@@ -144,7 +150,7 @@ export default function SearchPage() {
             <div className="px-2 lg:px-4  mt-7  mb-4 relative">
               <MainHeading title="Stores" link={null} />
             </div>
-            <div className="px-2 lg:px-4 pt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
+            <div className="px-2 lg:px-4 pt-2 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4  gap-3 md:gap-6">
               {resultStore.map((store, i) => (
                  <StoreCard item={store} key={i} />
               ))}
@@ -157,9 +163,21 @@ export default function SearchPage() {
             <div className="px-2 lg:px-4  mt-7  mb-4 relative">
               <MainHeading title="Coupons" link={null} />
             </div>
-            <div className="px-2 lg:px-4 pt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
+            <div className="px-2 lg:px-4 pt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
               {resultCoupons.map((coupon, i) => (
                 <CouponcodeCard item={coupon} key={i} />
+              ))}
+            </div>
+          </>
+        )}
+        {resultReferral.length > 0 && (
+          <>
+            <div className="px-2 lg:px-4  mt-7  mb-4 relative">
+              <MainHeading title="Referral" link={null} />
+            </div>
+            <div className="px-2 lg:px-4 pt-2 grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
+              {resultReferral.map((item, i) => (
+                    <ReferralCard key={i} item={item} />
               ))}
             </div>
           </>

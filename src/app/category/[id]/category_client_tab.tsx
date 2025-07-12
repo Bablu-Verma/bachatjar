@@ -6,23 +6,24 @@ import CouponcodeCard from "@/components/small_card/CouponcodeCard";
 import ProductCard from "@/components/small_card/ProductCard";
 import StoreCard from "@/components/small_card/StoreCard";
 import SimpleLoader from "@/components/SimpleLoader";
-import { ICampaign } from "@/model/CampaignModel";
+
 import { ICoupon } from "@/model/CouponModel";
 import { IStore } from "@/model/StoreModel";
 import { RootState } from "@/redux-store/redux_store";
 import { category_details_api } from "@/utils/api_url";
 import axios, { AxiosError } from "axios";
+import { ICampaignWithStore } from "@/common_type";
 
 
 interface TabData {
-  Product: ICampaign[];
+  Product: ICampaignWithStore[];
   Coupons: ICoupon[];
   Store: IStore[];
 }
 
 interface CAProps {
   relatedCoupons: ICoupon[];
-  relatedProducts: ICampaign[];
+  relatedProducts: ICampaignWithStore[];
   relatedStore: IStore[];
   slug: string;
 }
@@ -94,7 +95,7 @@ const CategoryClientTab: React.FC<CAProps> = ({
   ] as const, []);
 
   const renderContent = useMemo(() => ({
-    Product: (items: ICampaign[]) => (
+    Product: (items: ICampaignWithStore[]) => (
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-6">
         {items.map((item, i) => (
           <ProductCard card_data={item} key={item._id || i} />
@@ -139,7 +140,7 @@ const CategoryClientTab: React.FC<CAProps> = ({
 
       {currentItems.length > 0 &&
         (openTab === "Product"
-          ? renderContent.Product(currentItems as ICampaign[])
+          ? renderContent.Product(currentItems as ICampaignWithStore[])
           : openTab === "Coupons"
           ? renderContent.Coupons(currentItems as ICoupon[])
           : renderContent.Store(currentItems as IStore[])

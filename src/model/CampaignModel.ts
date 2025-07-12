@@ -9,12 +9,7 @@ export interface ICampaign {
   actual_price: number;
   offer_price: number;
   calculated_cashback: number;
-  store: {
-    _id: string;
-    slug: string;
-    name: string;
-    store_link:string;
-  };
+  store: mongoose.Types.ObjectId;
   category: mongoose.Types.ObjectId;
   description?: string;
   product_img: string;

@@ -9,6 +9,9 @@ import * as gtag from '../../lib/gtag';
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
+
+
+
 interface IClientDataSet {
   watchlist: ICampaign,
   notification: IMessage
@@ -31,7 +34,10 @@ const HomeClientDataSet: React.FC<IClientDataSet> = ({ watchlist, notification }
     dispatch(setNotifications(notification))
   }, [dispatch]);
 
-  return null;
+ 
+
+  return null
+    
 };
 
 export default HomeClientDataSet;

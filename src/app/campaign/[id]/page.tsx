@@ -175,12 +175,12 @@ const CampaignDetail = async ({ params }: any) => {
               <div className="hidden md:flex  justify-start gap-10 items-center pt-10 ">
                 <Link
                   href={`/store/${product.store.slug}`}
-                  className="text-secondary text-xl inline-flex items-center gap-3 ml-3"
+                  className="text-secondary text-base inline-flex items-center gap-3 ml-3"
                 >
                   <Image
                     src={product.store.store_img}
                     alt=""
-                    className="w-16 h-16 rounded-full"
+                    className="w-14 h-14 rounded-full"
                     width={100}
                     height={100}
                   />
@@ -214,7 +214,7 @@ const CampaignDetail = async ({ params }: any) => {
                   ₹{product?.actual_price}
                 </span>
                 <small className="text-red-500 text-sm py-1 px-3 ml-4 border-[1px] border-red-500 rounded-full ">
-                  ₹{product?.calculated_cashback} Off
+                  ₹{product?.calculated_cashback} Cashback
                 </small>
               </div>
               <div className="py-7 flex  gap-3 md:gap-5 items-center">
@@ -226,7 +226,7 @@ const CampaignDetail = async ({ params }: any) => {
               <div className="flex md:hidden   justify-start gap-10 items-center md:pt-10 ">
                 <Link
                   href={`/store/${product.store.slug}`}
-                  className="text-secondary  inline-flex items-center gap-3"
+                  className="text-secondary text-sm  inline-flex items-center gap-3"
                 >
                   <Image
                     src={product.store.store_img}
@@ -235,7 +235,7 @@ const CampaignDetail = async ({ params }: any) => {
                     width={100}
                     height={100}
                   />
-                  <span className="mt-1 text-base sm:text-xl">
+                  <span className="mt-1 text-sm">
                     {product?.store.name}
                   </span>
                 </Link>

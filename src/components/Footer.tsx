@@ -40,17 +40,18 @@ const Footer = () => {
             >
               Home
             </Link>
-            <Link
-              href="/blog"
-              className="text-sm font-thin hover:pl-1 duration-200 py-0.5"
-            >
-              Blog
-            </Link>
+           
             <Link
               href="/store"
               className="text-sm font-thin hover:pl-1 duration-200 py-0.5"
             >
               Store
+            </Link>
+            <Link
+              href="/referral-link"
+              className="text-sm font-thin hover:pl-1 duration-200 py-0.5"
+            >
+              Referral
             </Link>
 
             <Link
@@ -58,6 +59,12 @@ const Footer = () => {
               className="text-sm font-thin hover:pl-1 duration-200 py-0.5"
             >
               Coupons
+            </Link>
+             <Link
+              href="/blog"
+              className="text-sm font-thin hover:pl-1 duration-200 py-0.5"
+            >
+              Blog
             </Link>
           </div>
         </div>

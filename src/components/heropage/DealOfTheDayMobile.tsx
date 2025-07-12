@@ -6,14 +6,15 @@ import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectFade, Navigation } from 'swiper/modules';
 import green_dot from '../../../public/green_dot.gif'
-import { ICampaign } from '@/model/CampaignModel';
+
 
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/navigation';
+import { ICampaignWithStore } from '@/common_type';
 
 interface DealOfTheDayMobileProps {
-  deals: ICampaign[];
+  deals: ICampaignWithStore[];
 }
 
 const DealOfTheDayMobile: React.FC<DealOfTheDayMobileProps> = ({ deals }) => {
@@ -34,7 +35,7 @@ const DealOfTheDayMobile: React.FC<DealOfTheDayMobileProps> = ({ deals }) => {
               href={
                 card_data.slug_type === "INTERNAL"
                   ? `/campaign/${card_data?.product_slug}`
-                  : card_data?.store?.store_link
+                  : card_data.store?.store_link || "#"
               }
               target={card_data.slug_type !== "INTERNAL" ? '_blank' : '_self'}
               className="shadow-box_shadow_color hover:shadow-box_shadow_hover hover:translate-y-[-6px] bg-white overflow-hidden rounded-lg relative duration-200 border-[1px] border-transparent hover:border-gray-100 hover:border-[1px] inline-block  group "
@@ -64,7 +65,6 @@ const DealOfTheDayMobile: React.FC<DealOfTheDayMobileProps> = ({ deals }) => {
                 <div className="flex justify-between item-center gap-2">
                   <span className="capitalize font-normal text-xs text-gray-500 whitespace-nowrap text-ellipsis overflow-hidden">
                     <i className="fa-solid fa-store mr-1"></i>
-                 
                     {card_data?.store.name}
                   </span>
 

@@ -3,6 +3,7 @@ import dbConnect from '@/lib/dbConnect';
 import BlogModel from '@/model/BlogModal';
 import CampaignModel from '@/model/CampaignModel';
 import CouponModel from '@/model/CouponModel';
+import ReferralModel from '@/model/ReferralModel';
 import StoreModel from '@/model/StoreModel';
 import { NextResponse } from 'next/server';
 
@@ -41,7 +42,7 @@ export async function GET() {
 
 
 
-  const [stores, coupons, campaigns, blogs] = await Promise.all([
+  const [stores, coupons, campaigns, blogs, referral_link] = await Promise.all([
   StoreModel.find({ store_status: 'ACTIVE' })
     .sort({ createdAt: -1 }) 
     .limit(50)
@@ -64,13 +65,18 @@ export async function GET() {
     .limit(50)
     .select('slug updatedAt')
     .lean(),
+      ReferralModel.find({ status: 'ACTIVE' })
+    .sort({ createdAt: -1 })  
+    .limit(50)
+    .select('slug updatedAt')
+    .lean(),
 ]);
 
 
  // 2. Map to URLs
   const storeUrls = stores.map((store) => ({
     path: `/store/${store.slug}`,
-    priority: '0.70',
+    priority: '0.80',
     lastmod: store.updatedAt?.toISOString().split('T')[0] || today
   }));
 
@@ -82,7 +88,7 @@ export async function GET() {
 
   const campaignUrls = campaigns.map((campaign) => ({
     path: `/campaign/${campaign.product_slug}`,
-    priority: '0.65',
+    priority: '0.75',
     lastmod: campaign.updatedAt?.toISOString().split('T')[0] || today
   }));
 
@@ -93,7 +99,14 @@ export async function GET() {
   }));
 
 
-  const allUrls = [...staticUrls, ...storeUrls, ...campaignUrls, ...couponUrls, ...blogUrls];
+    const referralUrls = referral_link.map((refe) => ({
+    path: `/referral-link/${refe.slug}`,
+    priority: '0.70',
+    lastmod: refe.updatedAt?.toISOString().split('T')[0] || today
+  }));
+
+
+  const allUrls = [...staticUrls, ...storeUrls, ...campaignUrls, ...couponUrls, ...blogUrls , ...referralUrls];
 
     // 🧾 Build XML dynamically
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

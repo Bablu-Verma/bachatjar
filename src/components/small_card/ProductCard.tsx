@@ -1,5 +1,6 @@
+import { ICampaignWithStore } from "@/common_type";
 import { getTimeAgo } from "@/helpers/client/client_function";
-import { ICampaign } from "@/model/CampaignModel";
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -7,7 +8,7 @@ import Link from "next/link";
 import React from "react";
 
 interface CardProp {
-  card_data: ICampaign;
+  card_data: ICampaignWithStore;
 }
 
 const ProductCard: React.FC<CardProp> = ({ card_data }) => {
@@ -68,7 +69,7 @@ const ProductCard: React.FC<CardProp> = ({ card_data }) => {
               ₹{card_data?.offer_price.toString()}/-
             </strong>
             <small className="text-red-500 text-[14px] sm:text-sm py-.5 px-2 border-[1px] border-red-400 ">
-              ₹{card_data?.calculated_cashback.toString()} Off
+              ₹{card_data?.calculated_cashback.toString()} CB
             </small>
           </span>
           <div className="flex justify-between mt-2 mb-1 items-center ">

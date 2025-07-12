@@ -2,7 +2,6 @@
 
 import CouponcodeCard from "@/components/small_card/CouponcodeCard";
 import ProductCard from "@/components/small_card/ProductCard";
-import { ICampaign } from "@/model/CampaignModel";
 import { ICoupon } from "@/model/CouponModel";
 import { RootState } from "@/redux-store/redux_store";
 import { store_details_api } from "@/utils/api_url";
@@ -10,10 +9,11 @@ import axios, { AxiosError } from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import SimpleLoader from "@/components/SimpleLoader";
+import { ICampaignWithStore } from "@/common_type";
 
 interface ATProps {
   relatedCoupons: ICoupon[];
-  relatedProducts: ICampaign[];
+  relatedProducts: ICampaignWithStore[];
   slug: string;
 }
 
@@ -23,7 +23,7 @@ const StoreClientTab: React.FC<ATProps> = ({ relatedProducts, relatedCoupons, sl
   const [loading, setLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [Coupons, setSetCoupons] = useState<ICoupon[]>(relatedCoupons);
-  const [Product, setProduct] = useState<ICampaign[]>(relatedProducts);
+  const [Product, setProduct] = useState<ICampaignWithStore[]>(relatedProducts);
 
   const token = useSelector((state: RootState) => state.user.token);
 

@@ -23,19 +23,21 @@ import axios, { AxiosError } from "axios";
 import { Metadata } from 'next';
 import Script from 'next/script';
 
-
 import HomeClientDataSet from "@/components/homepage/HomeClientDataSet";
 import DealOfTheDayMobile from "@/components/heropage/DealOfTheDayMobile";
 import Newsletter from "@/components/newsletter";
 import FooterBottom from "@/components/FooterBottom";
-import WhatsApp from "@/components/WhatsApp";
+import ReferralCard from "@/components/small_card/ReferralCard";
+import { IReferral } from "@/model/ReferralModel";
+
+
 // import { scrapeAllStores } from "@/lib/scraper";
 
 
 
 
 export const metadata: Metadata = {
- title: "BachatJar – Cashback, Coupons & Promo Codes | Save Big on Every Online Purchase in India",
+ title: "BachatJar – Cashback, Coupons, Referral Link & Promo Codes | Save Big on Every Online Purchase in India",
   description: 'Shop online & earn real cashback on every purchase. Get latest discount coupons, promo codes & exclusive offers only at BachatJar',
   keywords: 'Cashback website India, Best cashback offers, Online shopping cashback, Discount coupons India, Promo codes Flipkart/Amazon, savings,Earn money shopping online, BachatJar,Real cashback deals, Top cashback sites in India ',
   openGraph: {
@@ -148,7 +150,6 @@ export default async function Home() {
   const token = await getServerToken();
   const page_data = await GetData(token);
 
- 
   if (!page_data) {
     return <div>Error fetching data</div>;
   }
@@ -170,13 +171,7 @@ export default async function Home() {
     }))
   };
 
-
-
-
   // const scrat_data = await scrapeAllStores()
-
-  // console.log(scrat_data)
-
 
   return (
     <>
@@ -201,7 +196,7 @@ export default async function Home() {
       <HomeClientDataSet notification={page_data?.data.notification} watchlist={page_data?.data?.watchlist} />
 
 
-      <WhatsApp />
+     
 
       <Hero
         deals={page_data?.data.live_product}
@@ -268,11 +263,23 @@ export default async function Home() {
           </div>
         )}
 
+
+        
+
         <div className="pt-8 lg:pt-10">
           <MainHeading title="New Coupon" link="/coupons" />
           <div className="max-w-6xl relative px-2 m-auto mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 lg:gap-5 ">
               {page_data?.data.coupon?.map((item: ICoupon, i: number) => (
                 <CouponcodeCard item={item} key={i} />
+              ))}
+            </div>
+        </div>
+
+         <div className="max-w-6xl m-auto rounded-xl pt-8 lg:pt-10">
+          <MainHeading title="Referral" link="/referral-link" />
+          <div className="max-w-6xl px-2 relative m-auto grid grid-cols-2 pb-5 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 lg:gap-5 pt-2">
+              {page_data?.data.referrals?.map((item: IReferral, i: number) => (
+               <ReferralCard key={i} item={item} />
               ))}
             </div>
         </div>
@@ -295,6 +302,7 @@ export default async function Home() {
       <Newsletter />
       <Footer />
       <FooterBottom />
+       
     </>
   );
 }

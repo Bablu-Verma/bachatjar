@@ -6,17 +6,15 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Scrollbar, Mousewheel } from 'swiper/modules';
 import 'swiper/css/effect-cards';
 import Image from "next/image";
-import { ICampaign } from "@/model/CampaignModel";
-
-
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/scrollbar';
 import { Rings } from "react-loader-spinner";
+import { ICampaignWithStore } from "@/common_type";
 
 
 interface DealOfTheDayProps {
-  deals: ICampaign[];
+  deals: ICampaignWithStore[];
 }
 
 const DealOfTheDay: React.FC<DealOfTheDayProps> = ({ deals }) => {
@@ -69,9 +67,9 @@ const DealOfTheDay: React.FC<DealOfTheDayProps> = ({ deals }) => {
                   <Link
                     className="text-sm text-primary opacity-75 hover:opacity-100"
                     href={
-                      item.slug_type === "INTERNAL"
-                        ? `/campaign/${item?.product_slug}`
-                        : item.store?.store_link
+                        item.slug_type === "INTERNAL"
+      ? `/campaign/${item?.product_slug}`
+      : item.store?.store_link || "#"
                     }
                   >
                     Grab Now

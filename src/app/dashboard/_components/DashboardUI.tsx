@@ -227,6 +227,20 @@ const DashboardUI: React.FC<LayoutProps> = ({ children1 }) => {
       icon: "fas fa-tachometer-alt",
       roles: ["admin"], 
     },
+     {
+      id: 26,
+      name: "Add Referral deal",
+      url: "/dashboard/referral-prduct/add",
+      icon: "fas fa-tachometer-alt",
+      roles: ["admin"], 
+    },
+     {
+      id: 27,
+      name: "All Referral deal",
+      url: "/dashboard/referral-prduct/all",
+      icon: "fas fa-tachometer-alt",
+      roles: ["admin"], 
+    },
    
   ];
 

@@ -3,13 +3,14 @@
 import React, { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCardTwo from "../small_card/ProductCardTwo";
-import { ICampaign } from "@/model/CampaignModel";
+
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import { ICampaignWithStore } from "@/common_type";
 
 interface IfleasProp {
-  flashSale: ICampaign[];
+  flashSale: ICampaignWithStore[];
 }
 
 const Flash: React.FC<IfleasProp> = ({ flashSale }) => {

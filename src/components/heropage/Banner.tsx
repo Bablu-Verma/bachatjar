@@ -1,19 +1,20 @@
 "use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, A11y } from "swiper/modules";
 import Link from "next/link";
-import { ICampaign } from "@/model/CampaignModel";
 import Image from "next/image";
 
 
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { ICampaignWithStore } from "@/common_type";
 
 interface BannerProps {
-  banner: ICampaign[];
+  banner: ICampaignWithStore[];
 }
 
 const Banner: React.FC<BannerProps> = ({ banner }) => {
@@ -37,9 +38,10 @@ const Banner: React.FC<BannerProps> = ({ banner }) => {
           <SwiperSlide key={i}>
             <Link
               href={
-                item.slug_type === "INTERNAL"
-                  ? `/campaign/${item?.product_slug}`
-                  : item.store?.store_link
+              item.slug_type === "INTERNAL"
+      ? `/campaign/${item?.product_slug}`
+      : (item.store as any)?.store_link || "#"
+
               }
               className="relative h-[190px] lg:h-64   bg-cover bg-center block mx-2"
             >

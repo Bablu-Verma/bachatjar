@@ -1,5 +1,6 @@
 "use client";
 
+
 import { ICampaign } from "@/model/CampaignModel";
 import { RootState } from "@/redux-store/redux_store";
 import { addItem, removeItem } from "@/redux-store/slice/wishlistSlice";
@@ -30,7 +31,7 @@ const Wishlist_client: React.FC<IWCProps> = ({ item_ }) => {
   const remover_data = async (id: string) => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { data } = await axios.post(
+       await axios.post(
         wishlist_product_remove_,
         { product_id: id },
         {
@@ -58,7 +59,7 @@ const Wishlist_client: React.FC<IWCProps> = ({ item_ }) => {
     <>
       <div className="grid grid-cols-2 pt-2 md:grid-cols-3 gap-2 sm:gap-4 lg:grid-cols-4">
         {wishlist.map((item, i) => (
-          // console.log(item),
+         
           <div key={i} className="bg-white border-[1px] rounded overflow-hidden border-gray-300 ">
             <div className='relative '>
               <button
@@ -79,9 +80,10 @@ const Wishlist_client: React.FC<IWCProps> = ({ item_ }) => {
             </div>
             <div className="p-2">
               <div className="flex justify-end pt-1">
+                {/* @ts-expect-error expected error due to type mismatch */}
                 <Link href={`/store/${item.store.slug}`} className="capitalize font-normal text-xs text-gray-500 whitespace-nowrap text-ellipsis overflow-hidden">
                   <i className="fa-solid fa-store mr-1"></i>
-                  {/* <i className="fa-solid fa-shop mr-1"></i> */}
+                 {/* @ts-expect-error expected error due to type mismatch */}
                   {item.store.name}
                 </Link>
 

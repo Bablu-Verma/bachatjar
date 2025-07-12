@@ -1,9 +1,10 @@
-import { ICampaign } from "@/model/CampaignModel";
+import { ICampaignWithStore } from "@/common_type";
+
 import Link from "next/link";
 import React from "react";
 
 interface FeaturedProps {
-  arrival: ICampaign[];
+  arrival: ICampaignWithStore[];
 }
 
 const Featured: React.FC<FeaturedProps> = ({ arrival }) => {

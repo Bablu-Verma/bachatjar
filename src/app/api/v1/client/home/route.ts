@@ -8,6 +8,7 @@ import CouponModel from "@/model/CouponModel";
 import { authenticateAndValidateUser } from "@/lib/authenticate";
 import WishlistModel from "@/model/WishlistModel";
 import Message from "@/model/Message";
+import ReferralModel from "@/model/ReferralModel";
 
 
 export async function POST(req: Request) {
@@ -18,7 +19,7 @@ export async function POST(req: Request) {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let watchlist_array: any[] = [];
-     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let notification_array: any[] = [];
 
     const { authenticated, user } = await authenticateAndValidateUser(req);
@@ -38,23 +39,27 @@ export async function POST(req: Request) {
           .lean();
       }
 
-     notification_array = await Message.find({
+      notification_array = await Message.find({
         userId: user_id,
         read: 'FALSE',
       })
         .sort({ createdAt: -1 })
         .lean();
-
-      
     }
 
-// console.log("notification_array", notification_array)
+
 
     const main_banner = await CampaignModel.find({
       product_status: "ACTIVE",
       main_banner: { $elemMatch: { is_active: true } },
     }).limit(6).populate("store", "name cashback_type cashback_rate store_link store_img")
       .populate("category", "name slug").select('store category main_banner product_slug slug_type title createdAt upDatedAt').sort({ createdAt: -1 }).lean();
+
+    const referrals = await ReferralModel.find({ status: 'ACTIVE' })
+      .populate("category", "name slug")
+      .limit(10)
+      .select('-description -referralLink')
+      .sort({ createdAt: -1 }).lean();
 
     const store = await StoreModel.find({ store_status: "ACTIVE" }).limit(16).select('-description -store_link -store_status').sort({ createdAt: -1 }).lean();
 
@@ -115,7 +120,8 @@ export async function POST(req: Request) {
         best_product,
         live_product: live_product,
         watchlist: watchlist_array,
-        notification: notification_array
+        notification: notification_array,
+        referrals
       },
     });
   } catch (error: unknown) {

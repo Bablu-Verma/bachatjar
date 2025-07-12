@@ -1,10 +1,10 @@
-import { ICampaign } from "@/model/CampaignModel";
+import { ICampaignWithStore } from "@/common_type";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 interface CardProp {
-  card_data: ICampaign
+  card_data: ICampaignWithStore
 }
 
 

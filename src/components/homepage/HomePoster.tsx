@@ -1,16 +1,17 @@
 "use client";
 
-import { ICampaign } from "@/model/CampaignModel";
+
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 // import { Navigation,Autoplay, Pagination, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, A11y, Navigation } from "swiper/modules";
+import { ICampaignWithStore } from "@/common_type";
 
 
 interface posterProps {
-  poster: ICampaign[];
+  poster: ICampaignWithStore[];
 }
 
 const HomePoster: React.FC<posterProps> = ({ poster }) => {

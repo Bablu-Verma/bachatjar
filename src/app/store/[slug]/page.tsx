@@ -188,12 +188,12 @@ const StoreDetail = async ({ params }: any) => {
                   </h1>
                   <p className="text-2xl text-center font-medium text-light pt-1 ">
                     {store.cashback_type == "FLAT_AMOUNT" && (
-                      <>Up to ₹{store.cashback_rate}.00</>
+                      <>₹{store.cashback_rate}.00</>
                     )}
                     {store.cashback_type == "PERCENTAGE" && (
-                      <>Up to {store.cashback_rate}%</>
+                      <>{store.cashback_rate}%</>
                     )}
-                    Off
+                    Cashback
                   </p>
                 </div>
               </div>
@@ -207,12 +207,12 @@ const StoreDetail = async ({ params }: any) => {
                   <UserStoreAction store_={store} />
                   <p className="hidden sm:inline-block text-xl text-center font-medium text-light pt-1 ">
                     {store.cashback_type == "FLAT_AMOUNT" && (
-                      <>Up to ₹{store.cashback_rate}.00</>
+                      <>₹{store.cashback_rate}.00</>
                     )}
                     {store.cashback_type == "PERCENTAGE" && (
-                      <>Up to {store.cashback_rate}%</>
+                      <>{store.cashback_rate}%</>
                     )}{" "}
-                    Off
+                    Cashback
                   </p>
                 </div>
               </div>

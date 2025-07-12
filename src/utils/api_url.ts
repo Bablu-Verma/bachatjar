@@ -56,7 +56,8 @@ export const message_list_client_api = main_url + '/client/message'
 export const message_read_mark_client_api = main_url + '/client/message/read'
 export const claim_form_tamp_getone_api = main_url + '/client/claim-form-template/getone'
 
-
+export const referral_product_list_client_api = main_url + '/client/referral/list'
+export const referral_product_details_client_api = main_url + '/client/referral/details'
 
 
 
@@ -116,6 +117,13 @@ export const message_delete_api = main_url + '/dashboard/message/delete'
 export const claim_form_tamp_add_api = main_url + '/dashboard/claim-form-template/add'
 export const claim_form_tamp_list_api = main_url + '/dashboard/claim-form-template/list'
 export const claim_form_tamp_delete_api = main_url + '/dashboard/claim-form-template/delete'
+
+
+
+export const referral_product_add_api = main_url + '/dashboard/referral/add'
+export const referral_product_list_api = main_url + '/dashboard/referral/list'
+export const referral_product_edit_api = main_url + '/dashboard/referral/edit'
+export const referral_product_details_api = main_url + '/dashboard/referral/details'
 
 
 

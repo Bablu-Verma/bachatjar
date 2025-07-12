@@ -1,16 +1,16 @@
 "use client";
 
 import React, { useRef } from "react";
-import { ICampaign } from "@/model/CampaignModel";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCardThree from "../small_card/ProductCardThree";
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import { ICampaignWithStore } from "@/common_type";
 
 
 interface SellingProps {
-  best_product:ICampaign[]
+  best_product:ICampaignWithStore[]
 }
 const BestSalling:React.FC<SellingProps > = ({best_product}) => {
   

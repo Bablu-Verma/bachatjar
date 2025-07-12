@@ -1,3 +1,5 @@
+import { ICampaign } from "./model/CampaignModel";
+
 export interface IUser {
     _id: string;
     name: string;
@@ -44,4 +46,13 @@ export interface loginpayload {
   email?: string;
   role?:string;
   user_id?:string
+}
+
+interface StorePopulated {
+  store_link: string;
+  name:string
+}
+
+export interface ICampaignWithStore extends Omit<ICampaign, 'store'> {
+  store: StorePopulated;
 }

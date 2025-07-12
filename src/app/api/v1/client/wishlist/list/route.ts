@@ -58,7 +58,7 @@ export async function POST(req: Request) {
     // Fetch product details from the CampaignModel
     const products = await CampaignModel.find({
       _id: { $in: watchlist.campaigns },
-    }).select('store category offer_price calculated_cashback calculation_mode product_img product_tags actual_price product_slug slug_type title  createdAt updatedAt _id').populate('category', "name slug").populate('store', 'name cashback_type cashback_rate store_link store_img').lean();
+    }).select('store category offer_price calculated_cashback calculation_mode product_img product_tags actual_price product_slug slug_type title  createdAt updatedAt _id').populate('category', "name slug").populate('store', 'name slug cashback_type cashback_rate store_link store_img').lean();
 
     if (!products || products.length === 0) {
       return new NextResponse(

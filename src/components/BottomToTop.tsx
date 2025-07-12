@@ -31,7 +31,7 @@ const BottomToTop = () => {
     isVisible && (
       <div
         onClick={scrollToTop}
-        className="fixed bottom-10 right-4 w-[40px] h-[40px] sm:w-[50px] sm:h-[50px] rounded-full opacity-70 bg-primary z-40 flex justify-center items-center shadow-lg cursor-pointer hover:bottom-11 duration-300 hover:opacity-95"
+        className="fixed bottom-24 right-8 w-[40px] h-[40px] sm:w-[50px] sm:h-[50px] rounded-full opacity-70 bg-primary z-40 flex justify-center items-center shadow-lg cursor-pointer hover:bottom-28 duration-300 hover:opacity-95"
       >
         <i className="fa-solid fa-arrow-up text-lg sm:text-xl text-white"></i>
       </div>

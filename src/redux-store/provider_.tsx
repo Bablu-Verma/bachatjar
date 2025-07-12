@@ -4,13 +4,14 @@ import React, { ReactNode, useEffect } from "react";
 import { Provider } from "react-redux";
 import store_ from "./redux_store";
 import Script from "next/script";
-import { usePathname } from "next/navigation"; 
+import { usePathname } from "next/navigation";
 
 interface ReduxProviderProps {
   children: ReactNode;
 }
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+const CHAT_ID = process.env.NEXT_PUBLIC_CHAT_ID
 
 const ReduxProvider: React.FC<ReduxProviderProps> = ({ children }) => {
   const pathname = usePathname();
@@ -22,6 +23,20 @@ const ReduxProvider: React.FC<ReduxProviderProps> = ({ children }) => {
     });
   }, [pathname]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (typeof window !== "undefined" && window.$crisp?.push) {
+        if (pathname === "/") {
+          window.$crisp.push(["do", "chat:show"]);
+        } else {
+          window.$crisp.push(["do", "chat:hide"]);
+        }
+        clearInterval(interval);
+      }
+    }, 300);
+
+    return () => clearInterval(interval);
+  }, [pathname]);
 
 
 
@@ -42,6 +57,23 @@ const ReduxProvider: React.FC<ReduxProviderProps> = ({ children }) => {
           });
         `}
       </Script>
+     <Script
+  id="crisp-chat"
+  strategy="afterInteractive"
+  dangerouslySetInnerHTML={{
+    __html: `
+      window.$crisp = [];
+      window.CRISP_WEBSITE_ID = ${CHAT_ID};
+      (function() {
+        var d = document;
+        var s = d.createElement("script");
+        s.src = "https://client.crisp.chat/l.js";
+        s.async = 1;
+        d.getElementsByTagName("head")[0].appendChild(s);
+      })();
+    `,
+  }}
+/>
       {children}
     </Provider>
   );

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import { authenticateAndValidateUser } from "@/lib/authenticate";
 import ClientReport from "@/model/ClientReport";
+import '@/model/StoreModel'
 
 export async function POST(req: Request) {
   await dbConnect();

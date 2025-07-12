@@ -2,15 +2,14 @@
 
 import React from 'react'
 import Banner from './Banner'
-import { ICampaign } from '@/model/CampaignModel';
-
 import DealOfTheDay from './DealOfTheDay';
+import { ICampaignWithStore } from '@/common_type';
 
 
 
 interface HeroProps {
-  deals: ICampaign[];
-  banner: ICampaign[]
+  deals: ICampaignWithStore[];
+  banner: ICampaignWithStore[]
 }
 const Hero: React.FC<HeroProps> = ({deals, banner}) => {
   return (

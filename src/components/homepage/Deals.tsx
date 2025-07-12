@@ -2,17 +2,17 @@
 
 import React, { useEffect, useState } from "react";
 import ProductCard from "../small_card/ProductCard";
-import { ICampaign } from "@/model/CampaignModel";
 import axios from "axios";
 import { home_deals_api } from "@/utils/api_url";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux-store/redux_store";
 import SimpleLoader from "../SimpleLoader";
+import { ICampaignWithStore } from "@/common_type";
 
 const Deals: React.FC = () => {
   const [openTab, setOpenTab] = useState<string>("all");
   const [page, setPage] = useState<number>(1);
-  const [deals, setDeals] = useState<ICampaign[]>([]);
+  const [deals, setDeals] = useState<ICampaignWithStore[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
 
@@ -38,7 +38,7 @@ const Deals: React.FC = () => {
         }
       );
 
-      const newDeals: ICampaign[] = data?.data || [];
+      const newDeals: ICampaignWithStore[] = data?.data || [];
       if (newDeals.length === 0) setHasMore(false);
 
       setDeals((prev) => [...prev, ...newDeals]);

@@ -12,7 +12,7 @@ import { GiTwoCoins } from "react-icons/gi";
 import SearchAnimation from "../SearchAnimation";
 import { logout } from "@/redux-store/slice/userSlice";
 import { clearSummary } from "@/redux-store/slice/cashbackSummary";
-import { FaUser } from "react-icons/fa";
+import { FaLink, FaUser } from "react-icons/fa";
 import { FaShoppingCart } from "react-icons/fa";
 import { BsBank2 } from "react-icons/bs";
 import { FaHeart } from "react-icons/fa";
@@ -128,11 +128,11 @@ const MainHeader = () => {
           </li>
           <li className="mx-1">
             <Link
-              href="/blog"
-              className={`${pathname == "/blog" ? "text-primary" : "text-gray-700"
+              href="/referral-link"
+              className={`${pathname == "/referral-link" ? "text-primary" : "text-gray-700"
                 } font-medium duration-200 px-2 hover:text-gray-900`}
             >
-              Blog
+              Referral
             </Link>
           </li>
         </ul>
@@ -151,6 +151,15 @@ const MainHeader = () => {
               >
                 <i className="fa-solid fa-search"></i>
               </button>
+            </Link>
+          )}
+          {pathname != "/search" && (
+            <Link
+              href="/search"
+              title="Search"
+              className="relative hover:bg-gray-100 mr-3 p-1 rounded px-1.5 lg:hidden text-secondary opacity-90"
+            >
+             <i className="fa-solid text-lg fa-search"></i>
             </Link>
           )}
 
@@ -181,7 +190,7 @@ const MainHeader = () => {
           {userlogin ? (
             <>
 
-              <div className="py-.5 lg:py-[2px] pl-2 pr-3 sm:pl-3 sm:pr-4 rounded-full border-[1px] border-primary flex justify-center gap-3 ml-1 sm:ml-3 items-center">
+              <div className="py-.5 lg:py-[2px] pl-2 pr-3 sm:pl-3 sm:pr-4 rounded-full border-[1px] border-primary flex justify-center gap-3 ml-1 sm:ml-3 mr-2 items-center">
                 <GiTwoCoins style={{ color: '#FFD700' }} className="text-lg sm:text-2xl" />
                 <span className="text-base sm:text-lg text-primary font-medium">₹{summary?.total_cb ?? 0}</span>
               </div>
@@ -374,6 +383,15 @@ const MainHeader = () => {
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
                     <Link
                       className="text-gray-700 font-normal pl-2  items-center flex gap-2"
+                      href="/referral-link"
+                    >
+                      <FaLink className="text-base" />
+                     Referral
+                    </Link>
+                  </li>
+                  <li className="mx-1 my-1 hover:pl-2 duration-150">
+                    <Link
+                      className="text-gray-700 font-normal pl-2  items-center flex gap-2"
                       href="/coupons"
                     >
                       <RiCoupon3Fill className="text-base" />   All Coupons
@@ -396,6 +414,7 @@ const MainHeader = () => {
                       Our Blog
                     </Link>
                   </li>
+                  
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
 
                     <Link
