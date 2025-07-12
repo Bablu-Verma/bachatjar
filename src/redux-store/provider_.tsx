@@ -11,7 +11,6 @@ interface ReduxProviderProps {
 }
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
-const CHAT_ID = process.env.NEXT_PUBLIC_CHAT_ID
 
 const ReduxProvider: React.FC<ReduxProviderProps> = ({ children }) => {
   const pathname = usePathname();
@@ -63,7 +62,7 @@ const ReduxProvider: React.FC<ReduxProviderProps> = ({ children }) => {
   dangerouslySetInnerHTML={{
     __html: `
       window.$crisp = [];
-      window.CRISP_WEBSITE_ID = ${CHAT_ID};
+      window.CRISP_WEBSITE_ID ="a03e3ba7-7ab2-4dea-b533-fb294da0919c";
       (function() {
         var d = document;
         var s = d.createElement("script");
