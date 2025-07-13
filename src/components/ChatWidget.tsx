@@ -3,13 +3,21 @@
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Script from 'next/script';
+import { useSelector } from 'react-redux';
+import { IUser } from '@/common_type';
+import { RootState } from '@/redux-store/redux_store';
+import user_icon from '../../public/user_icon.png'
 
 
 export default function TawkToWidget() {
   const pathname = usePathname();
+  const token = useSelector((state: RootState) => state.user.token);
+  const user = useSelector((state: RootState) => state.user.user) as IUser | null;
+
+  const isLogin = !!token;
 
   useEffect(() => {
-    
+
     const interval = setInterval(() => {
       if (
         typeof window !== 'undefined' &&
@@ -17,13 +25,29 @@ export default function TawkToWidget() {
         typeof window.Tawk_API.showWidget === 'function' &&
         typeof window.Tawk_API.hideWidget === 'function'
       ) {
-        if (pathname === '/') {
-          window.Tawk_API.showWidget!(); 
+        if (pathname === '/' || pathname === '/contact-us') {
+          window.Tawk_API.showWidget!();
         } else {
-          window.Tawk_API.hideWidget!(); 
+          window.Tawk_API.hideWidget!();
         }
 
-        clearInterval(interval); 
+        if (isLogin && user?.name && user?.email) {
+          if (typeof window.Tawk_API.setAttributes === 'function') {
+            window.Tawk_API.setAttributes(
+              {
+                name: user.name,
+                email: user.email,
+              },
+              function (error: any) {
+                if (error) {
+                  console.error('Tawk.to setAttributes error:', error);
+                }
+              }
+            );
+          }
+        }
+
+        clearInterval(interval);
       }
     }, 300);
 

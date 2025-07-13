@@ -8,6 +8,13 @@ declare global {
     Tawk_API: {
       showWidget?: () => void;
       hideWidget?: () => void;
+      setAttributes?: (
+      attributes: {
+        name?: string;
+        email?: string;
+      },
+      callback?: (error: any) => void
+    ) => void;
     };
   }
 }

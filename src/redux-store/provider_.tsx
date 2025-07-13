@@ -16,6 +16,7 @@ const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 const ReduxProvider: React.FC<ReduxProviderProps> = ({ children }) => {
   const pathname = usePathname();
 
+
   useEffect(() => {
     if (typeof window.gtag !== "function") return;
     window.gtag("config", GA_MEASUREMENT_ID!, {
