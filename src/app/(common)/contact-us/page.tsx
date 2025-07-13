@@ -4,7 +4,7 @@ import MainHeader from "@/components/header/MainHeader";
 import ContactForm from "./_contact_form";
 import { Metadata } from 'next';
 import Script from 'next/script';
-import WhatsApp from "@/components/WhatsApp";
+
 
 export const metadata: Metadata = {
   title: 'Contact Us - Get Support | BachatJar',
@@ -104,7 +104,6 @@ export default function ContactUs() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <MainHeader />
-      <WhatsApp />
       <main>
         <div className="max-w-6xl mx-auto px-4 my-24  relative">
           <h1 className="text-3xl font-semibold text-center text-gray-800">Contact Us</h1>

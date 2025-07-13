@@ -82,7 +82,7 @@ const DealOfTheDayMobile: React.FC<DealOfTheDayMobileProps> = ({ deals }) => {
                       ₹{card_data?.offer_price.toString()}/-
                     </strong>
                     <small className="text-red-500 text-[14px] sm:text-sm py-.5 px-2 border-[1px] border-red-400 ">
-                      ₹{card_data?.calculated_cashback.toString()} Off
+                      ₹{card_data?.calculated_cashback.toString()} CB
                     </small>
                   </span>
                   <div className="flex justify-between mt-2 mb-1 items-center ">

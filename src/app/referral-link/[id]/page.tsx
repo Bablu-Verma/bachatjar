@@ -126,14 +126,14 @@ const ReferralDetail = async ({ params }: any) => {
       <MainHeader />
       <main className="max-w-6xl min-h-[70vh] mx-auto py-12">
         <div className="shadow-sm rounded rounded-tr-3xl rounded-bl-3xl    border-[1px] border-gray-200 py-8 px-7  bg-[#fff]">
-          <div className="flex flex-col md:flex-row justify-center  md:justify-start items-start gap-12">
+          <div className="flex flex-col md:flex-row justify-center  md:justify-start items-start gap-4 md:gap-12">
             <div className="">
               <Image
                 src={page_data.imageUrl || ''}
                 alt={page_data.title}
                 width={170}
                 height={80}
-                className="rounded-md ml-1 mb-3 w-40 lg:w-56"
+                className="rounded-md ml-1 mb-3 w-48 lg:w-60"
               />
             </div>
            <div>
@@ -141,7 +141,7 @@ const ReferralDetail = async ({ params }: any) => {
             <h4 className="text-lg font-medium text-secondary  pt-1 ">
               {page_data.title}
             </h4>
-              <h2 className="text-lg md:text-xl text-green-600 pt-1 md:pt-3 font-semibold tracking-wide mb-3">
+              <h2 className="text-2xl text-green-600 pt-1 mt-2md:pt-3 font-semibold tracking-wide mb-3">
               ₹{page_data.rewardForUser}/- 
             </h2>
             <a href={`${page_data.referralLink}`} target="_blank" className="select-none inline-block mt-6 rounded-full bg-gradient-to-r from-red-500 via-pink-500 tracking-wider to-red-600 text-white text-center font-semibold py-2 px-6 text-[12px] sm:text-sm shadow-md hover:scale-105 hover:shadow-lg transition-all duration-300 ease-in-out">Go to Referral
@@ -151,7 +151,7 @@ const ReferralDetail = async ({ params }: any) => {
 
 
           <div className=" mt-6  ">
-            <h3 className="text-lg text-secondary font-semibold tracking-wide mb-3">More Details</h3>
+            <h3 className="text-lg text-secondary font-semibold tracking-wide mb-3">Important Details</h3>
             <div
               className="dangerouslyHTML"
               dangerouslySetInnerHTML={{ __html: page_data.description || '' }}

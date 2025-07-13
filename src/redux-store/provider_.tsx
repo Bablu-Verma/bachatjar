@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import store_ from "./redux_store";
 import Script from "next/script";
 import { usePathname } from "next/navigation";
+import ChatWidget from "@/components/ChatWidget";
 
 interface ReduxProviderProps {
   children: ReactNode;
@@ -22,20 +23,7 @@ const ReduxProvider: React.FC<ReduxProviderProps> = ({ children }) => {
     });
   }, [pathname]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (typeof window !== "undefined" && window.$crisp?.push) {
-        if (pathname === "/") {
-          window.$crisp.push(["do", "chat:show"]);
-        } else {
-          window.$crisp.push(["do", "chat:hide"]);
-        }
-        clearInterval(interval);
-      }
-    }, 300);
 
-    return () => clearInterval(interval);
-  }, [pathname]);
 
 
 
@@ -56,23 +44,7 @@ const ReduxProvider: React.FC<ReduxProviderProps> = ({ children }) => {
           });
         `}
       </Script>
-     <Script
-  id="crisp-chat"
-  strategy="afterInteractive"
-  dangerouslySetInnerHTML={{
-    __html: `
-      window.$crisp = [];
-      window.CRISP_WEBSITE_ID ="a03e3ba7-7ab2-4dea-b533-fb294da0919c";
-      (function() {
-        var d = document;
-        var s = d.createElement("script");
-        s.src = "https://client.crisp.chat/l.js";
-        s.async = 1;
-        d.getElementsByTagName("head")[0].appendChild(s);
-      })();
-    `,
-  }}
-/>
+      <ChatWidget />
       {children}
     </Provider>
   );
