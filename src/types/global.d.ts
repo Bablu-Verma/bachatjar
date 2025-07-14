@@ -13,7 +13,7 @@ declare global {
         name?: string;
         email?: string;
       },
-      callback?: (error: any) => void
+      callback?: (error) => void
     ) => void;
     };
   }

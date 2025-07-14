@@ -6,7 +6,7 @@ import Script from 'next/script';
 import { useSelector } from 'react-redux';
 import { IUser } from '@/common_type';
 import { RootState } from '@/redux-store/redux_store';
-import user_icon from '../../public/user_icon.png'
+
 
 
 export default function TawkToWidget() {
@@ -38,7 +38,7 @@ export default function TawkToWidget() {
                 name: user.name,
                 email: user.email,
               },
-              function (error: any) {
+              function (error) {
                 if (error) {
                   console.error('Tawk.to setAttributes error:', error);
                 }
