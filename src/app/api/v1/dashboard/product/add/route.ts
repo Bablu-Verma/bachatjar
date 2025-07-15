@@ -38,7 +38,7 @@ export async function POST(req: Request) {
 
     // Step 3: Extra validations for incentive-based stores
     if (storeDoc.store_type !== "NON_INSENTIVE") {
-      const extraFields = ["description", "t_and_c", "meta_title", "meta_description", "meta_keywords"];
+      const extraFields = ["description", "t_and_c"];
       for (const field of extraFields) {
         const val = requestData[field];
         if (val === undefined || val === null || (typeof val === "string" && val.trim() === "") || (Array.isArray(val) && val.length === 0)) {
@@ -52,6 +52,10 @@ export async function POST(req: Request) {
       if (requestData.offer_price === undefined || requestData.offer_price === null || isNaN(Number(requestData.offer_price))) {
         return NextResponse.json({ success: false, message: "offer_price is required for NON_INSENTIVE store." }, { status: 400 });
       }
+
+      if (!requestData.extrnal_url) {
+        return NextResponse.json({ success: false, message: "extrnal_url is required for NON_INSENTIVE store." }, { status: 400 });
+      }
     }
 
     // Step 5: Slug check
@@ -61,33 +65,63 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false, message: "Product with this title already exists." }, { status: 400 });
     }
 
-    // Step 6: Price calculations
+    // Step 1: Parse and validate input
     const actualPrice = Number(requestData.actual_price);
+    const inputOfferPrice = Number(requestData.offer_price);
     const cashbackRate = Number(storeDoc.cashback_rate);
+    const cashbackType = storeDoc.cashback_type;
+    const storeType = storeDoc.store_type;
 
     if (isNaN(actualPrice) || actualPrice < 0) {
-      return NextResponse.json({ success: false, message: "Invalid actual_price. Must be a positive number." }, { status: 400 });
+      return NextResponse.json(
+        { success: false, message: "Invalid actual_price. Must be a positive number." },
+        { status: 400 }
+      );
     }
 
     if (isNaN(cashbackRate) || cashbackRate < 0) {
-      return NextResponse.json({ success: false, message: "Invalid cashback rate. Must be a non-negative number." }, { status: 400 });
+      return NextResponse.json(
+        { success: false, message: "Invalid cashback_rate. Must be a non-negative number." },
+        { status: 400 }
+      );
     }
 
     let calculatedCashback = 0;
-    if (storeDoc.cashback_type === "FLAT_AMOUNT") {
-      calculatedCashback = cashbackRate;
-    } else if (storeDoc.cashback_type === "PERCENTAGE") {
-      calculatedCashback = (actualPrice * cashbackRate) / 100;
-    }
-
     let offerPrice = 0;
-    if (storeDoc.store_type === "NON_INSENTIVE") {
-      offerPrice = Number(requestData.offer_price);
+
+    // Step 2: Calculate based on store type
+    if (storeType === "NON_INSENTIVE") {
+      // Offer price must come from the frontend for NON_INSENTIVE stores
+      if (isNaN(inputOfferPrice) || inputOfferPrice < 0) {
+        return NextResponse.json(
+          { success: false, message: "Invalid offer_price. Must be a positive number." },
+          { status: 400 }
+        );
+      }
+
+      offerPrice = inputOfferPrice;
+      calculatedCashback = Math.max(0, actualPrice - offerPrice); 
     } else {
-      offerPrice = Math.max(0, actualPrice - calculatedCashback);
+      // For INSENTIVE stores, calculate cashback and derive offer price
+      if (cashbackType === "FLAT_AMOUNT") {
+        if (cashbackRate > actualPrice) {
+          return NextResponse.json(
+            { success: false, message: "Cashback cannot exceed actual price." },
+            { status: 400 }
+          );
+        }
+        calculatedCashback = cashbackRate;
+      } else if (cashbackType === "PERCENTAGE") {
+        calculatedCashback = (actualPrice * cashbackRate) / 100;
+      } else {
+        return NextResponse.json(
+          { success: false, message: "Invalid cashback_type. Must be FLAT_AMOUNT or PERCENTAGE." },
+          { status: 400 }
+        );
+      }
+
+      offerPrice = Math.max(0, actualPrice - calculatedCashback); 
     }
-
-
 
     const newCampaign = new CampaignModel({
       title: requestData.title,
@@ -106,6 +140,7 @@ export async function POST(req: Request) {
       flash_sale: requestData.flash_sale,
       t_and_c: requestData.t_and_c,
       product_slug: slug,
+      extrnal_url: requestData.extrnal_url,
       slug_type: requestData.slug_type,
       meta_title: requestData.meta_title,
       meta_description: requestData.meta_description,

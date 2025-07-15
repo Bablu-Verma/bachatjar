@@ -33,7 +33,7 @@ const Featured: React.FC<FeaturedProps> = ({ arrival }) => {
             href={
               featured_1?.slug_type === "INTERNAL"
                 ? `/campaign/${featured_1?.product_slug}`
-                : featured_1?.store?.store_link
+                : featured_1?.extrnal_url ?? '#'
             }
             className="underline text-white py-1 mt-3 inline-block text-sm md:text-base  font-medium"
           >
@@ -59,7 +59,7 @@ const Featured: React.FC<FeaturedProps> = ({ arrival }) => {
               href={
                 featured_2?.slug_type === "INTERNAL"
                   ? `/campaign/${featured_2?.product_slug}`
-                  : featured_2?.store?.store_link
+                  : featured_2?.extrnal_url ?? '#'
               }
               className="underline text-white py-1 mt-3 inline-block text-sm md:text-base  font-medium"
             >
@@ -87,7 +87,7 @@ const Featured: React.FC<FeaturedProps> = ({ arrival }) => {
               href={
                 featured_3?.slug_type === "INTERNAL"
                   ? `/campaign/${featured_3?.product_slug}`
-                  : featured_3?.store?.store_link
+                  : featured_3?.extrnal_url ?? '#'
               }
               className="underline text-white py-1 mt-3 inline-block text-sm md:text-base  font-medium"
             >
@@ -115,7 +115,7 @@ const Featured: React.FC<FeaturedProps> = ({ arrival }) => {
               href={
                 featured_4?.slug_type === "INTERNAL"
                   ? `/campaign/${featured_4?.product_slug}`
-                  : featured_4?.store?.store_link
+                  : featured_4?.extrnal_url ?? '#'
               }
               className="underline text-white py-1 mt-3 inline-block text-sm md:text-base  font-medium"
             >

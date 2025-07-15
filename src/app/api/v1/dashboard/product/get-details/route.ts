@@ -57,7 +57,7 @@ export async function POST(req: Request) {
 
  
 
-    const product = await CampaignModel.findOne(filters).populate('store', 'name cashback_type cashback_rate store_link store_img')
+    const product = await CampaignModel.findOne(filters).populate('store', 'name cashback_type cashback_rate store_link store_type store_img')
     .populate('category', 'name slug');
 
     if (!product) {

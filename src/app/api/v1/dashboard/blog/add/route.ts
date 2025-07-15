@@ -33,15 +33,6 @@ export async function POST(req: Request) {
       keywords,
       publish_schedule,
       status,
-      meta_title,
-      meta_description,
-      meta_keywords,
-      canonical_url,
-      og_image,
-      og_title,
-      og_description,
-      twitter_card,
-      schema_markup,
     } = requestData;
 
     // Validation
@@ -77,7 +68,7 @@ export async function POST(req: Request) {
     }
 
     const parsedTags = Array.isArray(tags) ? tags.map((item) => item.trim()) : [];
-     const parsedMetaKeywords = Array.isArray(meta_keywords) ? meta_keywords.map((item) => item.trim()) : [];
+   
   
 
     // Create new blog entry
@@ -95,15 +86,6 @@ export async function POST(req: Request) {
       keywords,
       publish_schedule,
       status,
-      meta_title,
-      meta_description,
-      meta_keywords: parsedMetaKeywords,
-      canonical_url,
-      og_image,
-      og_title,
-      og_description,
-      twitter_card,
-      schema_markup,
       views: 0, // Default value for views
     });
 

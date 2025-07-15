@@ -47,16 +47,7 @@ export async function POST(req: Request) {
       keywords,
       publish_schedule,
       word_count,
-      status,
-      meta_title,
-      meta_description,
-      meta_keywords,
-      canonical_url,
-      og_image,
-      og_title,
-      og_description,
-      twitter_card,
-      schema_markup,
+      status
     } = requestData;
 
     if (!blog_id) {
@@ -120,22 +111,8 @@ export async function POST(req: Request) {
     if (publish_schedule) blogToUpdate.publish_schedule = publish_schedule;
     if (word_count) blogToUpdate.word_count = word_count;
     if (status) blogToUpdate.status = status;
-    if (meta_title) blogToUpdate.meta_title = meta_title;
-    if (meta_description) blogToUpdate.meta_description = meta_description;
-    if (meta_keywords) {
-      if (Array.isArray(meta_keywords)) {
-        blogToUpdate.meta_keywords = meta_keywords.map((item) => item.trim()); 
-      } else if (typeof meta_keywords === "string") {
-        blogToUpdate.meta_keywords = meta_keywords.split(",").map((item) => item.trim()); 
-      }
-    }
-    if (canonical_url) blogToUpdate.canonical_url = canonical_url;
-    if (og_image) blogToUpdate.og_image = og_image.trim();
-    if (og_title) blogToUpdate.og_title = og_title;
-    if (og_description) blogToUpdate.og_description = og_description;
-    if (twitter_card) blogToUpdate.twitter_card = twitter_card;
-    if (schema_markup) blogToUpdate.schema_markup = schema_markup;
-
+   
+   
     // Save the updated blog
     await blogToUpdate.save();
 

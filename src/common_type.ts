@@ -50,7 +50,8 @@ export interface loginpayload {
 
 interface StorePopulated {
   store_link: string;
-  name:string
+  name:string,
+  store_type:string
 }
 
 export interface ICampaignWithStore extends Omit<ICampaign, 'store'> {

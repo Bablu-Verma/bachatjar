@@ -25,9 +25,9 @@ export async function POST(req: Request) {
       .skip(skip_offer)
       .limit(offerDealLimit)
        .sort({ createdAt: -1 })
-      .populate("store", "name cashback_type cashback_rate store_link store_img")
+      .populate("store", "name cashback_type  cashback_rate store_link store_type store_img")
       .populate("category", "name slug")
-      .select('store category offer_price calculated_cashback calculation_mode product_img product_tags actual_price product_slug slug_type title createdAt updatedAt _id')
+      .select('store extrnal_url category offer_price calculated_cashback calculation_mode product_img product_tags actual_price product_slug slug_type title createdAt updatedAt _id')
       .lean();
 
     return NextResponse.json({

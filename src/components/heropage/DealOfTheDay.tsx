@@ -66,11 +66,11 @@ const DealOfTheDay: React.FC<DealOfTheDayProps> = ({ deals }) => {
                   <h3 className="text-base font-bold">₹{item.offer_price}/-</h3>
                   <Link
                     className="text-sm text-primary opacity-75 hover:opacity-100"
-                    href={
-                        item.slug_type === "INTERNAL"
-      ? `/campaign/${item?.product_slug}`
-      : item.store?.store_link || "#"
-                    }
+                     href={
+      item.slug_type === "INTERNAL"
+        ? `/campaign/${item.product_slug ?? ''}`
+        : item.extrnal_url ?? '#'
+     }
                   >
                     Grab Now
                   </Link>

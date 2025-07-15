@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     filters.product_status = 'ACTIVE'
     
     const product = await CampaignModel.findOne(filters)
-    .populate('store', 'name cashback_type cashback_rate store_link slug store_img')
+    .populate('store', 'name cashback_type store_type cashback_rate store_link slug store_img')
     .populate('category', 'name slug');
 
     if (!product) {
@@ -54,9 +54,9 @@ export async function POST(req: Request) {
       store: product.store._id,
       _id: { $ne: product._id }, 
       product_status: "ACTIVE", 
-    }).select('store category offer_price calculated_cashback calculation_mode product_img product_tags  actual_price product_slug slug_type title _id').lean()
+    }).select('store category  offer_price calculated_cashback calculation_mode product_img product_tags  actual_price product_slug slug_type title extrnal_url _id').lean()
       .limit(10)
-      .populate('store', 'name cashback_type cashback_rate store_link store_img')
+      .populate('store', 'name store_type cashback_type cashback_rate store_link store_img')
       .populate('category', 'name slug');
     
     

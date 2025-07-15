@@ -23,11 +23,11 @@ import { IClintCampaign } from "../../../add-product/page";
 const EditProduct = () => {
   const token = useSelector((state: RootState) => state.user.token);
   const [productDetails, setProductDetails] = useState<ICampaign>();
-  const [categoryList, setCategoryList] = useState<{name: string; _id: string}[]>([]);
+  const [categoryList, setCategoryList] = useState<{ name: string; _id: string }[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const pathname = usePathname();
 
-  const [storeList, setStoreList] = useState<{ name: string; _id: string, store_type:string }[]>(
+  const [storeList, setStoreList] = useState<{ name: string; _id: string, store_type: string }[]>(
     []
   );
   const [editorT_and_c, setEditor_t_and_c] = useState("");
@@ -35,31 +35,24 @@ const EditProduct = () => {
 
   const [form_data, setForm_data] = useState<IClintCampaign>({
     title: "",
-   actual_price: 0,
-   offer_price: undefined, // add conditionally
-   store: "",
-   category: "",
-   product_img: "",
-   product_tags: [],
-   long_poster: [{ is_active: false, image: "" }],
-   main_banner: [{ is_active: false, image: "" }],
-   premium_product: [{ is_active: false, image: "" }],
-   flash_sale: [{ is_active: false, image: "", end_time: null }],
-   slug_type: "INTERNAL",
-   meta_title: "",
-   meta_description: "",
-   meta_keywords: [],
-   meta_robots: "index, follow",
-   canonical_url: "",
-   structured_data: "{}",
-   og_image: "",
-   og_title: "",
-   og_description: "",
-   product_status: "ACTIVE",
-   description: "",
-   t_and_c: "",
-   });
- 
+    actual_price: 0,
+    offer_price: undefined, // add conditionally
+    store: "",
+    category: "",
+    product_img: "",
+    extrnal_url: '',
+    product_tags: [],
+    long_poster: [{ is_active: false, image: "" }],
+    main_banner: [{ is_active: false, image: "" }],
+    premium_product: [{ is_active: false, image: "" }],
+    flash_sale: [{ is_active: false, image: "", end_time: null }],
+    slug_type: "INTERNAL",
+
+    product_status: "ACTIVE",
+    description: "",
+    t_and_c: "",
+  });
+
 
   const urlslug = pathname.split("/").pop() || "";
 
@@ -77,7 +70,7 @@ const EditProduct = () => {
           },
         }
       );
-    
+
       setProductDetails(data.data);
       toast.success(data.message);
     } catch (error) {
@@ -94,20 +87,21 @@ const EditProduct = () => {
     if (urlslug) {
       GetData(urlslug);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [urlslug]);
 
   useEffect(() => {
     if (productDetails) {
-      
+
       setForm_data({
         title: productDetails.title || "",
         offer_price: productDetails.offer_price || 0,
         actual_price: productDetails.actual_price || 0,
-        store:productDetails.store._id.toString() ,
+        store: productDetails.store._id.toString(),
         category: productDetails.category._id.toString(),
         product_img: productDetails.product_img || '',
         product_tags: productDetails.product_tags || [],
+        extrnal_url: productDetails.extrnal_url || '',
         long_poster: productDetails.long_poster || [
           { is_active: false, image: "" },
         ],
@@ -119,22 +113,14 @@ const EditProduct = () => {
         ],
         flash_sale: productDetails.flash_sale
           ? productDetails.flash_sale.map((item) => ({
-              ...item,
-              end_time: item.end_time ? new Date(item.end_time) : null,
-            }))
+            ...item,
+            end_time: item.end_time ? new Date(item.end_time) : null,
+          }))
           : [
-              { is_active: false, image: "", end_time: null },
-            ],
+            { is_active: false, image: "", end_time: null },
+          ],
         slug_type: productDetails.slug_type || "INTERNAL",
-        meta_title: productDetails.meta_title || "",
-        meta_description: productDetails.meta_description || "",
-        meta_keywords: productDetails.meta_keywords || [],
-        meta_robots: productDetails.meta_robots || "index, follow",
-        canonical_url: productDetails.canonical_url || "",
-        structured_data: productDetails.structured_data || "{}",
-        og_image: productDetails.og_image || "",
-        og_title: productDetails.og_title || "",
-        og_description: productDetails.og_description || "",
+
         product_status: (productDetails.product_status === "ACTIVE" || productDetails.product_status === "PAUSE")
           ? productDetails.product_status
           : "ACTIVE",
@@ -145,7 +131,7 @@ const EditProduct = () => {
     setEditor_t_and_c(productDetails?.t_and_c || "some error");
   }, [productDetails]);
 
- 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -202,12 +188,12 @@ const EditProduct = () => {
         setLoading(false);
         return;
       }
-     
 
-     
+
+
       const formPayload = {
         ...form_data,
-        _id:productDetails?._id,
+        _id: productDetails?._id,
         description: editorContent,
         t_and_c: editorT_and_c,
       };
@@ -272,7 +258,7 @@ const EditProduct = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
             />
           </div>
-         
+
           <div className="grid grid-cols-2 gap-5">
             <div>
               <label
@@ -341,7 +327,9 @@ const EditProduct = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
               />
             </div>
- <div>
+          </div>
+          <div className="grid grid-cols-2 gap-5">
+            <div>
               <label
                 htmlFor="offer_price"
                 className="block text-sm font-medium text-gray-700"
@@ -358,10 +346,25 @@ const EditProduct = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
               />
             </div>
-           
-           
+            <div>
+              <label
+                htmlFor="offer_price"
+                className="block text-sm font-medium text-gray-700"
+              >
+                extrnal_url (if NON_INSENTIVE)*
+              </label>
+              <input
+                type="text"
+                id="extrnal_url"
+                name="extrnal_url"
+                value={form_data.extrnal_url}
+                onChange={handleChange}
+                placeholder="Enter Actual product price"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
+              />
+            </div>
           </div>
-         
+
           <div className="grid grid-cols-2 gap-5">
             <div>
               <label
@@ -384,13 +387,13 @@ const EditProduct = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
               />
             </div>
- <div className="">
-            <label
-              htmlFor="images"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Product Images
-            </label>
+            <div className="">
+              <label
+                htmlFor="images"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Product Images
+              </label>
               <input
                 type="text"
                 id="images"
@@ -401,7 +404,7 @@ const EditProduct = () => {
                 onChange={handleChange}
               />
             </div>
-           
+
           </div>
 
           <div className="grid grid-cols-2 gap-5">
@@ -689,7 +692,7 @@ const EditProduct = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-5">
-             <div>
+            <div>
               <label
                 htmlFor="slug_type"
                 className="block text-sm font-medium text-gray-700"
@@ -758,160 +761,15 @@ const EditProduct = () => {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-5">
-            <div>
-              <label
-                htmlFor="meta_title"
-                className="block text-sm font-medium text-gray-700"
-              >
-                meta_title
-              </label>
-              <input
-                type="text"
-                id="meta_title"
-                name="meta_title"
-                value={form_data.meta_title}
-                onChange={handleChange}
-                placeholder="Enter meta title"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="meta_keywords"
-                className="block text-sm font-medium text-gray-700"
-              >
-                meta_keywords
-              </label>
-              <input
-                type="text"
-                name="meta_keywords"
-               value={(form_data.meta_keywords || []).join(", ")}
-                onChange={(e) =>
-                  setForm_data({
-                    ...form_data,
-                    meta_keywords: e.target.value.split(",").map((kw) => kw.trim()),
-                    })
-                }
-                placeholder="Product meta_keywords (comma separated)"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-              />
-            </div>
-          </div>
 
-          <div>
-            <label
-              htmlFor="meta_description"
-              className="block text-sm font-medium text-gray-700"
-            >
-              meta_description
-            </label>
-            <input
-              type="text"
-              id="meta_description"
-              name="meta_description"
-              value={form_data.meta_description}
-              onChange={handleChange}
-              placeholder="Enter meta_description"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-            />
-          </div>
 
-          <div className="grid grid-cols-2 gap-5">
-            <div>
-              <label
-                htmlFor="meta_description"
-                className="block text-sm font-medium text-gray-700"
-              >
-                canonical_url
-              </label>
-              <input
-                type="text"
-                id="canonical_url"
-                name="canonical_url"
-                value={form_data.canonical_url}
-                onChange={handleChange}
-                placeholder="Enter canonical_url"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="meta_robots"
-                className="block text-sm font-medium text-gray-700"
-              >
-                meta_robots
-              </label>
-              <select
-                id="meta_robots"
-                name="meta_robots"
-                value={form_data.meta_robots}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-              >
-                <option value="" disabled selected>
-                  meta_robots
-                </option>
-                <option value="index, follow">index, follow</option>
-                <option value="noindex, nofollow">noindex, nofollow</option>
-              </select>
-            </div>
-          </div>
 
-          <div className="grid grid-cols-2 gap-5">
-            <div>
-              <label
-                htmlFor="og_image"
-                className="block text-sm font-medium text-gray-700"
-              >
-                og_image link
-              </label>
-              <input
-                type="text"
-                id="og_image"
-                name="og_image"
-                value={form_data.og_image}
-                onChange={handleChange}
-                placeholder="Enter og_image link"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="og_title"
-                className="block text-sm font-medium text-gray-700"
-              >
-                og_title
-              </label>
-              <input
-                type="text"
-                id="og_title"
-                name="og_title"
-                value={form_data.og_title}
-                onChange={handleChange}
-                placeholder="Enter og_title "
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-              />
-            </div>
-          </div>
 
-          <div>
-            <label
-              htmlFor="og_description"
-              className="block text-sm font-medium text-gray-700"
-            >
-              og_description
-            </label>
-            <input
-              type="text"
-              id="og_description"
-              name="og_description"
-              value={form_data.og_description}
-              onChange={handleChange}
-              placeholder="Enter og_description "
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-            />
-          </div>
+
+
+
+
+
 
           <div className="text-right pt-20">
             <button

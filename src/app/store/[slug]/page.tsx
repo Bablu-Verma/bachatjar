@@ -193,7 +193,9 @@ const StoreDetail = async ({ params }: any) => {
                     {store.cashback_type == "PERCENTAGE" && (
                       <>{store.cashback_rate}%</>
                     )}
-                    Cashback
+                    {
+                   store.store_type == 'INSENTIVE'? " Cashback":' Save'
+                    }
                   </p>
                 </div>
               </div>
@@ -211,8 +213,10 @@ const StoreDetail = async ({ params }: any) => {
                     )}
                     {store.cashback_type == "PERCENTAGE" && (
                       <>{store.cashback_rate}%</>
-                    )}{" "}
-                    Cashback
+                    )}
+                   {
+                   store.store_type == 'INSENTIVE'? " Cashback":' Save'
+                    }
                   </p>
                 </div>
               </div>

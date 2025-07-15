@@ -33,10 +33,10 @@ const DealOfTheDayMobile: React.FC<DealOfTheDayMobileProps> = ({ deals }) => {
           <SwiperSlide  key={i} className='px-1'>
             <Link
               href={
-                card_data.slug_type === "INTERNAL"
-                  ? `/campaign/${card_data?.product_slug}`
-                  : card_data.store?.store_link || "#"
-              }
+      card_data.slug_type === "INTERNAL"
+        ? `/campaign/${card_data.product_slug ?? ''}`
+        : card_data.extrnal_url ?? '#'
+     }
               target={card_data.slug_type !== "INTERNAL" ? '_blank' : '_self'}
               className="shadow-box_shadow_color hover:shadow-box_shadow_hover hover:translate-y-[-6px] bg-white overflow-hidden rounded-lg relative duration-200 border-[1px] border-transparent hover:border-gray-100 hover:border-[1px] inline-block  group "
               

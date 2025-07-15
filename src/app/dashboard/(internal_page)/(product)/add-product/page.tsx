@@ -18,7 +18,7 @@ import { useSelector } from "react-redux";
 export interface IClintCampaign {
   title: string;
   actual_price: number;
-  offer_price?: number; 
+  offer_price?: number;
   store: string;
   category: string;
   product_img: string;
@@ -28,15 +28,7 @@ export interface IClintCampaign {
   premium_product: { is_active: boolean; image: string }[];
   flash_sale: { is_active: boolean; image: string; end_time: Date | null }[];
   slug_type: "INTERNAL" | "EXTERNAL";
-  meta_title?: string;
-  meta_description?: string;
-  meta_keywords?: string[];
-  meta_robots: "index, follow" | "noindex, nofollow";
-  canonical_url?: string;
-  structured_data?: string;
-  og_image?: string;
-  og_title?: string;
-  og_description?: string;
+  extrnal_url?: string;
   product_status: "ACTIVE" | "PAUSE";
   description?: string; // Required if store is INCENTIVE
   t_and_c?: string;     // Required if store is INCENTIVE
@@ -47,37 +39,29 @@ const AddProduct = () => {
   const [categoryList, setCategoryList] = useState<
     { name: string; _id: string }[]
   >([]);
-  const [storeList, setStoreList] = useState<{ name: string; _id: string, store_type:string }[]>(
+  const [storeList, setStoreList] = useState<{ name: string; _id: string, store_type: string }[]>(
     []
   );
   const [loding, setLoading] = useState(false);
   const [editorContent, setEditorContent] = useState("");
   const [editorT_and_c, setEditor_t_and_c] = useState("");
   const [form_data, setForm_data] = useState<IClintCampaign>({
- title: "",
-  actual_price: 0,
-  offer_price: undefined, // add conditionally
-  store: "",
-  category: "",
-  product_img: "",
-  product_tags: [],
-  long_poster: [{ is_active: false, image: "" }],
-  main_banner: [{ is_active: false, image: "" }],
-  premium_product: [{ is_active: false, image: "" }],
-  flash_sale: [{ is_active: false, image: "", end_time: null }],
-  slug_type: "INTERNAL",
-  meta_title: "",
-  meta_description: "",
-  meta_keywords: [],
-  meta_robots: "index, follow",
-  canonical_url: "",
-  structured_data: "{}",
-  og_image: "",
-  og_title: "",
-  og_description: "",
-  product_status: "ACTIVE",
-  description: "",
-  t_and_c: "",
+    title: "",
+    actual_price: 0,
+    offer_price: undefined, // add conditionally
+    store: "",
+    category: "",
+    product_img: "",
+    product_tags: [],
+    long_poster: [{ is_active: false, image: "" }],
+    main_banner: [{ is_active: false, image: "" }],
+    premium_product: [{ is_active: false, image: "" }],
+    flash_sale: [{ is_active: false, image: "", end_time: null }],
+    extrnal_url: '',
+    slug_type: "INTERNAL",
+    product_status: "ACTIVE",
+    description: "",
+    t_and_c: "",
   });
 
   useEffect(() => {
@@ -118,55 +102,55 @@ const AddProduct = () => {
     }));
   };
 
- const handleSubmit = async () => {
-  try {
-    setLoading(true);
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
 
-    const requiredFields: (keyof IClintCampaign)[] = [
-    "title", "actual_price", "store", "category", "product_img", "product_status"
-    ];
+      const requiredFields: (keyof IClintCampaign)[] = [
+        "title", "actual_price", "store", "category", "product_img", "product_status"
+      ];
 
-    const missingFields = requiredFields.filter((field) => {
-      const value = form_data[field];
-      return (
-        value === undefined ||
-        value === null ||
-        (typeof value === "string" && value.trim() === "") ||
-        (Array.isArray(value) && value.length === 0)
-      );
-    });
+      const missingFields = requiredFields.filter((field) => {
+        const value = form_data[field];
+        return (
+          value === undefined ||
+          value === null ||
+          (typeof value === "string" && value.trim() === "") ||
+          (Array.isArray(value) && value.length === 0)
+        );
+      });
 
-    if (missingFields.length > 0) {
-      toast.error(`${missingFields.join(", ")} is required.`);
-      return;
+      if (missingFields.length > 0) {
+        toast.error(`${missingFields.join(", ")} is required.`);
+        return;
+      }
+
+      const formPayload = {
+        ...form_data,
+        description: editorContent,
+        t_and_c: editorT_and_c,
+      };
+
+      await axios.post(add_product, JSON.stringify(formPayload), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      toast.success("Product added successfully!");
+      // Optional: reset form or redirect
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.message || "An error occurred");
+      } else {
+        console.error("Unexpected error:", error);
+        toast.error("Something went wrong.");
+      }
+    } finally {
+      setLoading(false);
     }
-
-    const formPayload = {
-      ...form_data,
-      description: editorContent,
-      t_and_c: editorT_and_c,
-    };
-
-    await axios.post(add_product, JSON.stringify(formPayload), {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-
-    toast.success("Product added successfully!");
-    // Optional: reset form or redirect
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      toast.error(error.response?.data?.message || "An error occurred");
-    } else {
-      console.error("Unexpected error:", error);
-      toast.error("Something went wrong.");
-    }
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
 
 
@@ -203,7 +187,6 @@ const AddProduct = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
             />
           </div>
-
           <div className="grid grid-cols-2 gap-5">
             <div>
               <label
@@ -272,6 +255,12 @@ const AddProduct = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
               />
             </div>
+
+
+
+          </div>
+
+          <div className="grid grid-cols-2 gap-5">
             <div>
               <label
                 htmlFor="offer_price"
@@ -289,12 +278,27 @@ const AddProduct = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
               />
             </div>
-
-           
+            <div>
+              <label
+                htmlFor="offer_price"
+                className="block text-sm font-medium text-gray-700"
+              >
+                extrnal_url (if NON_INSENTIVE)*
+              </label>
+              <input
+                type="text"
+                id="extrnal_url"
+                name="extrnal_url"
+                value={form_data.extrnal_url}
+                onChange={handleChange}
+                placeholder="Enter Actual product price"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
+              />
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-5">
-             <div className="">
+            <div className="">
               <label
                 htmlFor="images"
                 className="block text-sm font-medium text-gray-700"
@@ -333,7 +337,7 @@ const AddProduct = () => {
               />
             </div>
 
-           
+
           </div>
 
           <div className="grid grid-cols-2 gap-5">
@@ -623,7 +627,7 @@ const AddProduct = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-5">
-             <div>
+            <div>
               <label
                 htmlFor="slug_type"
                 className="block text-sm font-medium text-gray-700"
@@ -692,160 +696,15 @@ const AddProduct = () => {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-5">
-            <div>
-              <label
-                htmlFor="meta_title"
-                className="block text-sm font-medium text-gray-700"
-              >
-                meta_title
-              </label>
-              <input
-                type="text"
-                id="meta_title"
-                name="meta_title"
-                value={form_data.meta_title}
-                onChange={handleChange}
-                placeholder="Enter meta title"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="meta_keywords"
-                className="block text-sm font-medium text-gray-700"
-              >
-                meta_keywords
-              </label>
-              <input
-                type="text"
-                name="meta_keywords"
-               value={(form_data.meta_keywords || []).join(", ")}
-                onChange={(e) =>
-                  setForm_data({
-                    ...form_data,
-                    meta_keywords: e.target.value.split(",").map((kw) => kw.trim()),
-                    })
-                }
-                placeholder="Product meta_keywords (comma separated)"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-              />
-            </div>
-          </div>
 
-          <div>
-            <label
-              htmlFor="meta_description"
-              className="block text-sm font-medium text-gray-700"
-            >
-              meta_description
-            </label>
-            <input
-              type="text"
-              id="meta_description"
-              name="meta_description"
-              value={form_data.meta_description}
-              onChange={handleChange}
-              placeholder="Enter meta_description"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-            />
-          </div>
 
-          <div className="grid grid-cols-2 gap-5">
-            <div>
-              <label
-                htmlFor="meta_description"
-                className="block text-sm font-medium text-gray-700"
-              >
-                canonical_url
-              </label>
-              <input
-                type="text"
-                id="canonical_url"
-                name="canonical_url"
-                value={form_data.canonical_url}
-                onChange={handleChange}
-                placeholder="Enter canonical_url"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="meta_robots"
-                className="block text-sm font-medium text-gray-700"
-              >
-                meta_robots
-              </label>
-              <select
-                id="meta_robots"
-                name="meta_robots"
-                value={form_data.meta_robots}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-              >
-                <option value="" disabled selected>
-                  meta_robots
-                </option>
-                <option value="index, follow">index, follow</option>
-                <option value="noindex, nofollow">noindex, nofollow</option>
-              </select>
-            </div>
-          </div>
 
-          <div className="grid grid-cols-2 gap-5">
-            <div>
-              <label
-                htmlFor="og_image"
-                className="block text-sm font-medium text-gray-700"
-              >
-                og_image link
-              </label>
-              <input
-                type="text"
-                id="og_image"
-                name="og_image"
-                value={form_data.og_image}
-                onChange={handleChange}
-                placeholder="Enter og_image link"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="og_title"
-                className="block text-sm font-medium text-gray-700"
-              >
-                og_title
-              </label>
-              <input
-                type="text"
-                id="og_title"
-                name="og_title"
-                value={form_data.og_title}
-                onChange={handleChange}
-                placeholder="Enter og_title "
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-              />
-            </div>
-          </div>
 
-          <div>
-            <label
-              htmlFor="og_description"
-              className="block text-sm font-medium text-gray-700"
-            >
-              og_description
-            </label>
-            <input
-              type="text"
-              id="og_description"
-              name="og_description"
-              value={form_data.og_description}
-              onChange={handleChange}
-              placeholder="Enter og_description "
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-            />
-          </div>
+
+
+
+
+
 
           <div className="text-right">
             <button

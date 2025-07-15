@@ -17,11 +17,11 @@ const ProductCard: React.FC<CardProp> = ({ card_data }) => {
 
   return (
     <Link
-      href={
-        card_data.slug_type === "INTERNAL"
-          ? `/campaign/${card_data?.product_slug}`
-          : card_data?.store?.store_link
-      }
+     href={
+      card_data.slug_type === "INTERNAL"
+        ? `/campaign/${card_data.product_slug ?? ''}`
+        : card_data.extrnal_url ?? '#'
+     }
       target={card_data.slug_type !== "INTERNAL" ? '_blank' : '_self'}
       className="shadow-box_shadow_color hover:shadow-box_shadow_hover hover:translate-y-[-6px] bg-white overflow-hidden rounded-lg relative duration-200 border-[1px] border-transparent hover:border-gray-100 hover:border-[1px]  group"
     >
@@ -68,8 +68,11 @@ const ProductCard: React.FC<CardProp> = ({ card_data }) => {
             <strong className="text-primary text-lg mr-2 sm:text-xl sm:mr-3 mb-1">
               ₹{card_data?.offer_price.toString()}/-
             </strong>
+            
             <small className="text-red-500 text-[14px] sm:text-sm py-.5 px-2 border-[1px] border-red-400 ">
-              ₹{card_data?.calculated_cashback.toString()} CB
+              ₹{card_data?.calculated_cashback.toString()} {
+               card_data.store.store_type == "INSENTIVE" ?'CB':'Save'
+            } 
             </small>
           </span>
           <div className="flex justify-between mt-2 mb-1 items-center ">

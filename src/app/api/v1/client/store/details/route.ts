@@ -43,9 +43,9 @@ export async function POST(req: Request) {
     
       relatedProducts = await CampaignModel.find({ store: store._id,product_status:'ACTIVE' })
         .select(
-          "store category offer_price calculated_cashback calculation_mode product_img product_tags actual_price product_slug slug_type title createdAt updatedAt _id"
+          "store category extrnal_url offer_price calculated_cashback calculation_mode product_img product_tags actual_price product_slug slug_type title createdAt updatedAt _id"
         )
-        .populate("store", "name cashback_type cashback_rate store_link store_img")
+        .populate("store", "name cashback_type store_type cashback_rate store_link store_img")
         .populate("category", "name slug")
         .limit(limit)
         .lean();
@@ -83,9 +83,9 @@ export async function POST(req: Request) {
       if (tabtype === "Product") {
         relatedProducts = await CampaignModel.find({ store: store._id })
           .select(
-            "store category offer_price calculated_cashback calculation_mode product_img product_tags actual_price product_slug slug_type title createdAt updatedAt _id"
+            "store category offer_price extrnal_url calculated_cashback calculation_mode product_img product_tags actual_price product_slug slug_type title createdAt updatedAt _id"
           )
-          .populate("store", "name cashback_type cashback_rate store_link store_img")
+          .populate("store", "name store_type cashback_type cashback_rate store_link store_img")
           .populate("category", "name slug")
           .skip(skip)
           .limit(limit)

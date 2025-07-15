@@ -19,17 +19,6 @@ export interface IBlog {
   keywords: string[];
   publish_schedule?: Date;
   status: BlogStatus;
-  // SEO Fields
-  meta_title?: string;
-  meta_description?: string;
-  meta_keywords?: string[];
-  canonical_url?: string;
-  og_image?: string;
-  og_title?: string;
-  og_description?: string;
-  twitter_card?: 'summary' | 'summary_large_image';
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  schema_markup?: Record<string, any>;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -100,42 +89,7 @@ const BlogSchema = new Schema<IBlog>(
       type: String,
       default: 'ACTIVE',
       enum: ['ACTIVE', 'INACTIVE', 'REMOVED'],
-    },
-   
-    // SEO Fields
-    meta_title: {
-      type: String,
-      maxlength: [60, 'Meta title cannot exceed 60 characters'],
-    },
-    meta_description: {
-      type: String,
-      maxlength: [160, 'Meta description cannot exceed 160 characters'],
-    },
-    meta_keywords: {
-      type: [String],
-      default: [],
-    },
-    canonical_url: {
-      type: String,
-    },
-    og_image: {
-      type: String,
-    },
-    og_title: {
-      type: String,
-    },
-    og_description: {
-      type: String,
-    },
-    twitter_card: {
-      type: String,
-      enum: ['summary', 'summary_large_image'],
-      default: 'summary_large_image',
-    },
-    schema_markup: {
-      type: Object,
-      default: {},
-    },
+    }
   },
   { timestamps: true }
 );

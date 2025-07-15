@@ -38,11 +38,10 @@ const Banner: React.FC<BannerProps> = ({ banner }) => {
           <SwiperSlide key={i}>
             <Link
               href={
-              item.slug_type === "INTERNAL"
-      ? `/campaign/${item?.product_slug}`
-      : (item.store as any)?.store_link || "#"
-
-              }
+      item.slug_type === "INTERNAL"
+        ? `/campaign/${item.product_slug ?? ''}`
+        : item.extrnal_url ?? '#'
+     }
               className="relative h-[190px] lg:h-64   bg-cover bg-center block mx-2"
             >
               <Image

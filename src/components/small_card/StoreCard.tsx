@@ -7,6 +7,7 @@ interface istorecard {
   item: IStore;
 }
 const StoreCard: React.FC<istorecard> = ({ item }) => {
+  console.log(item)
   return (
     <Link
       href={`/store/${item.slug}`}
@@ -33,8 +34,15 @@ const StoreCard: React.FC<istorecard> = ({ item }) => {
           )}
           {item.cashback_type == "PERCENTAGE" && <>{item.cashback_rate}%</>}{" "}
         </span>
-         <span className="sm:hidden">CB</span>
-        <span className="hidden sm:block">Cashback</span>
+        {
+          item.store_type =='INSENTIVE' ? <>
+           <span className="sm:hidden">CB</span>
+            <span className="hidden sm:block">Cashback</span>
+          </>:<>
+            <span className="">Save</span>
+          </>
+        }
+        
       </div>
     </Link>
   );

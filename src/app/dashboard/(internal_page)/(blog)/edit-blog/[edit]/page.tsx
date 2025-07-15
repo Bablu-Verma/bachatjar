@@ -37,14 +37,7 @@ interface IClientBlog {
   keywords: string[]; // SEO keywords
   publish_schedule: Date | null; // Date for scheduled publishing
   status: "ACTIVE" | "INACTIVE"; // Blog status
-  meta_title: string;
-  meta_description: string;
-  meta_keywords: string[];
-  canonical_url: string;
-  og_image: string;
-  og_title: string;
-  og_description: string;
-  twitter_card: "summary" | "summary_large_image" | "";
+ 
 }
 
 const EditBlog = ({}) => {
@@ -64,14 +57,7 @@ const EditBlog = ({}) => {
     keywords: [],
     publish_schedule: null,
     status: "ACTIVE",
-    meta_title: "",
-    meta_description: " ",
-    meta_keywords: [],
-    canonical_url: "",
-    og_image: "",
-    og_title: "",
-    og_description: "",
-    twitter_card: "" as "summary" | "summary_large_image",
+  
   });
 
   const [short_desc, setShortDescription] = useState("");
@@ -154,16 +140,7 @@ const EditBlog = ({}) => {
         keywords: blogData.keywords || [],
         publish_schedule: blogData.publish_schedule || null,
         status: (blogData.status as "ACTIVE" | "INACTIVE") || "ACTIVE",
-        meta_title: blogData.meta_title || "",
-        meta_description: blogData.meta_description || "",
-        meta_keywords: blogData.meta_keywords || [],
-        canonical_url: blogData.canonical_url || "",
-        og_image: blogData.og_image || "",
-        og_title: blogData.og_title || "",
-        og_description: blogData.og_description || "",
-        twitter_card:
-          (blogData.twitter_card as "summary" | "summary_large_image") ||
-          "summary",
+       
       });
 
       setDescription(blogData.desc || "");
@@ -195,20 +172,11 @@ const EditBlog = ({}) => {
           category: form_data.blog_category, // Fixed key name
           short_desc: short_desc, // Ensure it's defined
           blog_type: form_data.blog_type, // Fixed key name
-          meta_title: form_data.meta_title,
-          meta_description: form_data.meta_description,
           desc: description_,
           slug: urlslug,
-          meta_keywords: form_data.meta_keywords,
-          og_image: form_data.og_image,
           image: form_data.image,
           status: form_data.status,
           tags: form_data.tags,
-          reading_time: form_data.reading_time,
-          canonical_url: form_data.canonical_url,
-          og_title: form_data.og_title,
-          og_description: form_data.og_description,
-          twitter_card: form_data.twitter_card,
           publish_schedule: form_data.publish_schedule,
         },
         {
@@ -531,166 +499,6 @@ const EditBlog = ({}) => {
               setEditorContent={setShortDescription}
             />
           </div>
-
-          <div className="grid grid-cols-2 gap-5">
-            <div>
-              <label
-                htmlFor="meta_title"
-                className="block text-sm font-medium text-gray-700"
-              >
-                meta_title
-              </label>
-              <input
-                type="text"
-                id="meta_title"
-                name="meta_title"
-                value={form_data.meta_title}
-                onChange={handleChange}
-                placeholder="Enter meta title"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="meta_keywords"
-                className="block text-sm font-medium text-gray-700"
-              >
-                meta_keywords
-              </label>
-              <input
-                type="text"
-                name="meta_keywords"
-                value={form_data.meta_keywords.join(", ")}
-                onChange={(e) =>
-                  setForm_data({
-                    ...form_data,
-                    meta_keywords: e.target.value.split(","),
-                  })
-                }
-                placeholder="Product meta_keywords (comma separated)"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-              />
-            </div>
-          </div>
-
-          <div>
-            <label
-              htmlFor="meta_description"
-              className="block text-sm font-medium text-gray-700"
-            >
-              meta_description
-            </label>
-            <input
-              type="text"
-              id="meta_description"
-              name="meta_description"
-              value={form_data.meta_description}
-              onChange={handleChange}
-              placeholder="Enter meta_description"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-5">
-            <div>
-              <label
-                htmlFor="meta_description"
-                className="block text-sm font-medium text-gray-700"
-              >
-                canonical_url
-              </label>
-              <input
-                type="text"
-                id="canonical_url"
-                name="canonical_url"
-                value={form_data.canonical_url}
-                onChange={handleChange}
-                placeholder="Enter canonical_url"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-              />
-            </div>
-            <div>
-              <div>
-                <label
-                  htmlFor="twitter_card"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  twitter_card
-                </label>
-                <select
-                  id="twitter_card"
-                  name="twitter_card"
-                  value={form_data.twitter_card}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-                >
-                  <option value="" disabled selected>
-                    twitter_card
-                  </option>
-                  <option value="summary">summary</option>
-                  <option value="summary_large_image">
-                    summary_large_image
-                  </option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-5">
-            <div>
-              <label
-                htmlFor="og_image"
-                className="block text-sm font-medium text-gray-700"
-              >
-                og_image link
-              </label>
-              <input
-                type="text"
-                id="og_image"
-                name="og_image"
-                value={form_data.og_image}
-                onChange={handleChange}
-                placeholder="Enter og_image link"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="og_title"
-                className="block text-sm font-medium text-gray-700"
-              >
-                og_title
-              </label>
-              <input
-                type="text"
-                id="og_title"
-                name="og_title"
-                value={form_data.og_title}
-                onChange={handleChange}
-                placeholder="Enter og_title "
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-              />
-            </div>
-          </div>
-
-          <div>
-            <label
-              htmlFor="og_description"
-              className="block text-sm font-medium text-gray-700"
-            >
-              og_description
-            </label>
-            <input
-              type="text"
-              id="og_description"
-              name="og_description"
-              value={form_data.og_description}
-              onChange={handleChange}
-              placeholder="Enter og_description "
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none "
-            />
-          </div>
-
           <div className="text-right pt-20">
             <button
               type="reset"

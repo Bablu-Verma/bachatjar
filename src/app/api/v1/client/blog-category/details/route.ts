@@ -47,7 +47,7 @@ export async function POST(req: Request) {
     }
      // Fetch related blogs using category ID
      const related_blogs = await BlogModel.find({ blog_category: (category_details as { _id: unknown })._id })
-     .select("-short_desc -desc -status -meta_title -meta_description -meta_keywords -canonical_url -og_image -og_title -og_description -twitter_card -schema_markup -reading_time -tags -publish_schedule")
+     .select("-short_desc -desc -status  -reading_time -tags -publish_schedule")
      .populate("blog_category", "name slug")
      .sort({ createdAt: -1 }).limit(10)
      .lean();

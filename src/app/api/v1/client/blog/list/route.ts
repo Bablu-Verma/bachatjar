@@ -27,7 +27,7 @@ export async function POST(req: Request) {
      
       f_blog = await BlogModel.findOne()
         .select(
-          '-desc -status -meta_title -meta_description -meta_keywords -canonical_url -og_image -og_title -og_description -twitter_card -schema_markup -reading_time -tags -publish_schedule -keywords'
+          '-desc -status  -reading_time -tags -publish_schedule -keywords'
         )
         .populate('writer_id', 'name email profile')
         .populate('blog_category', 'name slug')
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
 
     const blogs = await BlogModel.find(filters)
       .select(
-        '-short_desc -desc -status -meta_title -meta_description -meta_keywords -canonical_url -og_image -og_title -og_description -twitter_card -schema_markup -reading_time -tags -publish_schedule -writer_email -keywords'
+        '-short_desc -desc -status -reading_time -tags -publish_schedule -writer_email -keywords'
       )
       .populate('writer_id', 'name email profile')
       .populate('blog_category', 'name slug')

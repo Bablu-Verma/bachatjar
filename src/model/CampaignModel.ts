@@ -1,7 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
 export interface ICampaign {
-
   title: string;
   _id: string;
   slug_type: "INTERNAL" | "EXTERNAL";
@@ -20,19 +19,11 @@ export interface ICampaign {
   flash_sale: { is_active: boolean; image: string; end_time: string }[];
   t_and_c?: string;
   product_slug: string;
-  tags?: string[];
-  meta_title?: string;
-  meta_description?: string;
-  meta_keywords?: string[];
-  meta_robots?: "index, follow" | "noindex, nofollow";
-  canonical_url?: string;
-  structured_data?: string;
-  og_image?: string;
-  og_title?: string;
-  og_description?: string;
   product_status: "ACTIVE" | "PAUSE" | "DELETE";
   createdAt?: Date;
   updatedAt?: Date;
+  extrnal_url?:string;
+   
 }
 
 const CampaignSchema = new Schema<ICampaign>(
@@ -46,12 +37,15 @@ const CampaignSchema = new Schema<ICampaign>(
       enum: ["INTERNAL", "EXTERNAL"],
       default: "INTERNAL",
     },
-
+  
     user_id: {
       type: Schema.Types.ObjectId,
       required: [true, "User ID is required"],
       index: true,
       ref: "User",
+    },
+    extrnal_url:{
+      type: String, required: false
     },
 
     actual_price: { type: Number, required: [true, "Actual price is required"] },
@@ -167,31 +161,7 @@ const CampaignSchema = new Schema<ICampaign>(
       unique: true,
       sparse: true, // Allows unique on optional field
     },
-
-    tags: { type: [String], required: false },
-
-    meta_title: { type: String, required: false },
-
-    meta_description: { type: String, required: false },
-
-    meta_keywords: { type: [String], required: false },
-
-    meta_robots: {
-      type: String,
-      enum: ["index, follow", "noindex, nofollow"],
-      required: false,
-    },
-
-    canonical_url: { type: String, required: false },
-
-    structured_data: { type: String, required: false },
-
-    og_image: { type: String, required: false },
-
-    og_title: { type: String, required: false },
-
-    og_description: { type: String, required: false },
-
+  
     product_status: {
       type: String,
       enum: ["ACTIVE", "PAUSE", "DELETE"],
