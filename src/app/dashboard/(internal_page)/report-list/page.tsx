@@ -38,7 +38,7 @@ const EmailList = () => {
                 },
             });
             setMessageList(data.data);
-            console.log(data.data)
+            // console.log(data.data)
             setTotalPage(data.pagination.totalPages)
         } catch (error) {
             if (error instanceof AxiosError) {

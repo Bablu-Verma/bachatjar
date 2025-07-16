@@ -157,7 +157,7 @@ const MainHeader = () => {
             <Link
               href="/search"
               title="Search"
-              className="relative hover:bg-gray-100 mr-3 p-1 rounded px-1.5 lg:hidden text-secondary opacity-90"
+              className="relative hover:bg-gray-100 mr-2 p-1 rounded px-1.5 lg:hidden text-secondary opacity-90"
             >
              <i className="fa-solid text-lg fa-search"></i>
             </Link>
@@ -177,7 +177,7 @@ const MainHeader = () => {
 
           <Link
             href={userlogin ? "/notification" : "/login"}
-            className="select-none text-primary p-1 px-1.5  hover:bg-gray-100 flex justify-center items-center rounded relative mr-3"
+            className="select-none text-primary p-1 px-1.5  hover:bg-gray-100 flex justify-center items-center rounded relative mr-2"
           >
             <i className="fa-solid fa-bell text-xl"></i>
             {userlogin && unreadCount > 0 && (

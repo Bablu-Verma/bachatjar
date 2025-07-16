@@ -29,7 +29,7 @@ export async function POST(req: Request) {
 
     const request_data = await req.json();
 
-    console.log("request_data", request_data)
+    // console.log("request_data", request_data)
 
     const {
       store_id,

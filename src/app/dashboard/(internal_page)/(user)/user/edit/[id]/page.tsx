@@ -90,7 +90,7 @@ const ProfileEdit = () => {
   const call_db = async () => {
     setLoading(true);
 
-    console.log(formData)
+    // console.log(formData)
 
     try {
       const { data } = await axios.post(

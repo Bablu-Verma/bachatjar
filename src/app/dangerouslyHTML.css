@@ -1,8 +1,15 @@
 
+.dangerouslyHTML * {
+  box-sizing: border-box;
+}
+
 .dangerouslyHTML {
   color: #212121;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 15px;
+  line-height: 1.7;
 }
+
 .dangerouslyHTML.store_desc{
   color: #fff;
 }
@@ -33,6 +40,12 @@
   line-height: 1.5;
   margin-bottom: 12px;
 }
+.dangerouslyHTML h5 {
+  font-size: 15px;
+  font-weight: 500;
+  margin: 12px 0;
+  line-height: 1.5;
+}
 .dangerouslyHTML h6{
   font-size: 14px;
   font-weight: 600;
@@ -41,7 +54,7 @@
 }
 
 .dangerouslyHTML p {
-    font-weight: 400;
+    font-weight:400;
     margin-bottom: 10px;
     line-height: 1.7;
     word-spacing: 3px;
@@ -55,8 +68,17 @@
   word-spacing: 3px;
   transition: color 0.3s ease;
 }
+.dangerouslyHTML a:focus {
+  outline: 2px dashed var(--main-color);
+  outline-offset: 2px;
+}
 .dangerouslyHTML.store_desc a {
   color: rgba(0, 0, 255, 0.526);
+}
+
+.dangerouslyHTML a:focus {
+  outline: 2px dashed rgba(0, 0, 255, 0.526);
+  outline-offset: 2px;
 }
 
 .dangerouslyHTML a:hover {
@@ -127,10 +149,21 @@
 }
 
 .dangerouslyHTML img {
-  max-width: 100%;
+  width: 100%;
   height: auto;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   margin: 12px 0;
   border-radius: 6px;
+}
+
+
+.dangerouslyHTML.store_desc img {
+  max-width: 400px;
+  box-shadow:none;
+}
+
+.dangerouslyHTML.campaign_desc {
+  max-width: 400px;
 }
 
 .dangerouslyHTML hr {
@@ -190,3 +223,9 @@
   color: #666;
   margin-top: 4px;
 }
+
+.dangerouslyHTML blockquote,
+.dangerouslyHTML code {
+  transition: all 0.3s ease;
+}
+

@@ -149,7 +149,7 @@ const EditCategory: React.FC = () => {
     };
 
 
-    console.log("payload",payload)
+    // console.log("payload",payload)
     await axios.post(edit_store_api, payload, {
       headers: {
         "Content-Type": "application/json",

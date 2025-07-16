@@ -39,7 +39,7 @@ const Pinback = () => {
       const generatedSignature = generateSignature(originalData);
 
       if (generatedSignature === extractedSignature) {
-        console.log("✅ Valid signature:", click_id);
+        // console.log("✅ Valid signature:", click_id);
         savepinbackdata(paramsObject); 
       } else {
         console.log("❌ Invalid signature:", extractedSignature);

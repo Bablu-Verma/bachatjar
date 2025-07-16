@@ -34,7 +34,7 @@ export async function POST(req: Request) {
 
     // Fetching active results with a limit of 10 per category
     const [ stores, coupons, campaigns, referral] = await Promise.all([
-      StoreModel.find({ name: searchFilter,  store_status: "ACTIVE" }).limit(6).select('-description -tc  -cashback_type -store_status').lean(),
+      StoreModel.find({ name: searchFilter,  store_status: "ACTIVE" }).limit(6).select('-description -tc   -store_status').lean(),
 
       CouponModel.find({ title: searchFilter, status: "ACTIVE" }).limit(6).populate('store', 'name slug store_img').populate('category', 'name slug').select('-description -expiry_date -status').lean(),
 

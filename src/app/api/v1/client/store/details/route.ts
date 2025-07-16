@@ -50,7 +50,7 @@ export async function POST(req: Request) {
         .limit(limit)
         .lean();
 
-        console.log('relatedProducts', relatedProducts)
+        // console.log('relatedProducts', relatedProducts)
 
       relatedCoupons = await CouponModel.find({ store: store._id, status:'ACTIVE' })
         .select("-description -status")
@@ -59,7 +59,7 @@ export async function POST(req: Request) {
         .limit(limit)
         .lean();
  
-        console.log('relatedCoupons', relatedCoupons)
+        // console.log('relatedCoupons', relatedCoupons)
 
 
       relatedStores = await StoreModel.find({

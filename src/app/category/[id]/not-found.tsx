@@ -10,7 +10,7 @@ export default function NotFound() {
       <main className="">
         <section className="max-w-[1400px] mx-auto mt-14 mb-16">
           <div className="min-h-[68vh] justify-center items-center flex ">
-           <NotFoundC title='Page' />
+           <NotFoundC title='Category' />
           </div>
         </section>
       </main>

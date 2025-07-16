@@ -59,7 +59,7 @@ const EditRefProduct = () => {
         setCategoryList(categoryRes.data.data || []);
 
         const product = productRes.data.data;
-        console.log(product)
+        // console.log(product)
         setId(product._id)
         setForm_data({
           title: product.title || "",

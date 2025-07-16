@@ -173,6 +173,8 @@ export default async function Home() {
 
   // const scrat_data = await scrapeAllStores()
 
+  // console.log('scrat_data', scrat_data)
+
   return (
     <>
       <Script
@@ -194,9 +196,6 @@ export default async function Home() {
       
       <MainHeader />
       <HomeClientDataSet notification={page_data?.data.notification} watchlist={page_data?.data?.watchlist} />
-
-
-     
 
       <Hero
         deals={page_data?.data.live_product}

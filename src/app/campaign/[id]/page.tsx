@@ -244,7 +244,7 @@ const CampaignDetail = async ({ params }: any) => {
 
               <div className=" w-full  mt-6  rounded">
                 <div
-                  className={`dangerouslyHTML`}
+                  className={`dangerouslyHTML campaign_desc`}
                   dangerouslySetInnerHTML={{
                     __html: product.description || "",
                   }}

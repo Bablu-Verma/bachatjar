@@ -1,6 +1,9 @@
 import dbConnect from "@/lib/dbConnect";
 import BlogModel from "@/model/BlogModal";
 import { NextResponse } from "next/server";
+import  "@/model/UserModel";
+import '@/model/BlogCategoryModel'
+
 
 export async function POST(req: Request) {
   await dbConnect();
@@ -25,7 +28,9 @@ export async function POST(req: Request) {
     const blog = await BlogModel.findOne(filter)
       .select('-status')
       .populate("writer_id", "name email profile")
-      .populate("");
+      .populate("blog_category", "name slug")
+
+      // console.log("blog_details",blog)
 
     if (!blog) {
       return NextResponse.json(
@@ -60,7 +65,7 @@ export async function POST(req: Request) {
       { status: 200 }
     );
   } catch (error) {
-
+  
 
     return new NextResponse(
       JSON.stringify({

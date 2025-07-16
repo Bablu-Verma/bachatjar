@@ -56,7 +56,7 @@ export default function SearchPage() {
           },
         }
       );
-console.log(data.data)
+// console.log(data.data)
       if (!data.data.stores.length && !data.data.campaigns.length && !data.data.coupons.length && !data.data.referral.length) {
         setError("No results found.");
         setResultProduct([]);
@@ -65,7 +65,7 @@ console.log(data.data)
         setResultReferral([])
         return;
       }
-      console.log("data.data", data.data)
+      // console.log("data.data", data.data)
       setResultProduct(data.data.campaigns || []);
       setResultStore(data.data.stores || []);
       setResultCoupons(data.data.coupons || []);

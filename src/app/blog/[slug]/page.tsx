@@ -212,11 +212,11 @@ const BlogDetail = async ({ params }: any) => {
               </div>
 
               <div
-                className="dangerouslyHTML"
+                className="dangerouslyHTML blog_short_desc"
                 dangerouslySetInnerHTML={{ __html: blog.short_desc || "" }}
               ></div>
               <div
-                className={`dangerouslyHTML mt-16`}
+                className={`dangerouslyHTML mt-16 blog_desc`}
                 dangerouslySetInnerHTML={{ __html: blog.desc || "" }}
               ></div>
             </div>

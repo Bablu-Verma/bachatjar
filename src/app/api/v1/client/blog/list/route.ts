@@ -3,6 +3,9 @@ import dbConnect from "@/lib/dbConnect";
 import BlogCategoryModel from "@/model/BlogCategoryModel";
 import BlogModel from "@/model/BlogModal";
 import { NextResponse } from "next/server";
+import  "@/model/UserModel";
+
+
 
 export async function POST(req: Request) {
   await dbConnect();

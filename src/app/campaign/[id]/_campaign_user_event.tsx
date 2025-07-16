@@ -19,10 +19,10 @@ const Campaign_user_event: React.FC<campaign__event_props> = ({
        <button
           onClick={() => setOpentc(true) }
           type="button"
-          className=" border-2 inline-flex border-gray-200  my-7 justify-center gap-2 sm:gap-3 items-center cursor-pointer px-5 py-2 rounded-full"
+          className=" border-2 inline-flex border-gray-200  my-7 justify-center gap-2 sm:gap-3 items-center cursor-pointer px-5 py-1.5 rounded-full"
         >
-          <i className="fa-solid fa-note-sticky text-red-500 text-xl sm:text-2xl"></i>
-          <h4 className="text-secondary text-[12px] sm:text-base text-nowrap font-normal">
+          <i className="fa-solid fa-note-sticky text-red-500 text-sm sm:text-md "></i>
+          <h4 className="text-secondary text-[12px] sm:text-sm text-nowrap font-normal">
            Important Information
           </h4>
         </button>

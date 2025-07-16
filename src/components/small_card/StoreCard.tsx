@@ -7,7 +7,7 @@ interface istorecard {
   item: IStore;
 }
 const StoreCard: React.FC<istorecard> = ({ item }) => {
-  console.log(item)
+  // console.log(item)
   return (
     <Link
       href={`/store/${item.slug}`}

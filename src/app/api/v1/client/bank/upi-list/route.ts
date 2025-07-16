@@ -1,13 +1,16 @@
 
 import { authenticateAndValidateUser } from "@/lib/authenticate";
 import dbConnect from "@/lib/dbConnect";
-import UserUPIModel from "@/model/UserUPIModel"; 
 
+import UserUPIModel from "@/model/UserUPIModel"; 
+import  "@/model/UserModel";
 import { NextResponse } from "next/server";
 
 // Verify valid user
 export async function POST(request: Request) {
   await dbConnect();
+
+
 
   const { authenticated, user, message } =
     await authenticateAndValidateUser(request);
