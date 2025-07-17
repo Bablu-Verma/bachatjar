@@ -44,7 +44,7 @@ export async function POST(req: Request) {
             .populate("category", "name slug")
             .limit(6)
             .select('-description -referralLink')
-            .sort({ createdAt: -1 }).lean()
+            .sort({ updatedAt: -1 }).lean()
     ]);
 
     return new NextResponse(

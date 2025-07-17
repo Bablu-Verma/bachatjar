@@ -40,7 +40,7 @@ export async function POST(req: Request) {
 
     const templates = await ClaimFormTemplateModel.find(filters)
       .populate("store", "name") 
-      .sort({ createdAt: -1 })
+      .sort({ updatedAt: -1 })
       .skip(skip)
       .limit(limitNumber)
       .lean();

@@ -62,7 +62,7 @@ export async function POST(req: Request) {
       .limit(Number(limit))
       .populate('store', 'name store_type cashback_type cashback_rate store_link store_img')
       .populate('category', 'name slug')
-      .sort({ createdAt: -1 }).lean();
+      .sort({ updatedAt: -1 }).lean();
 
     // Get Total Count
     const total = await CampaignModel.countDocuments(filters);

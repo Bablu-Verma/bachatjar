@@ -75,7 +75,7 @@ export async function POST(req: Request) {
       topStores = await StoreModel.find({ store_status: "ACTIVE" })
         .select("name slug store_img")
         .populate("category", "name slug")
-        .sort({ createdAt: -1 })
+        .sort({ updatedAt: -1 })
         .limit(5)
         .lean();
     } else {

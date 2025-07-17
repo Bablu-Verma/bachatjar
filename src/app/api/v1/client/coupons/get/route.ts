@@ -29,7 +29,7 @@ export async function POST(req: Request) {
     // ✅ Fetch data with filtering, pagination & sorting (Latest first)
     const coupons = await CouponModel.find(query).select('-description -expiry_date -status')
       .populate("store", "name cashback_type cashback_rate store_link store_img") 
-      .sort({ createdAt: -1 }) 
+      .sort({ updatedAt: -1 }) 
       .skip(skip)
       .limit(limit)
       .lean();

@@ -62,7 +62,7 @@ export async function POST(req: Request) {
 
     const [messages, total] = await Promise.all([
       Message.find(query)
-        .sort({ createdAt: -1 })
+        .sort({ updatedAt: -1 })
         .skip(skip)
         .limit(limit)
         .populate('userId','name email')

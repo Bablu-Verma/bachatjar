@@ -49,7 +49,7 @@ export async function POST(req: Request) {
      const related_blogs = await BlogModel.find({ blog_category: (category_details as { _id: unknown })._id })
      .select("-short_desc -desc -status  -reading_time -tags -publish_schedule")
      .populate("blog_category", "name slug")
-     .sort({ createdAt: -1 }).limit(10)
+     .sort({ updatedAt: -1 }).limit(10)
      .lean();
 
     return new NextResponse(

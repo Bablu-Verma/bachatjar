@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     const orders = await OrderModel.find(filter)
       .populate('store_id', "name slug store_img")
       .select('-redirect_url')
-      .sort({ createdAt: -1 })
+      .sort({ updatedAt: -1 })
       .skip(skip)
       .limit(limit)
       .lean();

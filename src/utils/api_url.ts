@@ -21,6 +21,7 @@ export const edit_profile_api = main_url + '/client/user/edit'
 export const category_list_api = main_url + '/client/category/list'
 export const category_details_api = main_url + '/client/category/details'
 export const blog_details = main_url + '/client/blog/details'
+export const blog_action_like_dislike = main_url + '/client/blog/like-dislike'
 export const get_All_blogs = main_url + '/client/blog/list'
 export const product_list_ = main_url + '/client/product/get-all'
 export const product_details_ = main_url + '/client/product/get-details'
@@ -58,6 +59,8 @@ export const claim_form_tamp_getone_api = main_url + '/client/claim-form-templat
 
 export const referral_product_list_client_api = main_url + '/client/referral/list'
 export const referral_product_details_client_api = main_url + '/client/referral/details'
+
+
 
 
 

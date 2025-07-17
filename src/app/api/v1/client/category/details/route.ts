@@ -74,7 +74,7 @@ export async function POST(req: Request) {
         .populate("category", "name slug")
         .limit(10)
         .select('-description -referralLink')
-        .sort({ createdAt: -1 }).lean();
+        .sort({ updatedAt: -1 }).lean();
 
     }
 

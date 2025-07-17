@@ -21,6 +21,10 @@ export interface IBlog {
   status: BlogStatus;
   createdAt?: Date;
   updatedAt?: Date;
+
+  liked_by?: mongoose.Types.ObjectId[];     
+  disliked_by?: mongoose.Types.ObjectId[];  
+
 }
 
 const BlogSchema = new Schema<IBlog>(
@@ -89,7 +93,17 @@ const BlogSchema = new Schema<IBlog>(
       type: String,
       default: 'ACTIVE',
       enum: ['ACTIVE', 'INACTIVE', 'REMOVED'],
-    }
+    },
+     liked_by: [{
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      default: [],
+    }],
+    disliked_by: [{
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      default: [],
+    }],
   },
   { timestamps: true }
 );

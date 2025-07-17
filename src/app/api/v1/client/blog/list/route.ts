@@ -34,7 +34,7 @@ export async function POST(req: Request) {
         )
         .populate('writer_id', 'name email profile')
         .populate('blog_category', 'name slug')
-        .sort({ createdAt: -1 }) 
+        .sort({ updatedAt: -1 }) 
         .lean();
 
       if (f_blog && !Array.isArray(f_blog) && f_blog._id) {
@@ -48,7 +48,7 @@ export async function POST(req: Request) {
       )
       .populate('writer_id', 'name email profile')
       .populate('blog_category', 'name slug')
-      .sort({ createdAt: -1 })
+      .sort({ updatedAt: -1 })
       .skip(skip)
       .limit(limit)
       .lean();

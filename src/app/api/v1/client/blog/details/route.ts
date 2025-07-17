@@ -3,6 +3,7 @@ import BlogModel from "@/model/BlogModal";
 import { NextResponse } from "next/server";
 import  "@/model/UserModel";
 import '@/model/BlogCategoryModel'
+import { authenticateAndValidateUser } from "@/lib/authenticate";
 
 
 export async function POST(req: Request) {
@@ -11,6 +12,7 @@ export async function POST(req: Request) {
   try {
     const requestData = await req.json();
     const { slug } = requestData;
+    const { authenticated, user } = await authenticateAndValidateUser(req);
 
     if (!slug) {
       return NextResponse.json(
@@ -43,11 +45,25 @@ export async function POST(req: Request) {
 
     await blog.save();
 
+    let userAction: 'LIKE' | 'DISLIKE' | 'NO_ACTION' = 'NO_ACTION';
+
+if (authenticated && user?._id) {
+  const userIdStr = user._id.toString();
+  const likedBy = blog.liked_by.map((id: string) => id.toString());
+  const dislikedBy = blog.disliked_by.map((id: string) => id.toString());
+
+  if (likedBy.includes(userIdStr)) {
+    userAction = 'LIKE';
+  } else if (dislikedBy.includes(userIdStr)) {
+    userAction = 'DISLIKE';
+  }
+}
+
     const relatedBlogs = await BlogModel.find({
       blog_category: blog.blog_category._id,
       _id: { $ne: blog._id },
     })
-      .select('-short_desc -desc -status  -reading_time -tags -publish_schedule -writer_email -keywords')
+      .select('-short_desc -desc -status  -reading_time -tags -publish_schedule -writer_email -keywords -disliked_by -liked_by')
       .populate("writer_id", "name email profile")
       .populate("blog_category", "name slug")
       .limit(5)
@@ -60,6 +76,12 @@ export async function POST(req: Request) {
         data: {
           blog: blog,
           relatedblogs: relatedBlogs,
+          extra: {
+             userAction: authenticated ? userAction : null,
+             totalLikes: blog.liked_by.length,
+             totalDislikes: blog.disliked_by.length,
+          }
+          
         },
       },
       { status: 200 }

@@ -13,6 +13,7 @@ import TableOfContents from "./TableOfContents";
 import { Metadata } from 'next';
 import Script from 'next/script';
 import { notFound } from "next/navigation";
+import LikeDislike from "./LikeDislike";
 
 const GetData = async (token: string, slug: string) => {
   try {
@@ -46,6 +47,8 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
   const {slug} = await params
   const pageData = await GetData(token, slug);
 
+
+
   if (!pageData) {
     return {
       title: 'Blog Post Not Found | BachatJar',
@@ -53,8 +56,11 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
     };
   }
 
-  const { blog } = pageData;
+  const { blog  } = pageData;
   const description = blog.short_desc?.replace(/<[^>]*>?/gm, '').slice(0, 155) || '';
+
+
+ 
 
   return {
     title: `${blog.title} | BachatJar Blog`,
@@ -108,7 +114,7 @@ const BlogDetail = async ({ params }: any) => {
   }
 
 
-  const { blog, relatedblogs } = page_data;
+  const { blog, relatedblogs, extra } = page_data;
 
   // Create article schema
   const articleSchema = {
@@ -203,12 +209,10 @@ const BlogDetail = async ({ params }: any) => {
                 alt={blog.title}
               />
               <div className="border-[1px] border-gray-600 px-2 py-3 mb-12 lg:hidden">
-                <h3 className="text-2xl text-center mb-4 font-medium text-gray-800 capitalize">
+                <h3 className="text-2xl text-center mb-2 lg:mb-4 font-medium text-gray-800 capitalize">
                   Table of Contents
                 </h3>
-                <div>
-                  <TableOfContents contents={blog.desc} />
-                </div>
+                <TableOfContents contents={blog.desc} />
               </div>
 
               <div
@@ -219,6 +223,10 @@ const BlogDetail = async ({ params }: any) => {
                 className={`dangerouslyHTML mt-16 blog_desc`}
                 dangerouslySetInnerHTML={{ __html: blog.desc || "" }}
               ></div>
+
+              <div>
+                <LikeDislike blog_id={blog._id} extra={extra} />
+              </div>
             </div>
             <div className="col-span-2">
               <div className="border-[1px] border-gray-600 px-2 py-3 mb-12 max-lg:hidden">

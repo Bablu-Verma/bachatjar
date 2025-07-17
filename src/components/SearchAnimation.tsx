@@ -6,6 +6,7 @@ const SearchAnimation = () => {
     'Cashback Offers',
     '100% Off Stores',
     'Best Coupons Code',
+    'Find Referral Link',
     'Find Latest Blog'
   ];
 
@@ -46,7 +47,7 @@ const SearchAnimation = () => {
   }, [subIndex, index, backspace]);
   
   return (
-    <span className="w-full bg-gray-200 px-3 border-gray-200 text-sm text-gray-700 border-2 rounded font-medium py-1.5 overflow-hidden flex justify-start items-center h-[36px]">
+    <span className="w-full bg-gray-200 pl-5 px-3 border-gray-200 text-sm text-gray-700 border-2 rounded-full font-medium py-1.5 overflow-hidden flex justify-start items-center h-[36px]">
       Search
       <span className="ml-1">{text}</span>
       <span className="animate-blink ml-1">|</span>

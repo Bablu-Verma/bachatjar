@@ -26,7 +26,7 @@ export async function POST(req: Request) {
       .skip(skip)
       .limit(limit)
       .select('-description -referralLink')
-      .sort({ createdAt: -1 });
+      .sort({ updatedAt: -1 });
 
     const totalReferrals = await ReferralModel.countDocuments(query);
     const totalPages = Math.ceil(totalReferrals / limit);

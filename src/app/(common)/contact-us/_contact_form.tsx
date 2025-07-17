@@ -97,8 +97,8 @@ const ContactForm = () => {
   };
   return (
     <form onSubmit={SubmitForm} className="col-span-3">
-      <div className="grid grid-cols-3 gap-5 w-full">
-        <div className="mb-5">
+      <div className="grid  grid-rows-1 sm:grid-cols-3 gap-3 sm:gap-5 w-full mb-5">
+        <div className="">
           <label
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-700"
@@ -115,7 +115,7 @@ const ContactForm = () => {
             placeholder="Your Email"
           />
         </div>
-        <div className="mb-5">
+        <div className="">
           <label
             htmlFor="phone"
             className="block mb-2 text-sm font-medium text-gray-700"
@@ -133,7 +133,7 @@ const ContactForm = () => {
             placeholder="Phone Number"
           />
         </div>
-        <div className="mb-5">
+        <div className="">
           <label
             htmlFor="subject"
             className="block mb-2 text-sm font-medium text-gray-700"

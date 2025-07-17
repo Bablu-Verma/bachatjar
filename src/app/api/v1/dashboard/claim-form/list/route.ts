@@ -58,7 +58,7 @@ export async function POST(req: Request) {
 
     // Fetch claim forms from the database
     const claimForms = await ClaimFormModel.find(filters)
-      .sort({ createdAt: -1 })
+      .sort({ updatedAt: -1 })
       .populate('store_id','name')
       .populate('user_id', 'name email')
       .skip(skip)

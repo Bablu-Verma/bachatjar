@@ -147,7 +147,7 @@ const MainHeader = () => {
               <button
                 disabled
                 type="button"
-                className="absolute right-2 top-[6px]"
+                className="absolute right-4 top-[6px]"
               >
                 <i className="fa-solid fa-search"></i>
               </button>
@@ -281,7 +281,7 @@ const MainHeader = () => {
                   <button
                     type="button"
                     disabled
-                    className="absolute right-2 top-[6px]"
+                    className="absolute right-4 top-[6px]"
                   >
                     <i className="fa-solid fa-search"></i>
                   </button>

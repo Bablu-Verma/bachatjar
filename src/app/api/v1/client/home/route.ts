@@ -43,7 +43,7 @@ export async function POST(req: Request) {
         userId: user_id,
         read: 'FALSE',
       })
-        .sort({ createdAt: -1 })
+        .sort({ updatedAt: -1 })
         .lean();
     }
 
@@ -53,15 +53,15 @@ export async function POST(req: Request) {
       product_status: "ACTIVE",
       main_banner: { $elemMatch: { is_active: true } },
     }).limit(6).populate("store", "name cashback_type cashback_rate store_link store_img")
-      .populate("category", "name slug").select('store category extrnal_url  main_banner product_slug slug_type title createdAt upDatedAt').sort({ createdAt: -1 }).lean();
+      .populate("category", "name slug").select('store category extrnal_url  main_banner product_slug slug_type title createdAt upDatedAt').sort({ updatedAt: -1 }).lean();
 
     const referrals = await ReferralModel.find({ status: 'ACTIVE' })
       .populate("category", "name slug")
       .limit(10)
       .select('-description -referralLink')
-      .sort({ createdAt: -1 }).lean();
+      .sort({ updatedAt: -1 }).lean();
 
-    const store = await StoreModel.find({ store_status: "ACTIVE" }).limit(16).select('-description -tc -store_link -store_status').sort({ createdAt: -1 }).lean();
+    const store = await StoreModel.find({ store_status: "ACTIVE" }).limit(16).select('-description -tc -store_link -store_status').sort({ updatedAt: -1 }).lean();
 
     const flash_sale = await CampaignModel.find({
       product_status: "ACTIVE",
@@ -72,18 +72,18 @@ export async function POST(req: Request) {
         },
       },
     }).select('store extrnal_url category flash_sale product_slug slug_type title  createdAt updatedAt _id').populate("store", "name cashback_type cashback_rate store_link store_img")
-      .populate("category", "name slug").sort({ createdAt: -1 }).lean();
+      .populate("category", "name slug").sort({ updatedAt: -1 }).lean();
 
     const best_product = await CampaignModel.find({
       product_status: "ACTIVE",
       product_tags: "best",
-    }).limit(10).sort({ createdAt: -1 }).select('store category offer_price calculated_cashback extrnal_url calculation_mode product_img product_tags actual_price product_slug slug_type title  createdAt updatedAt _id').populate("store", "name cashback_type cashback_rate store_link store_img")
+    }).limit(10).sort({ updatedAt: -1 }).select('store category offer_price calculated_cashback extrnal_url calculation_mode product_img product_tags actual_price product_slug slug_type title  createdAt updatedAt _id').populate("store", "name cashback_type cashback_rate store_link store_img")
       .populate("category", "name slug").lean();
 
     const live_product = await CampaignModel.find({
       product_status: "ACTIVE",
       product_tags: "new",
-    }).limit(10).sort({ createdAt: -1 }).select('store category offer_price calculated_cashback calculation_mode extrnal_url product_img product_tags actual_price product_slug slug_type title  createdAt updatedAt _id').populate("store", "name cashback_type cashback_rate store_link store_img")
+    }).limit(10).sort({ updatedAt: -1 }).select('store category offer_price calculated_cashback calculation_mode extrnal_url product_img product_tags actual_price product_slug slug_type title  createdAt updatedAt _id').populate("store", "name cashback_type cashback_rate store_link store_img")
       .lean();
 
 
@@ -91,7 +91,7 @@ export async function POST(req: Request) {
       product_status: "ACTIVE",
       long_poster: { $elemMatch: { is_active: true } },
     }).limit(4).select('store category extrnal_url long_poster product_slug slug_type  title').populate("store", "name cashback_type cashback_rate store_link store_img")
-      .populate("category", "name slug").sort({ createdAt: -1 }).lean();
+      .populate("category", "name slug").sort({ updatedAt: -1 }).lean();
 
     const premium_product = await CampaignModel.find({
       product_status: "ACTIVE",
@@ -99,11 +99,11 @@ export async function POST(req: Request) {
     }).select('store category extrnal_url premium_product product_slug slug_type title ').populate("store", "name cashback_type cashback_rate store_link store_img")
       .populate("category", "name slug").limit(4).lean();
 
-    const coupon = await CouponModel.find({ status: "ACTIVE" }).sort({ createdAt: -1 }).select('-description -expiry_date -status').limit(8).populate('store', 'name cashback_type cashback_rate store_link store_img').populate('category', 'name').lean();
+    const coupon = await CouponModel.find({ status: "ACTIVE" }).sort({ updatedAt: -1 }).select('-description -expiry_date -status').limit(8).populate('store', 'name cashback_type cashback_rate store_link store_img').populate('category', 'name').lean();
 
     const category = await CategoryModel.find({ status: "ACTIVE" }).select('-status -description').lean();
 
-    const blog = await BlogModel.find({ status: "ACTIVE" }).limit(4).select('-short_desc -desc -status  -reading_time -tags -publish_schedule -writer_email -keywords').sort({ createdAt: -1 }).lean();
+    const blog = await BlogModel.find({ status: "ACTIVE" }).limit(4).select('-short_desc -desc -status  -reading_time -tags -publish_schedule -writer_email -keywords').sort({ updatedAt: -1 }).lean();
 
     return NextResponse.json({
       success: true,

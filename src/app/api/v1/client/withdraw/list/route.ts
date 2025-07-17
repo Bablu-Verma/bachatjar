@@ -36,7 +36,7 @@ export async function POST(req: Request) {
 
     const [withdrawals, total] = await Promise.all([
       WithdrawalRequestModel.find(query)
-        .sort({ createdAt: -1 })
+        .sort({ updatedAt: -1 })
         .skip(skip)
         .limit(Number(limit)),
       WithdrawalRequestModel.countDocuments(query),

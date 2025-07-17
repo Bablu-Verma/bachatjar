@@ -27,7 +27,7 @@ export async function POST(req: Request) {
       .select('-description -store_status -tc -tracking')
       .limit(limit)
       .populate('category', 'name slug')
-      .sort({ createdAt: -1 })
+      .sort({ updatedAt: -1 })
       .lean();
 
     return new NextResponse(
