@@ -31,11 +31,6 @@ import ReferralCard from "@/components/small_card/ReferralCard";
 import { IReferral } from "@/model/ReferralModel";
 
 
-// import { scrapeAllStores } from "@/lib/scraper";
-
-
-
-
 export const metadata: Metadata = {
  title: "BachatJar – Cashback, Coupons, Referral Link & Promo Codes | Save Big on Every Online Purchase in India",
   description: 'Shop online & earn real cashback on every purchase. Get latest discount coupons, promo codes & exclusive offers only at BachatJar',
@@ -171,9 +166,6 @@ export default async function Home() {
     }))
   };
 
-  // const scrat_data = await scrapeAllStores()
-
-  // console.log('scrat_data', scrat_data)
 
   return (
     <>

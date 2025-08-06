@@ -2,19 +2,29 @@ export {};
 
 declare global {
   interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    gtag: (...args: any[]) => void;
-     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    gtag: (...args: unknown[]) => void;
+
     Tawk_API: {
       showWidget?: () => void;
       hideWidget?: () => void;
       setAttributes?: (
-      attributes: {
-        name?: string;
-        email?: string;
-      },
-      callback?: (error) => void
-    ) => void;
+        attributes: {
+          name?: string;
+          email?: string;
+        },
+        callback?: (error: unknown) => void
+      ) => void;
     };
+  }
+}
+
+// ✅ Extend Puppeteer interfaces
+declare module 'puppeteer' {
+  interface Frame {
+    $x(expression: string): Promise<import('puppeteer').ElementHandle[]>;
+  }
+
+  interface ElementHandle {
+    $x(expression: string): Promise<import('puppeteer').ElementHandle[]>;
   }
 }

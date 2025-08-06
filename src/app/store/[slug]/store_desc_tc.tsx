@@ -10,13 +10,13 @@ export const StoreDesc: React.FC<IStoreDesc> = ({ html_ }) => {
     const [open, setOpen] = useState(false)
   return (
   <div className='relative'>
-   <div className={`${open ? 'h-auto':'h-12'} relative overflow-hidden pt-2`}>
+   <div className={`${open ? 'h-auto':'h-24'} relative overflow-hidden pt-2`}>
      <div
       className="dangerouslyHTML store_desc"
       dangerouslySetInnerHTML={{ __html: html_ }}
     />
    </div>
-   <button className="text-[12px] text-white  font-medium  inline-block  " onClick={()=>setOpen(!open)} type="button">{open?'Show Less':"Show More"}</button>
+   <button className="text-[12px] text-dark bg-white px-3 py-[2px]  rounded-full text-center mt-2  font-medium  inline-block  " onClick={()=>setOpen(!open)} type="button">{open?'Show Less ▲':"Show More ▼"}</button>
   </div>
   );
 };

@@ -7,6 +7,8 @@ export const upload_image_api = process.env.NEXT_PUBLIC_UPLOAD_IMAGE || 'https:/
 export const all_image_api =  main_url + '/image/all_image'
 export const image_delete_api =  main_url + '/image/delete_image'
 
+export const scraper_deal_api = main_url + '/scrape'
+
 // client api
 
 export const register_api = main_url + '/client/auth/register'

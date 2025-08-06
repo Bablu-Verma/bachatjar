@@ -1,5 +1,5 @@
 import { ICampaignWithStore } from "@/common_type";
-import { getTimeAgo } from "@/helpers/client/client_function";
+// import { getTimeAgo } from "@/helpers/client/client_function";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -13,7 +13,10 @@ interface CardProp {
 
 const ProductCard: React.FC<CardProp> = ({ card_data }) => {
 
-  const timeAgo = getTimeAgo(card_data.createdAt ?? new Date());
+
+  
+
+  // const timeAgo = getTimeAgo(card_data.createdAt ?? new Date());
 
   return (
     <Link
@@ -33,11 +36,15 @@ const ProductCard: React.FC<CardProp> = ({ card_data }) => {
         <span className="absolute top-2 left-2 bg-red-600 py-[1px] px-5 text-[12px] rounded-full opacity-80 shadow-md text-white font-medium z-10 select-none">
           Hot
         </span>
+      ) : card_data?.product_tags && card_data.product_tags.includes("live") ? (
+        <span className="absolute top-2 left-2 bg-pink-600 py-[1px] px-5 text-[12px] rounded-full opacity-80 shadow-md text-white font-medium z-10 select-none">
+          Live
+        </span>
       ) : null}
       <div className=" overflow-hidden relative p-1 pb-3 sm:pb-0 sm:p-3 flex justify-center items-center">
         <Image
           src={card_data?.product_img}
-          className="w-full  h-[150px] rounded-md"
+          className="w-auto h-[150px] rounded-md"
           height={200}
           width={200}
           alt={card_data?.title}
@@ -52,8 +59,8 @@ const ProductCard: React.FC<CardProp> = ({ card_data }) => {
             {card_data?.store.name}
           </span>
           <span className="capitalize font-normal text-xs text-gray-500  whitespace-nowrap text-ellipsis overflow-hidden">
-            <i className="fa-regular fa-clock mr-1"></i>
-            {timeAgo}
+            {/* <i className="fa-regular fa-clock mr-1"></i>
+            {timeAgo} */}
           </span>
         </div>
 

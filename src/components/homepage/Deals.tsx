@@ -21,7 +21,7 @@ const Deals: React.FC = () => {
   const tabOptions = [
     { name: "Our Offers", tag: "all" },
     { name: "Hot Deals", tag: "hot" },
-    // { name: "Live", tag: "live" },
+    { name: "Live", tag: "live" },
   ];
 
   const getDeals = async () => {
