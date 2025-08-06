@@ -80,6 +80,13 @@ export async function POST(req: Request) {
     }).limit(10).sort({ updatedAt: -1 }).select('store category offer_price calculated_cashback extrnal_url calculation_mode product_img product_tags actual_price product_slug slug_type title  createdAt updatedAt _id').populate("store", "name cashback_type cashback_rate store_link store_img")
       .populate("category", "name slug").lean();
 
+
+       const from_amazon = await CampaignModel.find({
+      product_status: "ACTIVE",
+      store: "6892e660f2d3213a3c4cb5ce",
+    }).limit(10).sort({ updatedAt: -1 }).select('store category offer_price calculated_cashback extrnal_url calculation_mode product_img product_tags actual_price product_slug slug_type title  createdAt updatedAt _id').populate("store", "name cashback_type cashback_rate store_link store_img")
+      .populate("category", "name slug").lean();
+
     const live_product = await CampaignModel.find({
       product_status: "ACTIVE",
       product_tags: "new",
@@ -121,7 +128,8 @@ export async function POST(req: Request) {
         live_product: live_product,
         watchlist: watchlist_array,
         notification: notification_array,
-        referrals
+        referrals,
+        from_amazon
       },
     });
   } catch (error: unknown) {

@@ -7,7 +7,7 @@ export async function POST(req: Request) {
 
   const body = await req.json();
   const { page = 1, tag = 'all' } = body;
-  const offerDealLimit = 16;
+  const offerDealLimit = 25;
   const skip_offer = (page - 1) * offerDealLimit;
 
   try {

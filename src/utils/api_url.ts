@@ -68,6 +68,9 @@ export const referral_product_details_client_api = main_url + '/client/referral/
 
 // dashboard api 
 
+
+
+export const dashboard_api = main_url + '/dashboard/dashboard'
 export const add_store_api = main_url + '/dashboard/store/add'
 export const list_store_dashboard_api = main_url + '/dashboard/store/list'
 export const edit_store_api = main_url + '/dashboard/store/edit'

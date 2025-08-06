@@ -29,6 +29,8 @@ import Newsletter from "@/components/newsletter";
 import FooterBottom from "@/components/FooterBottom";
 import ReferralCard from "@/components/small_card/ReferralCard";
 import { IReferral } from "@/model/ReferralModel";
+import TopHeader from "@/components/header/TopHeader";
+import FromStore from "@/components/heropage/FromStore";
 
 
 export const metadata: Metadata = {
@@ -167,6 +169,9 @@ export default async function Home() {
   };
 
 
+
+  // console.log(page_data?.data.from_amazon)
+
   return (
     <>
       <Script
@@ -185,7 +190,7 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(offersSchema) }}
       />
-      
+      <TopHeader />
       <MainHeader />
       <HomeClientDataSet notification={page_data?.data.notification} watchlist={page_data?.data?.watchlist} />
 
@@ -266,14 +271,7 @@ export default async function Home() {
             </div>
         </div>
 
-         <div className="max-w-6xl m-auto rounded-xl pt-8 lg:pt-10">
-          <MainHeading title="Referral" link="/referral-link" />
-          <div className="max-w-6xl px-2 relative m-auto grid grid-cols-2 pb-5 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 lg:gap-5 pt-2">
-              {page_data?.data.referrals?.map((item: IReferral, i: number) => (
-               <ReferralCard key={i} item={item} />
-              ))}
-            </div>
-        </div>
+        
 
         {page_data?.data.category?.length > 0 && (
           <div className="max-w-6xl m-auto py-3 mt-8 lg:mt-10 lg:px-2 lg:rounded-xl relative bg-[#f5c4d0]">
@@ -281,6 +279,24 @@ export default async function Home() {
             <HomeCategories category={page_data?.data.category} />
           </div>
         )}
+
+
+        {page_data?.data.from_amazon &&
+          page_data?.data.from_amazon?.length > 0 && (
+            <div className=" max-w-6xl m-auto rounded-xl  pt-8 lg:pt-10">
+              <MainHeading title="Amazon Best" link={`${process.env.NEXT_PUBLIC_SITE_URL}/store/amazon`} />
+              <FromStore deals={page_data?.data.from_amazon} />
+            </div>
+          )}
+
+         <div className="max-w-6xl m-auto rounded-xl pt-8 lg:pt-10">
+          <MainHeading title="Referral Links" link="/referral-link" />
+          <div className="max-w-6xl px-2 relative m-auto grid grid-cols-2 pb-5 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 lg:gap-5 pt-2">
+              {page_data?.data.referrals?.map((item: IReferral, i: number) => (
+               <ReferralCard key={i} item={item} />
+              ))}
+            </div>
+        </div>
 
         {page_data?.data.blog?.length > 0 && (
           <div className="mt-8 lg:mt-10">

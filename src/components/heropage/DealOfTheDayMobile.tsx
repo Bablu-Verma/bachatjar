@@ -54,7 +54,7 @@ const DealOfTheDayMobile: React.FC<DealOfTheDayMobileProps> = ({ deals }) => {
               <div className=" overflow-hidden relative p-1 pb-3 sm:pb-0 sm:p-3 flex justify-center items-center">
                 <Image
                   src={card_data?.product_img}
-                  className="w-full  h-[150px] rounded-t-md"
+                  className="w-auto  h-[150px] rounded-t-md"
                   height={200}
                   width={200}
                   alt={card_data?.title}

@@ -71,7 +71,7 @@ const Wishlist_client: React.FC<IWCProps> = ({ item_ }) => {
               </button>
               <Image
                 src={item.product_img}
-                className="h-28 w-full rounded-md"
+                className="h-28 w-auto rounded-md"
                 width={100}
                 height={100}
                 sizes="100vw"

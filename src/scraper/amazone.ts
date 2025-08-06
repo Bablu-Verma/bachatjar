@@ -86,6 +86,6 @@ export async function amazoneScrape(): Promise<Product[]> {
 
   await browser.close();
 
-  console.log(finalResults);
+  // console.log(finalResults);
   return finalResults;
 }
