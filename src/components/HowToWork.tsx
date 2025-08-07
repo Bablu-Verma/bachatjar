@@ -1,83 +1,116 @@
 'use client'
 
-import Image from "next/image";
-import React from "react";
-import step_login from '../../public/step_login.jpeg'
-import step_logo from '../../public/step_logo.jpeg'
-import step_cash from '../../public/step_cash.jpeg'
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import {
+  FiLogIn,
+  FiShoppingCart,
+  FiCreditCard,
+  FiX,
+  FiUserCheck,
+  FiGift,
+} from "react-icons/fi";
+import { useEffect, useState } from "react";
+import { getClientCookie, setClientCookie } from "@/helpers/client/client_function";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux-store/redux_store";
 
 
 
-const HowToWork = () => {
-  
+const HowItWorks = () => {
+const [show, setShow] = useState(false)
+ const token_ = useSelector((state: RootState) => state.user.token);
+
+
+const steps = [
+  {
+    icon: token_
+      ? <FiUserCheck size={40} className="text-green-600" />
+      : <FiLogIn size={40} className="text-primary" />,
+    title: token_ ? "Welcome Back!" : "Log In to Your Account",
+    description: token_
+      ? "Your account is ready. Let’s find something amazing for you."
+      : "Sign in and get ready to discover amazing deals.",
+  },
+  {
+    icon: <FiShoppingCart size={40} className="text-primary" />,
+    title: "Shop Your Favorites",
+    description: "Choose from top brands and exclusive deals tailored for you.",
+  },
+  {
+    icon: <FiCreditCard size={40} className="text-primary" />,
+    title: "Earn Instant Cashback",
+    description: "Receive cashback in your wallet right after every purchase.",
+  },
+  {
+    icon: <FiGift size={40} className="text-primary" />,
+    title: "Enjoy the Rewards",
+    description: "Withdraw to your bank or use cashback for your next order.",
+  },
+];
+
+
+
+// const days_15_in_minutes = 60 * 24 * 7;
+const days_15_in_minutes = 1;
+
+useEffect(() => {
+    const hideHowItWorks = getClientCookie("hide_how_it_works")
+    if (!hideHowItWorks) {
+      setShow(true);
+    }
+  }, []);
+
+  const handleClose = () => {
+    setShow(false);
+     setClientCookie('hide_how_it_works', 'true', days_15_in_minutes );
+  };
+
+
+  if(!show){
+     return null
+  }
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto pt-8 lg:pt-10 px-2 relative">
 
-      <div className="max-w-6xl mx-auto pt-2 px-2">
-        <Swiper
-            spaceBetween={14}
-            slidesPerView={1.1}
-            breakpoints={{
-           420: {
-            slidesPerView: 1.4,
-          },
-          520: {
-            slidesPerView: 1.8,
-          },
-          768: {
-            slidesPerView: 2.2,
-          },
-           1024: {
-            slidesPerView: 3,
-            spaceBetween:24
-          },
-        
-      }}
-            >
-            <SwiperSlide>
-              <div className='relative  bg-white rounded-lg border-[1px] shadow shadow-orange-300 flex justify-start items-center py-2 px-2 mt-3 mb-1 max-w-[500px]'>
-                <span className="bg-purple-500 text-white absolute right-4 -top-2 h-5 flex justify-center items-center w-5 rounded text-sm font-medium ">1</span>
-                <div className="pr-4">
-                  <Image src={step_login} className="w-[64px] h-auto" alt="step_login" height={100} width={100} />
-                </div>
-                <div className="pr-10">
-                  <h3 className="text-base font-semibold text-secondary ">Log In & Shop</h3>
-                  <p className="text-sm font-normal text-secondary ">Click your favourite Product &  Shop</p>
-                </div>
+      <button
+        onClick={handleClose}
+        className="absolute bottom-0 left-6 z-10 bg-red-500 hover:bg-red-600 text-white rounded-full transition p-1 shadow"
+        aria-label="Close How It Works"
+      >
+        <FiX size={16} />
+      </button>
+      
+      <Swiper
+        spaceBetween={8}
+        slidesPerView={1.1}
+        breakpoints={{
+          420: { slidesPerView: 1.5 },
+          520: { slidesPerView: 2.1 },
+          768: { slidesPerView: 2.2 },
+          1024: { slidesPerView: 3.2, spaceBetween: 16 },
+        }}
+      >
+        {steps.map((step, index) => (
+          <SwiperSlide key={index}>
+            <div className="relative select-none bg-white rounded-xl border border-gray-200 shadow-md flex items-start gap-4 py-4 px-4 mt-4 mb-2 max-w-[500px]">
+              <span className="bg-purple-500 text-white absolute right-4 -top-3 h-6 w-6 flex items-center justify-center rounded-full text-xs font-bold shadow">
+                {index + 1}
+              </span>
+              <div>{step.icon}</div>
+              <div>
+                <h3 className="text-base font-semibold text-gray-800 mb-1">
+                  {step.title}
+                </h3>
+                <p className="text-sm text-gray-600 line-clamp-2 ">{step.description}</p>
               </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className='relative rounded-lg mt-3 bg-white mb-1 border-[1px] max-w-[500px] shadow shadow-orange-300 flex justify-start items-center py-2 px-2'>
-                <span className="bg-purple-500 text-white  absolute right-4 -top-2 h-5 flex justify-center items-center w-5 rounded text-sm font-medium ">2</span>
-                <div className="pr-4">
-                  <Image className="w-[64px] h-auto" src={step_logo} alt="step_login" height={100} width={100} />
-                </div>
-                <div className="pr-10">
-                  <h3 className="text-base font-semibold text-secondary ">Cashback Earned</h3>
-                  <p className="text-sm font-normal text-secondary ">Cashback gets added your  Jar  wallet</p>
-                </div>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div className='relative  bg-white rounded-lg mt-3 mb-1 max-w-[500px] border-[1px] shadow shadow-orange-300 flex justify-start items-center py-2 px-2'>
-                <span className="bg-purple-500 text-white  absolute right-4 -top-2 h-5 flex justify-center items-center w-5 rounded text-sm font-medium ">3</span>
-                <div className="pr-4">
-                  <Image className="w-[64px] h-auto" src={step_cash} alt="step_login" height={100} width={100} />
-                </div>
-                <div className="pr-10">
-                  <h3 className="text-base font-semibold text-secondary ">Withdraw Cashback</h3>
-                  <p className="text-sm font-normal text-secondary ">To your bank account, or as a voucher, recharge</p>
-                </div>
-              </div>
-            </SwiperSlide>
-          </Swiper>
-      </div>
-    </>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   );
 };
 
-export default HowToWork;
-
+export default HowItWorks;

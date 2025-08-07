@@ -7,8 +7,8 @@ import React from "react";
 
 const ReferralCard: React.FC<{ item: IReferral }> = ({ item }) => {
     return (
-        <div className="rounded-lg shadow p-3 bg-white">
-            <Image width={200} height={100} src={item.imageUrl || ''} alt={item.title} className="w-full h-32 object-cover rounded" />
+        <div className="rounded-3xl shadow p-3 bg-white">
+            <Image width={200} height={100} src={item.imageUrl || ''} alt={item.title} className="w-full h-32 object-cover rounded rounded-t-2xl" />
             <div className="pt-3">
                 <h3 className="text-[#16171a] font-normal text-sm capitalize line-clamp-3">{item.title}</h3>
                 <div className="flex justify-between items-center pt-2">

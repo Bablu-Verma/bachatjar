@@ -30,7 +30,7 @@ import FooterBottom from "@/components/FooterBottom";
 import ReferralCard from "@/components/small_card/ReferralCard";
 import { IReferral } from "@/model/ReferralModel";
 import TopHeader from "@/components/header/TopHeader";
-import FromStore from "@/components/heropage/FromStore";
+import FromStore from "@/components/homepage/FromStore";
 
 
 export const metadata: Metadata = {
@@ -193,6 +193,8 @@ export default async function Home() {
       <TopHeader />
       <MainHeader />
       <HomeClientDataSet notification={page_data?.data.notification} watchlist={page_data?.data?.watchlist} />
+      <Loginhomepopup />
+
 
       <Hero
         deals={page_data?.data.live_product}
@@ -201,7 +203,6 @@ export default async function Home() {
 
       <main>
 
-
        {page_data?.data.live_product &&
           page_data?.data.live_product?.length > 0 && (
             <div className="pt-8 lg:pt-10 md:hidden">
@@ -209,9 +210,7 @@ export default async function Home() {
               <DealOfTheDayMobile deals={page_data?.data.live_product} />
             </div>
           )}
-
-        <Loginhomepopup />
-
+       
         {page_data?.data.flash_sale &&
           page_data?.data.flash_sale?.length > 0 && (
             <div className="pt-8 lg:pt-10">
@@ -220,6 +219,10 @@ export default async function Home() {
             </div>
           )}
 
+            
+         <HowToWork />
+          
+
         {page_data?.data.best_product?.length > 0 && (
           <div className="pt-8 lg:pt-10">
             <MainHeading title="Best For You" link={null} />
@@ -227,13 +230,7 @@ export default async function Home() {
           </div>
         )}
 
-        {
-          !token &&  <div className="pt-8 lg:pt-10">
-            <MainHeading title="Three Steps to save with BachatJar" link={null} />
-            <HowToWork />
-          </div>
-        }
-
+       
 
        <Deals  />
 
@@ -265,7 +262,7 @@ export default async function Home() {
         <div className="pt-8 lg:pt-10">
           <MainHeading title="New Coupon" link="/coupons" />
           <div className="max-w-6xl relative px-2 m-auto mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 lg:gap-5 ">
-              {page_data?.data.coupon?.map((item: ICoupon, i: number) => (
+              {page_data?.data.coupon?.slice(0,6).map((item: ICoupon, i: number) => (
                 <CouponcodeCard item={item} key={i} />
               ))}
             </div>
@@ -292,14 +289,14 @@ export default async function Home() {
          <div className="max-w-6xl m-auto rounded-xl pt-8 lg:pt-10">
           <MainHeading title="Referral Links" link="/referral-link" />
           <div className="max-w-6xl px-2 relative m-auto grid grid-cols-2 pb-5 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 lg:gap-5 pt-2">
-              {page_data?.data.referrals?.map((item: IReferral, i: number) => (
+              {page_data?.data.referrals?.slice(0.6).map((item: IReferral, i: number) => (
                <ReferralCard key={i} item={item} />
               ))}
             </div>
         </div>
 
         {page_data?.data.blog?.length > 0 && (
-          <div className="mt-8 lg:mt-10">
+          <div className="max-w-6xl m-auto mt-8 mb-24 lg:mt-10">
             <MainHeading title="Read Our Blog" link="/blog" />
             <HomeBlog blogs={page_data?.data.blog} />
           </div>
