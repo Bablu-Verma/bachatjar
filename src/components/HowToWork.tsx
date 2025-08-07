@@ -51,8 +51,8 @@ const steps = [
 
 
 
-// const days_15_in_minutes = 60 * 24 * 7;
-const days_15_in_minutes = 1;
+const days_15_in_minutes = 60 * 24 * 7;
+// const days_15_in_minutes = 1;
 
 useEffect(() => {
     const hideHowItWorks = getClientCookie("hide_how_it_works")
