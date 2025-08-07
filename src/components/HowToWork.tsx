@@ -86,8 +86,8 @@ useEffect(() => {
         spaceBetween={8}
         slidesPerView={1.1}
         breakpoints={{
-          420: { slidesPerView: 1.5 },
-          520: { slidesPerView: 2.1 },
+          420: { slidesPerView: 1.3 },
+          520: { slidesPerView: 1.9 },
           768: { slidesPerView: 2.2 },
           1024: { slidesPerView: 3.2, spaceBetween: 16 },
         }}
@@ -103,7 +103,7 @@ useEffect(() => {
                 <h3 className="text-base font-semibold text-gray-800 mb-1">
                   {step.title}
                 </h3>
-                <p className="text-sm text-gray-600 line-clamp-2 ">{step.description}</p>
+                <p className="text-sm text-gray-600 line-clamp-3 ">{step.description}</p>
               </div>
             </div>
           </SwiperSlide>

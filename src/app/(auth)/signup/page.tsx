@@ -31,6 +31,7 @@ const Signup = () => {
     site_policy_conditions: true,
   });
   const [CheckUser, setCheckUser] = useState(false)
+ 
 
   const router = useRouter();
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -84,6 +85,8 @@ const Signup = () => {
       return;
     }
 
+
+
     if (!CheckUser) {
       toast.error("Please verify you're not a robot.");
       return;
@@ -95,7 +98,6 @@ const Signup = () => {
 
   const onChangeReCAPTCHA = () => {
     setCheckUser(true)
-
   }
 
   const textChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -266,6 +268,7 @@ const Signup = () => {
                   onChange={onChangeReCAPTCHA}
                 />
               </div>
+            
 
               <div className="flex flex-col  gap-2 my-10 ">
                 <button
