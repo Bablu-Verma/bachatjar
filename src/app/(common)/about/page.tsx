@@ -134,7 +134,7 @@ export default function AboutUs() {
               <Image
                 src={about_image}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                alt="About image"
+                alt="About "
                 height={300}
                 width={100}
                 className="w-full h-auto max-w-[300px] sm:max-w-[500px]"

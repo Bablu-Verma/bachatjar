@@ -135,7 +135,7 @@ const UserVerify = () => {
          
         
           <div className=" lg:flex justify-center gap-10 items-center">
-          <Image src={verifyotp_image} alt="login"  width={350} height={350} className=""/>
+          <Image src={verifyotp_image} alt="verify otp"  width={350} height={350} className=""/>
             <div className="max-lg:text-center">  
               <h2 className="text-2xl lg:text-3xl font-semibold mb-2 mt-4">Verify Account</h2>
               <p className="text-sm font-normal mb-10 mt-2 text-gray-600">

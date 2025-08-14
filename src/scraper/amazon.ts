@@ -3,7 +3,7 @@ import { extractASIN, getCategoryIdByTitle, getRandomUserAgent, Product } from '
 
 
 
-export async function amazoneScrape(): Promise<Product[]> {
+export async function amazonScrape(): Promise<Product[]> {
   const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
   await page.setUserAgent(getRandomUserAgent());

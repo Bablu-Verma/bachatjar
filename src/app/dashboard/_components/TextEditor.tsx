@@ -59,6 +59,7 @@ import axios from "axios";
 import { upload_image_api } from "@/utils/api_url";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux-store/redux_store";
+import AiGenerate from "./AIGenerate";
 
 const TiptapEditor: React.FC<{
   editorContent: string;
@@ -513,6 +514,8 @@ const TiptapEditor: React.FC<{
           >
             <FaEraser />
           </button>
+
+          <AiGenerate setEditorContent={setEditorContent} />
         </div>
       </div>
 

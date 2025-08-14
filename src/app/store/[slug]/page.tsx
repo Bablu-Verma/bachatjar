@@ -177,7 +177,7 @@ const StoreDetail = async ({ params }: any) => {
               <div className=" flex items-end pb-3 sm:pb-0 sm:inline gap-3">
                 <Image
                   src={store.store_img}
-                  alt="WvzprEv"
+                  alt={store.name}
                   width={40}
                   className="w-20 sm:w-full"
                   height={40}
@@ -232,7 +232,7 @@ const StoreDetail = async ({ params }: any) => {
             <span className="text-base text-secondary">Tracking Speed: </span>
             <Image
               src={tracking_image}
-              alt="WvzprEv"
+              alt="track icon"
               sizes="100vw"
               width={10}
               className="h-auto w-10"

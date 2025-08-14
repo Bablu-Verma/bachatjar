@@ -22,7 +22,7 @@ const Footer = () => {
             <Image
               src={logo}
               className="w-[140px] lg:w-[160px] h-auto"
-              alt="logo"
+              alt="bachat jar"
             />
            
           </Link>

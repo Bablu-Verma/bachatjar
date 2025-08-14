@@ -20,6 +20,7 @@ export async function GET() {
         { path: '/coupons', priority: '0.80' },
         { path: '/blog', priority: '0.70' },
         { path: '/search', priority: '0.70' },
+        { path: '/referral-link', priority: '0.70' },
         { path: '/category/beauty-personal-care', priority: '0.75' },
         { path: '/category/mobile-accessories', priority: '0.75' },
         { path: '/category/online-shopping', priority: '0.75' },

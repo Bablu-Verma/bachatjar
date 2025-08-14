@@ -188,14 +188,14 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                 height={100}
                 width={100}
                 sizes="100vw"
-                alt="Profile"
+                alt=" user profile"
                 className="max-w-[100px] max-h-[100px] rounded-full"
               />
             </label>
             <input
               type="file"
               id="user_profile"
-              name="profileImage"
+              name="profile"
               className="hidden"
               onChange={handleChange}
               accept="image/*"

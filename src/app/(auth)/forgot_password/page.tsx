@@ -81,7 +81,7 @@ const ForgotPassword = () => {
           <div className="md:flex justify-center items-center gap-6">
             <Image
               src={forgatepassword_image}
-              alt="login"
+              alt="forgot password"
               width={350}
               height={350}
               className="w-56 sm:w-full sm:max-w-[300px]"

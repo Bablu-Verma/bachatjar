@@ -154,7 +154,7 @@ const CategoryDetail = async ({ params }: any) => {
             <div className="h-32 w-32 rounded-full overflow-hidden justify-center items-center flex shadow-lg m-auto mb-10]">
               <Image
                 src={category_details.imges[0]}
-                alt="WvzprEv"
+                alt={category_details.name}
                 width={500}
                 className="w-full h-auto"
                 height={500}

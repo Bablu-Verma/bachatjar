@@ -166,7 +166,7 @@ const CampaignDetail = async ({ params }: any) => {
               <div className=" w-[100%]  rounded-md  justify-center shadow-sm items-center flex overflow-hidden">
                 <Image
                   src={product.product_img || "https://i.imgur.com/AZoKCRT.png"}
-                  alt="Active Product Image"
+                  alt={product?.title}
                   height={400}
                   width={400}
                   className="w-full md:min-h-80"
@@ -179,7 +179,7 @@ const CampaignDetail = async ({ params }: any) => {
                 >
                   <Image
                     src={product.store.store_img}
-                    alt=""
+                    alt={product?.store.name}
                     className="w-14 h-14 rounded-full"
                     width={100}
                     height={100}

@@ -60,7 +60,7 @@ const WithGoogle: React.FC<WithGoogleProps> = ({title}) => {
 
     return (
         <button onClick={loginWithGoogle} className="flex justify-center gap-2 items-center  py-[4px] rounded-md shadow-sm px-4 border-[1px] border-gray-300">
-            <Image width={22} src={google_image} alt="google logo" />
+            <Image width={22} src={google_image} alt="google" />
             <span className="text-secondary text-base">{title} with Google</span>
         </button>
     );

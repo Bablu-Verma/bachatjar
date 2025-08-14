@@ -35,7 +35,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ item }) => {
      
           src={item?.image[0]}
           className="w-full h-[130px]"
-          alt="shose"
+          alt={item?.title}
           fill={false}
           width={400}
           height={200}

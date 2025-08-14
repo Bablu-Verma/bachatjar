@@ -93,7 +93,7 @@ const MainHeader = () => {
           <Image
             src={logo}
             className="w-[90px] sm:w-[110px] lg:w-[130px] h-auto"
-            alt="logo"
+            alt="bachat jar"
           />
           {/* <h1 className="text-secondary py-2 text-3xl font-semibold tracking-wider">Bachat<span className="text-primary">Jar</span></h1> */}
         </Link>

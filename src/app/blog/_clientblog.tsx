@@ -141,7 +141,7 @@ const ClientBlog: React.FC<CBProps> = ({ blog, category }) => {
                     className="rounded-full border-4 border-primary duration-200 ease-in-out hover:border-gray-400 cursor-pointer"
                   >
                     <Image
-                      alt=""
+                      alt={item.name}
                       sizes="100vw"
                       className="w-16 h-16 md:w-20 md:h-20 rounded-full"
                       src={item.imges[0]}
@@ -211,7 +211,7 @@ const ClientBlog: React.FC<CBProps> = ({ blog, category }) => {
                     className="rounded-full border-4 border-primary duration-200 ease-in-out hover:border-gray-400 cursor-pointer"
                   >
                     <Image
-                      alt=""
+                      alt={item.name}
                       sizes="100vw"
                       className="w-20 h-20 rounded-full"
                       src={item.imges[0]}

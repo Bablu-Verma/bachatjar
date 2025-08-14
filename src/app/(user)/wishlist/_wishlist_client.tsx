@@ -61,7 +61,7 @@ const Wishlist_client: React.FC<IWCProps> = ({ item_ }) => {
         {wishlist.map((item, i) => (
          
           <div key={i} className="bg-white border-[1px] rounded overflow-hidden border-gray-300 ">
-            <div className='relative '>
+            <div className='relative  flex justify-center'>
               <button
                 className="bg-red-600 opacity-70 h-8 w-8 rounded-full text-white absolute right-1 top-1 p-1 hover:opacity-100"
                 title="Remove this item"

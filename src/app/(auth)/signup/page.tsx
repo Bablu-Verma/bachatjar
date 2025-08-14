@@ -170,7 +170,7 @@ const Signup = () => {
           <div className=" md:flex gap-9 px-6">
             <Image
               src={sign_up_image}
-              alt="login"
+              alt="sign up"
               width={350}
               height={350}
               className="hidden sm:inline-block"
