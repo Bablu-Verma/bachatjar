@@ -2,18 +2,23 @@ import { generateSlug } from "@/helpers/client/client_function";
 import dbConnect from "@/lib/dbConnect";
 import CampaignModel from "@/model/CampaignModel";
 import StoreModel from "@/model/StoreModel";
-import { amazonScrape } from "@/scraper/amazon";
+import { amazonDealScrape, amazonElectronsScrape } from "@/scraper/amazon";
 import { NextResponse } from "next/server";
 
 export async function POST() {
   await dbConnect();
 
   try {
-    const deals = await amazonScrape(); 
+    const electronsscrepersamazone = await amazonElectronsScrape(); 
+    const dealsscraperamazone = await amazonDealScrape();
+    
+  
+    const deals = [...dealsscraperamazone, ...electronsscrepersamazone]
 
     if (!Array.isArray(deals) || deals.length === 0) {
       return NextResponse.json({ success: false, message: "No deals to process." }, { status: 400 });
     }
+
 
     const results = {
       inserted: 0,

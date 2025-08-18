@@ -10,7 +10,7 @@ export interface BlogAIResponse {
   content: string;
 }
 
-const model = "deepseek/deepseek-chat-v3-0324";
+const model = "deepseek/deepseek-r1-0528:free";
 
 async function generateBlogPost(systemPrompt: string, userPrompt: string): Promise<BlogAIResponse> {
   if (!OPENROUTER_API_KEY) {

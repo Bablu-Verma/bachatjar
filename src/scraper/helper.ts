@@ -13,9 +13,11 @@ export type Product = {
 };
 
 
-export function getRandomUserAgent(): string {
-  return new UserAgent().toString();
+export function getRandomDesktopUserAgent(): string {
+  const ua = new UserAgent({ deviceCategory: "desktop" });
+  return ua.toString();
 }
+
 
 export function extractASIN(url: string): string | null {
   const asinMatch = url.match(/\/dp\/([A-Z0-9]{10})|\/gp\/product\/([A-Z0-9]{10})/);
