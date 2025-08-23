@@ -20,7 +20,7 @@ import { FaHeart } from "react-icons/fa";
 import { FaBell } from "react-icons/fa";
 import { FaMoneyBillWave } from "react-icons/fa";
 import { FaList } from "react-icons/fa";
-import { MdDashboard } from "react-icons/md";
+import { MdDashboard, MdLocalOffer } from "react-icons/md";
 import { MdStore } from "react-icons/md";
 import { RiCoupon3Fill } from "react-icons/ri";
 import { FcAbout } from "react-icons/fc";
@@ -100,11 +100,11 @@ const MainHeader = () => {
         <ul className="hidden lg:flex justify-center select-none">
           <li className="mx-1">
             <Link
-              className={`${pathname == "/" ? "text-primary" : "text-gray-700"
+              className={`${pathname == "/campaign" ? "text-primary" : "text-gray-700"
                 } font-medium duration-200 px-2 hover:text-gray-900`}
-              href="/"
+              href="/campaign"
             >
-              Home
+              Campaign
             </Link>
           </li>
 
@@ -373,6 +373,14 @@ const MainHeader = () => {
 
                 <ul className="select-none  mt-4 p-2">
 
+                  <li className="mx-1 my-1 hover:pl-2 duration-150">
+                    <Link
+                      className="text-gray-700 font-normal pl-2  items-center flex gap-2"
+                      href="/campaign"
+                    >
+                      <MdLocalOffer className="text-base" />      All Campaign
+                    </Link>
+                  </li>
                   <li className="mx-1 my-1 hover:pl-2 duration-150">
                     <Link
                       className="text-gray-700 font-normal pl-2  items-center flex gap-2"

@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactStrictMode: true,
   images: {
-    domains: ["i.imgur.com",'lh3.googleusercontent.com','images-eu.ssl-images-amazon.com', 'res.cloudinary.com','cdn-icons-png.flaticon.com','images.dmca.com', 'dev.bachatjar.com','assets.ajio.com', 'img.bachatjar.com',"localhost", 'm.media-amazon.com', 'cdn1.smartprix.com'], 
+    domains: ["i.imgur.com",'lh3.googleusercontent.com','images-eu.ssl-images-amazon.com', 'res.cloudinary.com','cdn-icons-png.flaticon.com','images.dmca.com', 'dev.bachatjar.com','assets.ajio.com', 'img.bachatjar.com',"localhost", 'm.media-amazon.com', 'cdn1.smartprix.com','cdn1.desidime.com', 'cdn2.desidime.com', 'cdn3.desidime.com', 'cdn0.desidime.com'], 
   },
   async headers() {
         return [

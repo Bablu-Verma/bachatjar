@@ -8,14 +8,19 @@ import Link from "next/link";
 import Image from "next/image";
 
 import logo from "../../public/light_logo.png";
+import Script from "next/script";
+import FooterBottom from "./FooterBottom";
+import { usePathname } from "next/navigation";
 
 const Footer = () => {
   const user_data = useSelector((state: RootState) => state.user.token);
+    const pathname = usePathname();
 
   const userlogin = user_data ? true : false;
 
   return (
-    <footer className="bg-black text-white">
+    <>
+ <footer className="bg-black text-white">
       <div className="max-w-6xl mx-auto px-2 relative grid pt-16 pb-8 gap-7 grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
         <div className="col-span-2 md:col-span-1">
           <Link href="/" className="mb-4 inline-block">
@@ -39,6 +44,12 @@ const Footer = () => {
               className="text-sm font-thin hover:pl-1 duration-200 py-0.5"
             >
               Home
+            </Link>
+            <Link
+              href="/campaign"
+              className="text-sm font-thin hover:pl-1 duration-200 py-0.5"
+            >
+              Campaign
             </Link>
            
             <Link
@@ -168,8 +179,35 @@ const Footer = () => {
         {/* <a target="_blank" className="text-sm tracking-wider opacity-75 hover:opacity-100 select-none" href="https://www.linkedin.com/company/bachat-jar/">YouTube</a>
         <a target="_blank" className="text-sm tracking-wider opacity-75 hover:opacity-100 select-none" href="https://www.linkedin.com/company/bachat-jar/">Telegram</a>  */}
       </div>
-    
     </footer>
+
+    {
+      pathname == '/' && <FooterBottom />
+    }
+
+
+
+    <div className="pt-3 pb-16 border-t-[0.5px] border-gray-400 select-none">
+        <div className="py-10 flex justify-center items-center flex-col">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl pb-1 text-secondary ">
+            #SaveMoreWithBachatJar
+          </h1>
+          <h5>We help save your money</h5>
+        </div>
+        <p className="text-sm tracking-wide font-normal opacity-70 text-secondary text-center mb-1">
+          <i className="fa-regular fa-copyright"></i> Copyright <Link href='https://bachatjar.com/' >BachatJar</Link> 2025.
+          All rights reserved.
+        </p>
+        <p className="text-sm tracking-wide font-normal opacity-70 text-secondary text-center">All content, trademarks, logos, and site data are the property of BachatJar and are protected under applicable copyright and intellectual property laws. Unauthorized use, reproduction, or distribution is strictly prohibited.</p>
+        <div className='justify-center items-center flex flex-col pt-5'>
+          <a target="_blank" href="//www.dmca.com/Protection/Status.aspx?ID=af37ee0c-9b2b-4d37-abc4-c95974c4566a" title="DMCA.com Protection Status" className="dmca-badge"> <Image height={60} width={120} sizes="100vw" className="max-w[120px] h-auto" src="https://images.dmca.com/Badges/dmca-badge-w100-5x1-09.png?ID=af37ee0c-9b2b-4d37-abc4-c95974c4566a" alt="DMCA.com Protection Status" /></a>  <Script
+  src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"
+  strategy="lazyOnload"
+/>
+        </div>
+      </div>
+    </>
+   
   );
 };
 

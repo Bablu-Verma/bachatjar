@@ -1,8 +1,5 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
-import Script from "next/script";
 import React from "react";
 
 
@@ -86,25 +83,7 @@ const FooterBottom = () => {
         <h3 className="text-[18px] md:text-lg text-secondary font-medium mt-4 mb-1">🔍 All in One Search Feature</h3>
         <p className="text-sm md:text-base text-secondary mb-1">This feature allows users to search for products, stores, and coupons across the Bachatjar site — all in one place for a seamless shopping experience. </p>
       </div>
-      <div className="pt-3 pb-16 border-t-[0.5px] border-gray-400 select-none">
-        <div className="py-10 flex justify-center items-center flex-col">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl pb-1 text-secondary ">
-            #SaveMoreWithBachatJar
-          </h1>
-          <h5>We help save your money</h5>
-        </div>
-        <p className="text-sm tracking-wide font-normal opacity-70 text-secondary text-center mb-1">
-          <i className="fa-regular fa-copyright"></i> Copyright <Link href='https://bachatjar.com/' >BachatJar</Link> 2025.
-          All rights reserved.
-        </p>
-        <p className="text-sm tracking-wide font-normal opacity-70 text-secondary text-center">All content, trademarks, logos, and site data are the property of BachatJar and are protected under applicable copyright and intellectual property laws. Unauthorized use, reproduction, or distribution is strictly prohibited.</p>
-        <div className='justify-center items-center flex flex-col pt-5'>
-          <a target="_blank" href="//www.dmca.com/Protection/Status.aspx?ID=af37ee0c-9b2b-4d37-abc4-c95974c4566a" title="DMCA.com Protection Status" className="dmca-badge"> <Image height={60} width={120} sizes="100vw" className="max-w[120px] h-auto" src="https://images.dmca.com/Badges/dmca-badge-w100-5x1-09.png?ID=af37ee0c-9b2b-4d37-abc4-c95974c4566a" alt="DMCA.com Protection Status" /></a>  <Script
-  src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"
-  strategy="lazyOnload"
-/>
-        </div>
-      </div>
+      
     </section>
   );
 };

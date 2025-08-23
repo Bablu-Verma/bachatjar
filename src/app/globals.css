@@ -285,3 +285,11 @@ input:checked {
   border-radius: 6px;
 }
 
+.filter_ {
+  -ms-overflow-style: none;  /* IE aur Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.filter_::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari */
+}

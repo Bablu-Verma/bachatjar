@@ -7,7 +7,7 @@ export async function POST(req: Request) {
 
   try {
     const requestData = await req.json();
-    const { name, page = 1, limit = 10 } = requestData;
+    const { name, } = requestData;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const query: any = {};
@@ -20,10 +20,10 @@ export async function POST(req: Request) {
     query.status = 'ACTIVE'
    
     // Pagination
-    const skip = (page - 1) * limit;
-    const categories = await CategoryModel.find(query).select('-status -description').skip(skip).limit(limit).lean();
+   
+    const categories = await CategoryModel.find(query).select('-status -description').lean();
     const totalCategories = await CategoryModel.countDocuments(query);
-    const totalPages = Math.ceil(totalCategories / limit);
+    const totalPages = Math.ceil(totalCategories);
 
     return new NextResponse(
       JSON.stringify({
@@ -31,10 +31,8 @@ export async function POST(req: Request) {
         message: "Categories fetched successfully.",
         data: categories,
         pagination: {
-          currentPage: page,
           totalPages,
           totalCategories,
-          limit,
         },
       }),
       { status: 200, headers: { "Content-Type": "application/json" } }

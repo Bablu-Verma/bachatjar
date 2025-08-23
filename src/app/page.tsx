@@ -26,7 +26,7 @@ import Script from 'next/script';
 import HomeClientDataSet from "@/components/homepage/HomeClientDataSet";
 import DealOfTheDayMobile from "@/components/heropage/DealOfTheDayMobile";
 import Newsletter from "@/components/newsletter";
-import FooterBottom from "@/components/FooterBottom";
+
 import ReferralCard from "@/components/small_card/ReferralCard";
 import { IReferral } from "@/model/ReferralModel";
 import TopHeader from "@/components/header/TopHeader";
@@ -305,8 +305,7 @@ export default async function Home() {
       </main>
       <Newsletter />
       <Footer />
-      <FooterBottom />
-       
+     
     </>
   );
 }

@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer';
 import { extractASIN, getCategoryIdByTitle, getRandomDesktopUserAgent, Product } from './helper';
 
-
+const aff_id = 'savewithus-21'
 
 export async function amazonElectronsScrape(): Promise<Product[]> {
   const browser = await puppeteer.launch({ headless: true });
@@ -13,7 +13,6 @@ export async function amazonElectronsScrape(): Promise<Product[]> {
     timeout: 40000,
   });
 
-  const aff_id = 'savewithus-21'
 
   await page.setViewport({ width: 1200, height: 800 });
 
@@ -102,7 +101,7 @@ export async function amazonDealScrape(): Promise<Product[]> {
     timeout: 40000,
   });
 
-  const aff_id = 'savewithus-21'
+  
 
   await page.setViewport({ width: 1200, height: 800 });
 
